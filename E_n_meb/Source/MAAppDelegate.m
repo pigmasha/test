@@ -134,8 +134,11 @@
     
     _sMax = s;
     _charMax = (NSInteger)_charK.integerValue;
-    
-    if (!SetFileName(path)) {
+
+    NSError *error = nil;
+    [OutputFile setFileNameWithFileName:path error:&error];
+
+    if (error != nil) {
         [self addInfoStr:@"ERROR! Can't open .html file for writing"];
         return;
     }

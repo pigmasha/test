@@ -170,7 +170,7 @@
                     
                     if (n2.intValue) {
                         if (nod) {
-                            nod = gcd(n2.intValue, nod);
+                            nod = [Utils gcd:n2.intValue j: nod];
                         } else {
                             nod = n2.intValue;
                         }

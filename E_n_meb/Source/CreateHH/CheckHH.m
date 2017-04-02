@@ -13,12 +13,10 @@
 #import "Utils.h"
 #import "PrintUtils.h"
 
+@implementation CheckHH
 
-BOOL CheckHHForKer(HHElem *hh, NSInteger degree);
-BOOL CheckHHForIm(HHElem *hh, NSInteger degree);
-
-
-BOOL CheckHHElem(HHElem *hh, NSInteger degree) {
++ (BOOL)checkHHElem:(HHElem *)hh degree:(NSInteger)degree
+{
     BimodQ *qFrom = [[BimodQ alloc] initForDeg:degree];
     BimodQ *qTo   = [[BimodQ alloc] initForDeg:0];
 
@@ -66,11 +64,11 @@ BOOL CheckHHElem(HHElem *hh, NSInteger degree) {
         }
     }
 
-    if (!CheckHHForKer(hh, degree)) {
+    if (![self checkForKer:hh degree:degree]) {
         WriteLog(1, "CheckHHForKer error!");
         return NO;
     }
-    if (!CheckHHForIm(hh, degree)) {
+    if (![self checkForIm:hh degree:degree]) {
         WriteLog(1, "CheckHHForIm error!");
         return NO;
     }
@@ -78,7 +76,8 @@ BOOL CheckHHElem(HHElem *hh, NSInteger degree) {
     return YES;
 }
 
-BOOL CheckHHForKer(HHElem *hh, NSInteger degree) {
++ (BOOL)checkForKer:(HHElem *)hh degree:(NSInteger)degree
+{
     Diff *diff = [[Diff alloc] initWithDeg:degree];
     Matrix *multResult = [[Matrix alloc] initWithMult:hh and:diff];
     if (multResult.isZero) {
@@ -126,7 +125,8 @@ BOOL CheckHHForKer(HHElem *hh, NSInteger degree) {
     return YES;
 }
 
-BOOL CheckHHForIm(HHElem *hh, NSInteger degree) {
++ (BOOL)checkForIm:(HHElem *)hh degree:(NSInteger)degree
+{
     if (degree == 0) return YES;
 
     NSInteger s = PathAlg.alg.s;
@@ -196,3 +196,5 @@ BOOL CheckHHForIm(HHElem *hh, NSInteger degree) {
 
     return (dimImAdd > dimIm);
 }
+
+@end

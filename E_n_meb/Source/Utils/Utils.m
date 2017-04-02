@@ -22,18 +22,7 @@ NSInteger h(NSInteger x, NSInteger y) {
 
 // ---------------------------------------------------------------------
 NSInteger gcd(NSInteger i, NSInteger j) {
-    if (i < 0) i = -i;
-    if (j < 0) j = -j;
-    NSInteger k = (i > j) ? i : j;
-    NSInteger l = (i > j) ? j : i;
-    NSInteger p;
-    while (k % l != 0)
-    {
-        p = k % l;
-        k = l;
-        l = p;
-    }
-    return l;
+    return [Utils gcd:i j: j];
 }
 
 //---------------------------------------------------------------------------------
@@ -70,25 +59,6 @@ BOOL isPrimary(NSInteger n) {
 }
 
 //---------------------------------------------------------------------------------
-// file path
-//---------------------------------------------------------------------------------
-extern char* _s_header;
-
-//---------------------------------------------------------------------------------
-NSString *GetFileName()
-{
-    return OutputFile.fileName;
-}
-
-//---------------------------------------------------------------------------------
-bool SetFileName(NSString *path)
-{
-    NSError *error = nil;
-    [OutputFile setFileNameWithFileName:path error:&error];
-    return error == nil;
-}
-
-//---------------------------------------------------------------------------------
 // mode:0 - normal, 1 - error, 2 - bold, 3 - h2, 4 - simple, 5 - with time
 //---------------------------------------------------------------------------------
 void WriteLog(NSInteger mode, const char* format, ...) {
@@ -121,23 +91,3 @@ void WriteLog(NSInteger mode, const char* format, ...) {
     
     FILE_CLOSE();
 }
-
-//---------------------------------------------------------------------------------
-char* _s_header = "\
-<html>\n\
-<head>\n\
-<title>Results</title>\n\
-<style>\n\
-table { padding:0; border-spacing:0px; border-collapse:collapse; border: 1px solid black; }\n\
-td { border: 1px solid black; text-align: center }\n\
-.c_t_1 { border-top: 4px solid grey; }\n\
-.c_t_2 { border-top: 4px solid black; }\n\
-.c_l_1 { border-left:4px solid grey; }\n\
-.c_l_2 { border-left:4px solid black; }\n\
-.c_r_1 { border-right:4px solid black; }\n\
-.c_b_1 { border-bottom: 4px solid black; }\n\
-.b_w { border: 1px solid white; }\n\
-.b_l { border-left:4px solid black; }\n\
-</style>\n\
-</head>\n\
-<body>";

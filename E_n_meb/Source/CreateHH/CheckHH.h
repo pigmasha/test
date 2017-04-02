@@ -8,4 +8,9 @@
 
 @class HHElem;
 
-BOOL CheckHHElem(HHElem *hh, NSInteger degree);
+@interface CheckHH : NSObject
+
++ (BOOL)checkHHElem:(HHElem *)hh degree:(NSInteger)degree;
+
+@end
+

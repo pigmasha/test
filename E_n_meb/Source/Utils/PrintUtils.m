@@ -297,7 +297,7 @@ void printKoefIntMatrix(KoefIntMatrix * matrix, NSInteger deg, NSInteger skipLin
             NumInt* n = line[j];
             
             if (n.intValue) {
-                fprintf(f, "%tu</td>", n.intValue);
+                fprintf(f, "%zd</td>", n.intValue);
             } else {
                 fprintf(f, "&nbsp;</td>");
             }

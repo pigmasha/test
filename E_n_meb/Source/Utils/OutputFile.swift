@@ -15,10 +15,33 @@ class OutputFile : NSObject {
     }
 
     // mode:0 - normal, 1 - error, 2 - bold, 3 - h2, 4 - simple, 5 - with time
-    class func writeLog(_ mode: Int, _ format: String, _ args: CVarArg...) {
+    static func writeLog(_ mode: Int, _ format: String, _ args: CVarArg...) {
         let string = String(format: format, arguments: args)
         let file = OutputFile()
-        file.write(string)
+        file.write(prefixForMode(mode) + string + suffixForMode(mode))
+    }
+
+    private class func prefixForMode(_ mode: Int) -> String {
+        switch mode {
+        case 1: return "<b style='color:red;'>ERROR!\n"
+        case 2: return "<b>\n"
+        case 3: return "<h2>\n"
+        case 5:
+            let t = time(nil)
+            let t0 = t / 60
+            let t1 = t0 / 60
+            return  String(format: "<b>%02d:%02d:%02d \n", Int(t1 % 60), Int(t0 % 60), Int(t % 60))
+        default: return ""
+        }
+    }
+
+    private class func suffixForMode(_ mode: Int) -> String {
+        switch mode {
+        case 0: return "<br>\n"
+        case 1, 2, 5: return "</b><br>\n"
+        case 3: return "</h2>\n"
+        default: return ""
+        }
     }
 
     override init() {
