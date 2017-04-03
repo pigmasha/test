@@ -180,7 +180,7 @@
                degree:(NSInteger)degree
                 shift:(NSInteger)shift {
     if (shift == 0) {
-        if (![hh isEq:hhShift]) return NO;
+        if (![hh isEq:hhShift debug:YES]) return NO;
         WriteLog(0, "checked shift %d :)", shift);
         return YES;
     }
@@ -192,7 +192,7 @@
     Matrix *multRes_shift = [[Matrix alloc] initWithMult:d_down and:hhShift];
 
     BOOL res = NO;
-    if (multRes.isNil || multRes_shift.isNil || ![multRes isEq:multRes_shift]) {
+    if (multRes.isNil || multRes_shift.isNil || ![multRes isEq:multRes_shift debug:YES]) {
         NSInteger nDifferents = [multRes numberOfDifferents:multRes_shift];
         WriteLog(1, "checkHHMatrix error!");
         //WriteLog(0, "multRes");

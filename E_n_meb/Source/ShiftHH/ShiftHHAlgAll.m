@@ -25,7 +25,7 @@
 
     if (multRes.isNil) {
         WriteLog(1, "Bad multRes size");
-        return NO;
+        return nil;
     }
 
     NSInteger s = PathAlg.alg.s;
@@ -38,7 +38,7 @@
         NSMutableArray<ShiftVariant *> *variants = [NSMutableArray new];
         Matrix *multRes2 = [multRes submatrixFromCol:col toCol:col + s];
         [self shiftForMultRes:multRes2 dDown:d_down result:variants];
-        if (variants.count == 0) return NO;
+        if (variants.count == 0) return nil;
         [allVariants addObject:variants];
     }
 
@@ -133,7 +133,7 @@
         if (nDiff == 0) {
             BOOL hasHH = NO;
             for (ShiftVariant *v in result) {
-                if ([v.hh isEq:hhElem]) {
+                if ([v.hh isEq:hhElem debug:NO]) {
                     if (v.key.intValue > r)
                         v.key.intValue = (int)r;
                     hasHH = YES;

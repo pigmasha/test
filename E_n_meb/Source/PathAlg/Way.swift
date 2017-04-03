@@ -10,7 +10,7 @@ import Foundation
     case gamma
 }
 
-class Way: NSObject {
+final class Way: NSObject {
     private var vStart: Vertex
     private var vEnd: Vertex
     private var arr: [[NumInt]]
@@ -86,11 +86,11 @@ class Way: NSObject {
     }
 
     convenience init(from: Int, len: Int) {
-        self.init(from: from, to: from + len)
+        self.init(from: from, to: from + len, noZeroLen: len > 0)
     }
 
     convenience init(to: Int, len: Int) {
-        self.init(from: to - len, to: to)
+        self.init(from: to - len, to: to, noZeroLen: len > 0)
     }
 
     var startsWith: Vertex {
@@ -146,6 +146,20 @@ class Way: NSObject {
     var str: String {
         if isZero { return "0" }
         if arr.count == 0 { return vStart.str }
+
+        let s = PathAlg.alg.s
+        var ss = ""
+        for w in arr {
+            let isG = w.first!.intValue == ArrType.gamma.rawValue
+            let koef = myMod(w.last!.intValue, mod: isG ? s : 6 * s)
+            ss += isG ? "g\(koef)" : "a\(koef)"
+        }
+        return ss
+    }
+
+    var htmlStr: String {
+        if isZero { return "0" }
+        if arr.count == 0 { return vStart.htmlStr }
 
         let s = PathAlg.alg.s
         var ss = ""

@@ -5,7 +5,7 @@
 
 import Foundation
 
-class WayPair: NSObject {
+final class WayPair: NSObject {
     let way: Way?
     let koef: Double
 
@@ -20,7 +20,7 @@ class WayPair: NSObject {
     }
 }
 
-class TenzorPair: NSObject {
+final class TenzorPair: NSObject {
     let tenzor: Tenzor
     var koef: Double
 
@@ -35,7 +35,7 @@ class TenzorPair: NSObject {
     }
 }
 
-class IntPair: NSObject {
+final class IntPair: NSObject {
     var n0: Int
     var n1: Int
 

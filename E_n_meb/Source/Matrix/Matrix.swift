@@ -81,17 +81,25 @@ class Matrix : NSObject {
         }
     }
 
-    func isEq(_ matr2: Matrix) -> Bool {
+    func isEq(_ matr2: Matrix, debug: Bool) -> Bool {
         let combs2 = matr2.rows
-        if combs.count != combs2.count { return false }
-
+        if combs.count != combs2.count {
+            if debug { OutputFile.writeLog(0, "different counts \(combs.count) != \(combs2.count)") }
+            return false
+        }
         for i in 0..<combs.count {
             let line1 = combs[i]
             let line2 = combs2[i]
-            if line1.count != line2.count { return false }
+            if line1.count != line2.count {
+                if debug { OutputFile.writeLog(0, "different \(i)-th counts \(line1.count) != \(line2.count)") }
+                return false
+            }
 
             for j in 0..<line1.count {
-                if line1[j].compareK(line2[j]) != 1 { return false }
+                if line1[j].compareK(line2[j]) != 1 {
+                    if debug { OutputFile.writeLog(0, "different \(i),\(j)-th \(line1[j].htmlStr) != \(line2[j].htmlStr)") }
+                    return false
+                }
             }
         }
         return true

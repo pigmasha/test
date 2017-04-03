@@ -23,7 +23,7 @@ class ShiftHHGenProgram : NSObject {
         file.writeln("    hhElem.makeZeroMatrix(\(width / s)*s, h:\(height / s)*s)")
         file.writeln("")
 
-        if (isOnePerBlock) {
+        if isOnePerBlock {
             printOnePerBlockProgram();
         }
 

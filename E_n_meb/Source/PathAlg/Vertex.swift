@@ -5,7 +5,7 @@
 
 import Foundation
 
-class Vertex: NSObject {
+final class Vertex: NSObject {
     private var i: Int
 
     convenience override init() {
@@ -33,6 +33,10 @@ class Vertex: NSObject {
     }
 
     var str: String {
+        return "e\(i)"
+    }
+
+    var htmlStr: String {
         return "e\(i)"
     }
 

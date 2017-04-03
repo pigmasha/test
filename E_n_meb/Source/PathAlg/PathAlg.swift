@@ -18,7 +18,7 @@ func myMod2S(_ number: Int) -> Int {
     return myMod(number, mod: 2 * PathAlg.alg.s)
 }
 
-class PathAlg: NSObject {
+final class PathAlg: NSObject {
     static let alg = PathAlg()
 
     var n: Int

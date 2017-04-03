@@ -5,7 +5,7 @@
 
 import Foundation
 
-class Comb: NSObject {
+final class Comb: NSObject {
     private var tenzors: [TenzorPair]
     var isPotential = false
     var isFirstStep = false
@@ -169,22 +169,33 @@ class Comb: NSObject {
     }
 
     var str: String {
-        if isZero {
-            return isPotential ? "&bull;" : (isFirstStep ? "&#x1f43d;" : "&nbsp;&nbsp;&nbsp;")
-        }
-
+        if isZero { return "0" }
         var ss = ""
-        if (isFirstStep) { ss += "&#x1f43d; " }
-        var is1 = true
         for item in tenzors {
             let koef = Int(item.koef)
-            if (koef > 0 && !is1) { ss += "+" }
-            is1 = false
-
+            if koef > 0 && ss != "" { ss += "+" }
             if koef != 1 {
                 ss += (koef == -1) ? "-" : "\(koef)"
             }
             ss += item.tenzor.str
+        }
+        return ss
+    }
+
+    var htmlStr: String {
+        if isZero {
+            return isPotential ? "&bull;" : (isFirstStep ? "&#x1f43d;" : "&nbsp;&nbsp;&nbsp;")
+        }
+        var ss = isFirstStep ? "&#x1f43d; " : ""
+        var is1 = true
+        for item in tenzors {
+            let koef = Int(item.koef)
+            if koef > 0 && !is1 { ss += "+" }
+            is1 = false
+            if koef != 1 {
+                ss += (koef == -1) ? "-" : "\(koef)"
+            }
+            ss += item.tenzor.htmlStr
         }
         return ss
     }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-class HHElem : Matrix {
+final class HHElem : Matrix {
     let deg: Int
     let type: Int
 
@@ -21,6 +21,12 @@ class HHElem : Matrix {
         super.init()
 
         CreateHH.createHHElem(self, degree:deg, type:type)
+    }
+
+    init(degree: Int, type: Int) {
+        self.deg = degree
+        self.type = type
+        super.init()
     }
 
     class func addElemToHH(_ hh: HHElem, i: Int, j: Int, leftFrom from: Int, leftTo to: Int, right: Int, koef: Int) {

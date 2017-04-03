@@ -106,7 +106,7 @@
                 }
 
                 if (!w.isZero && ![columnWay isEq:w]) {
-                    WriteLog(1, "CheckHHForKer error: varouus ways (%s and %s) in column %d!", w.str, columnWay.str, i);
+                    WriteLog(1, "CheckHHForKer error: various ways (%s and %s) in column %d!", w.htmlStr, columnWay.htmlStr, i);
                     return NO;
                 }
                 if (!w.isZero) totalKoef += p.koef;

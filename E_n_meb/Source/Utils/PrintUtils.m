@@ -83,7 +83,7 @@ void printMatrixToFile(Matrix *diff, FILE* f, BimodQ *qFrom, BimodQ *qTo) {
                 if (!ok) fprintf(f, " width=20>&nbsp;</td>");
             }
 #else
-            fprintf(f, ">%s</td>", [c str].UTF8String);
+            fprintf(f, ">%s</td>", c.htmlStr.UTF8String);
 #endif
         }
         fprintf(f, "</tr>\n");
@@ -145,7 +145,7 @@ void printImDeg(const ImMatrix * matr, NSInteger deg) {
 #ifdef KOEFS_ONLY
             if ([pp koef] == 1) fprintf(f, "+");
 #else
-            fprintf(f, "%s", pp.way.str.UTF8String);
+            fprintf(f, "%s", pp.way.htmlStr.UTF8String);
 #endif
             fprintf(f, "</td>");
         }
@@ -208,7 +208,7 @@ void printImDegTr(const ImMatrix * matr, NSInteger deg) {
 #ifdef KOEFS_ONLY
             if ([pp koef] == 1) fprintf(f, "+");
 #else
-            fprintf(f, "%s", pp.way.str.UTF8String);
+            fprintf(f, "%s", pp.way.htmlStr.UTF8String);
 #endif
             fprintf(f, "</td>");
         }
@@ -806,7 +806,7 @@ void printMatrix(Matrix *m) {
                 if (!ok) fprintf(f, " width=20>&nbsp;</td>");
             }
 #else
-            fprintf(f, ">%s</td>", [c str].UTF8String);
+            fprintf(f, ">%s</td>", c.htmlStr.UTF8String);
 #endif
         }
         fprintf(f, "</tr>\n");

@@ -5,7 +5,7 @@
 
 import Foundation
 
-class Tenzor: NSObject {
+final class Tenzor: NSObject {
     private var wLeft: Way
     private var wRight: Way
 
@@ -70,6 +70,10 @@ class Tenzor: NSObject {
 
     var str: String {
         return isZero ? "0" : "\(wLeft.str)*\(wRight.str)"
+    }
+
+    var htmlStr: String {
+        return isZero ? "0" : "\(wLeft.htmlStr)*\(wRight.htmlStr)"
     }
 
     func isEq(_ other: Tenzor) -> Bool {

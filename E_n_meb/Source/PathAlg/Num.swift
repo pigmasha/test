@@ -5,7 +5,7 @@
 
 import Foundation
 
-class NumInt: NSObject {
+final class NumInt: NSObject {
     var intValue: Int
 
     init(intValue: Int) {
@@ -34,7 +34,7 @@ class NumInt: NSObject {
     }
 }
 
-class NumFloat: NSObject {
+final class NumFloat: NSObject {
     var floatValue: Double
 
     init(floatValue: Double) {
