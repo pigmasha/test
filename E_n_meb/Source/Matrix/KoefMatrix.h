@@ -1,7 +1,8 @@
+#import <Foundation/Foundation.h>
+
 @class ImMatrix;
 @class NumFloat;
 @class NumInt;
-
 
 @interface KoefMatrix : NSObject
 

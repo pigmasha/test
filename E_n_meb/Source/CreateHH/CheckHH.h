@@ -1,10 +1,9 @@
 //
-//  CheckHH.h
-//  E_n_meb
-//
 //  Created by M on 26.11.15.
 //
 //
+
+#import <Foundation/Foundation.h>
 
 @class HHElem;
 

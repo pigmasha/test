@@ -6,6 +6,8 @@
 //
 //
 
+#import <Foundation/Foundation.h>
+
 @class IntPair;
 
 @interface DiffLen : NSObject

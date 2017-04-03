@@ -8,6 +8,8 @@
 
 // Matrix with elements WayPair
 
+#import <Foundation/Foundation.h>
+
 @class Diff;
 @class WayPair;
 

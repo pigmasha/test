@@ -3,6 +3,8 @@
 //
 //
 
+#import <Foundation/Foundation.h>
+
 @class HHElem;
 @class ShiftAllVariants;
 

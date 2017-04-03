@@ -24,8 +24,6 @@
 		0C64F16F1CB9C05600495383 /* ShiftHHElem03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64F16E1CB9C05600495383 /* ShiftHHElem03.swift */; };
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5DFE1AF3D9F7003A425A /* CalcDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DCF1AF3D9F7003A425A /* CalcDiff.m */; };
-		0C7E5E031AF3D9F7003A425A /* MAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DDA1AF3D9F7003A425A /* MAAppDelegate.m */; };
-		0C7E5E051AF3D9F7003A425A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DDD1AF3D9F7003A425A /* main.m */; };
 		0C7E5E0D1AF3D9F7003A425A /* RunCase_1_calc_dn.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DEF1AF3D9F7003A425A /* RunCase_1_calc_dn.m */; };
 		0C7E5E111AF3D9F7003A425A /* PrintUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DF81AF3D9F7003A425A /* PrintUtils.m */; };
 		0C7E5E121AF3D9F7003A425A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DFA1AF3D9F7003A425A /* Utils.m */; };
@@ -56,6 +54,7 @@
 		0CD8A3251E91643600C1C32C /* RunCase_7_lemma3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A3241E91643600C1C32C /* RunCase_7_lemma3.swift */; };
 		0CD8A32A1E91708200C1C32C /* RunCase_6_lemma2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A3291E91708200C1C32C /* RunCase_6_lemma2.swift */; };
 		0CD8A32C1E9171CF00C1C32C /* RunCase_19_shift_all.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32B1E9171CF00C1C32C /* RunCase_19_shift_all.swift */; };
+		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
 		0CE1C3D31AF985CA00166BE2 /* DiffLen.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE1C3D21AF985CA00166BE2 /* DiffLen.m */; };
 		0CE1C3D51AF98A7C00166BE2 /* RunCase_5_check_dn_len.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE1C3D41AF98A7C00166BE2 /* RunCase_5_check_dn_len.m */; };
 /* End PBXBuildFile section */
@@ -85,11 +84,6 @@
 		0C7E5DC81AF3D9F7003A425A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C7E5DCE1AF3D9F7003A425A /* CalcDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalcDiff.h; sourceTree = "<group>"; };
 		0C7E5DCF1AF3D9F7003A425A /* CalcDiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalcDiff.m; sourceTree = "<group>"; };
-		0C7E5DD81AF3D9F7003A425A /* MA-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MA-Prefix.pch"; sourceTree = "<group>"; };
-		0C7E5DD91AF3D9F7003A425A /* MAAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAAppDelegate.h; sourceTree = "<group>"; };
-		0C7E5DDA1AF3D9F7003A425A /* MAAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAppDelegate.m; sourceTree = "<group>"; };
-		0C7E5DDB1AF3D9F7003A425A /* MAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAConstants.h; sourceTree = "<group>"; };
-		0C7E5DDD1AF3D9F7003A425A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0C7E5DEF1AF3D9F7003A425A /* RunCase_1_calc_dn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_1_calc_dn.m; sourceTree = "<group>"; };
 		0C7E5DF71AF3D9F7003A425A /* PrintUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintUtils.h; sourceTree = "<group>"; };
 		0C7E5DF81AF3D9F7003A425A /* PrintUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintUtils.m; sourceTree = "<group>"; };
@@ -119,7 +113,6 @@
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CAEC12D1C8F3738007FAF33 /* ShiftHHAlgAll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftHHAlgAll.h; sourceTree = "<group>"; };
 		0CAEC12E1C8F3738007FAF33 /* ShiftHHAlgAll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftHHAlgAll.m; sourceTree = "<group>"; };
-		0CB175151C7C83B900A6A398 /* MADefsUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADefsUI.h; sourceTree = "<group>"; };
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
 		0CBD4E221C00E76200976EC7 /* CreateHH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateHH.h; sourceTree = "<group>"; };
 		0CBD4E231C00E76200976EC7 /* CreateHH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateHH.m; sourceTree = "<group>"; };
@@ -131,6 +124,7 @@
 		0CD8A3241E91643600C1C32C /* RunCase_7_lemma3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase_7_lemma3.swift; sourceTree = "<group>"; };
 		0CD8A3291E91708200C1C32C /* RunCase_6_lemma2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase_6_lemma2.swift; sourceTree = "<group>"; };
 		0CD8A32B1E9171CF00C1C32C /* RunCase_19_shift_all.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase_19_shift_all.swift; sourceTree = "<group>"; };
+		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CE1C3D11AF985CA00166BE2 /* DiffLen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffLen.h; sourceTree = "<group>"; };
 		0CE1C3D21AF985CA00166BE2 /* DiffLen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffLen.m; sourceTree = "<group>"; };
 		0CE1C3D41AF98A7C00166BE2 /* RunCase_5_check_dn_len.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_5_check_dn_len.m; sourceTree = "<group>"; };
@@ -201,12 +195,7 @@
 				0C31611E1C56AE10009046F7 /* ShiftHH */,
 				0C7E5DF01AF3D9F7003A425A /* Utils */,
 				0C64F16B1CB9BEA500495383 /* E_n_meb-Bridging-Header.h */,
-				0C7E5DD81AF3D9F7003A425A /* MA-Prefix.pch */,
-				0C7E5DD91AF3D9F7003A425A /* MAAppDelegate.h */,
-				0C7E5DDA1AF3D9F7003A425A /* MAAppDelegate.m */,
-				0C7E5DDB1AF3D9F7003A425A /* MAConstants.h */,
-				0CB175151C7C83B900A6A398 /* MADefsUI.h */,
-				0C7E5DDD1AF3D9F7003A425A /* main.m */,
+				0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */,
 				0C60C9291E34F78400F285AC /* RunCase.swift */,
 				0C7E5DEF1AF3D9F7003A425A /* RunCase_1_calc_dn.m */,
 				0C7E5E161AF3DD97003A425A /* RunCase_2_check_dn.m */,
@@ -350,7 +339,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					0C7E5DA21AF3D9D5003A425A = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -430,11 +419,10 @@
 				0CD8A3211E91600E00C1C32C /* RunCase_9_dimhh.swift in Sources */,
 				0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */,
 				0C839BF61B308D24008153BC /* CreateDiffEven.m in Sources */,
-				0C7E5E031AF3D9F7003A425A /* MAAppDelegate.m in Sources */,
+				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,
 				0C7E5E0D1AF3D9F7003A425A /* RunCase_1_calc_dn.m in Sources */,
 				0CD8A32C1E9171CF00C1C32C /* RunCase_19_shift_all.swift in Sources */,
 				0C839BF71B308D24008153BC /* CreateDiffOdd.m in Sources */,
-				0C7E5E051AF3D9F7003A425A /* main.m in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
 				0C7E5DFE1AF3D9F7003A425A /* CalcDiff.m in Sources */,
 				0C40FC211C065EF50095EF4C /* CheckHH.m in Sources */,
@@ -459,8 +447,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -472,7 +462,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "Source/MA-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -503,8 +492,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -514,7 +505,6 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Source/MA-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -524,6 +514,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

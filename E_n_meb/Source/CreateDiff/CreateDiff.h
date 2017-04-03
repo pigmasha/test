@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @class Diff;
 
 void createDiffWithNumber(Diff *diff, NSInteger degree);
