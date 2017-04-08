@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct RunCase_19_shift_all_save
+struct Step_19_shift_all_save
 {
     static func runCase() -> Bool
     {
@@ -35,7 +35,7 @@ struct RunCase_19_shift_all_save
 
     private static func process(type: Int, deg: Int) -> Bool
     {
-        let kTypeWithProof = 3
+        /*let kTypeWithProof = 3
         let ell = deg / PathAlg.alg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
@@ -93,7 +93,7 @@ struct RunCase_19_shift_all_save
                 return true
             }
             hh = HHElem(matrix: hh_shift!)
-        }
+        }*/
         return false
     }
 }

@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct RunCase_11_shift_all_save
+struct Step_11_shift_all_save
 {
     static func runCase() -> Bool
     {
@@ -38,12 +38,13 @@ struct RunCase_11_shift_all_save
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
 
-        for shift in 0 ... 13 * PathAlg.alg.twistPeriod + 1 {
+        var seqNumber = [0 as NSNumber]
+        for shift in 0...PathAlg.alg.twistPeriod + 1 {
             if (shift == 0) {
                 printMatrix(hh)
                 continue
             }
-            guard let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift) else {
+            guard let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift, seqNumber: seqNumber) else {
                 OutputFile.writeLog(2, "HH ShiftAll failed! Shift=%zd", shift)
                 return true
             }
@@ -71,6 +72,7 @@ struct RunCase_11_shift_all_save
                 return true
             }
             hh = HHElem(matrix: hhShift)
+            seqNumber += [ shift as NSNumber ]
         }
         return false
     }

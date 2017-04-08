@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct RunCase_7_lemma3
+struct Step_7_lemma3
 {
     static func runCase() -> Bool
     {

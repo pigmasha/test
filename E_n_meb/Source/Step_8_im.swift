@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct RunCase_8_im
+struct Step_8_im
 {
     static func runCase() -> Bool
     {

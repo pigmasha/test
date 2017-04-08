@@ -10,7 +10,10 @@
 
 @interface ShiftHHAlgAll : NSObject
 
-+ (ShiftAllVariants *)allVariantsForHHElem:(HHElem *)hh degree:(NSInteger)degree shift:(NSInteger)shift;
++ (ShiftAllVariants *)allVariantsForHHElem:(HHElem *)hh
+                                    degree:(NSInteger)degree
+                                     shift:(NSInteger)shift
+                                 seqNumber:(NSArray<NSNumber *> *)seqNumber;
 + (HHElem *)selectFromAllVariants:(ShiftAllVariants *)allVariants type:(NSInteger)type shift:(NSInteger)shift;
 
 @end

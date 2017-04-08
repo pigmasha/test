@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct RunCase_9_dimhh
+struct Step_9_dimhh
 {
     static func runCase() -> Bool
     {

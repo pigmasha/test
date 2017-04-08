@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct RunCase_10_createhh
+struct Step_10_createhh
 {
     static func runCase() -> Bool
     {

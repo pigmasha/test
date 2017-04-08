@@ -9,17 +9,17 @@ class RunCase : NSObject {
     class func runCase() -> Bool {
         switch kStep {
         case 6:
-            return RunCase_6_lemma2.runCase()
+            return Step_6_lemma2.runCase()
         case 7:
-            return RunCase_7_lemma3.runCase()
+            return Step_7_lemma3.runCase()
         case 8:
-            return RunCase_8_im.runCase()
+            return Step_8_im.runCase()
         case 9:
-            return RunCase_9_dimhh.runCase()
+            return Step_9_dimhh.runCase()
         case 10:
-            return RunCase_10_createhh.runCase()
+            return Step_10_createhh.runCase()
         case 11:
-            return RunCase_11_shift_all_save.runCase()
+            return Step_11_shift_all_save.runCase()
         default:
             return false
         }

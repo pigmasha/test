@@ -6,25 +6,27 @@
 import Foundation
 
 class ShiftAllVariants : NSObject {
+    let seqNumber: [Int]
     let variants: [[ShiftVariant]]
 
-    init(variants: [[ShiftVariant]]) {
+    init?(seqNumber: [Int], variants: [[ShiftVariant]]) {
+        self.seqNumber = seqNumber
         self.variants = variants
         super.init()
     }
 
-    init?(withContentsOf path: String) {
-        if let variants = ShiftAllVariants.variants(withContentsOf: path) {
-            self.variants = variants
-        }
-        else {
-            return nil
-        }
-        super.init()
+    convenience init?(withContentsOf path: String) {
+        guard let seqNumber = ShiftAllVariants.seqNumber(withContentsOf: path) else { return nil }
+        guard let variants = ShiftAllVariants.variants(withContentsOf: path) else { return nil }
+        self.init(seqNumber: seqNumber, variants: variants)
     }
 
     func isEq(to object: ShiftAllVariants) -> Bool {
         let otherVariants = object.variants
+        guard seqNumber == object.seqNumber else {
+            OutputFile.writeLog(0, "different seqNumbers \(seqNumber) != \(object.seqNumber)")
+            return false
+        }
         guard variants.count == otherVariants.count else {
             OutputFile.writeLog(0, "different counts \(variants.count) != \(otherVariants.count)")
             return false
@@ -61,7 +63,11 @@ class ShiftAllVariants : NSObject {
     }
 
     func writeToFile(_ path: String) -> Bool {
-        var str = ""
+        var str = "SeqNumber: "
+        for n in seqNumber {
+            str += "\(n),"
+        }
+        str += "\n"
         for i in 0 ..< variants.count {
             str += "Column: \(i), count=\(variants[i].count)\n"
             for variant in variants[i] {
@@ -84,6 +90,27 @@ class ShiftAllVariants : NSObject {
         return true
     }
 
+    private static func seqNumber(withContentsOf path: String) -> [Int]? {
+        guard let str = try? String(contentsOfFile: path, encoding: .utf8) else {
+            OutputFile.writeLog(0, "failed to read file")
+            return nil
+        }
+        guard let numbers = str.components(separatedBy: "\n").first else {
+            OutputFile.writeLog(0, "no numbers")
+            return nil
+        }
+        var result: [Int] = []
+        for number in numbers.components(separatedBy: ": ").last!.components(separatedBy: ",") {
+            guard number != "" else { continue }
+            guard let n = Int(number) else {
+                OutputFile.writeLog(0, "bad number \(number)")
+                return nil
+            }
+            result += [ n ]
+        }
+        return result
+    }
+
     private static func variants(withContentsOf path: String) -> [[ShiftVariant]]? {
         guard let str = try? String(contentsOfFile: path, encoding: .utf8) else {
             OutputFile.writeLog(0, "failed to read file")
@@ -93,6 +120,7 @@ class ShiftAllVariants : NSObject {
         var variants: [[ShiftVariant]] = []
         for part in parts {
             guard part != "" else { continue }
+            guard part.range(of: "SeqNumber: ") == nil else { continue }
             guard let count = parseCount(part) else { return nil }
             let hhs = part.components(separatedBy: "\n\n")
             var items: [ShiftVariant] = []

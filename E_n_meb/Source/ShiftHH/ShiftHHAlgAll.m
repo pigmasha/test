@@ -19,7 +19,10 @@
 
 @implementation ShiftHHAlgAll
 
-+ (ShiftAllVariants *)allVariantsForHHElem:(HHElem *)hh degree:(NSInteger)degree shift:(NSInteger)shift
++ (ShiftAllVariants *)allVariantsForHHElem:(HHElem *)hh
+                                    degree:(NSInteger)degree
+                                     shift:(NSInteger)shift
+                                 seqNumber:(NSArray<NSNumber *> *)seqNumber
 {
     Matrix *multRes = [[Matrix alloc] initWithMult:hh and:[[Diff alloc] initWithDeg:degree + shift - 1]];
 
@@ -47,7 +50,7 @@
     }
     WriteLog(0, "");
 
-    return [[ShiftAllVariants alloc] initWithVariants:allVariants];
+    return [[ShiftAllVariants alloc] initWithSeqNumber:seqNumber variants:allVariants];
 }
 
 + (NSString *)pathForAllVariantsWithType:(NSInteger)type
