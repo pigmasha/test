@@ -10,6 +10,7 @@ class ShiftAllVariants : NSObject {
     let variants: [[ShiftVariant]]
 
     init?(seqNumber: [Int], variants: [[ShiftVariant]]) {
+        guard seqNumber.count == variants.count else { return nil }
         self.seqNumber = seqNumber
         self.variants = variants
         super.init()
@@ -19,6 +20,20 @@ class ShiftAllVariants : NSObject {
         guard let seqNumber = ShiftAllVariants.seqNumber(withContentsOf: path) else { return nil }
         guard let variants = ShiftAllVariants.variants(withContentsOf: path) else { return nil }
         self.init(seqNumber: seqNumber, variants: variants)
+    }
+
+    var nextElement: ShiftAllVariants? {
+        var nextSeq: [Int] = []
+        var hasNext = false
+        for i in 0 ..< seqNumber.count {
+            if hasNext == false && seqNumber[i] + 1 < variants[i].count {
+                nextSeq += [ seqNumber[i] + 1 ]
+                hasNext = true
+            } else {
+                nextSeq += [ hasNext ? seqNumber[i] : 0 ]
+            }
+        }
+        return (hasNext) ? ShiftAllVariants(seqNumber: nextSeq, variants: variants) : nil
     }
 
     func isEq(to object: ShiftAllVariants) -> Bool {
@@ -63,11 +78,9 @@ class ShiftAllVariants : NSObject {
     }
 
     func writeToFile(_ path: String) -> Bool {
-        var str = "SeqNumber: "
-        for n in seqNumber {
-            str += "\(n),"
-        }
-        str += "\n"
+        var str = ""
+        str += "SeqNum: " + seqNumber.map{ String($0) }.joined(separator: ",") + "\n"
+        str += "Counts: " + variants.map{ String($0.count) }.joined(separator: ",") + "\n\n"
         for i in 0 ..< variants.count {
             str += "Column: \(i), count=\(variants[i].count)\n"
             for variant in variants[i] {
@@ -101,7 +114,6 @@ class ShiftAllVariants : NSObject {
         }
         var result: [Int] = []
         for number in numbers.components(separatedBy: ": ").last!.components(separatedBy: ",") {
-            guard number != "" else { continue }
             guard let n = Int(number) else {
                 OutputFile.writeLog(0, "bad number \(number)")
                 return nil
@@ -120,7 +132,8 @@ class ShiftAllVariants : NSObject {
         var variants: [[ShiftVariant]] = []
         for part in parts {
             guard part != "" else { continue }
-            guard part.range(of: "SeqNumber: ") == nil else { continue }
+            guard part.range(of: "SeqNum: ") == nil else { continue }
+            guard part.range(of: "Counts: ") == nil else { continue }
             guard let count = parseCount(part) else { return nil }
             let hhs = part.components(separatedBy: "\n\n")
             var items: [ShiftVariant] = []

@@ -10,7 +10,7 @@ struct Step_11_shift_all_save
     {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.alg.n, PathAlg.alg.s, PathAlg.alg.charK, 22)
+        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.alg.n, PathAlg.alg.s, PathAlg.alg.charK)
 
         let type = kCurrentType
         if (process(type: type)) {
@@ -37,14 +37,11 @@ struct Step_11_shift_all_save
 
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
+        printMatrix(hh)
 
-        var seqNumber = [0 as NSNumber]
         for shift in 0...PathAlg.alg.twistPeriod + 1 {
-            if (shift == 0) {
-                printMatrix(hh)
-                continue
-            }
-            guard let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift, seqNumber: seqNumber) else {
+            if (shift == 0) { continue }
+            guard let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift) else {
                 OutputFile.writeLog(2, "HH ShiftAll failed! Shift=%zd", shift)
                 return true
             }
@@ -72,7 +69,6 @@ struct Step_11_shift_all_save
                 return true
             }
             hh = HHElem(matrix: hhShift)
-            seqNumber += [ shift as NSNumber ]
         }
         return false
     }

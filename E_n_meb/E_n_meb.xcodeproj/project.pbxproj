@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */; };
 		0C40FC211C065EF50095EF4C /* CheckHH.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C40FC201C065EF50095EF4C /* CheckHH.m */; };
+		0C4547C81E998CC600F5344C /* Step_12_shift_enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */; };
 		0C55D52C1CC39D940051135A /* Num.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52B1CC39D940051135A /* Num.swift */; };
 		0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */; };
 		0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52F1CC3B5380051135A /* OutputFile.swift */; };
@@ -64,6 +65,7 @@
 		0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftHHAlg.m; sourceTree = "<group>"; };
 		0C40FC1F1C065EF50095EF4C /* CheckHH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckHH.h; sourceTree = "<group>"; };
 		0C40FC201C065EF50095EF4C /* CheckHH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckHH.m; sourceTree = "<group>"; };
+		0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_12_shift_enum.swift; sourceTree = "<group>"; };
 		0C55D52B1CC39D940051135A /* Num.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Num.swift; sourceTree = "<group>"; };
 		0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHGenProgram.swift; sourceTree = "<group>"; };
 		0C55D52F1CC3B5380051135A /* OutputFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFile.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				0CD8A3201E91600E00C1C32C /* Step_9_dimhh.swift */,
 				0CD8A31E1E915D1700C1C32C /* Step_10_createhh.swift */,
 				0C60C9251E34F2E200F285AC /* Step_11_shift_all_save.swift */,
+				0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */,
 				0CD8A32B1E9171CF00C1C32C /* Step_19_shift_all.swift */,
 			);
 			path = Source;
@@ -410,6 +413,7 @@
 				0C64F16A1CB9B99800495383 /* ShiftHHElem02.swift in Sources */,
 				0C9D72F51CCD09780051B8C9 /* Dim.swift in Sources */,
 				0CA149DF1C83680400F556D9 /* KoefMatrix.m in Sources */,
+				0C4547C81E998CC600F5344C /* Step_12_shift_enum.swift in Sources */,
 				0CD8A32A1E91708200C1C32C /* Step_6_lemma2.swift in Sources */,
 				0CD8A3231E91627500C1C32C /* Step_8_im.swift in Sources */,
 				0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */,
