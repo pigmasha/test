@@ -22,8 +22,8 @@ void printMatrixDeg(Matrix *diff, NSInteger degFrom, NSInteger degTo) {
 
 //---------------------------------------------------------------------------------
 void printMatrixToFile(Matrix *diff, FILE* f, BimodQ *qFrom, BimodQ *qTo) {
-    //int n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    //int n = PathAlg.n;
+    NSInteger s = PathAlg.s;
 
     NSMutableArray* fromPoses = [[NSMutableArray alloc] init];
     NSMutableArray* toPoses   = [[NSMutableArray alloc] init];
@@ -93,8 +93,8 @@ void printMatrixToFile(Matrix *diff, FILE* f, BimodQ *qFrom, BimodQ *qTo) {
 
 //---------------------------------------------------------------------------------
 void printImDeg(const ImMatrix * matr, NSInteger deg) {
-    //int n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    //int n = PathAlg.n;
+    NSInteger s = PathAlg.s;
 
     FILE_OPEN();
     
@@ -161,8 +161,8 @@ void printImDegTr(const ImMatrix * matr, NSInteger deg) {
 #ifdef KOEFS_ONLY
     fprintf(f, "<style>td { width: 20px; }</style>\n");
 #endif
-    //int n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    //int n = PathAlg.n;
+    NSInteger s = PathAlg.s;
 
     FILE_OPEN();
     
@@ -223,7 +223,7 @@ void printImDegTr(const ImMatrix * matr, NSInteger deg) {
 void printKoefMatrix(KoefMatrix * matrix) {
     FILE_OPEN();
     
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     
     NSArray* rows = [matrix rows];
     fprintf(f, "<table border=1>");
@@ -269,7 +269,7 @@ void printKoefIntMatrix(KoefIntMatrix * matrix, NSInteger deg, NSInteger skipLin
     posesFromQ(qFrom, fromPoses);
     posesFromQ(qTo,   toPoses);
     
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     
     NSArray* rows = [matrix rows];
     fprintf(f, "<table border=1>");
@@ -328,9 +328,9 @@ void printDiffProgram(const Diff *diff, NSInteger type, NSInteger shift) {
 
     fprintf(f, "<pre>\n// ------------------------------------------------------------------------------------------\n");
 
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
-    NSInteger m = (shift % PathAlg.alg.twistPeriod) / 2;
+    NSInteger m = (shift % PathAlg.twistPeriod) / 2;
 
     NSArray* rows = [diff rows];
     
@@ -424,8 +424,8 @@ void printDiffProgram(const Diff *diff, NSInteger type, NSInteger shift) {
 
 //---------------------------------------------------------------------------------
 void IdxToFile(NSInteger idx, NSInteger j, NSInteger m, FILE* f, BOOL with1) {
-    //int n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    //int n = PathAlg.n;
+    NSInteger s = PathAlg.s;
 
     Vertex *v1 = [[Vertex alloc] initWithI:idx];
 
@@ -486,7 +486,7 @@ void IdxToFile(NSInteger idx, NSInteger j, NSInteger m, FILE* f, BOOL with1) {
 
 //---------------------------------------------------------------------------------
 void jToFile(NSInteger j, FILE* f) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     fprintf(f, "j = ");
 
@@ -523,7 +523,7 @@ void printDiffByS(Diff *diff, NSInteger degFrom, NSInteger degTo) {
     posesFromQ(qFrom, fromPoses);
     posesFromQ(qTo,   toPoses);
     
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     NSArray* rows = [diff rows];
     
@@ -578,7 +578,7 @@ void printDiff1RowBlocks(Diff *diff, NSInteger degFrom, NSInteger degTo) {
     NSMutableArray* fromPoses = [[NSMutableArray alloc] init];
     posesFromQ(qFrom, fromPoses);
     
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     NSArray* rows = [diff rows];
     if (![rows count])
@@ -624,7 +624,7 @@ void printDiff1Row(const Diff *diff, NSInteger degFrom, NSInteger degTo) {
     NSMutableArray* fromPoses = [[NSMutableArray alloc] init];
     posesFromQ(qFrom, fromPoses);
     
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     NSArray* rows = [diff rows];
     if (![rows count])
@@ -666,14 +666,14 @@ void printDiffProgram2(const Diff *diff, NSInteger deg) {
 
     fprintf(f, "<pre>\n// ------------------------------------------------------------------------------------------\n");
 
-    NSInteger s = PathAlg.alg.s;
-    NSInteger m = (deg % PathAlg.alg.twistPeriod) / 2;
+    NSInteger s = PathAlg.s;
+    NSInteger m = (deg % PathAlg.twistPeriod) / 2;
 
     NSArray* rows = [diff rows];
     
     NSInteger nBlocks = (NSInteger)[[rows lastObject] count] / s;
 
-    fprintf(f, "void createDiffWithNumber%tu(Diff *diff)\n{\n    NSInteger s = PathAlg.alg.s;\n    NSInteger m = %zd;\n    CreateZeroMatrix(diff, %zd*s, %zd*s);\n\n",
+    fprintf(f, "void createDiffWithNumber%tu(Diff *diff)\n{\n    NSInteger s = PathAlg.s;\n    NSInteger m = %zd;\n    CreateZeroMatrix(diff, %zd*s, %zd*s);\n\n",
         deg, m, (NSInteger)[[rows lastObject] count] / s, (NSInteger)[rows count] / s);
     fprintf(f, "    NSInteger j;\n");
     
@@ -753,7 +753,7 @@ void printDiffProgram2(const Diff *diff, NSInteger deg) {
 
 //---------------------------------------------------------------------------------
 void printMatrix(Matrix *m) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     NSArray* rows = [m rows];
 

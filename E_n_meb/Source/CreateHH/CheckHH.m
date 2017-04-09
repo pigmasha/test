@@ -84,7 +84,7 @@
         return NO;
     }
 
-    NSInteger charK = PathAlg.alg.charK;
+    NSInteger charK = PathAlg.charK;
 
     for (NSInteger i = 0; i < multResult.width; i++) {
         float totalKoef = 0;
@@ -129,7 +129,7 @@
 {
     if (degree == 0) return YES;
 
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     Diff *diff = [[Diff alloc] initWithDeg:degree - 1];
     ImMatrix *im = [[ImMatrix alloc] initWithDiff:diff];

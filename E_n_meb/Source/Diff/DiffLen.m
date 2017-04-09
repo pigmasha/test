@@ -29,7 +29,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 - (instancetype)initWithDeg:(NSInteger)deg {
     if (self = [super init]) {
         _items = [[NSMutableArray alloc] init];
-        NSInteger r = (deg % PathAlg.alg.twistPeriod);
+        NSInteger r = (deg % PathAlg.twistPeriod);
         NSInteger m = (NSInteger)(r / 2);
         
         if (r % 2 == 0) {
@@ -71,7 +71,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //---------------------------------------------------------------------------------
 - (void)create0 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:7*s h: 6*s];
     
     NSInteger j;
@@ -98,7 +98,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //---------------------------------------------------------------------------------
 - (void)create2 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:8*s h: 6*s];
     
     NSInteger j;
@@ -129,7 +129,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //---------------------------------------------------------------------------------
 - (void)create4 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:8*s h: 9*s];
     
     NSInteger j;
@@ -165,7 +165,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //---------------------------------------------------------------------------------
 - (void)create6 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:8*s h: 9*s];
     
     NSInteger j;
@@ -203,7 +203,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //---------------------------------------------------------------------------------
 - (void)create8 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:7*s h: 6*s];
     
     NSInteger j;
@@ -240,7 +240,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //---------------------------------------------------------------------------------
 - (void)create10 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:6*s h: 6*s];
     
     NSInteger j;
@@ -283,7 +283,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //----------------------------------------------------------------------------
 - (void)create1 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:6*s h: 7*s];
     
     NSInteger j;
@@ -321,7 +321,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //----------------------------------------------------------------------------
 - (void)create3 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:9*s h: 8*s];
     
     NSInteger j;
@@ -363,7 +363,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //----------------------------------------------------------------------------
 - (void)create5 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:9*s h: 8*s];
     
     NSInteger j;
@@ -414,7 +414,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //----------------------------------------------------------------------------
 - (void)create7 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:6*s h: 8*s];
     
     NSInteger j;
@@ -449,7 +449,7 @@ void addLenToPos(NSMutableArray<NSArray<IntPair *> *>* items, NSInteger i, NSInt
 
 //----------------------------------------------------------------------------
 - (void)create9 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     [self createZero:6*s h: 7*s];
     
     NSInteger j;

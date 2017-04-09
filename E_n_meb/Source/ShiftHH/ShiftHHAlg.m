@@ -41,7 +41,7 @@
 
     Diff *d_down = [[Diff alloc] initWithDeg:shift - 1];
 
-    NSInteger r_0 = shift % PathAlg.alg.twistPeriod;
+    NSInteger r_0 = shift % PathAlg.twistPeriod;
 
     NSInteger width = multRes.width;
     NSInteger height = d_down.width;
@@ -212,7 +212,7 @@
 }
 
 + (NSInteger)trySelectGoodPosFromArr:(NSMutableArray<NumInt *> *)arr hh:(Matrix *)hh type:(NSInteger)type shift:(NSInteger)shift j:(NSInteger)j {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     for (NSInteger ii = 0; ii < arr.count; ii++) {
         NSInteger i = arr[ii].intValue;

@@ -17,10 +17,10 @@
         _p_ij  = [[NSMutableArray alloc] init];
         _sizes = [[NSMutableArray alloc] init];
         
-        //int n = PathAlg.alg.n;
-        NSInteger s = PathAlg.alg.s;
+        //int n = PathAlg.n;
+        NSInteger s = PathAlg.s;
         
-        NSInteger d = deg % PathAlg.alg.twistPeriod;
+        NSInteger d = deg % PathAlg.twistPeriod;
         NSInteger m = d / 2;
         
         BimodQ *q = (d % 2 == 0) ? [[BimodQ alloc] initEvenQ: m] : [[BimodQ alloc] initOddQ: m];
@@ -33,9 +33,9 @@
         }
         [_sizes addObjectsFromArray: q->_sizes];
         
-        NSInteger r = deg / PathAlg.alg.twistPeriod;
+        NSInteger r = deg / PathAlg.twistPeriod;
         for (NSInteger i = 0; i < r; i++) {
-            for (IntPair *pij in _p_ij) [pij setN0:[PathAlg.alg sigma:[pij n0]]];
+            for (IntPair *pij in _p_ij) [pij setN0:[PathAlg sigma:[pij n0]]];
         }
     }
     return self;
@@ -47,7 +47,7 @@
         _p_ij  = [[NSMutableArray alloc] init];
         _sizes = [[NSMutableArray alloc] init];
         
-        NSInteger s = PathAlg.alg.s;
+        NSInteger s = PathAlg.s;
         
         for (NSInteger i = 0; i <= f(m, 2); i++) {
             [_p_ij addObject:[IntPair pairWithN0:4*m-1+h(m,2)+i
@@ -90,7 +90,7 @@
         _p_ij  = [[NSMutableArray alloc] init];
         _sizes = [[NSMutableArray alloc] init];
         
-        NSInteger s = PathAlg.alg.s;
+        NSInteger s = PathAlg.s;
         
         for (NSInteger i = 0; i <= 1 - f(m, 4); i++) {
             [_p_ij addObject:[IntPair pairWithN0:4*m+1+h(m,0)+2*f(m,4)+4*s*i
@@ -135,7 +135,7 @@
 //---------------------------------------------------------------------------------
 - (void)html {
     FILE_OPEN();
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     
     NSInteger sPos = 0;
     NSInteger sIn = 0;

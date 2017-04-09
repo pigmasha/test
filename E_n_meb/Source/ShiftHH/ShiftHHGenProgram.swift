@@ -16,7 +16,7 @@ class ShiftHHGenProgram : NSObject {
     }
 
     private func printProgram() {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
 
         file.writeln("<pre>")
         file.writeln("override func shift\(shift)(hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {")
@@ -57,7 +57,7 @@ class ShiftHHGenProgram : NSObject {
     }
 
     private func printOnePerBlockProgram(_ col: Int) {
-        let m = (shift % PathAlg.alg.twistPeriod) / 2
+        let m = (shift % PathAlg.twistPeriod) / 2
 
         for row in 0..<height {
             let c = hhElem.rows[row][col]
@@ -74,7 +74,7 @@ class ShiftHHGenProgram : NSObject {
     }
 
     private func vertexString(_ v: Vertex, j: Int, m: Int) -> String {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         var str = (m < 0) ? "" : "+m"
         let v0 = Vertex(i: (m < 0) ? v.number : v.number - 4 * m)
 
@@ -100,7 +100,7 @@ class ShiftHHGenProgram : NSObject {
     }
 
     private func iString(_ row: Int, col: Int) -> String {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         let d = row - col
 
         if (d % s == 0) {
@@ -120,14 +120,14 @@ class ShiftHHGenProgram : NSObject {
     }
 
     private func sStringPart(_ i: Int) -> String {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         if (i < s) { return "" }
         if (i < 2 * s) { return "s" }
         return "\(i / s)*s"
     }
 
     private func stringByS(_ i: Int) -> String {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         if (i < s) { return "\(i)" }
         return (i % s == 0) ? sStringPart(i) : "\(sStringPart(i)) + \(i % s)"
     }
@@ -141,7 +141,7 @@ class ShiftHHGenProgram : NSObject {
     }
 
     private var isOnePerBlock: Bool {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
 
         let w = width
         let h = height

@@ -118,8 +118,8 @@ final class Comb: NSObject {
     }
 
     func twist() {
-        let n = PathAlg.alg.n
-        let s = PathAlg.alg.s
+        let n = PathAlg.n
+        let s = PathAlg.s
 
         for item in tenzors {
             let way = item.tenzor.leftComponent
@@ -136,8 +136,8 @@ final class Comb: NSObject {
                     arr.intValue = arr.intValue + 3*(n+s)
                 }
             }
-            way.startsWith.number = PathAlg.alg.sigma(way.startsWith.number)
-            way.endsWith.number = PathAlg.alg.sigma(way.endsWith.number)
+            way.startsWith.number = PathAlg.sigma(way.startsWith.number)
+            way.endsWith.number = PathAlg.sigma(way.endsWith.number)
         }
         normalForm()
     }
@@ -209,7 +209,7 @@ final class Comb: NSObject {
         var koef1 = 0.0
         var koef2 = 0.0
 
-        let charK = Double(PathAlg.alg.charK)
+        let charK = Double(PathAlg.charK)
 
         for item in tenzors {
             var kk1 = 0.0
@@ -231,11 +231,11 @@ final class Comb: NSObject {
             if (kk1 == 0) { return 0 }
 
             if (koef1 != 0) {
-                if (PathAlg.alg.charK == 0) {
+                if (PathAlg.charK == 0) {
                     if (koef1 * kk2 != koef2 * kk1) { return 0 }
                 } else {
                     let k1 = Int(koef1 * kk2 - koef2 * kk1)
-                    if (k1 % PathAlg.alg.charK != 0) { return 0 }
+                    if (k1 % PathAlg.charK != 0) { return 0 }
                 }
             }
             koef1 = kk1
@@ -245,7 +245,7 @@ final class Comb: NSObject {
     }
 
     private func normalForm() {
-        let charK = PathAlg.alg.charK
+        let charK = PathAlg.charK
         var hasElem = true
         while (hasElem) {
             hasElem = false

@@ -87,12 +87,12 @@
 
 //---------------------------------------------------------------------------------
 - (NSInteger)rank {
-    /*int n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    /*int n = PathAlg.n;
+    NSInteger s = PathAlg.s;
     
-    NSInteger r = (_deg % PathAlg.alg.twistPeriod);
+    NSInteger r = (_deg % PathAlg.twistPeriod);
     NSInteger m = (NSInteger)(r / 2);
-    NSInteger ell = _deg / PathAlg.alg.twistPeriod;
+    NSInteger ell = _deg / PathAlg.twistPeriod;
     
     BOOL eq2s0  = ((ell * (n + s) + m) % (2 * s) == 0);
     BOOL eqs2s0 = ((ell * (n + s) + m) % (2 * s) == s);
@@ -123,7 +123,7 @@
         [nLineOfColumnPos addObject:[NumInt numWithInt:-1]];
     }
     
-    NSInteger charK = [PathAlg.alg charK];
+    NSInteger charK = PathAlg.charK;
     NSInteger nCols = (NSInteger)[[_items lastObject] count];
     
     for (NSInteger i = 0; i < [_items count]; i++) {

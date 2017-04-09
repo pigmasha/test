@@ -17,11 +17,11 @@ BOOL IsVectorsEqual(NSArray* a, NSArray* b, NSInteger s);
 
 //----------------------------------------------------------------------------
 BOOL _RunCase() {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     
     WriteLog(2, "s=%d", s);
     
-    NSInteger degMax = 50 * s * PathAlg.alg.twistPeriod;
+    NSInteger degMax = 50 * s * PathAlg.twistPeriod;
     
     for (NSInteger deg = 0; deg < degMax; deg++) {
         BimodQ *q = [[BimodQ alloc] initForDeg:deg];
@@ -75,8 +75,8 @@ BOOL _RunCase() {
         
         NSInteger myDeg = dimHom(deg);
         if (deg2 != myDeg) {
-            NSLog(@"Error! Bad dimHom=%d (must be %d), s=%d, deg=%d", myDeg, deg2, s, deg % PathAlg.alg.twistPeriod);
-            WriteLog(2, "Error! Bad dimHom=%d (must be %d), s=%d, deg=%d", myDeg, deg2, s, deg % PathAlg.alg.twistPeriod);
+            NSLog(@"Error! Bad dimHom=%d (must be %d), s=%d, deg=%d", myDeg, deg2, s, deg % PathAlg.twistPeriod);
+            WriteLog(2, "Error! Bad dimHom=%d (must be %d), s=%d, deg=%d", myDeg, deg2, s, deg % PathAlg.twistPeriod);
             return YES;
         }
     }
@@ -86,11 +86,11 @@ BOOL _RunCase() {
 
 //---------------------------------------------------------------------------------
 void FillMyLens(NSInteger deg, NSMutableArray* items) {
-    NSInteger n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    NSInteger n = PathAlg.n;
+    NSInteger s = PathAlg.s;
     
-    NSInteger ell = deg / PathAlg.alg.twistPeriod;
-    NSInteger d = deg % PathAlg.alg.twistPeriod;
+    NSInteger ell = deg / PathAlg.twistPeriod;
+    NSInteger d = deg % PathAlg.twistPeriod;
     NSInteger m = d / 2;
     
     BOOL eq0 = (s == 1) ? YES :((ell * n + m) % s == 0);

@@ -10,7 +10,7 @@ struct Step_11_shift_all_save
     {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.alg.n, PathAlg.alg.s, PathAlg.alg.charK)
+        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
         let type = kCurrentType
         if (process(type: type)) {
@@ -21,7 +21,7 @@ struct Step_11_shift_all_save
 
     private static func process(type: Int) -> Bool
     {
-        for deg in 1...30 * PathAlg.alg.twistPeriod + 2 {
+        for deg in 1...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) {
                     return true
@@ -33,13 +33,13 @@ struct Step_11_shift_all_save
 
     private static func process(type: Int, deg: Int) -> Bool
     {
-        let ell = deg / PathAlg.alg.twistPeriod
+        let ell = deg / PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
         printMatrix(hh)
 
-        for shift in 0...PathAlg.alg.twistPeriod + 1 {
+        for shift in 0...PathAlg.twistPeriod + 1 {
             if (shift == 0) { continue }
             guard let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift) else {
                 OutputFile.writeLog(2, "HH ShiftAll failed! Shift=%zd", shift)
@@ -63,7 +63,7 @@ struct Step_11_shift_all_save
                 return true
             }
             guard ShiftHHAlg.checkHHMatrix(hh, hhShift: hhShift, degree: deg, shift: shift) else {
-                OutputFile.writeLog(1, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.alg.twistPeriod)
+                OutputFile.writeLog(1, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.twistPeriod)
                 let nDifferences = ShiftHHAlg.shiftHHElem(hh, type: type, degree: deg, shift: shift, result: hhShift)
                 OutputFile.writeLog(1, "Differences count = %d", nDifferences)
                 return true

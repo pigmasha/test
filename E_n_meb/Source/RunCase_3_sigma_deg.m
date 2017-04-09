@@ -4,7 +4,7 @@
 
 //----------------------------------------------------------------------------
 BOOL _RunCase() {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     
     WriteLog(2, "s=%d, char=%d", s, [PathAlg.alg charK]);
     

@@ -6,7 +6,7 @@
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber(Diff *diff, NSInteger degree) {
-    NSInteger r = (degree % PathAlg.alg.twistPeriod);
+    NSInteger r = (degree % PathAlg.twistPeriod);
     NSInteger m = (NSInteger)(r / 2);
 
     if (r % 2 == 0) {
@@ -15,7 +15,7 @@ void createDiffWithNumber(Diff *diff, NSInteger degree) {
         createOddDiffWithNumber(diff, m);
     }
 
-    NSInteger l = (NSInteger)(degree / PathAlg.alg.twistPeriod);
+    NSInteger l = (NSInteger)(degree / PathAlg.twistPeriod);
 
     NSArray* rows = [diff rows];
     for (NSInteger i = 0; i < l; i++)

@@ -35,7 +35,7 @@ final class Way: NSObject {
         isZero = false
         super.init()
 
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         let v = Vertex(i: from)
         let r_to = vEnd.number / 4
 
@@ -147,7 +147,7 @@ final class Way: NSObject {
         if isZero { return "0" }
         if arr.count == 0 { return vStart.str }
 
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         var ss = ""
         for w in arr {
             let isG = w.first!.intValue == ArrType.gamma.rawValue
@@ -161,7 +161,7 @@ final class Way: NSObject {
         if isZero { return "0" }
         if arr.count == 0 { return vStart.htmlStr }
 
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         var ss = ""
         for w in arr {
             let isG = w.first!.intValue == ArrType.gamma.rawValue
@@ -181,7 +181,7 @@ final class Way: NSObject {
     private var isZeroSmart: Bool {
         if arr.count > 4 { return true }
 
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         
         let x_from = vStart.number % 4
         let x_to = vEnd.number % 4

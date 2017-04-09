@@ -17,12 +17,12 @@ public struct ShiftVars {
     public let r_0: Int
 
     public init(shift: Int, degree: Int) {
-        n = PathAlg.alg.n
-        s = PathAlg.alg.s
-        ell_0 = shift / PathAlg.alg.twistPeriod
-        m = (shift % PathAlg.alg.twistPeriod) / 2
-        ell = degree / PathAlg.alg.twistPeriod
-        r_0 = shift % PathAlg.alg.twistPeriod
+        n = PathAlg.n
+        s = PathAlg.s
+        ell_0 = shift / PathAlg.twistPeriod
+        m = (shift % PathAlg.twistPeriod) / 2
+        ell = degree / PathAlg.twistPeriod
+        r_0 = shift % PathAlg.twistPeriod
     }
 }
 

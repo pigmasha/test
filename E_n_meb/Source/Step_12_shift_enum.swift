@@ -8,7 +8,7 @@ struct Step_12_shift_enum {
     static func runCase() -> Bool {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.alg.n, PathAlg.alg.s, PathAlg.alg.charK)
+        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
         let type = kCurrentType
         if (process(type: type)) { return true }
@@ -16,7 +16,7 @@ struct Step_12_shift_enum {
     }
 
     private static func process(type: Int) -> Bool {
-        for deg in 1...30 * PathAlg.alg.twistPeriod + 2 {
+        for deg in 1...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
                 return false
@@ -26,7 +26,7 @@ struct Step_12_shift_enum {
     }
 
     private static func process(type: Int, deg: Int) -> Bool {
-        let ell = deg / PathAlg.alg.twistPeriod
+        let ell = deg / PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
@@ -52,7 +52,7 @@ struct Step_12_shift_enum {
                 }
                 guard saveVariants(allVariants!, path: path) == false else { return true }
             }
-            if shift == PathAlg.alg.twistPeriod {
+            if shift == PathAlg.twistPeriod {
                 hh = ShiftHHAlgAll.lastHH(from: allVariants)
                 OutputFile.writeLog(5, "shift \(shift)")
                 printMatrix(hh)
@@ -108,6 +108,6 @@ struct Step_12_shift_enum {
     }
 
     private static func pathWithShift(_ shift: Int) -> String {
-        return OutputFile.fileName! + ".s\(PathAlg.alg.s).sh\(shift).txt"
+        return OutputFile.fileName! + ".s\(PathAlg.s).sh\(shift).txt"
     }
 }

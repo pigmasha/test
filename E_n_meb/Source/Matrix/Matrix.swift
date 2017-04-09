@@ -231,7 +231,7 @@ class Matrix : NSObject {
     }
 
     func twist(_ degree: Int, type: Int) {
-        let ell = degree / PathAlg.alg.twistPeriod
+        let ell = degree / PathAlg.twistPeriod
 
         for _ in 0..<ell {
             for row in combs {
@@ -242,7 +242,7 @@ class Matrix : NSObject {
         }
         if (type == 1) { return }
 
-        var k = PathAlg.alg.sigmaDeg(ell, i: -6*ell, isGamma: true)
+        var k = PathAlg.sigmaDeg(ell, i: -6*ell, isGamma: true)
         if (type == 3) { k = minusDeg(ell) }
 
         if (k != 1) {

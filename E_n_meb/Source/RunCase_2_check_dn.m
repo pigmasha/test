@@ -6,12 +6,12 @@
 
 //---------------------------------------------------------------------------------
 BOOL _RunCase() {
-    NSInteger n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    NSInteger n = PathAlg.n;
+    NSInteger s = PathAlg.s;
     
     WriteLog(3, "N=%d, S=%d",  n, s);
     
-    for (NSInteger deg = 1; deg < 2 * PathAlg.alg.twistPeriod + 2; deg++) {
+    for (NSInteger deg = 1; deg < 2 * PathAlg.twistPeriod + 2; deg++) {
         Diff *prevDiff = [[Diff alloc] initWithDeg:deg - 1];
         Diff *diff = [[Diff alloc] initWithDeg:deg];
 

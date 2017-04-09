@@ -125,7 +125,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
             return
         }
 
-        PathAlg.alg.n = n;
+        PathAlg.n = n;
         sMax = s
         charMax = self.charK?.integerValue ?? 0
 
@@ -142,8 +142,8 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         btFile?.isEnabled = false
         isErr = false
 
-        PathAlg.alg.s = kSFrom
-        PathAlg.alg.charK = kCharFrom
+        PathAlg.s = kSFrom
+        PathAlg.charK = kCharFrom
         addInfoStr("s=\(kSFrom)")
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
@@ -158,8 +158,8 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
             return
         }
 
-        var s = PathAlg.alg.s;
-        var charK = PathAlg.alg.charK + 1
+        var s = PathAlg.s;
+        var charK = PathAlg.charK + 1
         if charK == 1 { charK += 1 }
         while (!isPrimary(charK)) { charK += 1 }
 
@@ -173,8 +173,8 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
             return
         }
 
-        PathAlg.alg.s = s;
-        PathAlg.alg.charK = charK
+        PathAlg.s = s;
+        PathAlg.charK = charK
         addInfoStr("s=\(s)")
         performSelector(inBackground: #selector(threadCase), with: nil)
     }

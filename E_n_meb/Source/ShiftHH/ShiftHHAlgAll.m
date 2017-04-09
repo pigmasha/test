@@ -28,7 +28,7 @@
         return nil;
     }
 
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger width = multRes.width;
     Diff *d_down = [[Diff alloc] initWithDeg:shift - 1];
     NSInteger height = d_down.rows.firstObject.count;
@@ -61,7 +61,7 @@
 
 + (HHElem *)selectFromAllVariants:(ShiftAllVariants *)allVariants type:(NSInteger)type shift:(NSInteger)shift
 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger width = allVariants.variants.count * s;
     NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
     HHElem *hh = [[HHElem alloc] initWithZeroMatrix:width h:height];
@@ -105,7 +105,7 @@
 
 + (HHElem *)hhFromAllVariants:(ShiftAllVariants *)allVariants
 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger width = allVariants.variants.count * s;
     NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
     HHElem *hh = [[HHElem alloc] initWithZeroMatrix:width h:height];
@@ -122,7 +122,7 @@
 
 + (HHElem *)lastHHFromAllVariants:(ShiftAllVariants *)allVariants
 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger width = allVariants.variants.count * s;
     NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
     HHElem *hh = [[HHElem alloc] initWithZeroMatrix:width h:height];
@@ -148,8 +148,8 @@
 + (BOOL)hasNonZeroInSq:(NSInteger)sq hhCol:(HHElem *)hhCol
 {
     sq = MAX(sq, 0);
-    for (NSInteger i = 0; i < PathAlg.alg.s; i++) {
-        if (hhCol.rows[sq * PathAlg.alg.s + i].firstObject.isZero == NO) {
+    for (NSInteger i = 0; i < PathAlg.s; i++) {
+        if (hhCol.rows[sq * PathAlg.s + i].firstObject.isZero == NO) {
             return YES;
         }
     }
@@ -168,7 +168,7 @@
         }
     }
 
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger height = dDown.rows.firstObject.count;
 
     if (!hasNonZeroElements) {
@@ -207,7 +207,7 @@
                        dDown:(Diff *)dDown
                       result:(HHElem *)hh_shift
 {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger width = multRes.width;
     NSInteger height = dDown.width;
 

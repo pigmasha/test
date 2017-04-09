@@ -22,7 +22,7 @@ void createOddDiffWithNumber(Diff *diff, NSInteger m) {
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber1(Diff *diff) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 0;
     [diff makeZeroMatrix:6*s h:7*s];
     
@@ -62,7 +62,7 @@ void createDiffWithNumber1(Diff *diff) {
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber3(Diff *diff) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 1;
     [diff makeZeroMatrix:9*s h: 8*s];
     
@@ -105,7 +105,7 @@ void createDiffWithNumber3(Diff *diff) {
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber5(Diff *diff) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 2;
     [diff makeZeroMatrix:9*s h: 8*s];
     
@@ -157,7 +157,7 @@ void createDiffWithNumber5(Diff *diff) {
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber7(Diff *diff) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 3;
     [diff makeZeroMatrix:6*s h: 8*s];
     
@@ -193,7 +193,7 @@ void createDiffWithNumber7(Diff *diff) {
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber9(Diff *diff) {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 4;
     [diff makeZeroMatrix:6*s h: 7*s];
 

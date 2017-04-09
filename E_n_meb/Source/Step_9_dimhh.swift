@@ -9,10 +9,10 @@ struct Step_9_dimhh
 {
     static func runCase() -> Bool
     {
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.alg.n, PathAlg.alg.s, PathAlg.alg.charK)
-        for deg in 1...30 * PathAlg.alg.twistPeriod + 2 {
-            let r = deg % PathAlg.alg.twistPeriod
-            let ell = Int(deg / PathAlg.alg.twistPeriod)
+        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        for deg in 1...30 * PathAlg.twistPeriod + 2 {
+            let r = deg % PathAlg.twistPeriod
+            let ell = Int(deg / PathAlg.twistPeriod)
 
             let dimHom1 = Dim.dimHom(deg)
             let dimIm1 = Dim.dimIm(deg)
@@ -21,7 +21,7 @@ struct Step_9_dimhh
 
             if dimHH1 != dimHom1 - dimIm1 - dimIm2 || dimHH1 != dimHH2(deg) {
                 OutputFile.writeLog(1, "HH %d and %d (deg=%d, r=%d, ell=%d, char=%d)",
-                                    dimHH1, dimHom1 - dimIm1 - dimIm2, deg, r, ell, PathAlg.alg.charK)
+                                    dimHH1, dimHom1 - dimIm1 - dimIm2, deg, r, ell, PathAlg.charK)
             }
         }
         return false
@@ -29,12 +29,12 @@ struct Step_9_dimhh
 
     private static func dimHH2(_ deg: Int) -> Int
     {
-        let n = PathAlg.alg.n
-        let s = PathAlg.alg.s
-        let charK = PathAlg.alg.charK
+        let n = PathAlg.n
+        let s = PathAlg.s
+        let charK = PathAlg.charK
 
-        let ell = deg / PathAlg.alg.twistPeriod
-        let r = deg % PathAlg.alg.twistPeriod
+        let ell = deg / PathAlg.twistPeriod
+        let r = deg % PathAlg.twistPeriod
         let m = r / 2
 
         if s == 1 {

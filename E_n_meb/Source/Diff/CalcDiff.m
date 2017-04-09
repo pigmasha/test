@@ -17,9 +17,9 @@ int createZeroDiff(Diff *diff, BimodQ *qFrom, BimodQ *qTo);
 int calcDiffWithNumber(Diff *diff, NSInteger deg, Diff *prevDiff) {
     WriteLog(4, "deg=%d ", deg);
 
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
-    NSInteger d = deg % PathAlg.alg.twistPeriod;
+    NSInteger d = deg % PathAlg.twistPeriod;
 
     BimodQ *qFrom = [[BimodQ alloc] initForDeg:d + 1];
     BimodQ *qTo   = [[BimodQ alloc] initForDeg:d];

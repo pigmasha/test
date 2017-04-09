@@ -11,29 +11,53 @@ func myMod(_ number: Int, mod: Int) -> Int {
 }
 
 func myModS(_ number: Int) -> Int {
-    return myMod(number, mod: PathAlg.alg.s)
+    return myMod(number, mod: PathAlg.s)
 }
 
 func myMod2S(_ number: Int) -> Int {
-    return myMod(number, mod: 2 * PathAlg.alg.s)
+    return myMod(number, mod: 2 * PathAlg.s)
 }
 
 final class PathAlg: NSObject {
-    static let alg = PathAlg()
+    static var s: Int {
+        get {
+            return alg.s
+        }
+        set {
+            alg.s = newValue
+        }
+    }
+    static var n: Int {
+        get {
+            return alg.n
+        }
+        set {
+            alg.n = newValue
+        }
+    }
+    static var charK: Int {
+        get {
+            return alg.charK
+        }
+        set {
+            alg.charK = newValue
+        }
+    }
 
-    var n: Int
-    var s: Int
-    var charK: Int
+    private static let alg = PathAlg()
+    private var n: Int
+    private var s: Int
+    private var charK: Int
 
-    var twistPeriod: Int {
+    static var twistPeriod: Int {
         return 11
     }
 
-    func sigma(_ i: Int) -> Int {
+    static func sigma(_ i: Int) -> Int {
         return 4 * (n + s) + i
     }
 
-    func sigma(_ i: Int, isGamma: Bool) -> Int {
+    static func sigma(_ i: Int, isGamma: Bool) -> Int {
         if isGamma { return (myMod(i, mod: s) == s - 1) ? 1 : -1 }
 
         let j = myMod(i, mod: 3)
@@ -47,7 +71,7 @@ final class PathAlg: NSObject {
         }
     }
 
-    func sigmaDeg(_ deg: Int, i: Int, isGamma: Bool) -> Int {
+    static func sigmaDeg(_ deg: Int, i: Int, isGamma: Bool) -> Int {
         if deg == 0 { return 1 }
 
         var res = 1
@@ -59,16 +83,16 @@ final class PathAlg: NSObject {
         return res
     }
 
-    class func k1J(_ ell: Int, j: Int, m: Int) -> Int {
-        return alg.sigmaDeg(ell, i: 3 * (j + m), isGamma: false)
+    static func k1J(_ ell: Int, j: Int, m: Int) -> Int {
+        return sigmaDeg(ell, i: 3 * (j + m), isGamma: false)
     }
 
-    class func k1JPlus1(_ ell: Int, j: Int, m: Int) -> Int {
-        return alg.sigmaDeg(ell, i: 3 * (j + m + 1), isGamma: false)
+    static func k1JPlus1(_ ell: Int, j: Int, m: Int) -> Int {
+        return sigmaDeg(ell, i: 3 * (j + m + 1), isGamma: false)
     }
 
-    class func kGamma(_ ell: Int, j: Int, m: Int) -> Int {
-        return alg.sigmaDeg(ell, i: j + m, isGamma: true)
+    static func kGamma(_ ell: Int, j: Int, m: Int) -> Int {
+        return sigmaDeg(ell, i: j + m, isGamma: true)
     }
 
     override init() {

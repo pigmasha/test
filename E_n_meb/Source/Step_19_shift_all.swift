@@ -10,7 +10,7 @@ struct Step_19_shift_all_save
     {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.alg.n, PathAlg.alg.s, PathAlg.alg.charK, 22)
+        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.n, PathAlg.s, PathAlg.charK, 22)
 
         let type = kCurrentType
         if (process(type: type)) {
@@ -21,7 +21,7 @@ struct Step_19_shift_all_save
 
     private static func process(type: Int) -> Bool
     {
-        for deg in 1...30 * PathAlg.alg.twistPeriod + 2
+        for deg in 1...30 * PathAlg.twistPeriod + 2
         {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) {
@@ -36,12 +36,12 @@ struct Step_19_shift_all_save
     private static func process(type: Int, deg: Int) -> Bool
     {
         /*let kTypeWithProof = 3
-        let ell = deg / PathAlg.alg.twistPeriod
+        let ell = deg / PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
 
-        let shiftMax = 13*PathAlg.alg.twistPeriod + 1
+        let shiftMax = 13*PathAlg.twistPeriod + 1
         for shift in 0...shiftMax {
             var hh_shift: HHElem? = nil
             if (type > kTypeWithProof) {
@@ -78,7 +78,7 @@ struct Step_19_shift_all_save
                 //printMatrix(hh_shift);
             }
             if !ShiftHHAlg.checkHHMatrix(hh, hhShift: hh_shift, degree: deg, shift: shift) {
-                OutputFile.writeLog(1, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.alg.twistPeriod);
+                OutputFile.writeLog(1, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.twistPeriod);
 
                 if (type <= kTypeWithProof) {
                     OutputFile.writeLog(2, "Wrong HH Shift");

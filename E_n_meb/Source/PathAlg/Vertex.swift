@@ -41,7 +41,7 @@ final class Vertex: NSObject {
     }
 
     private func reload() {
-        let s = PathAlg.alg.s
+        let s = PathAlg.s
         i = myMod(i, mod: 8 * s)
 
         let x = i % 4

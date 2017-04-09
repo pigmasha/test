@@ -27,12 +27,12 @@ NSInteger gcd(NSInteger i, NSInteger j) {
 
 //---------------------------------------------------------------------------------
 NSInteger sigmaDeg() {
-    NSInteger n = PathAlg.alg.n;
-    NSInteger s = PathAlg.alg.s;
+    NSInteger n = PathAlg.n;
+    NSInteger s = PathAlg.s;
 
     NSInteger s0 = 2*s / gcd(n+s, 2*s);
 
-    if ([PathAlg.alg charK] == 2) return s0;
+    if (PathAlg.charK == 2) return s0;
     return (s0 % 4 == 0) ? s0 : 2*s0;
 }
 

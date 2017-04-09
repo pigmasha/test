@@ -33,7 +33,7 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
         case 22: [self createHHElem22:hh degree:degree]; return;
     }
 
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
 
     NSMutableArray<WayPair *> *vec = [[NSMutableArray alloc] init];
     CreateHHVecWithNumber(vec, degree, type);
@@ -65,9 +65,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem1:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 0;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h:6*s];
 
@@ -86,8 +86,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem2:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:4 right:0 koef:1];
@@ -95,8 +95,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem3:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:7*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:1 right:0 koef:1];
@@ -105,9 +105,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem4:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 0;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:7*s h:6*s];
 
@@ -123,8 +123,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem5:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:3 right:0 koef:1];
@@ -132,9 +132,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem6:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 1;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:8*s h:6*s];
 
@@ -153,9 +153,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem7:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 1;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:8*s h:6*s];
 
@@ -171,9 +171,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem8:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 2;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:9*s h:6*s];
 
@@ -195,8 +195,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem9:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:9*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:s leftFrom:0 leftTo:4 right:0 koef:1];
@@ -204,8 +204,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem10:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:9*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:3 right:0 koef:1];
@@ -213,9 +213,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem11:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 2;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:8*s h:6*s];
 
@@ -234,8 +234,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem12:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:8*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:4*s+1 right:0 koef:1];
@@ -244,8 +244,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem13:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:9*s h:6*s];
 
@@ -264,9 +264,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem14:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 3;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:9*s h:6*s];
 
@@ -285,8 +285,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem15:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:9*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:4 right:0 koef:1];
@@ -294,8 +294,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem16:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:8*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:2 right:0 koef:1];
@@ -304,8 +304,8 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem17:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:8*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:4*s+2 right:0 koef:1];
@@ -314,9 +314,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem18:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 4;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h: 6*s];
 
@@ -329,9 +329,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem19:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 4;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:7*s h: 6*s];
 
@@ -341,9 +341,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem20:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 4;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:7*s h:6*s];
 
@@ -362,29 +362,29 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
 //----------------------------------------------------------------------------
 + (void)createHHElem21:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
+    NSInteger s = PathAlg.s;
     NSInteger m = 5;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h:6*s];
 
     NSInteger k = 1;
     for (NSInteger j = 0; j < s; j++) {
         [HHElem addElemToHH:hh i:j j:j leftFrom:4*j leftTo:4*j right:4*j koef:minusDeg(j)*k];
-        k *= [PathAlg.alg sigmaDeg:ell i:j+m isGamma:YES];
+        k *= [PathAlg sigmaDeg:ell i:j+m isGamma:YES];
     }
 
     k = 1;
     for (NSInteger j = 5*s; j < 6*s; j++) {
         [HHElem addElemToHH:hh i:j j:j leftFrom:4*j+3 leftTo:4*j+3 right:4*j+3 koef:minusDeg(j+1)*k];
-        k *= [PathAlg.alg sigmaDeg:ell i:j+m isGamma:YES];
+        k *= [PathAlg sigmaDeg:ell i:j+m isGamma:YES];
     }
 }
 
 //----------------------------------------------------------------------------
 + (void)createHHElem22:(HHElem *)hh degree:(NSInteger)degree {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h:6*s];
     [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:4 right:0 koef:1];
@@ -401,9 +401,9 @@ void addToHHVec(NSMutableArray<WayPair *> *vec, NSInteger from, NSInteger to, NS
 }
 
 void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSInteger type) {
-    NSInteger s = PathAlg.alg.s;
-    NSInteger m = (NSInteger)((degree % PathAlg.alg.twistPeriod) / 2);
-    NSInteger ell = degree / PathAlg.alg.twistPeriod;
+    NSInteger s = PathAlg.s;
+    NSInteger m = (NSInteger)((degree % PathAlg.twistPeriod) / 2);
+    NSInteger ell = degree / PathAlg.twistPeriod;
 
     switch (type) {
         case 1:

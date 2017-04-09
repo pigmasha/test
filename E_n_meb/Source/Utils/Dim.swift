@@ -7,11 +7,11 @@ import Foundation
 
 class Dim : NSObject {
     class func deg(_ deg: Int, hasType type: Int) -> Bool {
-        let n = PathAlg.alg.n
-        let s = PathAlg.alg.s
-        let charK = PathAlg.alg.charK
-        let ell = deg / PathAlg.alg.twistPeriod
-        let r = deg % PathAlg.alg.twistPeriod
+        let n = PathAlg.n
+        let s = PathAlg.s
+        let charK = PathAlg.charK
+        let ell = deg / PathAlg.twistPeriod
+        let r = deg % PathAlg.twistPeriod
         let m = r / 2
         let eq20 = ((ell * (n + s) + m) % (2 * s) == 0)
         let eq21 = ((ell * (n + s) + m) % (2 * s) == 1)
@@ -59,10 +59,10 @@ class Dim : NSObject {
     }
 
     class func dimHom(_ deg: Int) -> Int {
-        let n = PathAlg.alg.n
-        let s = PathAlg.alg.s
-        let ell = deg / PathAlg.alg.twistPeriod
-        let d = deg % PathAlg.alg.twistPeriod
+        let n = PathAlg.n
+        let s = PathAlg.s
+        let ell = deg / PathAlg.twistPeriod
+        let d = deg % PathAlg.twistPeriod
         let m = d / 2
         if s == 1 {
             let eq0 = ((ell * (n + 1) + m) % 2 == 0)
@@ -127,11 +127,11 @@ class Dim : NSObject {
         return 0
     }
     class func dimIm(_ deg: Int) -> Int {
-        let n = PathAlg.alg.n
-        let s = PathAlg.alg.s
-        let charK = PathAlg.alg.charK
-        let ell = deg / PathAlg.alg.twistPeriod
-        let d = deg % PathAlg.alg.twistPeriod
+        let n = PathAlg.n
+        let s = PathAlg.s
+        let charK = PathAlg.charK
+        let ell = deg / PathAlg.twistPeriod
+        let d = deg % PathAlg.twistPeriod
         let m = d / 2
         let eq20 = ((ell * (n + s) + m) % (2 * s) == 0)
         let eq2s0 = ((ell * (n + s) + m) % (2 * s) == s)
@@ -176,11 +176,11 @@ class Dim : NSObject {
         return 0
     }
     class func dimHH(_ deg: Int) -> Int {
-        let n = PathAlg.alg.n
-        let s = PathAlg.alg.s
-        let charK = PathAlg.alg.charK
-        let ell = deg / PathAlg.alg.twistPeriod
-        let r = deg % PathAlg.alg.twistPeriod
+        let n = PathAlg.n
+        let s = PathAlg.s
+        let charK = PathAlg.charK
+        let ell = deg / PathAlg.twistPeriod
+        let r = deg % PathAlg.twistPeriod
         let m = r / 2
         if s == 1 {
             switch r {
