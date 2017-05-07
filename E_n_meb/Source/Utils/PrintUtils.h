@@ -21,3 +21,4 @@ void printDiffProgram(const Diff *diff, NSInteger type, NSInteger shift);
 void printDiffProgram2(const Diff *diff, NSInteger deg);
 
 void printMatrix(Matrix *m);
+void printMatrixKoefs(Matrix *m);

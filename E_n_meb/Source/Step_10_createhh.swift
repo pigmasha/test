@@ -9,7 +9,7 @@ struct Step_10_createhh
 {
     static func runCase() -> Bool
     {
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.n, PathAlg.s, PathAlg.charK, 22)
+        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.n, PathAlg.s, PathAlg.charK, 22)
         for type in 1...22 {
             if (process(type: type)) {
                 return true
@@ -24,7 +24,7 @@ struct Step_10_createhh
             if Dim.deg(deg, hasType: type) {
                 let ell = deg / PathAlg.twistPeriod
                 let hh = HHElem(deg: deg, type: type)
-                OutputFile.writeLog(2, "HH (ell=%d)", ell)
+                OutputFile.writeLog(.bold, "HH (ell=%d)", ell)
                 //printMatrix(hh)
                 if (!CheckHH.check(hh, degree: deg)) {
                     return true

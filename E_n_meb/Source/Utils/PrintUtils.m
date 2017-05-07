@@ -754,60 +754,49 @@ void printDiffProgram2(const Diff *diff, NSInteger deg) {
 //---------------------------------------------------------------------------------
 void printMatrix(Matrix *m) {
     NSInteger s = PathAlg.s;
-
-    NSArray* rows = [m rows];
+    NSArray<NSArray<Comb *> *> *rows = m.rows;
 
     FILE_OPEN();
     fprintf(f, "<table>");
-#ifdef WITH_LINE_N
-    fprintf(f, "<tr><td class='c_b_1 c_r_1'></td>");
-    for (NSInteger j = 0; j < [[rows firstObject] count]; j++) {
-        NSInteger cellLeft = 0;
-        if (j > 0 && (j % s) == 0)
-        {
-            cellLeft = 1;
-        }
-        fprintf(f, "<td class='c_b_1 c_l_%d'>%d</td>", cellLeft, j);
-    }
-    fprintf(f, "</tr>");
-#endif
     for (NSInteger i = 0; i < [rows count]; i++)
     {
-        NSInteger cellTop = 0;
-        if (i > 0 && (i % s) == 0) {
-            cellTop = 1;
-        }
-
+        NSInteger cellTop = (i > 0 && (i % s) == 0) ? 1 : 0;
         fprintf(f, "<tr>");
-#ifdef WITH_LINE_N
-        fprintf(f, "<td class='c_r_1 c_t_%d'>%d</td>", cellTop, i);
-#endif
-        NSArray* line = [rows objectAtIndex:i];
-        for (NSInteger j = 0; j < [line count]; j++) {
-            NSInteger cellLeft = 0;
-            if (j > 0 && (j % s) == 0) {
-                cellLeft = 1;
-            }
+        NSArray<Comb *> *line = rows[i];
+        for (NSInteger j = 0; j < line.count; j++) {
+            NSInteger cellLeft = (j > 0 && (j % s) == 0) ? 1 : 0;
             fprintf(f, "<td class='c_t_%zd c_l_%zd'", cellTop, cellLeft);
-            Comb *c = [line objectAtIndex:j];
-#ifdef KOEFS_ONLY
-            BOOL ok = NO;
-            if ([[c content] count] > 1) {
-                fprintf(f, ">ERROR! (sz = %d)</td>", (NSInteger)[[c content] count]);
-                ok = YES;
-            }
-            if (!ok && ![c isZero]) {
-                fprintf(f, " width=20>%s</td>", ([[[[c content] firstObject] firstObject] intValue] > 0) ? "+" : "&minus;");
-                ok = YES;
-            }
-            if (!ok && [c isPotential]) {
-                fprintf(f, " width=20>&bull;</td>");
+            fprintf(f, ">%s</td>", line[j].htmlStr.UTF8String);
+        }
+        fprintf(f, "</tr>\n");
+    }
+    fprintf(f, "</table><p>");
+    FILE_CLOSE();
+}
+
+//---------------------------------------------------------------------------------
+void printMatrixKoefs(Matrix *m) {
+    NSInteger s = PathAlg.s;
+    NSArray<NSArray<Comb *> *> *rows = m.rows;
+
+    FILE_OPEN();
+    fprintf(f, "<table>");
+    for (NSInteger i = 0; i < rows.count; i++)
+    {
+        NSInteger cellTop = (i > 0 && (i % s) == 0) ? 1 : 0;
+        fprintf(f, "<tr>");
+        NSArray<Comb *> *line = rows[i];
+        for (NSInteger j = 0; j < line.count; j++) {
+            NSInteger cellLeft = (j > 0 && (j % s) == 0) ? 1 : 0;
+            fprintf(f, "<td class='c_t_%zd c_l_%zd'", cellTop, cellLeft);
+            Comb *c = line[j];
+            if (c.content.count > 1) {
+                fprintf(f, ">ERROR! (sz = %zd)</td>", c.content.count);
+            } else if (c.isZero) {
+                fprintf(f, " width=20>&nbsp;</td>");
             } else {
-                if (!ok) fprintf(f, " width=20>&nbsp;</td>");
+                fprintf(f, " width=20>%s</td>", c.firstKoef > 0 ? "+" : "&minus;");
             }
-#else
-            fprintf(f, ">%s</td>", c.htmlStr.UTF8String);
-#endif
         }
         fprintf(f, "</tr>\n");
     }

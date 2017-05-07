@@ -8,7 +8,7 @@ struct Step_12_shift_enum {
     static func runCase() -> Bool {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
         let type = kCurrentType
         if (process(type: type)) { return true }
@@ -29,7 +29,7 @@ struct Step_12_shift_enum {
         let ell = deg / PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
-        OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
+        OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
         printMatrix(hh)
 
         var shift = 1
@@ -39,24 +39,26 @@ struct Step_12_shift_enum {
             if (FileManager.default.fileExists(atPath: path)) {
                 allVariants = ShiftAllVariants(withContentsOf: path)
                 guard allVariants != nil else {
-                    OutputFile.writeLog(2, "ShiftAllVariants from file failed! Shift=\(shift)")
+                    OutputFile.writeLog(.bold, "ShiftAllVariants from file failed! Shift=\(shift)")
                     return true
                 }
             } else {
                 allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 guard allVariants != nil else {
-                    OutputFile.writeLog(5, "ShiftAll failed! Shift=\(shift)")
+                    OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
                     shift = stepBack(shift: shift)
                     guard shift > 0 else { return true }
                     continue
                 }
-                guard saveVariants(allVariants!, path: path) == false else { return true }
+                if shift != PathAlg.twistPeriod {
+                    guard saveVariants(allVariants!, path: path) == false else { return true }
+                }
             }
             if shift == PathAlg.twistPeriod {
-                hh = ShiftHHAlgAll.lastHH(from: allVariants)
-                OutputFile.writeLog(5, "shift \(shift)")
-                printMatrix(hh)
-                break
+                processLastShift(variants: allVariants!)
+                shift = stepBack(shift: shift)
+                guard shift > 0 else { break }
+                continue
             } else {
                 hh = ShiftHHAlgAll.hh(from: allVariants)
             }
@@ -65,23 +67,42 @@ struct Step_12_shift_enum {
         return false
     }
 
+    private static func processLastShift(variants: ShiftAllVariants) {
+        let shift = PathAlg.twistPeriod
+        var seqStr = ""
+        for sh in 1 ..< shift {
+            let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh))!
+            seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
+        }
+        let hh = ShiftHHAlgAll.lastHH(from: variants)
+        OutputFile.writeLog(.bold, "RESULT")
+        OutputFile.writeLog(.normal, seqStr)
+        printMatrix(hh)
+        let path = OutputFile.fileName!
+        try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
+        OutputFile.writeLog(.bold, "RESULT")
+        OutputFile.writeLog(.normal, seqStr)
+        printMatrixKoefs(hh)
+        try? OutputFile.setFileName(fileName: path)
+    }
+
     private static func stepBack(shift: Int) -> Int {
         guard shift > 1 else {
-            OutputFile.writeLog(2, "stepBack failed! can't back to first shift")
+            OutputFile.writeLog(.bold, "stepBack failed! can't back to first shift")
             return -1
         }
         var prevShift = shift - 1
         while prevShift > 0 {
             let path = pathWithShift(prevShift)
             guard let allVariants = ShiftAllVariants(withContentsOf: path) else {
-                OutputFile.writeLog(2, "stepBack failed! Read from file error")
+                OutputFile.writeLog(.bold, "stepBack failed! Read from file error")
                 return -1
             }
             if let nextElement = allVariants.nextElement {
                 guard saveVariants(nextElement, path: path) == false else { return -1 }
                 var str = ""
                 for _ in 0 ... shift { str += "&nbsp;&nbsp;" }
-                OutputFile.writeLog(2, str + nextElement.seqNumber.map{ String($0) }.joined(separator: ","))
+                OutputFile.writeLog(.bold, str + seqStringFrom(nextElement))
                 return prevShift
             } else {
                 try? FileManager.default.removeItem(atPath: path)
@@ -91,17 +112,21 @@ struct Step_12_shift_enum {
         return prevShift
     }
 
+    private static func seqStringFrom(_ variants: ShiftAllVariants) -> String {
+        return variants.seqNumber.map{ String($0) }.joined(separator: ",")
+    }
+
     private static func saveVariants(_ variants: ShiftAllVariants, path: String) -> Bool {
         guard variants.writeToFile(path) else {
-            OutputFile.writeLog(2, "saveVariants write failed! Path=\(path)")
+            OutputFile.writeLog(.bold, "saveVariants write failed! Path=\(path)")
             return true
         }
         guard let saved = ShiftAllVariants(withContentsOf: path) else {
-            OutputFile.writeLog(2, "saveVariants save failed! Path=\(path)")
+            OutputFile.writeLog(.bold, "saveVariants save failed! Path=\(path)")
             return true
         }
         guard saved.isEq(to: variants) else {
-            OutputFile.writeLog(2, "saveVariants isEq failed! Path=\(path)")
+            OutputFile.writeLog(.bold, "saveVariants isEq failed! Path=\(path)")
             return true
         }
         return false

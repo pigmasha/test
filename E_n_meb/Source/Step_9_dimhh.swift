@@ -9,7 +9,7 @@ struct Step_9_dimhh
 {
     static func runCase() -> Bool
     {
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
         for deg in 1...30 * PathAlg.twistPeriod + 2 {
             let r = deg % PathAlg.twistPeriod
             let ell = Int(deg / PathAlg.twistPeriod)
@@ -20,7 +20,7 @@ struct Step_9_dimhh
             let dimHH1 = Dim.dimHH(deg)
 
             if dimHH1 != dimHom1 - dimIm1 - dimIm2 || dimHH1 != dimHH2(deg) {
-                OutputFile.writeLog(1, "HH %d and %d (deg=%d, r=%d, ell=%d, char=%d)",
+                OutputFile.writeLog(.error, "HH %d and %d (deg=%d, r=%d, ell=%d, char=%d)",
                                     dimHH1, dimHom1 - dimIm1 - dimIm2, deg, r, ell, PathAlg.charK)
             }
         }

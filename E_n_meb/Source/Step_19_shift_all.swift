@@ -10,7 +10,7 @@ struct Step_19_shift_all_save
     {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.n, PathAlg.s, PathAlg.charK, 22)
+        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.n, PathAlg.s, PathAlg.charK, 22)
 
         let type = kCurrentType
         if (process(type: type)) {
@@ -39,7 +39,7 @@ struct Step_19_shift_all_save
         let ell = deg / PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
-        OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
+        OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
 
         let shiftMax = 13*PathAlg.twistPeriod + 1
         for shift in 0...shiftMax {
@@ -53,19 +53,19 @@ struct Step_19_shift_all_save
                 let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 hh_shift = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift)
                 if (hh_shift != nil) {
-                    OutputFile.writeLog(5, "HH Shift %d", shift);
+                    OutputFile.writeLog(.time, "HH Shift %d", shift);
                     printMatrix(hh_shift);
                 } else {
-                    OutputFile.writeLog(2, "HH ShiftAll error %d", shift);
+                    OutputFile.writeLog(.bold, "HH ShiftAll error %d", shift);
                     printMatrix(hh_shift);
 
                     let nDifferences = ShiftHHAlg.shiftHHElem(hh, type: type, degree: deg, shift: shift, result: hh_shift)
 
-                    OutputFile.writeLog(2, "HH Shift %d", shift);
+                    OutputFile.writeLog(.bold, "HH Shift %d", shift);
                     printMatrix(hh_shift);
 
                     if (nDifferences != 0) {
-                        OutputFile.writeLog(1, "Differences count = %d", nDifferences);
+                        OutputFile.writeLog(.error, "Differences count = %d", nDifferences);
                         return true
                     }
                     return true
@@ -74,17 +74,17 @@ struct Step_19_shift_all_save
                 let sh = ShiftHHElem.shiftForType(type)
                 hh_shift = HHElem()
                 sh?.shift(hh_shift!, degree: deg, shift: shift)
-                //OutputFile.writeLog(2, "Shift %zd", shift);
+                //OutputFile.writeLog(.bold, "Shift %zd", shift);
                 //printMatrix(hh_shift);
             }
             if !ShiftHHAlg.checkHHMatrix(hh, hhShift: hh_shift, degree: deg, shift: shift) {
-                OutputFile.writeLog(1, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.twistPeriod);
+                OutputFile.writeLog(.error, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.twistPeriod);
 
                 if (type <= kTypeWithProof) {
-                    OutputFile.writeLog(2, "Wrong HH Shift");
+                    OutputFile.writeLog(.bold, "Wrong HH Shift");
                     printMatrix(hh_shift);
 
-                    OutputFile.writeLog(2, "Right HH Shift");
+                    OutputFile.writeLog(.bold, "Right HH Shift");
                     let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                     hh_shift = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift)
 

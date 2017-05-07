@@ -10,7 +10,7 @@ struct Step_11_shift_all_save
     {
         let kCurrentType = 4
 
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
         let type = kCurrentType
         if (process(type: type)) {
@@ -36,36 +36,36 @@ struct Step_11_shift_all_save
         let ell = deg / PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
-        OutputFile.writeLog(5, "HH (ell=%d, type=%d)", ell, type)
+        OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
         printMatrix(hh)
 
         for shift in 0...PathAlg.twistPeriod + 1 {
             if (shift == 0) { continue }
             guard let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift) else {
-                OutputFile.writeLog(2, "HH ShiftAll failed! Shift=%zd", shift)
+                OutputFile.writeLog(.bold, "HH ShiftAll failed! Shift=%zd", shift)
                 return true
             }
             let path = OutputFile.fileName! + "_allVariants.txt"
             guard allVariants.writeToFile(path) else {
-                OutputFile.writeLog(2, "allVariants writeToFile failed, path=\(path)", shift)
+                OutputFile.writeLog(.bold, "allVariants writeToFile failed, path=\(path)", shift)
                 return true
             }
             guard let savedVariants = ShiftAllVariants(withContentsOf: path) else {
-                OutputFile.writeLog(2, "Failed to read allVariants, path=\(path)", shift)
+                OutputFile.writeLog(.bold, "Failed to read allVariants, path=\(path)", shift)
                 return true
             }
             guard allVariants.isEq(to: savedVariants) else {
-                OutputFile.writeLog(2, "Variants not equal")
+                OutputFile.writeLog(.bold, "Variants not equal")
                 return true
             }
             guard let hhShift = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift) else {
-                OutputFile.writeLog(2, "HH ShiftAll error %d", shift)
+                OutputFile.writeLog(.bold, "HH ShiftAll error %d", shift)
                 return true
             }
             guard ShiftHHAlg.checkHHMatrix(hh, hhShift: hhShift, degree: deg, shift: shift) else {
-                OutputFile.writeLog(1, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.twistPeriod)
+                OutputFile.writeLog(.error, "Shift %zd (%zd) checkHHMatrix failed!", shift, shift % PathAlg.twistPeriod)
                 let nDifferences = ShiftHHAlg.shiftHHElem(hh, type: type, degree: deg, shift: shift, result: hhShift)
-                OutputFile.writeLog(1, "Differences count = %d", nDifferences)
+                OutputFile.writeLog(.error, "Differences count = %d", nDifferences)
                 return true
             }
             hh = HHElem(matrix: hhShift)

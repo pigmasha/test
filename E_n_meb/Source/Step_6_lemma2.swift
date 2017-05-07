@@ -10,7 +10,7 @@ struct Step_6_lemma2
     static func runCase() -> Bool
     {
         let s = PathAlg.s
-        OutputFile.writeLog(2, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
         for _ in 0...2 * PathAlg.twistPeriod {
             let matrix = KoefIntMatrix(size: s)!
             createMatrix2(matrix)
@@ -19,7 +19,7 @@ struct Step_6_lemma2
             let rk1 = matrix.rank()
 
             if rk2 != 0 && rk1 != rk2 {
-                OutputFile.writeLog(1, "%d (must be %d)! N=%d, S=%d, char=%d, matrix:",
+                OutputFile.writeLog(.error, "%d (must be %d)! N=%d, S=%d, char=%d, matrix:",
                                     rk1, rk2, PathAlg.n, s, PathAlg.charK)
                 printKoefIntMatrix(matrix, 0, 0)
                 return true

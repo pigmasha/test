@@ -39,37 +39,37 @@ class ShiftAllVariants : NSObject {
     func isEq(to object: ShiftAllVariants) -> Bool {
         let otherVariants = object.variants
         guard seqNumber == object.seqNumber else {
-            OutputFile.writeLog(0, "different seqNumbers \(seqNumber) != \(object.seqNumber)")
+            OutputFile.writeLog(.normal, "different seqNumbers \(seqNumber) != \(object.seqNumber)")
             return false
         }
         guard variants.count == otherVariants.count else {
-            OutputFile.writeLog(0, "different counts \(variants.count) != \(otherVariants.count)")
+            OutputFile.writeLog(.normal, "different counts \(variants.count) != \(otherVariants.count)")
             return false
         }
         for i in 0 ..< variants.count {
             guard variants[i].count == otherVariants[i].count else {
-                OutputFile.writeLog(0, "different variants counts \(variants[i].count) != \(otherVariants[i].count)")
+                OutputFile.writeLog(.normal, "different variants counts \(variants[i].count) != \(otherVariants[i].count)")
                 return false
             }
             for j in 0 ..< variants[i].count {
                 guard (variants[i][j].key == nil && otherVariants[i][j].key == nil) ||
                     (variants[i][j].key != nil && otherVariants[i][j].key != nil &&
                         variants[i][j].key?.intValue == otherVariants[i][j].key?.intValue) else {
-                    OutputFile.writeLog(0, "different keys \(variants[i][j].key) != \(otherVariants[i][j].key)")
+                    OutputFile.writeLog(.normal, "different keys \(variants[i][j].key) != \(otherVariants[i][j].key)")
                     return false
                 }
                 let hh = variants[i][j].hh
                 let otherHH = otherVariants[i][j].hh
                 guard hh.deg == otherHH.deg else {
-                    OutputFile.writeLog(0, "hh.degs \(hh.deg) != \(otherHH.deg)")
+                    OutputFile.writeLog(.normal, "hh.degs \(hh.deg) != \(otherHH.deg)")
                     return false
                 }
                 guard hh.type == otherHH.type else {
-                    OutputFile.writeLog(0, "hh.types \(hh.type) != \(otherHH.type)")
+                    OutputFile.writeLog(.normal, "hh.types \(hh.type) != \(otherHH.type)")
                     return false
                 }
                 guard hh.isEq(otherHH, debug: true) else {
-                    OutputFile.writeLog(0, "matrixes not eq")
+                    OutputFile.writeLog(.normal, "matrixes not eq")
                     return false
                 }
             }
@@ -105,17 +105,17 @@ class ShiftAllVariants : NSObject {
 
     private static func seqNumber(withContentsOf path: String) -> [Int]? {
         guard let str = try? String(contentsOfFile: path, encoding: .utf8) else {
-            OutputFile.writeLog(0, "failed to read file")
+            OutputFile.writeLog(.normal, "failed to read file")
             return nil
         }
         guard let numbers = str.components(separatedBy: "\n").first else {
-            OutputFile.writeLog(0, "no numbers")
+            OutputFile.writeLog(.normal, "no numbers")
             return nil
         }
         var result: [Int] = []
         for number in numbers.components(separatedBy: ": ").last!.components(separatedBy: ",") {
             guard let n = Int(number) else {
-                OutputFile.writeLog(0, "bad number \(number)")
+                OutputFile.writeLog(.normal, "bad number \(number)")
                 return nil
             }
             result += [ n ]
@@ -125,7 +125,7 @@ class ShiftAllVariants : NSObject {
 
     private static func variants(withContentsOf path: String) -> [[ShiftVariant]]? {
         guard let str = try? String(contentsOfFile: path, encoding: .utf8) else {
-            OutputFile.writeLog(0, "failed to read file")
+            OutputFile.writeLog(.normal, "failed to read file")
             return nil
         }
         let parts = str.components(separatedBy: "Column: ")
@@ -143,7 +143,7 @@ class ShiftAllVariants : NSObject {
                 items += [item]
             }
             guard count == items.count else {
-                OutputFile.writeLog(0, "fail to compare counts \(count) != \(hhs.count)")
+                OutputFile.writeLog(.normal, "fail to compare counts \(count) != \(hhs.count)")
                 return nil
             }
             variants += [items]
@@ -153,14 +153,14 @@ class ShiftAllVariants : NSObject {
 
     private static func parseCount(_ str: String) -> Int? {
         guard let range = str.range(of: "count=\\d+\n", options: .regularExpression, range: nil, locale: nil) else {
-            OutputFile.writeLog(0, "no count= in str \(str)")
+            OutputFile.writeLog(.normal, "no count= in str \(str)")
             return nil
         }
         var countStr = str.substring(with: range)
         countStr = countStr.substring(from: countStr.index(countStr.startIndex, offsetBy: 6))
         countStr = countStr.substring(to: countStr.index(countStr.endIndex, offsetBy: -1))
         guard let count = Int(countStr) else {
-            OutputFile.writeLog(0, "failed to parse count in \(str)")
+            OutputFile.writeLog(.normal, "failed to parse count in \(str)")
             return nil
         }
         return count
@@ -168,7 +168,7 @@ class ShiftAllVariants : NSObject {
 
     private static func parseShiftVariant(_ str: String) -> ShiftVariant? {
         guard let range = str.range(of: "Key: \\d*, hh.deg: \\d+, hh.type: \\d+\n", options: .regularExpression, range: nil, locale: nil) else {
-            OutputFile.writeLog(0, "no key= in str \(str)")
+            OutputFile.writeLog(.normal, "no key= in str \(str)")
             return nil
         }
         let countsStr = str.substring(with: range)
@@ -176,16 +176,16 @@ class ShiftAllVariants : NSObject {
         guard counts.count == 9 && counts[0] == "Key:" && counts[2] == ""
             && counts[3] == "hh.deg:" && counts[5] == ""
             && counts[6] == "hh.type:" && counts[8] == "" else {
-            OutputFile.writeLog(0, "bad countsStr=\(countsStr)")
+            OutputFile.writeLog(.normal, "bad countsStr=\(countsStr)")
             return nil
         }
         let key = counts[1] == "" ? nil : NumInt(intValue: Int(counts[1])!)
         guard let deg = Int(counts[4]) else {
-            OutputFile.writeLog(0, "parse hh.deg failed, countsStr=\(countsStr)")
+            OutputFile.writeLog(.normal, "parse hh.deg failed, countsStr=\(countsStr)")
             return nil
         }
         guard let type = Int(counts[7]) else {
-            OutputFile.writeLog(0, "parse hh.type failed, countsStr=\(countsStr)")
+            OutputFile.writeLog(.normal, "parse hh.type failed, countsStr=\(countsStr)")
             return nil
         }
         guard let hh = parseHH(str, hh: HHElem(degree: deg, type: type)) else { return nil }
@@ -201,14 +201,14 @@ class ShiftAllVariants : NSObject {
             height += 1
             let pp = part.components(separatedBy: " | ")
             guard pp.count > 1 else {
-                OutputFile.writeLog(0, "bad pp.count, part=\(part)")
+                OutputFile.writeLog(.normal, "bad pp.count, part=\(part)")
                 return nil
             }
             if width == 0 {
                 width = pp.count - 1
             } else {
                 guard width == pp.count - 1 else {
-                    OutputFile.writeLog(0, "bad width \(width) != \(pp.count - 1)")
+                    OutputFile.writeLog(.normal, "bad width \(width) != \(pp.count - 1)")
                     return nil
                 }
             }
@@ -236,7 +236,7 @@ class ShiftAllVariants : NSObject {
         guard str != "0" else { return Comb() }
         let pair = str.trimmingCharacters(in: CharacterSet(charactersIn: "-")).components(separatedBy: "*")
         guard pair.count == 2 else {
-            OutputFile.writeLog(0, "parse comb failed: count != 2, comb=\(str)")
+            OutputFile.writeLog(.normal, "parse comb failed: count != 2, comb=\(str)")
             return nil
         }
         guard let left = parseWay(pair[0]), let right = parseWay(pair[1]) else { return nil }
@@ -249,15 +249,15 @@ class ShiftAllVariants : NSObject {
         }
         let koefs = str.components(separatedBy: CharacterSet(charactersIn: "ag"))
         guard koefs.count > 1 && koefs.first == "" else {
-            OutputFile.writeLog(0, "parseWay failed: bad koefs, way=\(str)")
+            OutputFile.writeLog(.normal, "parseWay failed: bad koefs, way=\(str)")
             return nil
         }
         guard let koef1 = Int(koefs[1]) else {
-            OutputFile.writeLog(0, "parseWay failed: bad 1st koef, way=\(str)")
+            OutputFile.writeLog(.normal, "parseWay failed: bad 1st koef, way=\(str)")
             return nil
         }
         guard let koef2 = Int(koefs.last!) else {
-            OutputFile.writeLog(0, "parseWay failed: bad last koef, way=\(str)")
+            OutputFile.writeLog(.normal, "parseWay failed: bad last koef, way=\(str)")
             return nil
         }
         let letters = str.components(separatedBy: CharacterSet.decimalDigits)
@@ -268,7 +268,7 @@ class ShiftAllVariants : NSObject {
             case "g": lastG = true
                 case "": break
             default:
-                OutputFile.writeLog(0, "parseWay failed: bad letter \(letter), way=\(str)")
+                OutputFile.writeLog(.normal, "parseWay failed: bad letter \(letter), way=\(str)")
                 return nil
             }
         }
@@ -276,7 +276,7 @@ class ShiftAllVariants : NSObject {
         let to = lastG ? 4 * koef2 + 4 : 4 * Int(koef2 / 3) + (koef2 % 3) + 1
         let way = Way(from: from, to: to, noZeroLen: true)
         guard way.str == str else {
-            OutputFile.writeLog(0, "parseWay failed, source=\(str), result=\(way.str)")
+            OutputFile.writeLog(.normal, "parseWay failed, source=\(str), result=\(way.str)")
             return nil
         }
         return way
