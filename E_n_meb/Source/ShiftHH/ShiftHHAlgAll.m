@@ -52,13 +52,6 @@
     return [[ShiftAllVariants alloc] initWithSeqNumber:seqNumber variants:allVariants];
 }
 
-+ (NSString *)pathForAllVariantsWithType:(NSInteger)type
-                                  degree:(NSInteger)degree
-                                   shift:(NSInteger)shift
-{
-    return [OutputFile.fileName stringByAppendingFormat:@"type%zd_deg%zd_sh%zd.txt", type, degree, shift];
-}
-
 + (HHElem *)selectFromAllVariants:(ShiftAllVariants *)allVariants type:(NSInteger)type shift:(NSInteger)shift
 {
     NSInteger s = PathAlg.s;
@@ -70,33 +63,18 @@
     for (NSArray<ShiftVariant *> *variants in allVariants.variants) {
         if (type == 3 && shift % 11 == 10 && (col >= 5 * s || col < s)) {
             [hh addMatrixX:variants.lastObject.hh x:col];
-        }
-        else if (type == 3 && shift % 11 == 8) {
+        } else if (type == 3 && shift % 11 == 8) {
             ShiftVariant *minVar = variants[0];
             for (ShiftVariant *v in variants) {
                 if (v.nonZeroCnt < minVar.nonZeroCnt) minVar = v;
             }
             [hh addMatrixX:minVar.hh x:col];
-        }
-        else if (type == 4 && shift % 11 == 6) {
+        } else if (type == 4 && shift % 11 == 7 && col >= 2*s) {
             [hh addMatrixX:variants.lastObject.hh x:col];
-        }
-        else {
-            ShiftVariant *minVar = variants[0];
-            for (ShiftVariant *v in variants) {
-                if (!v.hh.isZero) {
-                    for (NSInteger i = 0; i < height; i++) {
-                        for (NSInteger j = 0; j < s; j++) {
-                            if (!v.hh.rows[i][j].isZero) {
-                                hh.rows[i][col+j].isPotential = YES;
-                            }
-                        }
-                    }
-                }
-                //if (v.nonZeroCnt < minVar.nonZeroCnt)
-                //    minVar = v;
-            }
-            [hh addMatrixX:minVar.hh x:col];
+        } else if (type == 4 && (shift % 11 == 8 || shift % 11 == 9 || shift % 11 == 10)) {
+            [hh addMatrixX:variants.lastObject.hh x:col];
+        } else {
+            [hh addMatrixX:variants[0].hh x:col];
         }
         col += s;
     }

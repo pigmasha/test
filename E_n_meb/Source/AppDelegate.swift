@@ -21,8 +21,6 @@ class Application: NSApplication {
 @NSApplicationMain
 class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private let kNN = 6
-    private let kSFrom = 2
-    private let kCharFrom = 0
 
     private let kButtonW: CGFloat = 100
     private let kButtonH: CGFloat = 24
@@ -31,8 +29,10 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var window: NSWindow? = nil
     private var path: NSTextField? = nil
     private var info: NSTextView? = nil
-    private var s: NSTextField? = nil
-    private var charK: NSTextField? = nil
+    private var sFrom: NSTextField? = nil
+    private var sTo: NSTextField? = nil
+    private var charKFrom: NSTextField? = nil
+    private var charKTo: NSTextField? = nil
 
     private var btRun: NSButton? = nil
     private var btFile: NSButton? = nil
@@ -55,7 +55,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         let v = window.contentView!
         let w = v.bounds.width
-        var y = v.bounds.height - 20.0 - kButtonH
+        var y = v.bounds.height - 20 - kButtonH
 
         addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: 10, y: y - 3, w: 70, text: "Html file:")
         path = addField(to: v, autoSz: [ .viewWidthSizable, .viewMinYMargin], x: 90, y: y, w: w - 2 * kButtonW - 10)
@@ -65,11 +65,16 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         // s, n, char
         y -= 44
         addLabel(to: v, align: .left, autoSz: .viewMinYMargin, x: 20, y: y - 3, w: 50, text: "N = \(kNN)")
-        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: 70, y: y - 3, w: 50, text: "s =")
-        s = addField(to: v, autoSz: .viewMinYMargin, x: 125, y: y, w: 50)
+        var x: CGFloat = 70
+        sFrom = addField(to: v, autoSz: .viewMinYMargin, x: x + 22, y: y, w: 40)
+        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 55, y: y - 3, w: 50, text: "≤ S ≤")
+        sTo = addField(to: v, autoSz: .viewMinYMargin, x: x + 110, y: y, w: 40)
 
-        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: 200, y: y - 3, w: 50, text: "char =")
-        charK = addField(to: v, autoSz: .viewMinYMargin, x: 255, y: y, w: 50)
+        x += 180
+        charKFrom = addField(to: v, autoSz: .viewMinYMargin, x: x + 16, y: y, w: 40)
+        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 55, y: y - 3, w: 65, text: "≤ char ≤")
+        charKTo = addField(to: v, autoSz: .viewMinYMargin, x: x + 126, y: y, w: 40)
+
         loadDefaults()
 
         // run
@@ -114,7 +119,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         info?.string = ""
         addInfoStr("Check params")
 
-        let s = self.s?.integerValue ?? 0
+        let s = sTo?.integerValue ?? 0
         guard s > 0 else {
             addInfoStr("ERROR! s < 1")
             return
@@ -127,7 +132,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         PathAlg.n = n;
         sMax = s
-        charMax = self.charK?.integerValue ?? 0
+        charMax = charKTo?.integerValue ?? 0
 
         do {
             try OutputFile.setFileName(fileName: path)
@@ -142,9 +147,9 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         btFile?.isEnabled = false
         isErr = false
 
-        PathAlg.s = kSFrom
-        PathAlg.charK = kCharFrom
-        addInfoStr("s=\(kSFrom)")
+        PathAlg.s = sFrom?.integerValue ?? 0
+        PathAlg.charK = charKFrom?.integerValue ?? 0
+        addInfoStr("s=\(PathAlg.s)")
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
     func threadCase() {
@@ -164,7 +169,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         while (!isPrimary(charK)) { charK += 1 }
 
         if (charK > charMax) {
-            charK = kCharFrom
+            charK = charKFrom?.integerValue ?? 0
             s += 1
         }
         if (s > sMax) {
@@ -244,13 +249,17 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     // MARK: Defaults
     private func loadDefaults() {
         path?.stringValue = UserDefaults.standard.object(forKey: "P") as? String ?? ""
-        s?.integerValue = UserDefaults.standard.integer(forKey: "s")
-        charK?.integerValue = UserDefaults.standard.integer(forKey: "c")
+        sFrom?.integerValue = UserDefaults.standard.integer(forKey: "Smin")
+        sTo?.integerValue = UserDefaults.standard.integer(forKey: "Smax")
+        charKFrom?.integerValue = UserDefaults.standard.integer(forKey: "Cmin")
+        charKTo?.integerValue = UserDefaults.standard.integer(forKey: "Cmax")
     }
     private func saveDefaults() {
         UserDefaults.standard.set(path?.stringValue, forKey: "P")
-        UserDefaults.standard.set(s?.integerValue, forKey: "s")
-        UserDefaults.standard.set(charK?.integerValue, forKey: "c")
+        UserDefaults.standard.set(sFrom?.integerValue, forKey: "Smin")
+        UserDefaults.standard.set(sTo?.integerValue, forKey: "Smax")
+        UserDefaults.standard.set(charKFrom?.integerValue, forKey: "Cmin")
+        UserDefaults.standard.set(charKTo?.integerValue, forKey: "Cmax")
     }
 
     // MARK: NSApplicationDelegate

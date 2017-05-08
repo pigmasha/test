@@ -5,7 +5,7 @@
 import Foundation
 
 class RunCase : NSObject {
-    static let kStep = 12
+    static let kStep = 13
     class func runCase() -> Bool {
         switch kStep {
         case 6:
@@ -22,6 +22,8 @@ class RunCase : NSObject {
             return Step_11_shift_all_save.runCase()
         case 12:
             return Step_12_shift_enum.runCase()
+        case 13:
+            return Step_13_select_shift.runCase()
         default:
             return false
         }
