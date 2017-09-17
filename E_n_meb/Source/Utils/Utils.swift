@@ -1,10 +1,8 @@
 
 import Foundation
 
-class Utils : NSObject
-{
-    static func gcd(_ ii: Int, j jj: Int) -> Int
-    {
+class Utils : NSObject {
+    static func gcd(_ ii: Int, j jj: Int) -> Int {
         let i = ii < 0 ? -ii : ii
         let j = jj < 0 ? -jj : jj
         var k = i > j ? i : j

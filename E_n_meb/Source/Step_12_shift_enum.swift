@@ -27,12 +27,18 @@ struct Step_12_shift_enum {
 
     private static func process(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
+        let shiftFrom = PathAlg.alg.dummy1// PathAlg.twistPeriod
 
         var hh = HHElem(deg: deg, type: type)
+        PrintUtils.printMatrixKoefs(hh)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
-        printMatrix(hh)
+        if shiftFrom > 0 {
+            hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
+            OutputFile.writeLog(.bold, "Shift \(shiftFrom)")
+            PrintUtils.printMatrix(hh)
+        }
 
-        var shift = 1
+        var shift = 1 + shiftFrom
         while true {
             let path = pathWithShift(shift)
             var allVariants: ShiftAllVariants? = nil
@@ -54,35 +60,40 @@ struct Step_12_shift_enum {
                     guard saveVariants(allVariants!, path: path) == false else { return true }
                 }
             }
-            if shift == PathAlg.twistPeriod {
-                processLastShift(variants: allVariants!)
+            if shift % PathAlg.twistPeriod == 0 {
+                processLastShift(variants: allVariants!, shift: shift)
+                //break
                 shift = stepBack(shift: shift)
-                guard shift > 0 else { break }
+                guard shift > shiftFrom else { break }
+                try? FileManager.default.removeItem(atPath: path)
                 continue
             } else {
                 hh = ShiftHHAlgAll.hh(from: allVariants)
             }
+            OutputFile.writeLog(.time, "Shift=\(shift)")
+            PrintUtils.printMatrixKoefs(hh)
             shift += 1
         }
         return false
     }
 
-    private static func processLastShift(variants: ShiftAllVariants) {
-        let shift = PathAlg.twistPeriod
+    private static func processLastShift(variants: ShiftAllVariants, shift: Int) {
         var seqStr = ""
         for sh in 1 ..< shift {
-            let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh))!
-            seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
+            if let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh)) {
+                seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
+            }
         }
         let hh = ShiftHHAlgAll.lastHH(from: variants)
         OutputFile.writeLog(.bold, "RESULT")
         OutputFile.writeLog(.normal, seqStr)
-        printMatrix(hh)
+        PrintUtils.printMatrix(hh!)
         let path = OutputFile.fileName!
         try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
         OutputFile.writeLog(.bold, "RESULT")
         OutputFile.writeLog(.normal, seqStr)
-        printMatrixKoefs(hh)
+        PrintUtils.printMatrixKoefs(hh!, colsMax: 2*PathAlg.s, rowsMax: PathAlg.s)
+        //PrintUtils.printMatrix(hh!)
         try? OutputFile.setFileName(fileName: path)
     }
 

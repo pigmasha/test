@@ -33,6 +33,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var sTo: NSTextField? = nil
     private var charKFrom: NSTextField? = nil
     private var charKTo: NSTextField? = nil
+    private var dummy1: NSTextField? = nil
 
     private var btRun: NSButton? = nil
     private var btFile: NSButton? = nil
@@ -74,6 +75,10 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         charKFrom = addField(to: v, autoSz: .viewMinYMargin, x: x + 16, y: y, w: 40)
         addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 55, y: y - 3, w: 65, text: "≤ char ≤")
         charKTo = addField(to: v, autoSz: .viewMinYMargin, x: x + 126, y: y, w: 40)
+
+        x += 160
+        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 35, y: y - 3, w: 85, text: "Step From")
+        dummy1 = addField(to: v, autoSz: .viewMinYMargin, x: x + 126, y: y, w: 40)
 
         loadDefaults()
 
@@ -133,6 +138,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         PathAlg.n = n;
         sMax = s
         charMax = charKTo?.integerValue ?? 0
+        PathAlg.alg.dummy1 = dummy1?.integerValue ?? 0
 
         do {
             try OutputFile.setFileName(fileName: path)
@@ -253,6 +259,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         sTo?.integerValue = UserDefaults.standard.integer(forKey: "Smax")
         charKFrom?.integerValue = UserDefaults.standard.integer(forKey: "Cmin")
         charKTo?.integerValue = UserDefaults.standard.integer(forKey: "Cmax")
+        dummy1?.integerValue = UserDefaults.standard.integer(forKey: "Dummy1")
     }
     private func saveDefaults() {
         UserDefaults.standard.set(path?.stringValue, forKey: "P")
@@ -260,6 +267,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         UserDefaults.standard.set(sTo?.integerValue, forKey: "Smax")
         UserDefaults.standard.set(charKFrom?.integerValue, forKey: "Cmin")
         UserDefaults.standard.set(charKTo?.integerValue, forKey: "Cmax")
+        UserDefaults.standard.set(dummy1?.integerValue, forKey: "Dummy1")
     }
 
     // MARK: NSApplicationDelegate

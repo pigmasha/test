@@ -8,6 +8,8 @@ class RunCase : NSObject {
     static let kStep = 13
     class func runCase() -> Bool {
         switch kStep {
+        case 1:
+            return Step_1_calc_dn.runCase()
         case 6:
             return Step_6_lemma2.runCase()
         case 7:
@@ -24,6 +26,8 @@ class RunCase : NSObject {
             return Step_12_shift_enum.runCase()
         case 13:
             return Step_13_select_shift.runCase()
+        case 14:
+            return Step_14_shift_check.runCase()
         default:
             return false
         }

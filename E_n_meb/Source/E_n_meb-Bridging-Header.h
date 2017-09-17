@@ -4,10 +4,13 @@
 
 @import Foundation;
 
+#import "BimodQ.h"
+#import "CalcDiff.h"
 #import "CheckHH.h"
 #import "CreateHH.h"
 #import "CreateDiff.h"
-#import "PrintUtils.h"
+#import "ImMatrix.h"
+#import "KoefMatrix.h"
 #import "ShiftHHAlg.h"
 #import "ShiftHHAlgAll.h"
 #import "Utils2.h"

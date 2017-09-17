@@ -44,7 +44,8 @@ final class PathAlg: NSObject {
         }
     }
 
-    private static let alg = PathAlg()
+    static let alg = PathAlg()
+    var dummy1: Int
     private var n: Int
     private var s: Int
     private var charK: Int
@@ -91,6 +92,10 @@ final class PathAlg: NSObject {
         return sigmaDeg(ell, i: 3 * (j + m + 1), isGamma: false)
     }
 
+    static func k1JPlus2(_ ell: Int, j: Int, m: Int) -> Int {
+        return sigmaDeg(ell, i: 3 * (j + m + 2), isGamma: false)
+    }
+
     static func kGamma(_ ell: Int, j: Int, m: Int) -> Int {
         return sigmaDeg(ell, i: j + m, isGamma: true)
     }
@@ -99,6 +104,7 @@ final class PathAlg: NSObject {
         self.n = 0
         self.s = 0
         self.charK = 0
+        self.dummy1 = 0
         super.init()
     }
 }

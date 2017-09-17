@@ -5,7 +5,6 @@
 
 #import "ShiftHHAlg.h"
 #import "Utils.h"
-#import "PrintUtils.h"
 
 //
 //         d_up
@@ -162,7 +161,7 @@
         bool badSituation = step > 5;
         if (badSituation) {
             WriteLog(2, "hh_sub");
-            printMatrix(hh_sub);
+            [PrintUtils printMatrix:hh_sub];
         }
         if (badSituation) return nDifferents;
         
@@ -196,13 +195,13 @@
         NSInteger nDifferents = [multRes numberOfDifferents:multRes_shift];
         WriteLog(1, "checkHHMatrix error!");
         //WriteLog(0, "multRes");
-        //printMatrixDeg(multRes, 0, 0);
+        //[PrintUtils printMatrix:multRes];
         //WriteLog(0, "multRes_shift");
-        //printMatrixDeg(multRes_shift, 0, 0);
+        //[PrintUtils printMatrix:multRes_shift];
         //WriteLog(0, "hh_shift");
-        //printMatrixDeg(hhShift, 0, 0);
+        //[PrintUtils printMatrix:hh_shift];
         //WriteLog(0, "d_up");
-        //printMatrixDeg(d_up, 0, 0);
+        //[PrintUtils printMatrix:d_up];
         WriteLog(1, "Dirrerents: %d", nDifferents);
     } else {
         WriteLog(0, "checked shift %d :)", shift);

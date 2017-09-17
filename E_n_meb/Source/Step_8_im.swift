@@ -18,8 +18,8 @@ struct Step_8_im
             let im = ImMatrix(diff: diff)
             let k = KoefIntMatrix(im: im)!
 
-            //printMatrixDeg(diff, deg + 1, deg);
-            //printImDeg(im, deg);
+            //PrintUtils.printMatrixDeg(diff, deg + 1, deg)
+            //PrintUtils.printIm(im, deg:deg)
             //printKoefIntMatrix(k, deg, 0);
 
             let rk1 = k.rank()

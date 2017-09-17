@@ -37,7 +37,7 @@ struct Step_11_shift_all_save
 
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
-        printMatrix(hh)
+        PrintUtils.printMatrix(hh)
 
         for shift in 0...PathAlg.twistPeriod + 1 {
             if (shift == 0) { continue }

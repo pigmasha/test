@@ -55,7 +55,7 @@ class ShiftAllVariants : NSObject {
                 guard (variants[i][j].key == nil && otherVariants[i][j].key == nil) ||
                     (variants[i][j].key != nil && otherVariants[i][j].key != nil &&
                         variants[i][j].key?.intValue == otherVariants[i][j].key?.intValue) else {
-                    OutputFile.writeLog(.normal, "different keys \(variants[i][j].key) != \(otherVariants[i][j].key)")
+                    OutputFile.writeLog(.normal, "different keys \(variants[i][j].key!) != \(otherVariants[i][j].key!)")
                     return false
                 }
                 let hh = variants[i][j].hh
@@ -234,13 +234,23 @@ class ShiftAllVariants : NSObject {
 
     private static func parseComb(_ str: String) -> Comb? {
         guard str != "0" else { return Comb() }
-        let pair = str.trimmingCharacters(in: CharacterSet(charactersIn: "-")).components(separatedBy: "*")
+        var trimStr = str
+        var koef = 1.0
+        if trimStr.characters.first == "-" {
+            koef = -1.0
+            trimStr = trimStr.substring(from: trimStr.index(trimStr.startIndex, offsetBy: 1))
+        }
+        if trimStr.characters.first == "2" {
+            koef *= 2
+            trimStr = trimStr.substring(from: trimStr.index(trimStr.startIndex, offsetBy: 1))
+        }
+        let pair = trimStr.components(separatedBy: "*")
         guard pair.count == 2 else {
             OutputFile.writeLog(.normal, "parse comb failed: count != 2, comb=\(str)")
             return nil
         }
         guard let left = parseWay(pair[0]), let right = parseWay(pair[1]) else { return nil }
-        return Comb(tenzor: Tenzor(left: left, right: right), koef: str.characters.first == "-" ? -1.0 : 1.0)
+        return Comb(tenzor: Tenzor(left: left, right: right), koef: koef)
     }
 
     private static func parseWay(_ str: String) -> Way? {

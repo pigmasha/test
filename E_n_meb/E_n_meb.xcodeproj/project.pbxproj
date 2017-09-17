@@ -14,6 +14,7 @@
 		0C55D52C1CC39D940051135A /* Num.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52B1CC39D940051135A /* Num.swift */; };
 		0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */; };
 		0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52F1CC3B5380051135A /* OutputFile.swift */; };
+		0C5C24591EC07B1B003136D8 /* ShiftHHElem04.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C24581EC07B1B003136D8 /* ShiftHHElem04.swift */; };
 		0C60C9221E34E1AD00F285AC /* ShiftVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9211E34E1AD00F285AC /* ShiftVariant.swift */; };
 		0C60C9241E34EDA700F285AC /* ShiftAllVariants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9231E34EDA700F285AC /* ShiftAllVariants.swift */; };
 		0C60C9261E34F2E200F285AC /* Step_11_shift_all_save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9251E34F2E200F285AC /* Step_11_shift_all_save.swift */; };
@@ -26,11 +27,8 @@
 		0C64F16F1CB9C05600495383 /* ShiftHHElem03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64F16E1CB9C05600495383 /* ShiftHHElem03.swift */; };
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5DFE1AF3D9F7003A425A /* CalcDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DCF1AF3D9F7003A425A /* CalcDiff.m */; };
-		0C7E5E0D1AF3D9F7003A425A /* RunCase_1_calc_dn.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DEF1AF3D9F7003A425A /* RunCase_1_calc_dn.m */; };
-		0C7E5E111AF3D9F7003A425A /* PrintUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DF81AF3D9F7003A425A /* PrintUtils.m */; };
 		0C7E5E121AF3D9F7003A425A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DFA1AF3D9F7003A425A /* Utils.m */; };
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
-		0C7E5E171AF3DD97003A425A /* RunCase_2_check_dn.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E161AF3DD97003A425A /* RunCase_2_check_dn.m */; };
 		0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */; };
 		0C7E5E1B1AF41DD5003A425A /* RunCase_4_dimhom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */; };
 		0C839BEB1B30807B008153BC /* BimodQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C839BEA1B30807B008153BC /* BimodQ.m */; };
@@ -55,10 +53,11 @@
 		0CD8A3231E91627500C1C32C /* Step_8_im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A3221E91627500C1C32C /* Step_8_im.swift */; };
 		0CD8A3251E91643600C1C32C /* Step_7_lemma3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A3241E91643600C1C32C /* Step_7_lemma3.swift */; };
 		0CD8A32A1E91708200C1C32C /* Step_6_lemma2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A3291E91708200C1C32C /* Step_6_lemma2.swift */; };
-		0CD8A32C1E9171CF00C1C32C /* Step_19_shift_all.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32B1E9171CF00C1C32C /* Step_19_shift_all.swift */; };
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
+		0CDBC4F31F093AAF009A76F7 /* Step_1_calc_dn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBC4F21F093AAF009A76F7 /* Step_1_calc_dn.swift */; };
 		0CE1C3D31AF985CA00166BE2 /* DiffLen.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE1C3D21AF985CA00166BE2 /* DiffLen.m */; };
-		0CE1C3D51AF98A7C00166BE2 /* RunCase_5_check_dn_len.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE1C3D41AF98A7C00166BE2 /* RunCase_5_check_dn_len.m */; };
+		9BA1E5EA1EEA7AC500AF50CD /* PrintUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */; };
+		9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +70,7 @@
 		0C55D52B1CC39D940051135A /* Num.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Num.swift; sourceTree = "<group>"; };
 		0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHGenProgram.swift; sourceTree = "<group>"; };
 		0C55D52F1CC3B5380051135A /* OutputFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFile.swift; sourceTree = "<group>"; };
+		0C5C24581EC07B1B003136D8 /* ShiftHHElem04.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHElem04.swift; sourceTree = "<group>"; };
 		0C60C9211E34E1AD00F285AC /* ShiftVariant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftVariant.swift; sourceTree = "<group>"; };
 		0C60C9231E34EDA700F285AC /* ShiftAllVariants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftAllVariants.swift; sourceTree = "<group>"; };
 		0C60C9251E34F2E200F285AC /* Step_11_shift_all_save.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_11_shift_all_save.swift; sourceTree = "<group>"; };
@@ -88,13 +88,9 @@
 		0C7E5DC81AF3D9F7003A425A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C7E5DCE1AF3D9F7003A425A /* CalcDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalcDiff.h; sourceTree = "<group>"; };
 		0C7E5DCF1AF3D9F7003A425A /* CalcDiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalcDiff.m; sourceTree = "<group>"; };
-		0C7E5DEF1AF3D9F7003A425A /* RunCase_1_calc_dn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_1_calc_dn.m; sourceTree = "<group>"; };
-		0C7E5DF71AF3D9F7003A425A /* PrintUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintUtils.h; sourceTree = "<group>"; };
-		0C7E5DF81AF3D9F7003A425A /* PrintUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintUtils.m; sourceTree = "<group>"; };
 		0C7E5DF91AF3D9F7003A425A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		0C7E5DFA1AF3D9F7003A425A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		0C7E5E161AF3DD97003A425A /* RunCase_2_check_dn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_2_check_dn.m; sourceTree = "<group>"; };
 		0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_3_sigma_deg.m; sourceTree = "<group>"; };
 		0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_4_dimhom.m; sourceTree = "<group>"; };
 		0C839BE91B30807B008153BC /* BimodQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BimodQ.h; sourceTree = "<group>"; };
@@ -127,11 +123,12 @@
 		0CD8A3221E91627500C1C32C /* Step_8_im.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_8_im.swift; sourceTree = "<group>"; };
 		0CD8A3241E91643600C1C32C /* Step_7_lemma3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_7_lemma3.swift; sourceTree = "<group>"; };
 		0CD8A3291E91708200C1C32C /* Step_6_lemma2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_6_lemma2.swift; sourceTree = "<group>"; };
-		0CD8A32B1E9171CF00C1C32C /* Step_19_shift_all.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_19_shift_all.swift; sourceTree = "<group>"; };
 		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0CDBC4F21F093AAF009A76F7 /* Step_1_calc_dn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_1_calc_dn.swift; sourceTree = "<group>"; };
 		0CE1C3D11AF985CA00166BE2 /* DiffLen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffLen.h; sourceTree = "<group>"; };
 		0CE1C3D21AF985CA00166BE2 /* DiffLen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffLen.m; sourceTree = "<group>"; };
-		0CE1C3D41AF98A7C00166BE2 /* RunCase_5_check_dn_len.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_5_check_dn_len.m; sourceTree = "<group>"; };
+		9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintUtils.swift; sourceTree = "<group>"; };
+		9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_14_shift_check.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,11 +198,9 @@
 				0C64F16B1CB9BEA500495383 /* E_n_meb-Bridging-Header.h */,
 				0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */,
 				0C60C9291E34F78400F285AC /* RunCase.swift */,
-				0C7E5DEF1AF3D9F7003A425A /* RunCase_1_calc_dn.m */,
-				0C7E5E161AF3DD97003A425A /* RunCase_2_check_dn.m */,
 				0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */,
 				0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */,
-				0CE1C3D41AF98A7C00166BE2 /* RunCase_5_check_dn_len.m */,
+				0CDBC4F21F093AAF009A76F7 /* Step_1_calc_dn.swift */,
 				0CD8A3291E91708200C1C32C /* Step_6_lemma2.swift */,
 				0CD8A3241E91643600C1C32C /* Step_7_lemma3.swift */,
 				0CD8A3221E91627500C1C32C /* Step_8_im.swift */,
@@ -214,7 +209,7 @@
 				0C60C9251E34F2E200F285AC /* Step_11_shift_all_save.swift */,
 				0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */,
 				0C456D991EBF72FA001D49BC /* Step_13_select_shift.swift */,
-				0CD8A32B1E9171CF00C1C32C /* Step_19_shift_all.swift */,
+				9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -252,8 +247,7 @@
 			children = (
 				0C9D72F41CCD09780051B8C9 /* Dim.swift */,
 				0C55D52F1CC3B5380051135A /* OutputFile.swift */,
-				0C7E5DF71AF3D9F7003A425A /* PrintUtils.h */,
-				0C7E5DF81AF3D9F7003A425A /* PrintUtils.m */,
+				9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */,
 				0C7E5DF91AF3D9F7003A425A /* Utils.h */,
 				0C7E5DFA1AF3D9F7003A425A /* Utils.m */,
 				0CD8A31C1E9158E700C1C32C /* Utils.swift */,
@@ -314,6 +308,7 @@
 				0C64F1661CB9555200495383 /* ShiftHHElem01.swift */,
 				0C64F1691CB9B99800495383 /* ShiftHHElem02.swift */,
 				0C64F16E1CB9C05600495383 /* ShiftHHElem03.swift */,
+				0C5C24581EC07B1B003136D8 /* ShiftHHElem04.swift */,
 			);
 			path = ByType;
 			sourceTree = "<group>";
@@ -401,12 +396,11 @@
 				0C9D72F31CCD05660051B8C9 /* Diff.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0CE1C3D31AF985CA00166BE2 /* DiffLen.m in Sources */,
-				0CE1C3D51AF98A7C00166BE2 /* RunCase_5_check_dn_len.m in Sources */,
 				0C9D72EF1CCCF4500051B8C9 /* Matrix.swift in Sources */,
 				0CD8A31F1E915D1700C1C32C /* Step_10_createhh.swift in Sources */,
 				0C64F15D1CB93C3000495383 /* ShiftHHElem.swift in Sources */,
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
-				0C7E5E171AF3DD97003A425A /* RunCase_2_check_dn.m in Sources */,
+				9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */,
 				0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
 				0C60C9261E34F2E200F285AC /* Step_11_shift_all_save.swift in Sources */,
@@ -415,28 +409,28 @@
 				0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */,
 				0CA149DD1C83680400F556D9 /* ImMatrix.m in Sources */,
 				0C64F16A1CB9B99800495383 /* ShiftHHElem02.swift in Sources */,
+				9BA1E5EA1EEA7AC500AF50CD /* PrintUtils.swift in Sources */,
 				0C9D72F51CCD09780051B8C9 /* Dim.swift in Sources */,
 				0CA149DF1C83680400F556D9 /* KoefMatrix.m in Sources */,
 				0C4547C81E998CC600F5344C /* Step_12_shift_enum.swift in Sources */,
 				0CD8A32A1E91708200C1C32C /* Step_6_lemma2.swift in Sources */,
 				0CD8A3231E91627500C1C32C /* Step_8_im.swift in Sources */,
+				0C5C24591EC07B1B003136D8 /* ShiftHHElem04.swift in Sources */,
 				0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */,
 				0CD8A3251E91643600C1C32C /* Step_7_lemma3.swift in Sources */,
+				0CDBC4F31F093AAF009A76F7 /* Step_1_calc_dn.swift in Sources */,
 				0C60C9241E34EDA700F285AC /* ShiftAllVariants.swift in Sources */,
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
 				0CD8A3211E91600E00C1C32C /* Step_9_dimhh.swift in Sources */,
 				0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */,
 				0C839BF61B308D24008153BC /* CreateDiffEven.m in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,
-				0C7E5E0D1AF3D9F7003A425A /* RunCase_1_calc_dn.m in Sources */,
-				0CD8A32C1E9171CF00C1C32C /* Step_19_shift_all.swift in Sources */,
 				0C839BF71B308D24008153BC /* CreateDiffOdd.m in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
 				0C7E5DFE1AF3D9F7003A425A /* CalcDiff.m in Sources */,
 				0C40FC211C065EF50095EF4C /* CheckHH.m in Sources */,
 				0C64F16F1CB9C05600495383 /* ShiftHHElem03.swift in Sources */,
 				0C9D72F11CCD02350051B8C9 /* HHElem.swift in Sources */,
-				0C7E5E111AF3D9F7003A425A /* PrintUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

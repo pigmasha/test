@@ -24,8 +24,7 @@ struct Step_10_createhh
             if Dim.deg(deg, hasType: type) {
                 let ell = deg / PathAlg.twistPeriod
                 let hh = HHElem(deg: deg, type: type)
-                OutputFile.writeLog(.bold, "HH (ell=%d)", ell)
-                //printMatrix(hh)
+                OutputFile.writeLog(.bold, "type \(type): HH (ell=\(ell))")
                 if (!CheckHH.check(hh, degree: deg)) {
                     return true
                 }

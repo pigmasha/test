@@ -19,47 +19,89 @@ class ShiftHHGenProgram : NSObject {
         let s = PathAlg.s
 
         file.writeln("<pre>")
-        file.writeln("override func shift\(shift)(hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {")
+        file.writeln("override func shift\(shift)(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {")
         file.writeln("    hhElem.makeZeroMatrix(\(width / s)*s, h:\(height / s)*s)")
         file.writeln("")
 
         if isOnePerBlock {
-            printOnePerBlockProgram();
+            printOnePerBlockProgram()
+        } else {
+            printBlocksProgram()
         }
 
         file.writeln("}")
         file.writeln("</pre>")
     }
 
+    private func printBlocksProgram() {
+        let s = PathAlg.s
+        let w = Int(width / s)
+        let h = Int(height / s)
+        for blockCol in 0..<w {
+            for blockRow in 0..<h {
+                if let minElem = minColElementInBlock(blockRow, blockCol: blockCol),
+                    let maxElem = maxColElementInBlock(blockRow, blockCol: blockCol) {
+                    file.writeln("for j in \(stringByS(minElem.col)) ..< \(stringByS(maxElem.col + 1)) {")
+                    printOnePerBlockProgram(minElem.col, row: minElem.row)
+                    file.writeln("}")
+                }
+            }
+        }
+    }
+
+    private func minColElementInBlock(_ blockRow: Int, blockCol: Int) -> (row: Int, col: Int)? {
+        let s = PathAlg.s
+        for col in blockCol*s..<(blockCol+1)*s {
+            for row in blockRow*s..<(blockRow+1)*s {
+                if !hhElem.rows[row][col].isZero {
+                    return (row, col)
+                }
+            }
+        }
+        return nil
+    }
+
+    private func maxColElementInBlock(_ blockRow: Int, blockCol: Int) -> (row: Int, col: Int)? {
+        let s = PathAlg.s
+        var result: (row: Int, col: Int)? = nil
+        for col in blockCol*s..<(blockCol+1)*s {
+            for row in blockRow*s..<(blockRow+1)*s {
+                if !hhElem.rows[row][col].isZero {
+                    result = (row, col)
+                }
+            }
+        }
+        return result
+    }
+
     private func printOnePerBlockProgram() {
         var j = -1
 
         for col in 0..<width {
-            var i  = -1
+            var i = -1
             for row in 0..<height {
                 if !hhElem.rows[row][col].isZero {
                     i = row
                     break
                 }
             }
-            if (i < 0) {
-                continue
-            }
+            if (i < 0) { continue }
             if (j < 0) {
                 file.writeln("var j = \(stringByS(col))")
             } else {
                 file.writeln("j += \(stringByS(col - j))")
             }
 
-            printOnePerBlockProgram(col)
+            printOnePerBlockProgram(col, row: nil)
             j = col
         }
     }
 
-    private func printOnePerBlockProgram(_ col: Int) {
+    private func printOnePerBlockProgram(_ col: Int, row fixedRow: Int?) {
         let m = (shift % PathAlg.twistPeriod) / 2
 
         for row in 0..<height {
+            if let rr = fixedRow, row != rr { continue }
             let c = hhElem.rows[row][col]
             if !hhElem.rows[row][col].isZero {
                 let t = c.firstTenzor!
@@ -83,15 +125,15 @@ class ShiftHHGenProgram : NSObject {
                 str += "+s"
                 v0.number += 4 * s
             }
-            for b in 0...7 {
+            for b in 0...9 {
                 let v1 = Vertex(i: 4 * j + b)
 
                 if (v1.isEq(v0)) {
-                    let b0 = (b < 4) ? b : b - 4
                     if (b >= 4) {
-                        str += "+1"
+                        str += b >= 8 ? "+2" : "+1"
                     }
                     let prefix = (str.isEmpty) ? "4*j" : "4*(j\(str))"
+                    let b0 = b % 4
                     return (b0 == 0) ? prefix : "\(prefix)+\(b0)"
                 }
             }
@@ -128,8 +170,12 @@ class ShiftHHGenProgram : NSObject {
 
     private func stringByS(_ i: Int) -> String {
         let s = PathAlg.s
-        if (i < s) { return "\(i)" }
-        return (i % s == 0) ? sStringPart(i) : "\(sStringPart(i)) + \(i % s)"
+        if (i < s) { return (i == s - 1) ? "s - 1" : "\(i)" }
+        switch i % s {
+        case 0: return sStringPart(i)
+        case s - 1: return "\(sStringPart(i + 1)) - 1"
+        default: return "\(sStringPart(i)) + \(i % s)"
+        }
     }
 
     private var width: Int {
@@ -142,7 +188,6 @@ class ShiftHHGenProgram : NSObject {
 
     private var isOnePerBlock: Bool {
         let s = PathAlg.s
-
         let w = width
         let h = height
 
@@ -152,7 +197,7 @@ class ShiftHHGenProgram : NSObject {
                     let c1 = (i / s) * s
                     let c2 = (j / s) * s
 
-                    var count : Int = 0
+                    var count = 0
                     for i1 in c1..<c1+s {
                         for j1 in c2..<c2+s {
                             if !hhElem.rows[i1][j1].isZero {
@@ -160,11 +205,11 @@ class ShiftHHGenProgram : NSObject {
                             }
                         }
                     }
-                    return count == 1
+                    if count > 2 { return false }
                 }
             }
         }
-        return false
+        return true
     }
 
 }

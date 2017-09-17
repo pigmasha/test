@@ -1,7 +1,6 @@
 #import "KoefMatrix.h"
 #import "ImMatrix.h"
 #import "Utils.h"
-#import "PrintUtils.h"
 
 @interface KoefMatrix () {
     NSMutableArray<NSArray<NumFloat *> *>* _items;
@@ -115,7 +114,7 @@
     if (r == 10 && eqs2s0)
         [self rank10s];*/
 
-    //WriteLog(2, "After"); printKoefIntMatrix(self, _deg, 0);
+    //WriteLog(2, "After"); [PrintUtils printKoefIntMatrix:self, deg:_deg, skipLines:0];
     
     NSMutableArray<NumInt *>* nLineOfColumnPos = [[NSMutableArray alloc] init];
     NSInteger c = (NSInteger)[_items.lastObject count];

@@ -80,16 +80,16 @@ class OutputFile : NSObject {
         "<head>\n" +
         "<title>Results</title>\n" +
         "<style>\n" +
-        "table { padding:0; border-spacing:0px; border-collapse:collapse; border: 1px solid black; }\n" +
-        "td { border: 1px solid black; text-align: center }\n" +
-        ".c_t_1 { border-top: 4px solid grey; }\n" +
-        ".c_t_2 { border-top: 4px solid black; }\n" +
-        ".c_l_1 { border-left:4px solid grey; }\n" +
-        ".c_l_2 { border-left:4px solid black; }\n" +
-        ".c_r_1 { border-right:4px solid black; }\n" +
-        ".c_b_1 { border-bottom: 4px solid black; }\n" +
-        ".b_w { border: 1px solid white; }\n" +
-        ".b_l { border-left:4px solid black; }\n" +
+        "table { border-spacing:0px; border-collapse:collapse; border:1px solid black; }\n" +
+        "td { border:1px solid black; text-align:center; padding:0px; font-size:12px; }\n" +
+        ".c_t_1 { border-top:3px solid grey; }\n" +
+        ".c_t_2 { border-top:3px solid black; }\n" +
+        ".c_l_1 { border-left:3px solid grey; }\n" +
+        ".c_l_2 { border-left:3px solid black; }\n" +
+        ".c_r_1 { border-right:3px solid black; }\n" +
+        ".c_b_1 { border-bottom:3px solid black; }\n" +
+        ".b_w { border:1px solid white; }\n" +
+        ".b_l { border-left:3px solid black; }\n" +
         "</style>\n" +
         "</head>\n" +
     "<body>"

@@ -39,14 +39,16 @@ class ShiftHHElem: NSObject {
 
     class func shiftForType(_ type: Int) -> ShiftHHElem? {
         switch type {
-            case 1: return ShiftHHElem01()
-            case 2: return ShiftHHElem02()
-            case 3: return ShiftHHElem03()
-            default: return nil
+        case 1: return ShiftHHElem01()
+        case 2: return ShiftHHElem02()
+        case 3: return ShiftHHElem03()
+        case 4: return ShiftHHElem04()
+        default: return nil
         }
     }
 
-    func shift(_ hh_shift: HHElem, degree: Int, shift: Int) {
+    func shift(degree: Int, shift: Int) -> HHElem {
+        let hh_shift = HHElem()
         let V = ShiftVars(shift: shift, degree: degree)
 
         switch (V.r_0) {
@@ -64,6 +66,7 @@ class ShiftHHElem: NSObject {
             default: break
         }
         hh_shift.twist(shift, type: type)
+        return hh_shift
     }
 
     func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {

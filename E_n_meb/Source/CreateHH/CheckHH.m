@@ -11,7 +11,6 @@
 #import "ImMatrix.h"
 #import "KoefMatrix.h"
 #import "Utils.h"
-#import "PrintUtils.h"
 
 @implementation CheckHH
 
@@ -40,7 +39,7 @@
                 WriteLog(1, "CheckHHElem error! Bad way at pos %d, %d (left ends in %d, must be %d), Diff:",
                          i, j, t.leftComponent.endsWith.number, v1.number);
                 Diff *diff = [[Diff alloc] initWithDeg:degree];
-                printMatrixDeg(diff, degree, degree - 1);
+                [PrintUtils printMatrixDeg:diff :degree :degree - 1];
                 return NO;
             }
 
@@ -50,7 +49,7 @@
                 WriteLog(1, "CheckHHElem error! Bad way at pos %d, %d (left starts in %d, must be %d), Diff:",
                          i, j, t.leftComponent.startsWith.number, v2.number);
                 Diff *diff = [[Diff alloc] initWithDeg:degree];
-                printMatrixDeg(diff, degree, degree - 1);
+                [PrintUtils printMatrixDeg:diff :degree :degree - 1];
                 return NO;
             }
 
@@ -58,7 +57,7 @@
                 WriteLog(1, "CheckHHElem error! Bad way at pos %d, %d (right starts in %d, must be %d), Diff:",
                          i, j, t.rightComponent.startsWith.number, v2.number);
                 Diff *diff = [[Diff alloc] initWithDeg:degree];
-                printMatrixDeg(diff, degree, degree - 1);
+                [PrintUtils printMatrixDeg:diff :degree :degree - 1];
                 return NO;
             }
         }
@@ -114,9 +113,11 @@
         }
 
         if ((charK > 0 && ((NSInteger)totalKoef % charK)) || (charK == 0 && totalKoef != 0)) {
-
+            WriteLog(1, "HH");
+            [PrintUtils printMatrix:hh];
+            WriteLog(1, "Im");
             ImMatrix *im = [[ImMatrix alloc] initWithDiff:diff];
-            printImDeg(im, degree - 1);
+            [PrintUtils printIm:im deg:degree - 1];
             WriteLog(1, "Error in %d column", i);
 
             return NO;
@@ -190,7 +191,7 @@
 
     if (dimImAdd == dimIm) {
         WriteLog(0, "Im");
-        printImDeg(im, degree - 1);
+        [PrintUtils printIm:im deg:degree - 1];
         WriteLog(0, "dim=%d", dimImAdd);
     }
 

@@ -139,6 +139,10 @@ class Matrix : NSObject {
     }
 
     func numberOfDifferents(_ matr2: Matrix) -> Int {
+        return numberOfDifferents(matr2, debug: false)
+    }
+
+    func numberOfDifferents(_ matr2: Matrix, debug: Bool) -> Int {
         let combs2 = matr2.rows
         if combs.count != combs2.count { return -1 }
 
@@ -150,7 +154,12 @@ class Matrix : NSObject {
             if line1.count != line2.count { return -1 }
 
             for j in 0..<line1.count {
-                if line1[j].compareK(line2[j]) != 1 { result += 1 }
+                if line1[j].compareK(line2[j]) != 1 {
+                    result += 1
+                    if debug {
+                        OutputFile.writeLog(.simple, "(\(i), \(j)) ")
+                    }
+                }
             }
         }
         return result
@@ -243,7 +252,8 @@ class Matrix : NSObject {
         if (type == 1) { return }
 
         var k = PathAlg.sigmaDeg(ell, i: -6*ell, isGamma: true)
-        if (type == 3) { k = minusDeg(ell) }
+        if type == 3 { k = minusDeg(ell) }
+        if type == 4 { k = 1 }
 
         if (k != 1) {
             for row in combs {

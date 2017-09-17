@@ -5,7 +5,6 @@
 
 #import "ShiftHHAlgAll.h"
 #import "Utils.h"
-#import "PrintUtils.h"
 
 //
 //         d_up
@@ -72,6 +71,8 @@
         } else if (type == 4 && shift % 11 == 7 && col >= 2*s) {
             [hh addMatrixX:variants.lastObject.hh x:col];
         } else if (type == 4 && (shift % 11 == 8 || shift % 11 == 9 || shift % 11 == 10)) {
+            [hh addMatrixX:variants.lastObject.hh x:col];
+        } else if (type == 4 && shift == 12 && col >= 5*s) {
             [hh addMatrixX:variants.lastObject.hh x:col];
         } else {
             [hh addMatrixX:variants[0].hh x:col];

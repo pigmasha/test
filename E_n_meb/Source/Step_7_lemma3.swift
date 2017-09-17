@@ -3,8 +3,6 @@
 //
 //
 
-import Foundation
-
 struct Step_7_lemma3
 {
     static func runCase() -> Bool
@@ -21,7 +19,7 @@ struct Step_7_lemma3
             if rk2 != 0 && rk1 != rk2 {
                 OutputFile.writeLog(.error, "%d (must be %d)! N=%d, S=%d, char=%d, matrix:",
                                     rk1, rk2, PathAlg.n, s, PathAlg.charK)
-                printKoefIntMatrix(matrix, 0, 0)
+                PrintUtils.printKoefIntMatrix(matrix, deg: 0, skipLines: 0)
                 return true
             }
         }
