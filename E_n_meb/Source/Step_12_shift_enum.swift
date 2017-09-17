@@ -92,7 +92,7 @@ struct Step_12_shift_enum {
         try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
         OutputFile.writeLog(.bold, "RESULT")
         OutputFile.writeLog(.normal, seqStr)
-        PrintUtils.printMatrixKoefs(hh!, colsMax: 2*PathAlg.s, rowsMax: PathAlg.s)
+        PrintUtils.printMatrixKoefs(hh!)//, colsMax: 2*PathAlg.s, rowsMax: PathAlg.s)
         //PrintUtils.printMatrix(hh!)
         try? OutputFile.setFileName(fileName: path)
     }

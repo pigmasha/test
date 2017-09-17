@@ -53,6 +53,9 @@
 
 + (HHElem *)selectFromAllVariants:(ShiftAllVariants *)allVariants type:(NSInteger)type shift:(NSInteger)shift
 {
+    if (type == 4) {
+        return [self hhFromAllVariants:allVariants];
+    }
     NSInteger s = PathAlg.s;
     NSInteger width = allVariants.variants.count * s;
     NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
@@ -68,13 +71,13 @@
                 if (v.nonZeroCnt < minVar.nonZeroCnt) minVar = v;
             }
             [hh addMatrixX:minVar.hh x:col];
-        } else if (type == 4 && shift % 11 == 7 && col >= 2*s) {
+        } /*else if (type == 4 && shift % 11 == 7 && col >= 2*s) {
             [hh addMatrixX:variants.lastObject.hh x:col];
         } else if (type == 4 && (shift % 11 == 8 || shift % 11 == 9 || shift % 11 == 10)) {
             [hh addMatrixX:variants.lastObject.hh x:col];
         } else if (type == 4 && shift == 12 && col >= 5*s) {
             [hh addMatrixX:variants.lastObject.hh x:col];
-        } else {
+        } */else {
             [hh addMatrixX:variants[0].hh x:col];
         }
         col += s;

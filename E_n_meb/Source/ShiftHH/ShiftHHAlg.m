@@ -194,14 +194,14 @@
     if (multRes.isNil || multRes_shift.isNil || ![multRes isEq:multRes_shift debug:YES]) {
         NSInteger nDifferents = [multRes numberOfDifferents:multRes_shift];
         WriteLog(1, "checkHHMatrix error!");
-        //WriteLog(0, "multRes");
-        //[PrintUtils printMatrix:multRes];
-        //WriteLog(0, "multRes_shift");
-        //[PrintUtils printMatrix:multRes_shift];
-        //WriteLog(0, "hh_shift");
-        //[PrintUtils printMatrix:hh_shift];
-        //WriteLog(0, "d_up");
-        //[PrintUtils printMatrix:d_up];
+        /*WriteLog(0, "multRes");
+        [PrintUtils printMatrix:multRes];
+        WriteLog(0, "multRes_shift");
+        [PrintUtils printMatrix:multRes_shift];
+        WriteLog(0, "hh_shift");
+        [PrintUtils printMatrix:hhShift];
+        WriteLog(0, "d_up");
+        [PrintUtils printMatrix:d_up];*/
         WriteLog(1, "Dirrerents: %d", nDifferents);
     } else {
         WriteLog(0, "checked shift %d :)", shift);

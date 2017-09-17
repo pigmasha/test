@@ -14,16 +14,20 @@ struct Step_14_shift_check {
         for deg in 1...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
-                return false
+                //return false
             }
         }
         return false
     }
 
     private static func process(type: Int, deg: Int) -> Bool {
+        guard type != 4 else {
+            return processCheck(type: type, deg: deg)
+        }
+        
         var hh = HHElem(deg: deg, type: type)
 
-        let shiftMax = 12//PathAlg.twistPeriod + 1
+        let shiftMax = 6
         for shift in 1 ... shiftMax {
             OutputFile.writeLog(.time, "Shift \(shift)")
             var hh_shift: HHElem?
@@ -49,6 +53,21 @@ struct Step_14_shift_check {
                 PrintUtils.printMatrix(hh_shift!)
             }
             hh = hh_shift!
+        }
+        return false
+    }
+
+    private static func processCheck(type: Int, deg: Int) -> Bool {
+        var hh = HHElem(deg: deg, type: type)
+
+        for shift in 1 ... 3 * PathAlg.twistPeriod + 1 {
+            OutputFile.writeLog(.time, "Shift \(shift)")
+            let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
+            if !ShiftHHAlg.checkHHMatrix(hh, hhShift: hh_shift, degree: deg, shift: shift) {
+                PrintUtils.printMatrix(hh_shift)
+                return true
+            }
+            hh = hh_shift
         }
         return false
     }

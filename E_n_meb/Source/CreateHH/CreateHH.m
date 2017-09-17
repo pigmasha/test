@@ -116,14 +116,6 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
 
     for (NSInteger j = 5*s-1; j < 6*s-1; j++)
         [HHElem addElemToHH:hh i:j-s j:j leftFrom:4*j+2 leftTo:4*j+3 right:4*j+2 koef:-[PathAlg k1J:ell j:j m:m]];
-    /*for (NSInteger j = 0; j < 1; j++)
-        [HHElem addElemToHH:hh i:j j:j leftFrom:4*j leftTo:4*(j+s)+1 right:4*j koef:1];
-
-    for (NSInteger j = s+1; j < 2*s; j++)
-        [HHElem addElemToHH:hh i:j-s j:j leftFrom:4*j leftTo:4*(j+s)+1 right:4*j koef:1];
-
-    for (NSInteger j = 4*s; j < 5*s; j++)
-        [HHElem addElemToHH:hh i:j-s j:j leftFrom:4*j+2 leftTo:4*j+3 right:4*j+2 koef:-[PathAlg k1J:ell j:j m:m]];*/
 }
 
 //----------------------------------------------------------------------------
