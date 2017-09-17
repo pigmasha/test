@@ -32,9 +32,6 @@ struct Step_13_select_shift {
         }
 
         var shift = 1
-        //shift = 9
-        //hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
-        //shift += 1
         while true {
             let path = pathWithShift(shift)
             var allVariants: ShiftAllVariants? = nil
