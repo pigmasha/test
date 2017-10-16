@@ -5,7 +5,7 @@
 
 import Foundation
 
-class ShiftHHElem02 : ShiftHHElem {
+final class ShiftHHElem02 : ShiftHHElem {
     init() {
         super.init(type:2, withTwist: true)
     }

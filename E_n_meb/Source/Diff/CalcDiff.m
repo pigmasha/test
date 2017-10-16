@@ -82,7 +82,7 @@ int calcDiffWithNumber(Diff *diff, NSInteger deg, Diff *prevDiff) {
         if (!isZero) ON_ERROR(9);
     }
 
-    [checkDiff twist:deg type:1];
+    [checkDiff twist:deg];
 
     if (checkDiff.height != [[diff rows] count]) ON_ERROR(10);
     if (checkDiff.width != [[[diff rows] lastObject] count]) ON_ERROR(11);

@@ -16,6 +16,11 @@ NSInteger f1(NSInteger x, NSInteger y) {
 }
 
 //---------------------------------------------------------------------------------
+NSInteger f2(NSInteger x, NSInteger y) {
+    return (x == y) ? 1 : -1;
+}
+
+//---------------------------------------------------------------------------------
 NSInteger h(NSInteger x, NSInteger y) {
     return (x >= y) ? ((x % 2) ? 1 : 0) :((x % 2) ? 0 : 1);
 }

@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_12_shift_enum {
     static func runCase() -> Bool {
-        let kCurrentType = 4
+        let kCurrentType = 5
 
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
@@ -68,10 +68,11 @@ struct Step_12_shift_enum {
                 try? FileManager.default.removeItem(atPath: path)
                 continue
             } else {
+                //hh = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift)
                 hh = ShiftHHAlgAll.hh(from: allVariants)
             }
             OutputFile.writeLog(.time, "Shift=\(shift)")
-            PrintUtils.printMatrixKoefs(hh)
+            //PrintUtils.printMatrixKoefs(hh)
             shift += 1
         }
         return false
@@ -84,17 +85,19 @@ struct Step_12_shift_enum {
                 seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
             }
         }
-        let hh = ShiftHHAlgAll.lastHH(from: variants)
+        let hh = ShiftHHAlgAll.lastHH(from: variants)!
         OutputFile.writeLog(.bold, "RESULT")
         OutputFile.writeLog(.normal, seqStr)
-        PrintUtils.printMatrix(hh!)
-        let path = OutputFile.fileName!
-        try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
-        OutputFile.writeLog(.bold, "RESULT")
-        OutputFile.writeLog(.normal, seqStr)
-        PrintUtils.printMatrixKoefs(hh!)//, colsMax: 2*PathAlg.s, rowsMax: PathAlg.s)
-        //PrintUtils.printMatrix(hh!)
-        try? OutputFile.setFileName(fileName: path)
+        PrintUtils.printMatrix(hh)
+        if hh.maxNonZeroPos.0 == 0 || hh.maxNonZeroPos.0 == PathAlg.s - 1 {
+            let path = OutputFile.fileName!
+            try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
+            OutputFile.writeLog(.bold, "RESULT")
+            OutputFile.writeLog(.normal, seqStr)
+            //PrintUtils.printMatrixKoefs(hh, colsMax: PathAlg.s, rowsMax: PathAlg.s)
+            //PrintUtils.printMatrix(hh!)
+            try? OutputFile.setFileName(fileName: path)
+        }
     }
 
     private static func stepBack(shift: Int) -> Int {

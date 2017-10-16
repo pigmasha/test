@@ -124,7 +124,9 @@ void CreateHHVecWithNumber(NSMutableArray<WayPair *> *vec, NSInteger degree, NSI
     NSInteger ell = degree / PathAlg.twistPeriod;
 
     [hh makeZeroMatrix:6*s h:6*s];
-    [HHElem addElemToHH:hh i:0 j:0 leftFrom:0 leftTo:3 right:0 koef:1];
+    NSInteger j = 0;
+
+    [HHElem addElemToHH:hh i:j j:j leftFrom:4*j leftTo:4*j+3 right:4*j koef:1];
 }
 
 //----------------------------------------------------------------------------

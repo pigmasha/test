@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_13_select_shift {
     static func runCase() -> Bool {
-        let kCurrentType = 4
+        let kCurrentType = 5
 
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
@@ -39,6 +39,7 @@ struct Step_13_select_shift {
                 allVariants = ShiftAllVariants(withContentsOf: path)
             } else {
                 allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
+                let _ = allVariants!.writeToFile(pathWithShift(shift))
             }
             guard allVariants != nil else {
                 OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
@@ -51,12 +52,12 @@ struct Step_13_select_shift {
             }
             OutputFile.writeLog(.time, "Shift \(shift)")
             if !checkMyShift(type: type, deg: deg, shift: shift, hh: hh) {
-                OutputFile.writeLog(.bold, "Right Shift \(shift)")
+                //OutputFile.writeLog(.bold, "Right Shift \(shift)")
                 PrintUtils.printMatrix(hh)
                 ShiftHHGenProgram.printProgram(hh, shift: shift)
                 return true
             }
-            if shift == PathAlg.twistPeriod { break }
+            if shift == 20 * PathAlg.twistPeriod { break }
             shift += 1
         }
         return false

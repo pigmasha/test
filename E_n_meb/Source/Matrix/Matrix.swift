@@ -130,12 +130,34 @@ class Matrix : NSObject {
         return combs.count == 0
     }
 
-    var width : Int {
+    var width: Int {
         return combs.last?.count ?? 0
     }
 
-    var height : Int {
+    var height: Int {
         return combs.count
+    }
+
+    var maxNonZeroPos: (Int, Int) {
+        var result = (0, 0)
+        for i in 0..<combs.count {
+            let line = combs[i]
+            for j in 0..<line.count {
+                if !line[j].isZero && i > result.0 { result.0 = i }
+                if !line[j].isZero && j > result.1 { result.1 = j }
+            }
+        }
+        return result
+    }
+
+    var maxRow: Int {
+        var result = 0
+        for line in combs {
+            for i in 0..<line.count {
+                if !line[i].isZero && i > result { result = i }
+            }
+        }
+        return result
     }
 
     func numberOfDifferents(_ matr2: Matrix) -> Int {
@@ -239,27 +261,21 @@ class Matrix : NSObject {
         }
     }
 
-    func twist(_ degree: Int, type: Int) {
-        let ell = degree / PathAlg.twistPeriod
+    func twist(_ degree: Int) {
+        let ell = Int(degree / PathAlg.twistPeriod)
 
         for _ in 0..<ell {
             for row in combs {
-                for c in row {
-                    c.twist()
-                }
+                for c in row { c.twist() }
             }
         }
-        if (type == 1) { return }
+    }
 
-        var k = PathAlg.sigmaDeg(ell, i: -6*ell, isGamma: true)
-        if type == 3 { k = minusDeg(ell) }
-        if type == 4 { k = 1 }
-
-        if (k != 1) {
+    func compKoef(_ koef: Int) {
+        if (koef != 1) {
+            let k = Double(koef)
             for row in combs {
-                for c in row {
-                    c.compKoef(-1)
-                }
+                for c in row { c.compKoef(k) }
             }
         }
     }

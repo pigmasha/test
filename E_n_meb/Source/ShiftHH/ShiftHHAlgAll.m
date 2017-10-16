@@ -65,19 +65,20 @@
     for (NSArray<ShiftVariant *> *variants in allVariants.variants) {
         if (type == 3 && shift % 11 == 10 && (col >= 5 * s || col < s)) {
             [hh addMatrixX:variants.lastObject.hh x:col];
-        } else if (type == 3 && shift % 11 == 8) {
+        } else if ((type == 3 && shift % 11 == 8) || type == 5) {
             ShiftVariant *minVar = variants[0];
             for (ShiftVariant *v in variants) {
-                if (v.nonZeroCnt < minVar.nonZeroCnt) minVar = v;
+                if (shift % 11 == 1 && v.nonZeroCnt <= minVar.nonZeroCnt) {
+                    minVar = v;
+                } else if (shift != 1 && v.nonZeroCnt < minVar.nonZeroCnt) {
+                    minVar = v;
+                }
+                /*if (v.nonZeroCnt < minVar.nonZeroCnt) {
+                    minVar = v;
+                }*/
             }
             [hh addMatrixX:minVar.hh x:col];
-        } /*else if (type == 4 && shift % 11 == 7 && col >= 2*s) {
-            [hh addMatrixX:variants.lastObject.hh x:col];
-        } else if (type == 4 && (shift % 11 == 8 || shift % 11 == 9 || shift % 11 == 10)) {
-            [hh addMatrixX:variants.lastObject.hh x:col];
-        } else if (type == 4 && shift == 12 && col >= 5*s) {
-            [hh addMatrixX:variants.lastObject.hh x:col];
-        } */else {
+        } else {
             [hh addMatrixX:variants[0].hh x:col];
         }
         col += s;

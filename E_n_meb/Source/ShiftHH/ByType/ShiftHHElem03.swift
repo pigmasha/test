@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ShiftHHElem03 : ShiftHHElem {
+final class ShiftHHElem03 : ShiftHHElem {
     init() {
         super.init(type:3, withTwist: true)
     }

@@ -43,6 +43,7 @@ class ShiftHHElem: NSObject {
         case 2: return ShiftHHElem02()
         case 3: return ShiftHHElem03()
         case 4: return ShiftHHElem04()
+        case 5: return ShiftHHElem05()
         default: return nil
         }
     }
@@ -65,7 +66,18 @@ class ShiftHHElem: NSObject {
             case 10: shift10(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
             default: break
         }
-        hh_shift.twist(shift, type: type)
+        hh_shift.twist(shift)
+        if withTwist {
+            /*for ell in 0 ... 10 {
+                print("\(ell): \(PathAlg.sigmaDeg(ell, i: 2*PathAlg.n, isGamma: true))")
+            }*/
+            let ell = Int(shift / PathAlg.twistPeriod)
+            let ell_s = Int(ell / PathAlg.s)
+            let koef = type == 5 ? PathAlg.sigmaDeg(ell, i: 2*PathAlg.n, isGamma: true) * minusDeg(ell_s) : minusDeg(ell)
+            hh_shift.compKoef(koef)
+
+            //type 2: koef = PathAlg.sigmaDeg(ell, i: -6*ell, isGamma: true)
+        }
         return hh_shift
     }
 
