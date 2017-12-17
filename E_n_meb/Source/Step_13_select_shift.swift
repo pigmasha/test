@@ -26,7 +26,7 @@ struct Step_13_select_shift {
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
         if !checkMyShift(type: type, deg: deg, shift: 0, hh: hh) {
-            PrintUtils.printMatrix(hh)
+            PrintUtils.printMatrix("hh", hh)
             ShiftHHGenProgram.printProgram(hh, shift: 0)
             return true
         }
@@ -52,8 +52,7 @@ struct Step_13_select_shift {
             }
             OutputFile.writeLog(.time, "Shift \(shift)")
             if !checkMyShift(type: type, deg: deg, shift: shift, hh: hh) {
-                //OutputFile.writeLog(.bold, "Right Shift \(shift)")
-                PrintUtils.printMatrix(hh)
+                PrintUtils.printMatrix("Right Shift", hh)
                 ShiftHHGenProgram.printProgram(hh, shift: shift)
                 return true
             }
@@ -68,7 +67,7 @@ struct Step_13_select_shift {
         let nDifferents = myShift.numberOfDifferents(hh, debug: true)
         if nDifferents != 0 {
             OutputFile.writeLog(.error, "<br>Bad my shift, nDiff=\(nDifferents), myMatrix:")
-            PrintUtils.printMatrix(myShift)
+            PrintUtils.printMatrix("myShift", myShift)
             return false
         }
         return true

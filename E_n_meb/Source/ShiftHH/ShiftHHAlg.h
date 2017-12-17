@@ -18,9 +18,4 @@
              shift:(NSInteger)shift
             result:(HHElem *)hh_shift;
 
-+ (BOOL)checkHHMatrix:(HHElem *)hh
-              hhShift:(HHElem *)hhShift
-               degree:(NSInteger)degree
-                shift:(NSInteger)shift;
-
 @end

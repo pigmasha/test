@@ -160,8 +160,7 @@
         
         bool badSituation = step > 5;
         if (badSituation) {
-            WriteLog(2, "hh_sub");
-            [PrintUtils printMatrix:hh_sub];
+            [PrintUtils printMatrix:@"hh_sub" :hh_sub];
         }
         if (badSituation) return nDifferents;
         
@@ -172,42 +171,6 @@
     }
 
     return nDifferents;
-}
-
-+ (BOOL)checkHHMatrix:(HHElem *)hh
-              hhShift:(HHElem *)hhShift
-               degree:(NSInteger)degree
-                shift:(NSInteger)shift {
-    if (shift == 0) {
-        if (![hh isEq:hhShift debug:YES]) return NO;
-        WriteLog(0, "checked shift %d :)", shift);
-        return YES;
-    }
-
-    Diff *d_up = [[Diff alloc] initWithDeg:degree + shift - 1];
-    Diff *d_down = [[Diff alloc] initWithDeg:shift - 1];
-
-    Matrix *multRes = [[Matrix alloc] initWithMult:hh and:d_up];
-    Matrix *multRes_shift = [[Matrix alloc] initWithMult:d_down and:hhShift];
-
-    BOOL res = NO;
-    if (multRes.isNil || multRes_shift.isNil || ![multRes isEq:multRes_shift debug:YES]) {
-        NSInteger nDifferents = [multRes numberOfDifferents:multRes_shift];
-        WriteLog(1, "checkHHMatrix error!");
-        /*WriteLog(0, "multRes");
-        [PrintUtils printMatrix:multRes];
-        WriteLog(0, "multRes_shift");
-        [PrintUtils printMatrix:multRes_shift];
-        WriteLog(0, "hh_shift");
-        [PrintUtils printMatrix:hhShift];
-        WriteLog(0, "d_up");
-        [PrintUtils printMatrix:d_up];*/
-        WriteLog(1, "Dirrerents: %d", nDifferents);
-    } else {
-        WriteLog(0, "checked shift %d :)", shift);
-        res = YES;
-    }
-    return res;
 }
 
 + (NSInteger)trySelectGoodPosFromArr:(NSMutableArray<NumInt *> *)arr hh:(Matrix *)hh type:(NSInteger)type shift:(NSInteger)shift j:(NSInteger)j {

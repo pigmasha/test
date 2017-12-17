@@ -59,13 +59,6 @@ final class Comb: NSObject {
         normalForm()
     }
 
-    func compLeftT(_ tenzor: Tenzor) {
-        for item in tenzors {
-            item.tenzor.compLeft(tenzor)
-        }
-        normalForm()
-    }
-
     func compRight(_ comb: Comb) {
         if (isZero) { return }
 
@@ -76,22 +69,6 @@ final class Comb: NSObject {
         for item in comb.content {
             let c2 = Comb(comb: c)
             c2.compRightT(item.tenzor)
-            c2.compKoef(item.koef)
-            addComb(c2)
-        }
-        normalForm()
-    }
-
-    func compLeft(_ comb: Comb) {
-        if (isZero) { return }
-
-        let c = Comb(comb: self)
-        tenzors.removeAll()
-        if (comb.isZero) { return }
-
-        for item in comb.content {
-            let c2 = Comb(comb: c)
-            c2.compLeftT(item.tenzor)
             c2.compKoef(item.koef)
             addComb(c2)
         }

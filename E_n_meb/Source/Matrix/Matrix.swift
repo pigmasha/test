@@ -164,17 +164,33 @@ class Matrix : NSObject {
         return numberOfDifferents(matr2, debug: false)
     }
 
-    func numberOfDifferents(_ matr2: Matrix, debug: Bool) -> Int {
+    func differentColumns(_ matr2: Matrix) -> [Int]? {
         let combs2 = matr2.rows
-        if combs.count != combs2.count { return -1 }
+        guard combs.count == combs2.count else { return nil }
 
-        var result = 0
-
+        var columns: [Int] = []
         for i in 0..<combs.count {
             let line1 = combs[i]
             let line2 = combs2[i]
-            if line1.count != line2.count { return -1 }
+            guard line1.count == line2.count else { return nil }
+            for j in 0..<line1.count {
+                if line1[j].compareK(line2[j]) != 1 {
+                    columns += [j]
+                }
+            }
+        }
+        return columns
+    }
 
+    func numberOfDifferents(_ matr2: Matrix, debug: Bool) -> Int {
+        let combs2 = matr2.rows
+        guard combs.count == combs2.count else { return -1 }
+
+        var result = 0
+        for i in 0..<combs.count {
+            let line1 = combs[i]
+            let line2 = combs2[i]
+            guard line1.count == line2.count else { return -1 }
             for j in 0..<line1.count {
                 if line1[j].compareK(line2[j]) != 1 {
                     result += 1
@@ -190,12 +206,12 @@ class Matrix : NSObject {
     // self = matr - self
     func subtractMatrix(_ matr: Matrix) {
         let combs2 = matr.rows
-        if combs.count != combs2.count { return }
+        guard combs.count == combs2.count else { return }
 
         for i in 0..<combs.count {
             let line1 = combs[i]
             let line2 = combs2[i]
-            if line1.count != line2.count { return }
+            guard line1.count == line2.count else { return }
 
             for j in 0..<line1.count {
                 let c = line1[j]
@@ -206,12 +222,12 @@ class Matrix : NSObject {
     }
     func addMatrix(_ matr: Matrix!) {
         let combs2 = matr.rows
-        if combs.count != combs2.count { return }
+        guard combs.count == combs2.count else { return }
 
         for i in 0..<combs.count {
             let line1 = combs[i]
             let line2 = combs2[i]
-            if line1.count != line2.count { return }
+            guard line1.count == line2.count else { return }
 
             for j in 0..<line1.count {
                 line1[j].addComb(line2[j])

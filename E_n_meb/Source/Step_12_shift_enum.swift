@@ -34,8 +34,7 @@ struct Step_12_shift_enum {
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
         if shiftFrom > 0 {
             hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
-            OutputFile.writeLog(.bold, "Shift \(shiftFrom)")
-            PrintUtils.printMatrix(hh)
+            PrintUtils.printMatrix("Shift \(shiftFrom)", hh)
         }
 
         var shift = 1 + shiftFrom
@@ -86,9 +85,7 @@ struct Step_12_shift_enum {
             }
         }
         let hh = ShiftHHAlgAll.lastHH(from: variants)!
-        OutputFile.writeLog(.bold, "RESULT")
-        OutputFile.writeLog(.normal, seqStr)
-        PrintUtils.printMatrix(hh)
+        PrintUtils.printMatrix("RESULT \(seqStr)", hh)
         if hh.maxNonZeroPos.0 == 0 || hh.maxNonZeroPos.0 == PathAlg.s - 1 {
             let path = OutputFile.fileName!
             try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")

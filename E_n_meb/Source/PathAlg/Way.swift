@@ -124,8 +124,10 @@ final class Way: NSObject {
             isZero = true
             return
         }
+        var p = 0
         for w in way.arrays {
-            arr.append([ NumInt(intValue: w.first!.intValue), NumInt(intValue: w.last!.intValue) ])
+            arr.insert([ NumInt(intValue: w.first!.intValue), NumInt(intValue: w.last!.intValue) ], at: p)
+            p += 1
         }
         vStart.number = way.startsWith.number
         isZero = isZeroSmart
@@ -137,7 +139,7 @@ final class Way: NSObject {
             return
         }
         for w in way.arrays {
-            arr.insert([ NumInt(intValue: w.first!.intValue), NumInt(intValue: w.last!.intValue) ], at: 0)
+            arr.append([ NumInt(intValue: w.first!.intValue), NumInt(intValue: w.last!.intValue) ])
         }
         vEnd.number = way.endsWith.number
         isZero = isZeroSmart

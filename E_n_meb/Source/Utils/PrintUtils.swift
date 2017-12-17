@@ -6,11 +6,21 @@
 import Foundation
 
 final class PrintUtils: NSObject {
-    static func printMatrix(_ m: Matrix) {
-        printMatrixDeg(m, -1, -1)
+    static func printMatrix(_ prefix: String, _ m: Matrix) {
+        printMatrix(prefix, m, redColumns: nil)
     }
 
-    static func printMatrixDeg(_ m: Matrix, _ degFrom: Int, _ degTo: Int) {
+    static func printMatrix(_ prefix: String, _ m: Matrix, redColumns: [Int]?) {
+        printMatrixDeg(prefix, m, -1, -1, redColumns: redColumns)
+    }
+
+    static func printMatrixDeg(_ prefix: String, _ m: Matrix, _ degFrom: Int, _ degTo: Int) {
+        printMatrixDeg(prefix, m, degFrom, degTo, redColumns: nil)
+    }
+
+    static func printMatrixDeg(_ prefix: String, _ m: Matrix, _ degFrom: Int, _ degTo: Int, redColumns: [Int]?) {
+        OutputFile.writeLog(.normal, prefix)
+
         let posesFrom = posesFromDeg(degFrom)
         let posesTo = posesFromDeg(degTo)
         let file = OutputFile()
@@ -23,7 +33,11 @@ final class PrintUtils: NSObject {
             for j in 0 ..< line.count {
                 let cellLeft = cellBorder(j, posesFrom)
                 file.write("<td class='c_t_\(cellTop) c_l_\(cellLeft)'")
-                file.write(">" + line[j].htmlStr + "</td>")
+                if let redColumns = redColumns, redColumns.contains(j)  {
+                    file.write("><font color=red>" + line[j].htmlStr + "</font></td>")
+                } else {
+                    file.write(">" + line[j].htmlStr + "</td>")
+                }
             }
             file.writeln("</tr>")
         }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-final class HHElem : Matrix {
+final class HHElem: Matrix {
     let deg: Int
     let type: Int
 

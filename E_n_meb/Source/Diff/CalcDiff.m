@@ -6,9 +6,8 @@
 int createZeroDiff(Diff *diff, BimodQ *qFrom, BimodQ *qTo);
 
 #define ON_ERROR(__err) { \
-    [PrintUtils printMatrixDeg:diff :deg + 1 :deg]; \
-    WriteLog(2, "check diff"); \
-    [PrintUtils printMatrixDeg:checkDiff :deg + 1 :deg]; \
+    [PrintUtils printMatrixDeg:@"diff" :diff :deg + 1 :deg]; \
+    [PrintUtils printMatrixDeg:@"check diff" :checkDiff :deg + 1 :deg]; \
     return __err; \
 }
 
@@ -56,7 +55,7 @@ int calcDiffWithNumber(Diff *diff, NSInteger deg, Diff *prevDiff) {
 
                     if ([wL isZero] || [wR isZero]) {
                         WriteLog(2, "deg=%d, row %d, col %d, fromSz %d, toSz %d", deg, ii, jj, fromSz, toSz);
-                        [PrintUtils printMatrixDeg:checkDiff :deg + 1 :deg];
+                        [PrintUtils printMatrixDeg:@"" :checkDiff :deg + 1 :deg];
                         return 1;
                     }
                     Tenzor *t = [[Tenzor alloc] initWithLeft:wL right:wR];

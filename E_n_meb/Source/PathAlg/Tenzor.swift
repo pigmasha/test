@@ -53,11 +53,6 @@ final class Tenzor: NSObject {
         wRight.compRight(tenzor.rightComponent)
     }
 
-    func compLeft(_ tenzor: Tenzor) {
-        wLeft.compRight(tenzor.leftComponent)
-        wRight.compLeft(tenzor.rightComponent)
-    }
-
     func setTenzor(_ tenzor: Tenzor) {
         wLeft.setWay(tenzor.leftComponent)
         wRight.setWay(tenzor.rightComponent)

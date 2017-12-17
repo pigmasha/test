@@ -39,7 +39,7 @@
                 WriteLog(1, "CheckHHElem error! Bad way at pos %d, %d (left ends in %d, must be %d), Diff:",
                          i, j, t.leftComponent.endsWith.number, v1.number);
                 Diff *diff = [[Diff alloc] initWithDeg:degree];
-                [PrintUtils printMatrixDeg:diff :degree :degree - 1];
+                [PrintUtils printMatrixDeg:@"" :diff :degree :degree - 1];
                 return NO;
             }
 
@@ -49,7 +49,7 @@
                 WriteLog(1, "CheckHHElem error! Bad way at pos %d, %d (left starts in %d, must be %d), Diff:",
                          i, j, t.leftComponent.startsWith.number, v2.number);
                 Diff *diff = [[Diff alloc] initWithDeg:degree];
-                [PrintUtils printMatrixDeg:diff :degree :degree - 1];
+                [PrintUtils printMatrixDeg:@"" :diff :degree :degree - 1];
                 return NO;
             }
 
@@ -57,7 +57,7 @@
                 WriteLog(1, "CheckHHElem error! Bad way at pos %d, %d (right starts in %d, must be %d), Diff:",
                          i, j, t.rightComponent.startsWith.number, v2.number);
                 Diff *diff = [[Diff alloc] initWithDeg:degree];
-                [PrintUtils printMatrixDeg:diff :degree :degree - 1];
+                [PrintUtils printMatrixDeg:@"" :diff :degree :degree - 1];
                 return NO;
             }
         }
@@ -113,8 +113,7 @@
         }
 
         if ((charK > 0 && ((NSInteger)totalKoef % charK)) || (charK == 0 && totalKoef != 0)) {
-            WriteLog(1, "HH");
-            [PrintUtils printMatrix:hh];
+            [PrintUtils printMatrix:@"HH" :hh];
             WriteLog(1, "Im");
             ImMatrix *im = [[ImMatrix alloc] initWithDiff:diff];
             [PrintUtils printIm:im deg:degree - 1];

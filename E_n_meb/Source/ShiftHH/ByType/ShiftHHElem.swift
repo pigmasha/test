@@ -68,15 +68,28 @@ class ShiftHHElem: NSObject {
         }
         hh_shift.twist(shift)
         if withTwist {
-            /*for ell in 0 ... 10 {
-                print("\(ell): \(PathAlg.sigmaDeg(ell, i: 2*PathAlg.n, isGamma: true))")
-            }*/
-            let ell = Int(shift / PathAlg.twistPeriod)
-            let ell_s = Int(ell / PathAlg.s)
-            let koef = type == 5 ? PathAlg.sigmaDeg(ell, i: 2*PathAlg.n, isGamma: true) * minusDeg(ell_s) : minusDeg(ell)
-            hh_shift.compKoef(koef)
-
-            //type 2: koef = PathAlg.sigmaDeg(ell, i: -6*ell, isGamma: true)
+            typealias TryGetKoefFunction = (_ s: Int, _ ell: Int) -> Int
+            let koefFunc: TryGetKoefFunction = { s, ell in
+                if s % 3 == 0 {
+                    return minusDeg(3*(1-ell-s)/s)
+                } else {
+                    if ell % s == 0 {
+                        return minusDeg(ell / s)
+                    } else {
+                        return -PathAlg.sigmaDeg(ell%s, i: -9*(ell%s), isGamma: false) * minusDeg(ell / s)
+                    }
+                }
+            }
+            let kk: Int
+            switch type {
+            case 5:
+                kk = koefFunc(PathAlg.s, V.ell_0)
+            case 2:
+                kk = PathAlg.sigmaDeg(V.ell_0, i: -6*V.ell_0, isGamma: true)
+            default:
+                kk = minusDeg(V.ell_0)
+            }
+            hh_shift.compKoef(kk)
         }
         return hh_shift
     }
