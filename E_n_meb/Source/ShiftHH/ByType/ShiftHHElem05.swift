@@ -2,8 +2,6 @@
 //  Created by M on 20.09.17.
 //
 
-import Foundation
-
 final class ShiftHHElem05 : ShiftHHElem {
     init() {
         super.init(type:5, withTwist: true)

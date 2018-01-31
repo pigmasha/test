@@ -15,6 +15,7 @@
 		0C55D52C1CC39D940051135A /* Num.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52B1CC39D940051135A /* Num.swift */; };
 		0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */; };
 		0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52F1CC3B5380051135A /* OutputFile.swift */; };
+		0C5BA6D6202137700044A8B4 /* ShiftHHElem06.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5BA6D5202137700044A8B4 /* ShiftHHElem06.swift */; };
 		0C5C24591EC07B1B003136D8 /* ShiftHHElem04.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C24581EC07B1B003136D8 /* ShiftHHElem04.swift */; };
 		0C60C9221E34E1AD00F285AC /* ShiftVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9211E34E1AD00F285AC /* ShiftVariant.swift */; };
 		0C60C9241E34EDA700F285AC /* ShiftAllVariants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9231E34EDA700F285AC /* ShiftAllVariants.swift */; };
@@ -73,6 +74,7 @@
 		0C55D52B1CC39D940051135A /* Num.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Num.swift; sourceTree = "<group>"; };
 		0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHGenProgram.swift; sourceTree = "<group>"; };
 		0C55D52F1CC3B5380051135A /* OutputFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFile.swift; sourceTree = "<group>"; };
+		0C5BA6D5202137700044A8B4 /* ShiftHHElem06.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem06.swift; sourceTree = "<group>"; };
 		0C5C24581EC07B1B003136D8 /* ShiftHHElem04.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHElem04.swift; sourceTree = "<group>"; };
 		0C60C9211E34E1AD00F285AC /* ShiftVariant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftVariant.swift; sourceTree = "<group>"; };
 		0C60C9231E34EDA700F285AC /* ShiftAllVariants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftAllVariants.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				0C64F16E1CB9C05600495383 /* ShiftHHElem03.swift */,
 				0C5C24581EC07B1B003136D8 /* ShiftHHElem04.swift */,
 				0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */,
+				0C5BA6D5202137700044A8B4 /* ShiftHHElem06.swift */,
 			);
 			path = ByType;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */,
 				0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
+				0C5BA6D6202137700044A8B4 /* ShiftHHElem06.swift in Sources */,
 				0C60C9221E34E1AD00F285AC /* ShiftVariant.swift in Sources */,
 				0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */,
 				0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */,

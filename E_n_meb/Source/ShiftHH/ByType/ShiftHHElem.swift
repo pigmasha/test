@@ -44,6 +44,7 @@ class ShiftHHElem: NSObject {
         case 3: return ShiftHHElem03()
         case 4: return ShiftHHElem04()
         case 5: return ShiftHHElem05()
+        case 6: return ShiftHHElem06()
         default: return nil
         }
     }

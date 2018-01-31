@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_12_shift_enum {
     static func runCase() -> Bool {
-        let kCurrentType = 5
+        let kCurrentType = 6
 
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
