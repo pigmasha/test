@@ -54,7 +54,7 @@ struct Step_13_select_shift {
                 ShiftHHGenProgram.printProgram(hh, shift: shift)
                 return true
             }
-            if shift == PathAlg.twistPeriod { break }
+            if shift == 2*PathAlg.twistPeriod { break }
             shift += 1
         }
         return false
@@ -65,7 +65,7 @@ struct Step_13_select_shift {
         let nDifferents = myShift.numberOfDifferents(hh, debug: true)
         if nDifferents != 0 {
             OutputFile.writeLog(.error, "<br>Bad my shift, nDiff=\(nDifferents), myMatrix:")
-            PrintUtils.printMatrix("myShift", myShift)
+            PrintUtils.printMatrix("myShift", myShift, redColumns: myShift.differentColumns(hh))
             return false
         }
         return true

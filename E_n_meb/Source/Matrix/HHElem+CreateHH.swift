@@ -82,11 +82,16 @@ extension HHElem {
         for j in 3*s..<4*s {
             HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:4*j+1, leftTo:4*j+3, right:4*j+1, koef:-PathAlg.k1J(ell, j:j, m:m))
         }
-        for j in 4*s..<5*s {
-            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:4*j+2, leftTo:4*(j+1), right:4*j+2, koef:-PathAlg.k1JPlus1(ell, j:j, m:m))
+        for j in 4*s..<6*s {
+            if j < 5*s-1 || j == 6*s-1 {
+                HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:4*j+2, leftTo:4*(j+1), right:4*j+2,
+                                   koef:-PathAlg.k1JPlus1(ell, j:j, m:m))
+            }
         }
-        for j in 6*s..<7*s {
-            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:4*j+3, leftTo:4*(j+1)+1, right:4*j+3, koef:1)
+        for j in 6*s..<8*s {
+            if j < 7*s-1 || j == 8*s-1 {
+                HHElem.addElemToHH(self, i:5*s+(j%s), j:j, leftFrom:4*j+3, leftTo:4*(j+1)+1, right:4*j+3, koef:1)
+            }
         }
     }
     private func createHH7() {

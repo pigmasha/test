@@ -21,14 +21,14 @@ struct ShiftCheck {
         if multRes.isNil || multResShift.isNil || !multRes.isEq(multResShift, debug: true) {
             let columns = multRes.differentColumns(multResShift)
             OutputFile.writeLog(.error, "checkHHMatrix error!")
-            PrintUtils.printMatrix("multRes", multRes, redColumns: columns)
+            //PrintUtils.printMatrix("multRes", multRes, redColumns: columns)
             //PrintUtils.printMatrix("multResShift", multResShift)
-            PrintUtils.printMatrix("dDown", dDown)
-            PrintUtils.printMatrix("* hhShift", hhShift, redColumns: columns)
-            PrintUtils.printMatrix("hh", hh)
-            PrintUtils.printMatrix("* dUp", dUp, redColumns: columns)
-            PrintUtils.printMatrix("* dUp (no twist)", Diff(deg: (degree + shift - 1) % 11), redColumns: columns)
-            OutputFile.writeLog(.error, "Dirrerents: \(multRes.numberOfDifferents(multResShift))")
+            //PrintUtils.printMatrix("dDown", dDown)
+            PrintUtils.printMatrix("hhShift", hhShift, redColumns: columns)
+            //PrintUtils.printMatrix("hh", hh)
+            //PrintUtils.printMatrix("* dUp", dUp, redColumns: columns)
+            //PrintUtils.printMatrix("* dUp (no twist)", Diff(deg: (degree + shift - 1) % 11), redColumns: columns)
+            OutputFile.writeLog(.error, "Differents: \(multRes.numberOfDifferents(multResShift))")
             result = false
         } else {
             OutputFile.writeLog(.normal, "checked shift \(shift) :)")

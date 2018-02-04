@@ -7,7 +7,7 @@ import Foundation
 
 struct Step_14_shift_check {
     static func runCase() -> Bool {
-        let kCurrentType = 5
+        let kCurrentType = 6
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
         let type = kCurrentType
@@ -25,7 +25,7 @@ struct Step_14_shift_check {
         let ell = Int(deg / PathAlg.twistPeriod)
         OutputFile.writeLog(.time, "N=\(PathAlg.n), S=\(PathAlg.s), ell=\(ell)")
         for shift in 1 ... 2 * PathAlg.s * PathAlg.twistPeriod + 1 {
-            guard (shift % PathAlg.twistPeriod) == PathAlg.alg.dummy1 else { continue }
+            //guard (shift % PathAlg.twistPeriod) == PathAlg.alg.dummy1 else { continue }
             let hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift - 1)
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
@@ -41,11 +41,10 @@ struct Step_14_shift_check {
     private static func process(type: Int, deg: Int) -> Bool {
         var hh = HHElem(deg: deg, type: type)
 
-        for shift in 1 ... 3 * PathAlg.s * PathAlg.twistPeriod + 1 {
+        for shift in 1 ... /*3 **/ PathAlg.s * PathAlg.twistPeriod + 1 {
             OutputFile.writeLog(.time, "Shift \(shift)")
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
-                PrintUtils.printMatrix("Bad HH", hh_shift)
                 return true
             }
             hh = hh_shift

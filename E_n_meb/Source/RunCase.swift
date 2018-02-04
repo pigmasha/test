@@ -2,11 +2,9 @@
 //  Created by M on 22.01.17.
 //
 
-import Foundation
-
-class RunCase : NSObject {
-    static let kStep = 13
-    class func runCase() -> Bool {
+struct RunCase {
+    static let kStep = 14
+    static func runCase() -> Bool {
         switch kStep {
         case 1:
             return Step_1_calc_dn.runCase()

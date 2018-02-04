@@ -3,14 +3,12 @@
 //
 //
 
-import Foundation
-
-class ShiftHHGenProgram : NSObject {
+struct ShiftHHGenProgram {
     private let hhElem: HHElem
     private let shift: Int
-    private let file: OutputFile
+    private let file = OutputFile()
 
-    class func printProgram(_ hhElem: HHElem, shift: Int) {
+    static func printProgram(_ hhElem: HHElem, shift: Int) {
         let object = ShiftHHGenProgram(hhElem: hhElem, shift: shift)
         object.printProgram()
     }
@@ -152,13 +150,6 @@ class ShiftHHGenProgram : NSObject {
             return "j" + ((d > 0) ? "+" : "") + "\(d / s)*s"
         }
         return "\(sStringPart(row))+myModS(j+1)";
-    }
-
-    private init(hhElem: HHElem, shift: Int) {
-        self.hhElem = hhElem
-        self.shift = shift
-        file = OutputFile()
-        super.init()
     }
 
     private func sStringPart(_ i: Int) -> String {

@@ -20,7 +20,7 @@ struct Step_10_createhh {
             
             let ell = deg / PathAlg.twistPeriod
             let hh = HHElem(deg: deg, type: type)
-            OutputFile.writeLog(.bold, "type \(type): HH (ell=\(ell))")
+            OutputFile.writeLog(.bold, "type=\(type): HH (ell=\(ell))")
             if (!CheckHH.checkHHElem(hh, degree: deg)) {
                 return true
             }

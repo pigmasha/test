@@ -125,10 +125,20 @@
                 }
             }
             NSInteger firstHHSq = -1;
-            for (NSInteger j = 0; j < firstHH.rows.count; j++) {
+            for (NSInteger j = 0; j < firstHH.height; j++) {
                 if (!firstHH.rows[j][i * s].isZero) { firstHHSq = j / s; break; }
             }
+            if (firstHHSq < 0 && i > 0) {
+                for (NSInteger j = 0; j < firstHH.height; j++) {
+                    if (!firstHH.rows[j][(i - 1) * s].isZero) { firstHHSq = j / s; break; }
+                }
+            }
             if (firstHHSq > -1) {
+                for (ShiftVariant *v in variants) {
+                    if (s * (firstHHSq + 1) < firstHH.height && [self hasNonZeroInSq:firstHHSq + 1 hhCol:v.hh]) {
+                        variant = v;
+                    }
+                }
                 for (ShiftVariant *v in variants) {
                     if ([self hasNonZeroInSq:firstHHSq hhCol:v.hh]) {
                         variant = v;
@@ -145,8 +155,10 @@
 {
     sq = MAX(sq, 0);
     for (NSInteger i = 0; i < PathAlg.s; i++) {
-        if (hhCol.rows[sq * PathAlg.s + i].firstObject.isZero == NO) {
-            return YES;
+        for (NSInteger j = 0; j < PathAlg.s; j++) {
+            if (hhCol.rows[sq * PathAlg.s + i][j].isZero == NO) {
+                return YES;
+            }
         }
     }
     return NO;
