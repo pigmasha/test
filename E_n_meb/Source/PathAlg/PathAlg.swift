@@ -50,9 +50,7 @@ final class PathAlg: NSObject {
     private var s: Int
     private var charK: Int
 
-    static var twistPeriod: Int {
-        return 11
-    }
+    static let twistPeriod = 11
 
     static func sigma(_ i: Int) -> Int {
         return 4 * (n + s) + i

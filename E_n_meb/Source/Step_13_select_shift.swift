@@ -2,11 +2,9 @@
 //  Created by M on 07.05.17.
 //
 
-import Foundation
-
 struct Step_13_select_shift {
     static func runCase() -> Bool {
-        let kCurrentType = 5
+        let kCurrentType = 6
 
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
@@ -22,7 +20,7 @@ struct Step_13_select_shift {
 
     private static func process(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
-
+        let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
         if !checkMyShift(type: type, deg: deg, shift: 0, hh: hh) {
@@ -46,7 +44,7 @@ struct Step_13_select_shift {
                 return true
             }
             if shift == PathAlg.twistPeriod {
-                hh = ShiftHHAlgAll.lastHH(from: allVariants)
+                hh = ShiftHHAlgAll.lastHH(from: allVariants, firstHH: hh0)
             } else {
                 hh = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift)
             }
@@ -56,7 +54,7 @@ struct Step_13_select_shift {
                 ShiftHHGenProgram.printProgram(hh, shift: shift)
                 return true
             }
-            if shift == 20 * PathAlg.twistPeriod { break }
+            if shift == PathAlg.twistPeriod { break }
             shift += 1
         }
         return false

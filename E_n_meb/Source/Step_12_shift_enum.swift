@@ -29,6 +29,7 @@ struct Step_12_shift_enum {
         let ell = deg / PathAlg.twistPeriod
         let shiftFrom = PathAlg.alg.dummy1// PathAlg.twistPeriod
 
+        let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
         PrintUtils.printMatrixKoefs(hh)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
@@ -60,8 +61,8 @@ struct Step_12_shift_enum {
                 }
             }
             if shift % PathAlg.twistPeriod == 0 {
-                processLastShift(variants: allVariants!, shift: shift)
-                //break
+                processLastShift(variants: allVariants!, shift: shift, firstHH: hh0)
+                break
                 shift = stepBack(shift: shift)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)
@@ -77,14 +78,14 @@ struct Step_12_shift_enum {
         return false
     }
 
-    private static func processLastShift(variants: ShiftAllVariants, shift: Int) {
+    private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem) {
         var seqStr = ""
         for sh in 1 ..< shift {
             if let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh)) {
                 seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
             }
         }
-        let hh = ShiftHHAlgAll.lastHH(from: variants)!
+        let hh = ShiftHHAlgAll.lastHH(from: variants, firstHH: firstHH)!
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
         if hh.maxNonZeroPos.0 == 0 || hh.maxNonZeroPos.0 == PathAlg.s - 1 {
             let path = OutputFile.fileName!

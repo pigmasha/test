@@ -19,8 +19,7 @@ final class HHElem: Matrix {
         self.deg = deg
         self.type = type
         super.init()
-
-        CreateHH.createHHElem(self, degree:deg, type:type)
+        createHH()
     }
 
     init(degree: Int, type: Int) {

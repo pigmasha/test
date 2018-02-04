@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		0C0A443C1F71E11F00F11EFE /* ShiftHHElem05.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */; };
 		0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */; };
-		0C40FC211C065EF50095EF4C /* CheckHH.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C40FC201C065EF50095EF4C /* CheckHH.m */; };
 		0C4547C81E998CC600F5344C /* Step_12_shift_enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */; };
 		0C456D9A1EBF72FA001D49BC /* Step_13_select_shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C456D991EBF72FA001D49BC /* Step_13_select_shift.swift */; };
+		0C52975D20273D0C00742B45 /* HHElem+CreateHH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52975C20273D0C00742B45 /* HHElem+CreateHH.swift */; };
+		0C52976220273D2900742B45 /* CheckHH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52976120273D2900742B45 /* CheckHH.swift */; };
 		0C55D52C1CC39D940051135A /* Num.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52B1CC39D940051135A /* Num.swift */; };
 		0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */; };
 		0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55D52F1CC3B5380051135A /* OutputFile.swift */; };
@@ -47,7 +48,6 @@
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CAEC12F1C8F3738007FAF33 /* ShiftHHAlgAll.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEC12E1C8F3738007FAF33 /* ShiftHHAlgAll.m */; };
 		0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB0E271CC595B9007DC5F5 /* Way.swift */; };
-		0CBD4E241C00E76200976EC7 /* CreateHH.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBD4E231C00E76200976EC7 /* CreateHH.m */; };
 		0CD3438C1CC9834D00FD9D61 /* Comb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3438B1CC9834D00FD9D61 /* Comb.swift */; };
 		0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A31C1E9158E700C1C32C /* Utils.swift */; };
 		0CD8A31F1E915D1700C1C32C /* Step_10_createhh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A31E1E915D1700C1C32C /* Step_10_createhh.swift */; };
@@ -67,10 +67,10 @@
 		0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHElem05.swift; sourceTree = "<group>"; };
 		0C2231AA1C5FF830001D0009 /* ShiftHHAlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftHHAlg.h; sourceTree = "<group>"; };
 		0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftHHAlg.m; sourceTree = "<group>"; };
-		0C40FC1F1C065EF50095EF4C /* CheckHH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckHH.h; sourceTree = "<group>"; };
-		0C40FC201C065EF50095EF4C /* CheckHH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckHH.m; sourceTree = "<group>"; };
 		0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_12_shift_enum.swift; sourceTree = "<group>"; };
 		0C456D991EBF72FA001D49BC /* Step_13_select_shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_13_select_shift.swift; sourceTree = "<group>"; };
+		0C52975C20273D0C00742B45 /* HHElem+CreateHH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HHElem+CreateHH.swift"; sourceTree = "<group>"; };
+		0C52976120273D2900742B45 /* CheckHH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckHH.swift; sourceTree = "<group>"; };
 		0C55D52B1CC39D940051135A /* Num.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Num.swift; sourceTree = "<group>"; };
 		0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHGenProgram.swift; sourceTree = "<group>"; };
 		0C55D52F1CC3B5380051135A /* OutputFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFile.swift; sourceTree = "<group>"; };
@@ -119,8 +119,6 @@
 		0CAEC12D1C8F3738007FAF33 /* ShiftHHAlgAll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftHHAlgAll.h; sourceTree = "<group>"; };
 		0CAEC12E1C8F3738007FAF33 /* ShiftHHAlgAll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftHHAlgAll.m; sourceTree = "<group>"; };
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
-		0CBD4E221C00E76200976EC7 /* CreateHH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateHH.h; sourceTree = "<group>"; };
-		0CBD4E231C00E76200976EC7 /* CreateHH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateHH.m; sourceTree = "<group>"; };
 		0CD3438B1CC9834D00FD9D61 /* Comb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comb.swift; sourceTree = "<group>"; };
 		0CD8A31C1E9158E700C1C32C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0CD8A31E1E915D1700C1C32C /* Step_10_createhh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_10_createhh.swift; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 			isa = PBXGroup;
 			children = (
 				0C839BEE1B308D24008153BC /* CreateDiff */,
-				0CBD4E211C00E76200976EC7 /* CreateHH */,
 				0C7E5DCD1AF3D9F7003A425A /* Diff */,
 				0CA149D11C83680400F556D9 /* Matrix */,
 				0C7E5DDF1AF3D9F7003A425A /* PathAlg */,
@@ -252,6 +249,7 @@
 		0C7E5DF01AF3D9F7003A425A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0C52976120273D2900742B45 /* CheckHH.swift */,
 				0C9D72F41CCD09780051B8C9 /* Dim.swift */,
 				0C55D52F1CC3B5380051135A /* OutputFile.swift */,
 				9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */,
@@ -288,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				0C9D72F01CCD02350051B8C9 /* HHElem.swift */,
+				0C52975C20273D0C00742B45 /* HHElem+CreateHH.swift */,
 				0CA149D41C83680400F556D9 /* ImMatrix.h */,
 				0CA149D51C83680400F556D9 /* ImMatrix.m */,
 				0CA149D81C83680400F556D9 /* KoefMatrix.h */,
@@ -295,17 +294,6 @@
 				0C9D72EE1CCCF4500051B8C9 /* Matrix.swift */,
 			);
 			path = Matrix;
-			sourceTree = "<group>";
-		};
-		0CBD4E211C00E76200976EC7 /* CreateHH */ = {
-			isa = PBXGroup;
-			children = (
-				0CBD4E221C00E76200976EC7 /* CreateHH.h */,
-				0CBD4E231C00E76200976EC7 /* CreateHH.m */,
-				0C40FC1F1C065EF50095EF4C /* CheckHH.h */,
-				0C40FC201C065EF50095EF4C /* CheckHH.m */,
-			);
-			path = CreateHH;
 			sourceTree = "<group>";
 		};
 		0CFD76731C7D048300C2698A /* ByType */ = {
@@ -397,7 +385,6 @@
 				0CAEC12F1C8F3738007FAF33 /* ShiftHHAlgAll.m in Sources */,
 				0C839BF51B308D24008153BC /* CreateDiff.m in Sources */,
 				0C7E5E1B1AF41DD5003A425A /* RunCase_4_dimhom.m in Sources */,
-				0CBD4E241C00E76200976EC7 /* CreateHH.m in Sources */,
 				0C7E5E121AF3D9F7003A425A /* Utils.m in Sources */,
 				0C456D9A1EBF72FA001D49BC /* Step_13_select_shift.swift in Sources */,
 				0CA652661CC843ED00272A59 /* Pairs.swift in Sources */,
@@ -411,6 +398,7 @@
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
 				9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */,
 				0C55D52E1CC3B32D0051135A /* ShiftHHGenProgram.swift in Sources */,
+				0C52976220273D2900742B45 /* CheckHH.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
 				0C5BA6D6202137700044A8B4 /* ShiftHHElem06.swift in Sources */,
 				0C60C9221E34E1AD00F285AC /* ShiftVariant.swift in Sources */,
@@ -429,6 +417,7 @@
 				0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */,
 				0CD8A3251E91643600C1C32C /* Step_7_lemma3.swift in Sources */,
 				0C9970CB1FB8829A00666F12 /* ShiftCheck.swift in Sources */,
+				0C52975D20273D0C00742B45 /* HHElem+CreateHH.swift in Sources */,
 				0CDBC4F31F093AAF009A76F7 /* Step_1_calc_dn.swift in Sources */,
 				0C60C9241E34EDA700F285AC /* ShiftAllVariants.swift in Sources */,
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
@@ -440,7 +429,6 @@
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
 				0C7E5DFE1AF3D9F7003A425A /* CalcDiff.m in Sources */,
 				0C0A443C1F71E11F00F11EFE /* ShiftHHElem05.swift in Sources */,
-				0C40FC211C065EF50095EF4C /* CheckHH.m in Sources */,
 				0C64F16F1CB9C05600495383 /* ShiftHHElem03.swift in Sources */,
 				0C9D72F11CCD02350051B8C9 /* HHElem.swift in Sources */,
 			);

@@ -78,6 +78,8 @@
                 }*/
             }
             [hh addMatrixX:minVar.hh x:col];
+        } else if (type == 6 && shift % 11 == 10 && col >= 2 * s) {
+            [hh addMatrixX:variants.lastObject.hh x:col];
         } else {
             [hh addMatrixX:variants[0].hh x:col];
         }
@@ -103,7 +105,7 @@
     return hh;
 }
 
-+ (HHElem *)lastHHFromAllVariants:(ShiftAllVariants *)allVariants
++ (HHElem *)lastHHFromAllVariants:(ShiftAllVariants *)allVariants firstHH:(HHElem *)firstHH
 {
     NSInteger s = PathAlg.s;
     NSInteger width = allVariants.variants.count * s;
@@ -120,6 +122,17 @@
                 }
                 if (width == height + s && [self hasNonZeroInSq:i - 1 hhCol:v.hh]) {
                     variant = v;
+                }
+            }
+            NSInteger firstHHSq = -1;
+            for (NSInteger j = 0; j < firstHH.rows.count; j++) {
+                if (!firstHH.rows[j][i * s].isZero) { firstHHSq = j / s; break; }
+            }
+            if (firstHHSq > -1) {
+                for (ShiftVariant *v in variants) {
+                    if ([self hasNonZeroInSq:firstHHSq hhCol:v.hh]) {
+                        variant = v;
+                    }
                 }
             }
             [hh addMatrixX:variant.hh x:i * s];

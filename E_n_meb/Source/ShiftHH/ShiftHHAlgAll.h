@@ -13,6 +13,6 @@
 + (ShiftAllVariants *)allVariantsForHHElem:(HHElem *)hh degree:(NSInteger)degree shift:(NSInteger)shift;
 + (HHElem *)selectFromAllVariants:(ShiftAllVariants *)allVariants type:(NSInteger)type shift:(NSInteger)shift;
 + (HHElem *)hhFromAllVariants:(ShiftAllVariants *)allVariants;
-+ (HHElem *)lastHHFromAllVariants:(ShiftAllVariants *)allVariants;
++ (HHElem *)lastHHFromAllVariants:(ShiftAllVariants *)allVariants firstHH:(HHElem *)firstHH;
 
 @end

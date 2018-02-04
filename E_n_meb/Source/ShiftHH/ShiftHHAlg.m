@@ -199,62 +199,6 @@
             if (shift == 10 && j < s && i >= s) return ii;
             if (shift == 10 && j >= 5*s && i >= 5*s) return ii;
         }
-
-        /*if (type == 4)
-        {
-            if (shift == 1 && j < s && i >= s) return ii;
-            if (shift == 1 && j >= 4*s && j < 5 * s && i >= 2 * s) return ii;
-            if (shift == 2 && i >= s) return ii;
-            if (shift == 4 && j < s && i >= 2 * s) return ii;
-            if (shift == 6 && j >= 6 * s && i >= 2 * s) return ii;
-            if (shift == 8 && j >= 5 * s) return ii;
-            if (shift == 10 && j >= 5 * s && i >= s) return ii;
-            if (shift == 10 && j < s && i != j) return ii;
-        }
-
-        if (type == 5)
-        {
-            if (shift == 4 && i >= s) return ii;
-            if (shift == 5) return ii;
-        }
-
-        if (type == 6)
-        {
-            if (shift == 1) return ii;
-            if (shift == 4 && j < s) return ii;
-            if (shift == 4 && j >= 2*s) return ii;
-            if (shift == 4 && j >= s && j < 2*s && i >= s) return ii;
-            if (shift == 5 && i >= s) return ii;
-            if (shift == 6) return ii;
-            if (shift == 7 && i >= s) return ii;
-            if (shift == 10 && j >= 5*s && i >= s) return ii;
-            if (shift == 10 && j >=s && j < 5*s) return ii;
-            if (shift == 10 && j < s && i != j + 2*s) return ii;
-        }
-        if (type == 12)
-        {
-            if (shift == 4 && j < s && i != j) return ii;
-            if (shift == 4 && j >= 5 * s && i >= 2*s) return ii;
-        }
-        if (type == 11)
-        {
-            if (shift == 4 && j < s && i >= 3*s) return ii;
-            if (shift == 4 && j >= 5*s && i >= 4*s) return ii;
-            if (shift == 6 && j < s && i >= 3*s) return ii;
-        }
-        if (type == 20)
-        {
-            if (shift == 4 && j < s && i >= 3*s) return ii;
-        }
-        if (type == 22)
-        {
-            if (shift == 3 && j < s) return ii;
-            if (shift == 4 && j < 2*s && i >= 2*s) return ii;
-            if (shift == 4 && j >= 6*s && i >= 2*s) return ii;
-            if (shift == 7 && j < s && i >= 3*s) return ii;
-            if (shift == 7 && j >= 7*s && j < 8*s && i >= s) return ii;
-            if (shift == 7 && j >= 8*s && (i >= 7*s || i < 2*s)) return ii;
-        }*/
     }
 
     return -1;
