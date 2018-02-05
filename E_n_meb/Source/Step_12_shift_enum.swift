@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_12_shift_enum {
     static func runCase() -> Bool {
-        let kCurrentType = 6
+        let kCurrentType = 7
 
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
@@ -62,7 +62,7 @@ struct Step_12_shift_enum {
             }
             if shift % PathAlg.twistPeriod == 0 {
                 processLastShift(variants: allVariants!, shift: shift, firstHH: hh0)
-                //break
+                break
                 shift = stepBack(shift: shift)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)

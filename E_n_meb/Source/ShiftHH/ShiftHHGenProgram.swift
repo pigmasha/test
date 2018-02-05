@@ -108,7 +108,7 @@ struct ShiftHHGenProgram {
 
                 file.writeln("HHElem.addElemToHH(hhElem, i:\(iString(row, col: col)), j:j,")
                 file.writeln("                   leftFrom:\(vertexString(l.startsWith, j: col, m: m)), leftTo:\(vertexString(l.endsWith, j: col, m: m)),")
-                file.writeln("                   rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\((c.firstKoef == 1) ? "1" : "-1"))")
+                file.writeln("                   rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\((c.firstKoef == 1 || PathAlg.charK == 2) ? "1" : "-1"))")
             }
         }
     }

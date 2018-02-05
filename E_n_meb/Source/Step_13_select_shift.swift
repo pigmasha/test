@@ -4,7 +4,7 @@
 
 struct Step_13_select_shift {
     static func runCase() -> Bool {
-        let kCurrentType = 6
+        let kCurrentType = 7
 
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
