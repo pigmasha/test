@@ -9,6 +9,5 @@
 #import "CreateDiff.h"
 #import "ImMatrix.h"
 #import "KoefMatrix.h"
-#import "ShiftHHAlg.h"
 #import "ShiftHHAlgAll.h"
 #import "Utils2.h"

@@ -10,7 +10,6 @@
 		0C0A443C1F71E11F00F11EFE /* ShiftHHElem05.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */; };
 		0C1BF8E7202D06CE001FE614 /* ShiftAlgAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BF8E6202D06CE001FE614 /* ShiftAlgAll.swift */; };
 		0C1BF8E9202D080B001FE614 /* ShiftAllSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BF8E8202D080B001FE614 /* ShiftAllSelect.swift */; };
-		0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */; };
 		0C4547C81E998CC600F5344C /* Step_12_shift_enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */; };
 		0C456D9A1EBF72FA001D49BC /* Step_13_select_shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C456D991EBF72FA001D49BC /* Step_13_select_shift.swift */; };
 		0C52975D20273D0C00742B45 /* HHElem+CreateHH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52975C20273D0C00742B45 /* HHElem+CreateHH.swift */; };
@@ -61,7 +60,6 @@
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
 		0CDBC4F31F093AAF009A76F7 /* Step_1_calc_dn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBC4F21F093AAF009A76F7 /* Step_1_calc_dn.swift */; };
 		0CE1C3D31AF985CA00166BE2 /* DiffLen.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE1C3D21AF985CA00166BE2 /* DiffLen.m */; };
-		0CE5CFE01F93EDD000D0E149 /* Step_11_shift_alg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE5CFDF1F93EDD000D0E149 /* Step_11_shift_alg.swift */; };
 		9BA1E5EA1EEA7AC500AF50CD /* PrintUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */; };
 		9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */; };
 /* End PBXBuildFile section */
@@ -70,8 +68,6 @@
 		0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHElem05.swift; sourceTree = "<group>"; };
 		0C1BF8E6202D06CE001FE614 /* ShiftAlgAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftAlgAll.swift; sourceTree = "<group>"; };
 		0C1BF8E8202D080B001FE614 /* ShiftAllSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftAllSelect.swift; sourceTree = "<group>"; };
-		0C2231AA1C5FF830001D0009 /* ShiftHHAlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftHHAlg.h; sourceTree = "<group>"; };
-		0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftHHAlg.m; sourceTree = "<group>"; };
 		0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_12_shift_enum.swift; sourceTree = "<group>"; };
 		0C456D991EBF72FA001D49BC /* Step_13_select_shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_13_select_shift.swift; sourceTree = "<group>"; };
 		0C52975C20273D0C00742B45 /* HHElem+CreateHH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HHElem+CreateHH.swift"; sourceTree = "<group>"; };
@@ -136,7 +132,6 @@
 		0CDBC4F21F093AAF009A76F7 /* Step_1_calc_dn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_1_calc_dn.swift; sourceTree = "<group>"; };
 		0CE1C3D11AF985CA00166BE2 /* DiffLen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffLen.h; sourceTree = "<group>"; };
 		0CE1C3D21AF985CA00166BE2 /* DiffLen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiffLen.m; sourceTree = "<group>"; };
-		0CE5CFDF1F93EDD000D0E149 /* Step_11_shift_alg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_11_shift_alg.swift; sourceTree = "<group>"; };
 		9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintUtils.swift; sourceTree = "<group>"; };
 		9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_14_shift_check.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,8 +152,6 @@
 			isa = PBXGroup;
 			children = (
 				0CFD76731C7D048300C2698A /* ByType */,
-				0C2231AA1C5FF830001D0009 /* ShiftHHAlg.h */,
-				0C2231AB1C5FF830001D0009 /* ShiftHHAlg.m */,
 				0CAEC12D1C8F3738007FAF33 /* ShiftHHAlgAll.h */,
 				0CAEC12E1C8F3738007FAF33 /* ShiftHHAlgAll.m */,
 				0C55D52D1CC3B32D0051135A /* ShiftHHGenProgram.swift */,
@@ -218,7 +211,6 @@
 				0CD8A3221E91627500C1C32C /* Step_8_im.swift */,
 				0CD8A3201E91600E00C1C32C /* Step_9_dimhh.swift */,
 				0CD8A31E1E915D1700C1C32C /* Step_10_createhh.swift */,
-				0CE5CFDF1F93EDD000D0E149 /* Step_11_shift_alg.swift */,
 				0C4547C71E998CC600F5344C /* Step_12_shift_enum.swift */,
 				0C456D991EBF72FA001D49BC /* Step_13_select_shift.swift */,
 				9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */,
@@ -419,13 +411,11 @@
 				9BA1E5EA1EEA7AC500AF50CD /* PrintUtils.swift in Sources */,
 				0C9D72F51CCD09780051B8C9 /* Dim.swift in Sources */,
 				0CA149DF1C83680400F556D9 /* KoefMatrix.m in Sources */,
-				0CE5CFE01F93EDD000D0E149 /* Step_11_shift_alg.swift in Sources */,
 				0C4547C81E998CC600F5344C /* Step_12_shift_enum.swift in Sources */,
 				0CA520992027D75300B1025B /* ShiftHHElem07.swift in Sources */,
 				0CD8A32A1E91708200C1C32C /* Step_6_lemma2.swift in Sources */,
 				0CD8A3231E91627500C1C32C /* Step_8_im.swift in Sources */,
 				0C5C24591EC07B1B003136D8 /* ShiftHHElem04.swift in Sources */,
-				0C2231AC1C5FF830001D0009 /* ShiftHHAlg.m in Sources */,
 				0CD8A3251E91643600C1C32C /* Step_7_lemma3.swift in Sources */,
 				0C9970CB1FB8829A00666F12 /* ShiftCheck.swift in Sources */,
 				0C52975D20273D0C00742B45 /* HHElem+CreateHH.swift in Sources */,
