@@ -20,23 +20,25 @@ struct CheckHH {
                 let t = hh.rows[i][j].content.first!.tenzor
 
                 let v1 = Vertex(i: qFrom.pij()[j].n0)
+                let v2 = Vertex(i: qTo.pij()[i].n0)
                 guard t.leftComponent.endsWith.isEq(v1) else {
                     OutputFile.writeLog(.error, "CheckHHElem error! Bad way at pos \(i), \(j) "
-                        + "(left ends in \(t.leftComponent.endsWith.number), must be \(v1.number)")
-                    PrintUtils.printMatrixDeg("Diff", Diff(deg: degree), degree, degree - 1)
+                        + "(left ends in \(t.leftComponent.endsWith.number), must be \(v1.number),"
+                        + "way is \(Way(from: v2.number, to: v1.number).str))")
+                    PrintUtils.printMatrixDeg("Diff tr", Matrix(transpose: Diff(deg: degree)), degree, degree - 1)
                     return false
                 }
-                let v2 = Vertex(i: qTo.pij()[i].n0)
                 guard t.leftComponent.startsWith.isEq(v2) else {
                     OutputFile.writeLog(.error, "CheckHHElem error! Bad way at pos \(i), \(j) "
-                        + "(left starts in \(t.leftComponent.startsWith.number), must be \(v2.number)")
-                    PrintUtils.printMatrixDeg("Diff", Diff(deg: degree), degree, degree - 1)
+                        + "(left starts in \(t.leftComponent.startsWith.number), must be \(v2.number),"
+                        + "way is \(Way(from: v2.number, to: v1.number).str)")
+                    PrintUtils.printMatrixDeg("Diff tr", Matrix(transpose: Diff(deg: degree)), degree, degree - 1)
                     return false
                 }
                 guard t.rightComponent.startsWith.isEq(v2) else {
                     OutputFile.writeLog(.error, "CheckHHElem error! Bad way at pos \(i), \(j) "
                         + "(right starts in \(t.rightComponent.startsWith.number), must be \(v2.number)")
-                    PrintUtils.printMatrixDeg("Diff", Diff(deg: degree), degree, degree - 1)
+                    PrintUtils.printMatrixDeg("Diff tr", Matrix(transpose: Diff(deg: degree)), degree, degree - 1)
                     return false
                 }
             }

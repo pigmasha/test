@@ -6,11 +6,9 @@ import Foundation
 
 struct Step_12_shift_enum {
     static func runCase() -> Bool {
-        let kCurrentType = 7
-
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
-        let type = kCurrentType
+        let type = RunCase.kCurrentType
         if (process(type: type)) { return true }
         return false
     }
@@ -62,14 +60,14 @@ struct Step_12_shift_enum {
             }
             if shift % PathAlg.twistPeriod == 0 {
                 processLastShift(variants: allVariants!, shift: shift, firstHH: hh0)
-                break
+                //break
                 shift = stepBack(shift: shift)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)
                 continue
             } else {
-                //hh = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift)
-                hh = ShiftHHAlgAll.hh(from: allVariants)
+                //hh = ShiftAllSelect.select(from: allVariants, type: type, shift: shift)
+                hh = ShiftAllSelect.hhFrom(allVariants!)
             }
             OutputFile.writeLog(.time, "Shift=\(shift)")
             //PrintUtils.printMatrixKoefs(hh)
@@ -85,7 +83,7 @@ struct Step_12_shift_enum {
                 seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
             }
         }
-        let hh = ShiftHHAlgAll.lastHH(from: variants, firstHH: firstHH)!
+        let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
         if hh.maxNonZeroPos.0 == 0 || hh.maxNonZeroPos.0 == PathAlg.s - 1 {
             let path = OutputFile.fileName!

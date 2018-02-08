@@ -30,7 +30,7 @@
     NSInteger s = PathAlg.s;
     NSInteger width = multRes.width;
     Diff *d_down = [[Diff alloc] initWithDeg:shift - 1];
-    NSInteger height = d_down.rows.firstObject.count;
+    NSInteger height = d_down.width;
 
     NSMutableArray<NSMutableArray<ShiftVariant *> *> *allVariants = [NSMutableArray new];
     for (NSInteger col = 0; col < width; col += s) {
@@ -51,119 +51,6 @@
     return [[ShiftAllVariants alloc] initWithSeqNumber:seqNumber variants:allVariants];
 }
 
-+ (HHElem *)selectFromAllVariants:(ShiftAllVariants *)allVariants type:(NSInteger)type shift:(NSInteger)shift
-{
-    if (type == 4) {
-        return [self hhFromAllVariants:allVariants];
-    }
-    NSInteger s = PathAlg.s;
-    NSInteger width = allVariants.variants.count * s;
-    NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
-    HHElem *hh = [[HHElem alloc] initWithZeroMatrix:width h:height];
-
-    NSInteger col = 0;
-    for (NSArray<ShiftVariant *> *variants in allVariants.variants) {
-        if (type == 3 && shift % 11 == 10 && (col >= 5 * s || col < s)) {
-            [hh addMatrixX:variants.lastObject.hh x:col];
-        } else if ((type == 3 && shift % 11 == 8) || type == 5) {
-            ShiftVariant *minVar = variants[0];
-            for (ShiftVariant *v in variants) {
-                if (shift % 11 == 1 && v.nonZeroCnt <= minVar.nonZeroCnt) {
-                    minVar = v;
-                } else if (shift != 1 && v.nonZeroCnt < minVar.nonZeroCnt) {
-                    minVar = v;
-                }
-                /*if (v.nonZeroCnt < minVar.nonZeroCnt) {
-                    minVar = v;
-                }*/
-            }
-            [hh addMatrixX:minVar.hh x:col];
-        } else if (type == 6 && shift % 11 == 10 && col >= 2 * s) {
-            [hh addMatrixX:variants.lastObject.hh x:col];
-        } else {
-            [hh addMatrixX:variants[0].hh x:col];
-        }
-        col += s;
-    }
-    return hh;
-}
-
-+ (HHElem *)hhFromAllVariants:(ShiftAllVariants *)allVariants
-{
-    NSInteger s = PathAlg.s;
-    NSInteger width = allVariants.variants.count * s;
-    NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
-    HHElem *hh = [[HHElem alloc] initWithZeroMatrix:width h:height];
-
-    for (NSInteger i = 0; i < allVariants.variants.count; i++) {
-        NSArray<ShiftVariant *> *variants = allVariants.variants[i];
-        if (variants.count > 0) {
-            ShiftVariant *variant = variants[allVariants.seqNumber[i].integerValue];
-            [hh addMatrixX:variant.hh x:i * s];
-        }
-    }
-    return hh;
-}
-
-+ (HHElem *)lastHHFromAllVariants:(ShiftAllVariants *)allVariants firstHH:(HHElem *)firstHH
-{
-    NSInteger s = PathAlg.s;
-    NSInteger width = allVariants.variants.count * s;
-    NSInteger height = allVariants.variants.lastObject.lastObject.hh.height;
-    HHElem *hh = [[HHElem alloc] initWithZeroMatrix:width h:height];
-
-    for (NSInteger i = 0; i < allVariants.variants.count; i++) {
-        NSArray<ShiftVariant *> *variants = allVariants.variants[i];
-        if (variants.count > 0) {
-            ShiftVariant *variant = variants[allVariants.seqNumber[i].integerValue];
-            for (ShiftVariant *v in variants) {
-                if (width == height && [self hasNonZeroInSq:i hhCol:v.hh]) {
-                    variant = v;
-                }
-                if (width == height + s && [self hasNonZeroInSq:i - 1 hhCol:v.hh]) {
-                    variant = v;
-                }
-            }
-            NSInteger firstHHSq = -1;
-            for (NSInteger j = 0; j < firstHH.height; j++) {
-                if (!firstHH.rows[j][i * s].isZero) { firstHHSq = j / s; break; }
-            }
-            if (firstHHSq < 0 && i > 0) {
-                for (NSInteger j = 0; j < firstHH.height; j++) {
-                    if (!firstHH.rows[j][(i - 1) * s].isZero) { firstHHSq = j / s; break; }
-                }
-            }
-            if (firstHHSq > -1) {
-                for (ShiftVariant *v in variants) {
-                    if (s * (firstHHSq + 1) < firstHH.height && [self hasNonZeroInSq:firstHHSq + 1 hhCol:v.hh]) {
-                        variant = v;
-                    }
-                }
-                for (ShiftVariant *v in variants) {
-                    if ([self hasNonZeroInSq:firstHHSq hhCol:v.hh]) {
-                        variant = v;
-                    }
-                }
-            }
-            [hh addMatrixX:variant.hh x:i * s];
-        }
-    }
-    return hh;
-}
-
-+ (BOOL)hasNonZeroInSq:(NSInteger)sq hhCol:(HHElem *)hhCol
-{
-    sq = MAX(sq, 0);
-    for (NSInteger i = 0; i < PathAlg.s; i++) {
-        for (NSInteger j = 0; j < PathAlg.s; j++) {
-            if (hhCol.rows[sq * PathAlg.s + i][j].isZero == NO) {
-                return YES;
-            }
-        }
-    }
-    return NO;
-}
-
 + (void)shiftForMultRes:(Matrix *)multRes dDown:(Diff *)dDown result:(NSMutableArray<ShiftVariant *> *)result
 {
     NSInteger multResW = (NSInteger)multRes.width;
@@ -177,7 +64,7 @@
     }
 
     NSInteger s = PathAlg.s;
-    NSInteger height = dDown.rows.firstObject.count;
+    NSInteger height = dDown.width;
 
     if (!hasNonZeroElements) {
         HHElem *hh = [[HHElem alloc] init];
@@ -207,6 +94,10 @@
                 [result addObject:[[ShiftVariant alloc] initWithHH:hhElem key:[NumInt numWithInt:(NSInteger)r]]];
             }
         }
+    }
+    if (result.count == 0) {
+        [PrintUtils printMatrix:@"multRes" :multRes];
+        [PrintUtils printMatrix:@"dDown" :dDown];
     }
 }
 

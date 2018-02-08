@@ -7,14 +7,13 @@ import Foundation
 
 struct Step_14_shift_check {
     static func runCase() -> Bool {
-        let kCurrentType = 7
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
-        let type = kCurrentType
+        let type = RunCase.kCurrentType
         for deg in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
-                if (type == kCurrentType && process(type: type, deg: deg)) { return true }
-                //if (type == kCurrentType && processCheck(type: type, deg: deg)) { return true }
+                if (process(type: type, deg: deg)) { return true }
+                //if (processCheck(type: type, deg: deg)) { return true }
                 //return false
             }
         }
@@ -31,7 +30,7 @@ struct Step_14_shift_check {
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
                 PrintUtils.printMatrix("My HH, shift \(shift) (\(shift % PathAlg.twistPeriod))", hh_shift)
                 let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
-                PrintUtils.printMatrix("Right HH", ShiftHHAlgAll.select(from: allVariants!, type: type, shift: shift)!)
+                PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
                 return true
             }
         }

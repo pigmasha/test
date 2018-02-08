@@ -7,11 +7,9 @@ import Foundation
 
 struct Step_11_shift_alg {
     static func runCase() -> Bool {
-        let kCurrentType = 5
-
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
-        let type = kCurrentType
+        let type = RunCase.kCurrentType
         if (process(type: type)) { return true }
         return false
     }

@@ -4,11 +4,9 @@
 
 struct Step_13_select_shift {
     static func runCase() -> Bool {
-        let kCurrentType = 7
-
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
 
-        let type = kCurrentType
+        let type = RunCase.kCurrentType
         for deg in 1...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
@@ -43,10 +41,11 @@ struct Step_13_select_shift {
                 OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
                 return true
             }
+
             if shift == PathAlg.twistPeriod {
-                hh = ShiftHHAlgAll.lastHH(from: allVariants, firstHH: hh0)
+                hh = ShiftAllSelect.lastHH(from: allVariants, firstHH: hh0)
             } else {
-                hh = ShiftHHAlgAll.select(from: allVariants, type: type, shift: shift)
+                hh = ShiftAllSelect.select(from: allVariants!, type: type, shift: shift)
             }
             OutputFile.writeLog(.time, "Shift \(shift)")
             if !checkMyShift(type: type, deg: deg, shift: shift, hh: hh) {

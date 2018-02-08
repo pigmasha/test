@@ -45,7 +45,7 @@
     NSInteger width = multRes.width;
     NSInteger height = d_down.width;
 
-    Matrix *multRes_shift = [[Matrix alloc] initWithZeroMatrix:multRes.rows.firstObject.count h:multRes.height];
+    Matrix *multRes_shift = [[Matrix alloc] initWithZeroMatrix:multRes.width h:multRes.height];
     [hh_shift makeZeroMatrix:width h:height];
 
     NSInteger nDifferents = [multRes numberOfDifferents:multRes_shift];
@@ -57,7 +57,7 @@
     // These elements is really right, so we will not
     // change them in the next steps
     NSMutableArray<NSMutableSet<NumInt *> *> *colsValuesForFirstStep = [NSMutableArray new];
-    for (NSUInteger j = 0; j < multRes_shift.rows.firstObject.count; j++) {
+    for (NSUInteger j = 0; j < multRes_shift.width; j++) {
         [colsValuesForFirstStep addObject:[NSMutableSet new]];
     }
 
