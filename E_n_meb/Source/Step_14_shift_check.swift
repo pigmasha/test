@@ -29,7 +29,7 @@ struct Step_14_shift_check {
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
                 PrintUtils.printMatrix("My HH, shift \(shift) (\(shift % PathAlg.twistPeriod))", hh_shift)
-                let allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
+                let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
                 return true
             }

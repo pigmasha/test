@@ -34,7 +34,7 @@ struct Step_13_select_shift {
             if (FileManager.default.fileExists(atPath: path)) {
                 allVariants = ShiftAllVariants(withContentsOf: path)
             } else {
-                allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
+                allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 let _ = allVariants!.writeToFile(pathWithShift(shift))
             }
             guard allVariants != nil else {

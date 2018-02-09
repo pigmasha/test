@@ -103,4 +103,27 @@ struct ShiftAllSelect {
         }
         return false
     }
+
+    static func isEqual(_ all1: ShiftAllVariants, _ all2: ShiftAllVariants) -> Bool {
+        if all1.seqNumber != all2.seqNumber { return false }
+        let vv1 = all1.variants
+        let vv2 = all2.variants
+        if vv1.count != vv2.count { return false }
+        for i in 0 ..< vv1.count {
+            let v1 = vv1[i]
+            let v2 = vv2[i]
+            if v1.count != v2.count { return false }
+            for j in 0 ..< v1.count {
+                let s1 = v1[j]
+                let s2 = v2[j]
+                if s1.key == nil && s2.key != nil { return false }
+                if s1.key != nil && s2.key == nil { return false }
+                if let k1 = s1.key, let k2 = s2.key {
+                    if k1.intValue != k2.intValue { return false }
+                }
+                if !s1.hh.isEq(s2.hh, debug: false) { return false }
+            }
+        }
+        return true
+    }
 }

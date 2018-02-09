@@ -34,7 +34,7 @@ struct ShiftAlgAll {
 
         var seqNumber: [Int] = []
         for variant in allVariants {
-            OutputFile.writeLog(.simple, "Count \(variant.count)")
+            OutputFile.writeLog(.simple, "Count \(variant.count) ")
             seqNumber += [0]
         }
         OutputFile.writeLog(.normal, "")

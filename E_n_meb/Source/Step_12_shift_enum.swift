@@ -47,7 +47,7 @@ struct Step_12_shift_enum {
                     return true
                 }
             } else {
-                allVariants = ShiftHHAlgAll.allVariants(for: hh, degree: deg, shift: shift)
+                allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 guard allVariants != nil else {
                     OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
                     shift = stepBack(shift: shift)

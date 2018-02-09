@@ -3,8 +3,8 @@
 //
 
 struct RunCase {
-    static let kStep = 13
-    static let kCurrentType = 5
+    static let kStep = 12
+    static let kCurrentType = 6
     
     static func runCase() -> Bool {
         switch kStep {
