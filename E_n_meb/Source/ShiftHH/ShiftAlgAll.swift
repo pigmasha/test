@@ -27,7 +27,8 @@ struct ShiftAlgAll {
         var allVariants: [[ShiftVariant]] = []
         for col in stride(from: 0, to: width, by: s) {
             let multRes2 = multRes.submatrixFromCol(col, toCol: col + s)
-            let variants = shiftForMultRes(multRes2, dDown: d_down)
+            var variants = shiftForMultRes(multRes2, dDown: d_down, isLast: false)
+            if variants.count == 0 { variants = shiftForMultRes(multRes2, dDown: d_down, isLast: true) }
             guard variants.count > 0 else { return nil }
             allVariants += [ variants ]
         }
@@ -41,7 +42,7 @@ struct ShiftAlgAll {
         return ShiftAllVariants(seqNumber: seqNumber, variants: allVariants)
     }
 
-    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff) -> [ShiftVariant] {
+    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff, isLast: Bool) -> [ShiftVariant] {
         let multResW = multRes.width
 
         var hasNonZeroElements = false
@@ -65,7 +66,7 @@ struct ShiftAlgAll {
 
         for r in 1 ..< rowMask {
             let hhElem = HHElem()
-            let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, result: hhElem)
+            let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, isLast: isLast, result: hhElem)
             guard nDiff == 0 else { continue }
             var hasHH = false
             for v in result {
@@ -79,14 +80,10 @@ struct ShiftAlgAll {
                 result += [ ShiftVariant(HH: hhElem, key: NumInt(intValue: r)) ]
             }
         }
-        if result.count == 0 {
-            PrintUtils.printMatrix("dDown", dDown)
-            PrintUtils.printMatrix("multRes", multRes)
-        }
         return result
     }
 
-    private static func shiftForRowMask(_ rowMask: Int, multRes: Matrix, dDown: Diff, result hh_shift: HHElem) -> Int {
+    private static func shiftForRowMask(_ rowMask: Int, multRes: Matrix, dDown: Diff, isLast: Bool, result hh_shift: HHElem) -> Int {
         let s = PathAlg.s;
         let width = multRes.width
         let height = dDown.width
@@ -100,32 +97,37 @@ struct ShiftAlgAll {
             multRes_shift.subtractMatrix(multRes)
 
             let hh_sub = Matrix(zeroMatrix: width, h: height)
-            var cols: [NumInt] = []
-
-            for i in 0 ..< multRes_shift.height {
-                for j in 0 ..< multRes_shift.width { // j th column
-                    guard !multRes_shift.rows[i][j].isZero else { continue }
-                    var goodPos = -1
-
+            for j in 0 ..< multRes_shift.width { // j th column
+                var allGoodPositions: [[Int]] = []
+                for i in 0 ..< multRes_shift.height {
+                    guard !multRes_shift.rows[i][j].isZero else { allGoodPositions += [ [] ]; continue; }
+                    var goodPositions: [Int] = []
                     for k in 0 ..< dDown.width {
                         guard !dDown.rows[i][k].isZero && hh_shift.rows[k][j].isZero else { continue }
                         guard rowMask & (1 << Int(k / s)) != 0 else { continue }
                         let div = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][k].firstTenzor!)
-                        if !div.isZero { goodPos = k; break; }
+                        if !div.isZero { goodPositions += [k] }
                     }
-                    // end: find good positions in i th line of d_down
-                    guard goodPos > -1 else { continue }
-
-                    let tt = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][goodPos].firstTenzor!)
-                    guard !tt.isZero else { continue }
-
-                    let koef = multRes_shift.rows[i][j].firstKoef / dDown.rows[i][goodPos].firstKoef
-                    if !cols.contains(NumInt(intValue: j)) {
-                        let c = Comb(tenzor: tt, koef: koef)
-                        hh_sub.rows[goodPos][j].addComb(c)
-                        cols += [ NumInt(intValue: j) ]
+                    allGoodPositions += [goodPositions]
+                }
+                var goodPositions: [Int]?
+                var i = 0
+                for i0 in 0 ..< allGoodPositions.count {
+                    guard allGoodPositions[i0].count > 0 else { continue }
+                    if goodPositions == nil || goodPositions!.count > allGoodPositions[i0].count {
+                        goodPositions = allGoodPositions[i0]
+                        i = i0
                     }
                 }
+                guard let goodPos = isLast ? goodPositions?.last : goodPositions?.first else { continue }
+
+                let tt = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][goodPos].firstTenzor!)
+                guard !tt.isZero else { continue }
+
+                var koef = multRes_shift.rows[i][j].firstKoef / dDown.rows[i][goodPos].firstKoef
+                if PathAlg.charK == 3 && koef == -2 { koef = 1 }
+                if PathAlg.charK == 3 && koef == 2 { koef = -1 }
+                hh_sub.rows[goodPos][j].addComb(Comb(tenzor: tt, koef: koef))
             }
             hh_shift.addMatrix(hh_sub)
             multRes_shift = Matrix(mult: dDown, and: hh_shift)
