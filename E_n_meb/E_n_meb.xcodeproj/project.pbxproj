@@ -34,6 +34,7 @@
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
 		0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */; };
 		0C7E5E1B1AF41DD5003A425A /* RunCase_4_dimhom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */; };
+		0C80E9B32030F5E5002F1175 /* ShiftHHElem08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */; };
 		0C839BEB1B30807B008153BC /* BimodQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C839BEA1B30807B008153BC /* BimodQ.m */; };
 		0C839BF51B308D24008153BC /* CreateDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C839BF01B308D24008153BC /* CreateDiff.m */; };
 		0C839BF61B308D24008153BC /* CreateDiffEven.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C839BF21B308D24008153BC /* CreateDiffEven.m */; };
@@ -97,6 +98,7 @@
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_3_sigma_deg.m; sourceTree = "<group>"; };
 		0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_4_dimhom.m; sourceTree = "<group>"; };
+		0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem08.swift; sourceTree = "<group>"; };
 		0C839BE91B30807B008153BC /* BimodQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BimodQ.h; sourceTree = "<group>"; };
 		0C839BEA1B30807B008153BC /* BimodQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BimodQ.m; sourceTree = "<group>"; };
 		0C839BEF1B308D24008153BC /* CreateDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateDiff.h; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */,
 				0C5BA6D5202137700044A8B4 /* ShiftHHElem06.swift */,
 				0CA520982027D75300B1025B /* ShiftHHElem07.swift */,
+				0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */,
 			);
 			path = ByType;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				0C60C9241E34EDA700F285AC /* ShiftAllVariants.swift in Sources */,
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
 				0CD8A3211E91600E00C1C32C /* Step_9_dimhh.swift in Sources */,
+				0C80E9B32030F5E5002F1175 /* ShiftHHElem08.swift in Sources */,
 				0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */,
 				0C839BF61B308D24008153BC /* CreateDiffEven.m in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,

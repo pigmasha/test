@@ -98,26 +98,23 @@ struct ShiftAlgAll {
 
             let hh_sub = Matrix(zeroMatrix: width, h: height)
             for j in 0 ..< multRes_shift.width { // j th column
-                var allGoodPositions: [[Int]] = []
-                for i in 0 ..< multRes_shift.height {
-                    guard !multRes_shift.rows[i][j].isZero else { allGoodPositions += [ [] ]; continue; }
-                    var goodPositions: [Int] = []
-                    for k in 0 ..< dDown.width {
-                        guard !dDown.rows[i][k].isZero && hh_shift.rows[k][j].isZero else { continue }
-                        guard rowMask & (1 << Int(k / s)) != 0 else { continue }
-                        let div = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][k].firstTenzor!)
-                        if !div.isZero { goodPositions += [k] }
-                    }
-                    allGoodPositions += [goodPositions]
-                }
                 var goodPositions: [Int]?
                 var i = 0
-                for i0 in 0 ..< allGoodPositions.count {
-                    guard allGoodPositions[i0].count > 0 else { continue }
-                    if goodPositions == nil || goodPositions!.count > allGoodPositions[i0].count {
-                        goodPositions = allGoodPositions[i0]
+                for i0 in 0 ..< multRes_shift.height {
+                    guard !multRes_shift.rows[i0][j].isZero else { continue }
+                    var goodPoses: [Int] = []
+                    for k in 0 ..< dDown.width {
+                        guard !dDown.rows[i0][k].isZero && hh_shift.rows[k][j].isZero else { continue }
+                        guard rowMask & (1 << Int(k / s)) != 0 else { continue }
+                        let div = Tenzor(byDivide: multRes_shift.rows[i0][j].firstTenzor!, to: dDown.rows[i0][k].firstTenzor!)
+                        if !div.isZero { goodPoses += [k] }
+                    }
+                    guard goodPoses.count > 0 else { continue }
+                    if goodPositions == nil || goodPositions!.count > goodPoses.count {
+                        goodPositions = goodPoses
                         i = i0
                     }
+                    if goodPoses.count == 1 { break }
                 }
                 guard let goodPos = isLast ? goodPositions?.last : goodPositions?.first else { continue }
 

@@ -44,6 +44,7 @@ class ShiftHHElem {
         case 5: return ShiftHHElem05()
         case 6: return ShiftHHElem06()
         case 7: return ShiftHHElem07()
+        case 8: return ShiftHHElem08()
         default: return nil
         }
     }
