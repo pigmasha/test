@@ -156,6 +156,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         PathAlg.s = sFrom?.integerValue ?? 0
         PathAlg.charK = charKFrom?.integerValue ?? 0
         addInfoStr("s=\(PathAlg.s)")
+        NSApplication.shared().dockTile.badgeLabel = "•"
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
     func threadCase() {
@@ -194,6 +195,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         btRun?.isEnabled = true
         btCancel?.isEnabled = true
         btFile?.isEnabled = true
+        NSApplication.shared().dockTile.badgeLabel = nil
     }
 
     // MARK: Buttons actions

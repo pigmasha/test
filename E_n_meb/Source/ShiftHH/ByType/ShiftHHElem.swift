@@ -129,7 +129,7 @@ class ShiftHHElem {
     }
 
     func printK(prefix: String, jFrom: Int, jTo: Int, m: Int, ell: Int, f: (Int) -> Int) {
-        let m1 = 2
+        let m1 = 5
         var checks = Array(repeating: true, count: 6 * m1)
         for j in jFrom ..< jTo {
             for m0 in 0..<m1 {
@@ -152,8 +152,8 @@ class ShiftHHElem {
             if checks[m1+m0] { print("OK: -PathAlg.k1J(ell, j: j, m: m\(ss))") }
             if checks[2*m1+m0] { print("OK: PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }
             if checks[3*m1+m0] { print("OK: -PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }
-            if checks[4*m1+m0] { print("OK: PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }
-            if checks[5*m1+m0] { print("OK: -PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }
+            //if checks[4*m1+m0] { print("OK: PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }
+            //if checks[5*m1+m0] { print("OK: -PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }
         }
         print("")
     }
