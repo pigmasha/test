@@ -39,8 +39,12 @@ struct Step_14_shift_check {
 
     private static func process(type: Int, deg: Int) -> Bool {
         var hh = HHElem(deg: deg, type: type)
+        let startShift = PathAlg.alg.dummy1 > 2 ? PathAlg.alg.dummy1 - 1 : 1
+        if startShift > 1 {
+            hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: startShift - 1)
+        }
 
-        for shift in 1 ... 2 { //5 * /*PathAlg.s **/ PathAlg.twistPeriod + 1 {
+        for shift in startShift ... 5 * /*PathAlg.s **/ PathAlg.twistPeriod + 1 {
             OutputFile.writeLog(.time, "Shift \(shift)")
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
