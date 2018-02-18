@@ -13,25 +13,6 @@ struct Step_14_shift_check {
         for deg in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
-                //if (processCheck(type: type, deg: deg)) { return true }
-                //return false
-            }
-        }
-        return false
-    }
-
-    private static func processCheck(type: Int, deg: Int) -> Bool {
-        let ell = Int(deg / PathAlg.twistPeriod)
-        OutputFile.writeLog(.time, "N=\(PathAlg.n), S=\(PathAlg.s), ell=\(ell)")
-        for shift in 1 ... 2 * PathAlg.s * PathAlg.twistPeriod + 1 {
-            //guard (shift % PathAlg.twistPeriod) == PathAlg.alg.dummy1 else { continue }
-            let hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift - 1)
-            let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
-            if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
-                PrintUtils.printMatrix("My HH, shift \(shift) (\(shift % PathAlg.twistPeriod))", hh_shift)
-                let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
-                PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
-                return true
             }
         }
         return false
@@ -45,13 +26,20 @@ struct Step_14_shift_check {
         }
 
         for shift in startShift ... 5 * /*PathAlg.s **/ PathAlg.twistPeriod + 1 {
-            OutputFile.writeLog(.time, "Shift \(shift)")
+            OutputFile.writeLog(.time, "Shift \(shift) (\(shift % PathAlg.twistPeriod))")
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
+                let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
+                PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
+                let _ = allVariants!.writeToFile(pathWithShift(shift))
                 return true
             }
             hh = hh_shift
         }
         return false
+    }
+
+    private static func pathWithShift(_ shift: Int) -> String {
+        return OutputFile.fileName! + ".s\(PathAlg.s).sh\(shift).txt"
     }
 }

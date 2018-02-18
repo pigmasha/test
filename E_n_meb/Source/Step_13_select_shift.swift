@@ -47,7 +47,7 @@ struct Step_13_select_shift {
             } else {
                 hh = ShiftAllSelect.select(from: allVariants!, type: type, shift: shift)
             }
-            OutputFile.writeLog(.time, "Shift \(shift)")
+            OutputFile.writeLog(.time, "Shift \(shift) (\(shift % PathAlg.twistPeriod))")
             if !checkMyShift(type: type, deg: deg, shift: shift, hh: hh) {
                 PrintUtils.printMatrix("Right Shift", hh)
                 ShiftHHGenProgram.printProgram(hh, shift: shift)

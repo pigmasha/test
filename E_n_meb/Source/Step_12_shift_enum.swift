@@ -29,7 +29,7 @@ struct Step_12_shift_enum {
 
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
-        PrintUtils.printMatrixKoefs(hh)
+        PrintUtils.printMatrix("Shift \(shiftFrom)", hh)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
         if shiftFrom > 0 {
             hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
@@ -85,13 +85,13 @@ struct Step_12_shift_enum {
         }
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
-        if hh.maxNonZeroPos.0 == 0 || hh.maxNonZeroPos.0 == PathAlg.s - 1 {
+        if hh.maxNonZeroPos.1 < 2*PathAlg.s && hh.maxNonZeroPos.1 >= PathAlg.s {
             let path = OutputFile.fileName!
             try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
             OutputFile.writeLog(.bold, "RESULT")
             OutputFile.writeLog(.normal, seqStr)
             //PrintUtils.printMatrixKoefs(hh, colsMax: PathAlg.s, rowsMax: PathAlg.s)
-            //PrintUtils.printMatrix(hh!)
+            PrintUtils.printMatrix("HH", hh)
             try? OutputFile.setFileName(fileName: path)
         }
     }
