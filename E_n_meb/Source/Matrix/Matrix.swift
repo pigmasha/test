@@ -150,6 +150,18 @@ class Matrix : NSObject {
         return result
     }
 
+    var minNonZeroPos: (Int, Int) {
+        var result = (height, width)
+        for i in 0..<combs.count {
+            let line = combs[i]
+            for j in 0..<line.count {
+                if !line[j].isZero && i < result.0 { result.0 = i }
+                if !line[j].isZero && j < result.1 { result.1 = j }
+            }
+        }
+        return result
+    }
+
     var maxRow: Int {
         var result = 0
         for line in combs {

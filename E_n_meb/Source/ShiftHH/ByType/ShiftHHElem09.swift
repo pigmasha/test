@@ -4,7 +4,7 @@
 
 final class ShiftHHElem09 : ShiftHHElem {
     init() {
-        super.init(type:9, withTwist: false)
+        super.init(type:9, withTwist: true)
     }
 
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -43,13 +43,14 @@ final class ShiftHHElem09 : ShiftHHElem {
         hhElem.makeZeroMatrix(8*s, h:8*s)
 
         var j = myModS(s-1-2*ell_0)
+        let k1 = f2(j, 2) * f2(j, 0)
         HHElem.addElemToHH(hhElem, i:myMod2S(j+1), j:j,
                            leftFrom:4*(j+m+1)+2, leftTo:4*(j+m+1)+2,
-                           rightFrom:4*j, rightTo:4*(j+1), koef:f2(j, 2))
+                           rightFrom:4*j, rightTo:4*(j+1), koef:k1)//7: f2(j, 2))
         j += s
         HHElem.addElemToHH(hhElem, i:myMod2S(j+1), j:j,
                            leftFrom:4*(j+m+1)+2, leftTo:4*(j+m+1)+2,
-                           rightFrom:4*j, rightTo:4*(j+1), koef:-f2(j, s+2))
+                           rightFrom:4*j, rightTo:4*(j+1), koef:-k1)//7: -f2(j%s, s))
     }
 
     override func shift4(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -79,7 +80,7 @@ final class ShiftHHElem09 : ShiftHHElem {
         let j = myModS(s-1-2*ell_0)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1), leftTo:4*(j+m+1),
-                           rightFrom:4*j, rightTo:4*(j+1), koef:-f2(j, 0)*f2(j, s-3))
+                           rightFrom:4*j, rightTo:4*(j+1), koef:f2(j, 0))//7: -f2(j, 0)*f2(j, s-3))
     }
 
     override func shift7(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -88,7 +89,7 @@ final class ShiftHHElem09 : ShiftHHElem {
         let j = myModS(s-1-2*ell_0)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1+s*f(j, s-1))+2, leftTo:4*(j+m+2),
-                           rightFrom:4*j, rightTo:4*(j+1), koef:-f2(j, s-3))
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1)//7: -f2(j, s-3))
     }
 
     override func shift8(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -98,7 +99,7 @@ final class ShiftHHElem09 : ShiftHHElem {
         j += s-s*f(j, s-1)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m+s+1)+1,
-                           rightFrom:4*j, rightTo:4*(j+1), koef:-f2(myModS(s-1-2*ell_0), s-3))
+                           rightFrom:4*j, rightTo:4*(j+1), koef:-1)//7: -f2(myModS(s-1-2*ell_0), s-3))
     }
 
     override func shift9(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -107,10 +108,10 @@ final class ShiftHHElem09 : ShiftHHElem {
         let j = myModS(s-1-2*ell_0)
         HHElem.addElemToHH(hhElem, i:j+s, j:j,
                            leftFrom:4*(j+m+1), leftTo:4*(j+m+1)+3,
-                           rightFrom:4*j, rightTo:4*j+1, koef:f2(j, s-3))
+                           rightFrom:4*j, rightTo:4*j+1, koef:-1)//7: f2(j, s-3))
         HHElem.addElemToHH(hhElem, i:j+2*s, j:j,
                            leftFrom:4*(j+m+1), leftTo:4*(j+m+1)+3,
-                           rightFrom:4*j, rightTo:4*(j+s)+1, koef:-f2(j, s-3))
+                           rightFrom:4*j, rightTo:4*(j+s)+1, koef:1)//7: -f2(j, s-3))
     }
 
     override func shift10(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -119,14 +120,14 @@ final class ShiftHHElem09 : ShiftHHElem {
         var j = 2*s + myModS(s-2-2*ell_0)
         HHElem.addElemToHH(hhElem, i:s+myMod2S(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+1)+3,
-                           rightFrom:4*j+1, rightTo:4*(j+1)+1, koef:-f2(myModS(s-2-2*ell_0), s-4))
+                           rightFrom:4*j+1, rightTo:4*(j+1)+1, koef:1)//7: -f2(myModS(s-2-2*ell_0), s-4))
         j += s
         HHElem.addElemToHH(hhElem, i:s+myMod2S(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+1)+3,
-                           rightFrom:4*j+1, rightTo:4*(j+1)+1, koef:-f2(myModS(s-2-2*ell_0), s-4))
+                           rightFrom:4*j+1, rightTo:4*(j+1)+1, koef:1)//7: -f2(myModS(s-2-2*ell_0), s-4))
         j += s + s*f(myModS(s-2-2*ell_0), s - 1)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1), leftTo:4*(j+m+2),
-                           rightFrom:4*j+2, rightTo:4*(j+1), koef:-f2(myModS(s-2-2*ell_0), 1))
+                           rightFrom:4*j+2, rightTo:4*(j+1), koef:-1)//7: -f2(myModS(s-2-2*ell_0), 1))
     }
 }

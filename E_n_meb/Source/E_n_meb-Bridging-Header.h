@@ -5,8 +5,5 @@
 @import Foundation;
 
 #import "BimodQ.h"
-#import "CalcDiff.h"
 #import "CreateDiff.h"
-#import "ImMatrix.h"
-#import "KoefMatrix.h"
 #import "Utils2.h"

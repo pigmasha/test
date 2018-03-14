@@ -82,7 +82,7 @@ final class PrintUtils: NSObject {
 
         let file = OutputFile()
         file.write("<table>")
-        let rows = m.rows()!
+        let rows = m.rows
         for i in 0 ..< rows.count {
             let cellTop = cellBorder(i, posesTo)
             file.write("<tr>")
@@ -109,7 +109,7 @@ final class PrintUtils: NSObject {
 
         let file = OutputFile()
         file.write("<table>")
-        let rows = m.rows()!
+        let rows = m.rows
         for i in 0 ..< rows.count {
             if i < skipLines { continue }
             let cellTop = cellBorder(i, posesTo)

@@ -8,7 +8,7 @@ struct Step_1_calc_dn {
         for deg in 0...7 * PathAlg.twistPeriod + 2 {
             let prevDiff = deg == 0 ? nil : Diff(deg: deg - 1)
             let diff = Diff(deg: deg)
-            let err = calcDiffWithNumber(diff, deg, prevDiff)
+            let err = CalcDiff.calcDiffWithNumber(diff, deg: deg, prevDiff: prevDiff)
             if err != 0 {
                 OutputFile.writeLog(.error, "Err %d", err)
                 return true
@@ -25,7 +25,7 @@ struct Step_1_calc_dn {
                 }
             }
 
-            let lenErr = checkDiffLen(diff, deg)
+            let lenErr = CalcDiff.checkDiffLen(diff, deg: deg)
             if lenErr != 0 {
                 OutputFile.writeLog(.error, "deg=\(deg): ERROR= \(lenErr)!")
                 return true

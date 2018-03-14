@@ -29,8 +29,8 @@ struct Step_12_shift_enum {
 
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
-        PrintUtils.printMatrix("Shift \(shiftFrom)", hh)
         OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
+        PrintUtils.printMatrix("HH", hh)
         if shiftFrom > 0 {
             hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
             PrintUtils.printMatrix("Shift \(shiftFrom)", hh)
@@ -54,7 +54,7 @@ struct Step_12_shift_enum {
                     guard shift > 0 else { return true }
                     continue
                 }
-                if shift != PathAlg.twistPeriod {
+                if shift % PathAlg.twistPeriod != 0 {
                     guard saveVariants(allVariants!, path: path) == false else { return true }
                 }
             }
@@ -78,14 +78,14 @@ struct Step_12_shift_enum {
 
     private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem) {
         var seqStr = ""
-        for sh in 1 ..< shift {
+        for sh in shift - PathAlg.twistPeriod + 1 ..< shift {
             if let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh)) {
                 seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
             }
         }
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
-        if hh.maxNonZeroPos.1 < 2*PathAlg.s && hh.maxNonZeroPos.1 >= PathAlg.s {
+        if hh.maxNonZeroPos.1 < PathAlg.s {
             let path = OutputFile.fileName!
             try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
             OutputFile.writeLog(.bold, "RESULT")

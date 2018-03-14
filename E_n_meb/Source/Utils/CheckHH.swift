@@ -99,7 +99,7 @@ struct CheckHH {
         guard degree > 0 else { return true }
         let s = PathAlg.s
         let diff = Diff(deg: degree - 1)
-        let im = ImMatrix(diff: diff)!
+        let im = ImMatrix(diff: diff)
         var hhElem: [WayPair] = [] // line with koefficients
 
         for i in 0 ..< hh.width {
@@ -121,12 +121,12 @@ struct CheckHH {
             w.compRight(tt.rightComponent)
 
             j = 0
-            while j < im.rows().count {
-                if im.rows()[j][i].koef != 0, let way = im.rows()[j][i].way, !way.isZero { break }
+            while j < im.rows.count {
+                if im.rows[j][i].koef != 0, let way = im.rows[j][i].way, !way.isZero { break }
                 j += 1
             }
-            if j < im.rows().count {
-                let ww = im.rows()[j][i].way!
+            if j < im.rows.count {
+                let ww = im.rows[j][i].way!
                 let koef = hhKoef * (ww.isEq(w) ? 1 : 0)
                 hhElem += [ WayPair(way: ww, koef: Double(koef)) ]
                 if s == 1 && ww.len == 4 && w.len == 0 {
@@ -136,13 +136,13 @@ struct CheckHH {
                 hhElem += [ WayPair(way: w, koef: Double(hhKoef)) ]
             }
         }
-        let dimIm = KoefIntMatrix(im: im)!.rank()
+        let dimIm = KoefIntMatrix(im: im).rank
         im.addRow(hhElem)
-        if im.rows().count == 0 {
+        if im.rows.count == 0 {
             OutputFile.writeLog(.error, "Error: bad row size \(hhElem.count)")
             return false
         }
-        let dimImAdd = KoefIntMatrix(im: im)!.rank()
+        let dimImAdd = KoefIntMatrix(im: im).rank
         if dimImAdd == dimIm {
             OutputFile.writeLog(.normal, "Im")
             PrintUtils.printIm(im, deg: degree - 1)

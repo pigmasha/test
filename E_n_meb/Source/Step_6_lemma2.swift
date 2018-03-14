@@ -10,11 +10,11 @@ struct Step_6_lemma2
         let s = PathAlg.s
         OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
         for _ in 0...2 * PathAlg.twistPeriod {
-            let matrix = KoefIntMatrix(size: s)!
+            let matrix = KoefIntMatrix(size: s)
             createMatrix2(matrix)
 
             let rk2 = rankLemma2(matrix)
-            let rk1 = matrix.rank()
+            let rk1 = matrix.rank
 
             if rk2 != 0 && rk1 != rk2 {
                 OutputFile.writeLog(.error, "%d (must be %d)! N=%d, S=%d, char=%d, matrix:",
@@ -30,15 +30,15 @@ struct Step_6_lemma2
     {
         let s = PathAlg.s
         for i in 0 ..< s {
-            matrix.rows()[i][i].intValue = arc4random_uniform(2) == 0 ? 1 : -1
-            matrix.rows()[myModS(i + 1)][i].intValue = arc4random_uniform(2) == 0 ? 1 : -1
+            matrix.rows[i][i].intValue = arc4random_uniform(2) == 0 ? 1 : -1
+            matrix.rows[myModS(i + 1)][i].intValue = arc4random_uniform(2) == 0 ? 1 : -1
         }
     }
 
     private static func rankLemma2(_ matrix: KoefIntMatrix) -> Int
     {
         let charK = PathAlg.charK
-        let n = matrix.rows().count
+        let n = matrix.rows.count
 
         if charK == 2 {
             return n - 1
@@ -46,8 +46,8 @@ struct Step_6_lemma2
 
         var k = 1
         for i in 0 ..< n {
-            k *= matrix.rows()[i][i].intValue
-            k *= matrix.rows()[myMod(i + 1, mod: n)][i].intValue
+            k *= matrix.rows[i][i].intValue
+            k *= matrix.rows[myMod(i + 1, mod: n)][i].intValue
         }
 
         return (k == minusDeg(n)) ? n - 1 : n;

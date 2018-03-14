@@ -121,10 +121,8 @@ struct ShiftAlgAll {
                 let tt = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][goodPos].firstTenzor!)
                 guard !tt.isZero else { continue }
 
-                var koef = multRes_shift.rows[i][j].firstKoef / dDown.rows[i][goodPos].firstKoef
-                if PathAlg.charK == 3 && koef == -2 { koef = 1 }
-                if PathAlg.charK == 3 && koef == 2 { koef = -1 }
-                hh_sub.rows[goodPos][j].addComb(Comb(tenzor: tt, koef: koef))
+                let koef = multRes_shift.rows[i][j].firstKoef / dDown.rows[i][goodPos].firstKoef
+                hh_sub.rows[goodPos][j].addComb(Comb(tenzor: tt, koef: PathAlg.modCharK2(koef)))
             }
             hh_shift.addMatrix(hh_sub)
             multRes_shift = Matrix(mult: dDown, and: hh_shift)
