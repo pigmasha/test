@@ -83,13 +83,17 @@ class ShiftHHElem {
                 }
             }
             let kk: Int
+            let s = PathAlg.s
+            let ell_0 = V.ell_0
             switch type {
+            case 9:
+                kk = minusDeg(ell_0 / s) * (ell_0 % s == 3 ? -1 : 1)
             case 5:
-                kk = koefFunc(PathAlg.s, V.ell_0)
+                kk = koefFunc(s, ell_0)
             case 2:
-                kk = PathAlg.sigmaDeg(V.ell_0, i: -6*V.ell_0, isGamma: true)
+                kk = PathAlg.sigmaDeg(ell_0, i: -6*ell_0, isGamma: true)
             default:
-                kk = minusDeg(V.ell_0)
+                kk = minusDeg(ell_0)
             }
             hh_shift.compKoef(kk)
         }
@@ -131,15 +135,22 @@ class ShiftHHElem {
 
     func printK(prefix: String, jFrom: Int, jTo: Int, m: Int, ell: Int, f: (Int) -> Int) {
         let m1 = 5
-        var checks = Array(repeating: true, count: 6 * m1)
+        var checks = Array(repeating: true, count: 12 * m1)
         for j in jFrom ..< jTo {
             for m0 in 0..<m1 {
-                if f(j) != PathAlg.k1J(ell, j: j, m: m+m0) { checks[m0] = false }
-                if f(j) != -PathAlg.k1J(ell, j: j, m: m+m0) { checks[m1+m0] = false }
-                if f(j) != PathAlg.k1JPlus1(ell, j: j, m: m+m0) { checks[2*m1+m0] = false }
-                if f(j) != -PathAlg.k1JPlus1(ell, j: j, m: m+m0) { checks[3*m1+m0] = false }
-                if f(j) != PathAlg.k1JPlus2(ell, j: j, m: m+m0) { checks[4*m1+m0] = false }
-                if f(j) != -PathAlg.k1JPlus2(ell, j: j, m: m+m0) { checks[5*m1+m0] = false }
+                var a = 0
+                if f(j) != PathAlg.k1J(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != -PathAlg.k1J(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != PathAlg.k1JPlus1(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != -PathAlg.k1JPlus1(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != PathAlg.k1JPlus2(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != -PathAlg.k1JPlus2(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != minusDeg(j)*PathAlg.k1J(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != -minusDeg(j)*PathAlg.k1J(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != minusDeg(j)*PathAlg.k1JPlus1(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != -minusDeg(j)*PathAlg.k1JPlus1(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != minusDeg(j)*PathAlg.k1JPlus2(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
+                if f(j) != -minusDeg(j)*PathAlg.k1JPlus2(ell, j: j, m: m+m0) { checks[a*m1+m0] = false }; a += 1
             }
             print(prefix + " j=\(j), k=\(f(j))\t"
                 + "j_m=\(PathAlg.k1J(ell, j: j, m: m))\t"
@@ -149,12 +160,19 @@ class ShiftHHElem {
         }
         for m0 in 0..<m1 {
             let ss = m0 == 0 ? "" : "+\(m0)"
-            if checks[m0] { print("OK: PathAlg.k1J(ell, j: j, m: m\(ss))") }
-            if checks[m1+m0] { print("OK: -PathAlg.k1J(ell, j: j, m: m\(ss))") }
-            if checks[2*m1+m0] { print("OK: PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }
-            if checks[3*m1+m0] { print("OK: -PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }
-            //if checks[4*m1+m0] { print("OK: PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }
-            //if checks[5*m1+m0] { print("OK: -PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }
+            var a = 0
+            if checks[a*m1+m0] { print("OK: PathAlg.k1J(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: -PathAlg.k1J(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: -PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: -PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: (-1)^ell PathAlg.k1J(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: -(-1)^ell PathAlg.k1J(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: (-1)^ell PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: -(-1)^ell PathAlg.k1JPlus1(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: (-1)^ell PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }; a += 1
+            if checks[a*m1+m0] { print("OK: -(-1)^ell PathAlg.k1JPlus2(ell, j: j, m: m\(ss))") }; a += 1
         }
         print("")
     }

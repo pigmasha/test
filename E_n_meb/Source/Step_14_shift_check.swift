@@ -23,9 +23,14 @@ struct Step_14_shift_check {
         let startShift = PathAlg.alg.dummy1 > 2 ? PathAlg.alg.dummy1 - 1 : 1
         if startShift > 1 {
             hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: startShift - 1)
+            OutputFile.writeLog(.time, "HH Shift \(startShift) (type=\(type))")
+            //PrintUtils.printMatrix("HH Shift \(startShift) (type=\(type))", hh)
+        } else {
+            OutputFile.writeLog(.time, "HH Shift (type=\(type))")
+            //PrintUtils.printMatrix("HH (type=\(type))", hh)
         }
 
-        for shift in startShift ... 5 * /*PathAlg.s **/ PathAlg.twistPeriod + 1 {
+        for shift in startShift ... 2 {// * PathAlg.s * PathAlg.twistPeriod + 1 {
             OutputFile.writeLog(.time, "Shift \(shift) (\(shift % PathAlg.twistPeriod))")
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {

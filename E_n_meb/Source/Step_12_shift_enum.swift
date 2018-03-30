@@ -25,7 +25,7 @@ struct Step_12_shift_enum {
 
     private static func process(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
-        let shiftFrom = PathAlg.alg.dummy1// PathAlg.twistPeriod
+        let shiftFrom = PathAlg.alg.dummy1
 
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
@@ -85,7 +85,7 @@ struct Step_12_shift_enum {
         }
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
-        if hh.maxNonZeroPos.1 < PathAlg.s {
+        if hh.maxNonZeroPos.1 < 2*PathAlg.s && hh.minNonZeroPos.1 >= PathAlg.s {
             let path = OutputFile.fileName!
             try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
             OutputFile.writeLog(.bold, "RESULT")

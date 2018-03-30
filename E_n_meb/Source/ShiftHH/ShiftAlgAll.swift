@@ -27,8 +27,7 @@ struct ShiftAlgAll {
         var allVariants: [[ShiftVariant]] = []
         for col in stride(from: 0, to: width, by: s) {
             let multRes2 = multRes.submatrixFromCol(col, toCol: col + s)
-            var variants = shiftForMultRes(multRes2, dDown: d_down, isLast: false)
-            if variants.count == 0 { variants = shiftForMultRes(multRes2, dDown: d_down, isLast: true) }
+            let variants = shiftForMultRes(multRes2, dDown: d_down)
             guard variants.count > 0 else { return nil }
             allVariants += [ variants ]
         }
@@ -42,7 +41,7 @@ struct ShiftAlgAll {
         return ShiftAllVariants(seqNumber: seqNumber, variants: allVariants)
     }
 
-    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff, isLast: Bool) -> [ShiftVariant] {
+    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff) -> [ShiftVariant] {
         let multResW = multRes.width
 
         var hasNonZeroElements = false
@@ -63,21 +62,22 @@ struct ShiftAlgAll {
         var result: [ShiftVariant] = []
 
         let rowMask = twoDeg(height / s)
-
         for r in 1 ..< rowMask {
-            let hhElem = HHElem()
-            let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, isLast: isLast, result: hhElem)
-            guard nDiff == 0 else { continue }
-            var hasHH = false
-            for v in result {
-                if v.hh.isEq(hhElem, debug: false) {
-                    if (v.key!.intValue > r) { v.key!.intValue = r }
-                    hasHH = true
-                    break
+            for i in 0 ..< 1 {
+                let hhElem = HHElem()
+                let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, isLast: i == 1, result: hhElem)
+                if nDiff != 0 { continue }
+                var hasHH = false
+                for v in result {
+                    if v.hh.isEq(hhElem, debug: false) {
+                        if (v.key!.intValue > r) { v.key!.intValue = r }
+                        hasHH = true
+                        break
+                    }
                 }
-            }
-            if !hasHH {
-                result += [ ShiftVariant(HH: hhElem, key: NumInt(intValue: r)) ]
+                if !hasHH {
+                    result += [ ShiftVariant(HH: hhElem, key: NumInt(intValue: r)) ]
+                }
             }
         }
         return result

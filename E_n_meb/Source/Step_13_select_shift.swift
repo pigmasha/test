@@ -20,14 +20,20 @@ struct Step_13_select_shift {
         let ell = deg / PathAlg.twistPeriod
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
-        OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
-        if !checkMyShift(type: type, deg: deg, shift: 0, hh: hh) {
+        let shiftFrom = PathAlg.alg.dummy1
+        if shiftFrom > 0 {
+            hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
+            OutputFile.writeLog(.time, "HH Shift \(shiftFrom) (ell=%d, type=%d)", ell, type)
+        } else {
+            OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
+        }
+        if !checkMyShift(type: type, deg: deg, shift: shiftFrom, hh: hh) {
             PrintUtils.printMatrix("hh", hh)
             ShiftHHGenProgram.printProgram(hh, shift: 0)
             return true
         }
 
-        var shift = 1
+        var shift = 1 + shiftFrom
         while true {
             let path = pathWithShift(shift)
             var allVariants: ShiftAllVariants? = nil
@@ -42,7 +48,7 @@ struct Step_13_select_shift {
                 return true
             }
 
-            if shift == PathAlg.twistPeriod {
+            if shift % PathAlg.twistPeriod == 0 {
                 hh = ShiftAllSelect.lastHH(from: allVariants, firstHH: hh0)
             } else {
                 hh = ShiftAllSelect.select(from: allVariants!, type: type, shift: shift)
@@ -51,9 +57,20 @@ struct Step_13_select_shift {
             if !checkMyShift(type: type, deg: deg, shift: shift, hh: hh) {
                 PrintUtils.printMatrix("Right Shift", hh)
                 ShiftHHGenProgram.printProgram(hh, shift: shift)
+                if shift + 1 < PathAlg.twistPeriod {
+                    for i in shift + 1 ..< PathAlg.twistPeriod {
+                        if (FileManager.default.fileExists(atPath: pathWithShift(i))) {
+                            allVariants = ShiftAllVariants(withContentsOf: pathWithShift(i))
+                            hh = ShiftAllSelect.select(from: allVariants!, type: type, shift: i)
+                            ShiftHHGenProgram.printProgram(hh, shift: i)
+                        } else {
+                            break
+                        }
+                    }
+                }
                 return true
             }
-            if shift == 2*PathAlg.twistPeriod { break }
+            if shift == 2*PathAlg.twistPeriod + shiftFrom { break }
             shift += 1
         }
         return false
