@@ -31,7 +31,6 @@
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5E121AF3D9F7003A425A /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5DFA1AF3D9F7003A425A /* Utils.m */; };
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
-		0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */; };
 		0C7E5E1B1AF41DD5003A425A /* RunCase_4_dimhom.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */; };
 		0C80E9B32030F5E5002F1175 /* ShiftHHElem08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */; };
 		0C839BEB1B30807B008153BC /* BimodQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C839BEA1B30807B008153BC /* BimodQ.m */; };
@@ -63,6 +62,7 @@
 		0CEE15E620431F52007DA97B /* DiffLen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEE15E520431F52007DA97B /* DiffLen.swift */; };
 		9BA1E5EA1EEA7AC500AF50CD /* PrintUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */; };
 		9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */; };
+		9BF7861D206E4A870076CA61 /* Step_3_sigma_deg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF7861C206E4A870076CA61 /* Step_3_sigma_deg.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,7 +95,6 @@
 		0C7E5DF91AF3D9F7003A425A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		0C7E5DFA1AF3D9F7003A425A /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_3_sigma_deg.m; sourceTree = "<group>"; };
 		0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunCase_4_dimhom.m; sourceTree = "<group>"; };
 		0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem08.swift; sourceTree = "<group>"; };
 		0C839BE91B30807B008153BC /* BimodQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BimodQ.h; sourceTree = "<group>"; };
@@ -131,6 +130,7 @@
 		0CEE15E520431F52007DA97B /* DiffLen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffLen.swift; sourceTree = "<group>"; };
 		9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintUtils.swift; sourceTree = "<group>"; };
 		9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_14_shift_check.swift; sourceTree = "<group>"; };
+		9BF7861C206E4A870076CA61 /* Step_3_sigma_deg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_3_sigma_deg.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,9 +198,9 @@
 				0C64F16B1CB9BEA500495383 /* E_n_meb-Bridging-Header.h */,
 				0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */,
 				0C60C9291E34F78400F285AC /* RunCase.swift */,
-				0C7E5E181AF4017C003A425A /* RunCase_3_sigma_deg.m */,
 				0C7E5E1A1AF41DD5003A425A /* RunCase_4_dimhom.m */,
 				0CDBC4F21F093AAF009A76F7 /* Step_1_calc_dn.swift */,
+				9BF7861C206E4A870076CA61 /* Step_3_sigma_deg.swift */,
 				0CD8A3291E91708200C1C32C /* Step_6_lemma2.swift */,
 				0CD8A3241E91643600C1C32C /* Step_7_lemma3.swift */,
 				0CD8A3221E91627500C1C32C /* Step_8_im.swift */,
@@ -419,12 +419,12 @@
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
 				0CD8A3211E91600E00C1C32C /* Step_9_dimhh.swift in Sources */,
 				0C80E9B32030F5E5002F1175 /* ShiftHHElem08.swift in Sources */,
-				0C7E5E191AF4017C003A425A /* RunCase_3_sigma_deg.m in Sources */,
 				0C839BF61B308D24008153BC /* CreateDiffEven.m in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,
 				0C839BF71B308D24008153BC /* CreateDiffOdd.m in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
 				0C0A443C1F71E11F00F11EFE /* ShiftHHElem05.swift in Sources */,
+				9BF7861D206E4A870076CA61 /* Step_3_sigma_deg.swift in Sources */,
 				0C64F16F1CB9C05600495383 /* ShiftHHElem03.swift in Sources */,
 				0C9D72F11CCD02350051B8C9 /* HHElem.swift in Sources */,
 			);

@@ -19,13 +19,14 @@ final class ShiftHHElem09 : ShiftHHElem {
         var j = 2*s + myModS(s-1-ell_0)
         //let k0 = ell_0 % s == 0 ? -1 : 1
         //printK(prefix: "1:", jFrom: 2*s, jTo: 3*s, m: m, ell: ell, f: { j in return j % s == s - 1 ? -1 : 1})
+        let k0 = PathAlg.k1J(ell, j:j%s, m:m+2)
         HHElem.addElemToHH(hhElem, i:myMod2S(j+s+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+s+2),
-                           rightFrom:4*j+1, rightTo:4*(j+1), koef:-PathAlg.k1J(ell, j:j%s, m:m+2))
+                           rightFrom:4*j+1, rightTo:4*(j+1), koef:-k0)
         j += s
         HHElem.addElemToHH(hhElem, i:myMod2S(j+s+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+s+2),
-                           rightFrom:4*j+1, rightTo:4*(j+1), koef:PathAlg.k1J(ell, j:j%s, m:m+2))
+                           rightFrom:4*j+1, rightTo:4*(j+1), koef:k0)
     }
 
     override func shift2(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
