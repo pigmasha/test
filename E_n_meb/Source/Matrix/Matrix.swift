@@ -180,18 +180,37 @@ class Matrix : NSObject {
         let combs2 = matr2.rows
         guard combs.count == combs2.count else { return nil }
 
-        var columns: [Int] = []
+        var items: [Int] = []
         for i in 0..<combs.count {
             let line1 = combs[i]
             let line2 = combs2[i]
             guard line1.count == line2.count else { return nil }
             for j in 0..<line1.count {
-                if line1[j].compareK(line2[j]) != 1 {
-                    columns += [j]
+                if line1[j].compareK(line2[j]) != 1 && !items.contains(j) {
+                    items += [j]
                 }
             }
         }
-        return columns
+        return items
+    }
+
+    func differentRows(_ matr2: Matrix) -> [Int]? {
+        let combs2 = matr2.rows
+        guard combs.count == combs2.count else { return nil }
+
+        var items: [Int] = []
+        for i in 0..<rows.count {
+            let line1 = combs[i]
+            let line2 = combs2[i]
+            guard line1.count == line2.count else { return nil }
+            for j in 0..<line1.count {
+                if line1[j].compareK(line2[j]) != 1 {
+                    items += [i]
+                    break
+                }
+            }
+        }
+        return items
     }
 
     func numberOfDifferents(_ matr2: Matrix, debug: Bool) -> Int {
@@ -289,12 +308,12 @@ class Matrix : NSObject {
         }
     }
 
-    func twist(_ degree: Int) {
+    func twist(_ degree: Int, backward: Bool = false) {
         let ell = Int(degree / PathAlg.twistPeriod)
 
         for _ in 0..<ell {
             for row in combs {
-                for c in row { c.twist() }
+                for c in row { c.twist(backward: backward) }
             }
         }
     }

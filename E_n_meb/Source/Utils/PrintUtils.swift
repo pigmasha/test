@@ -10,15 +10,16 @@ final class PrintUtils: NSObject {
         printMatrix(prefix, m, redColumns: nil)
     }
 
-    static func printMatrix(_ prefix: String, _ m: Matrix, redColumns: [Int]?) {
-        printMatrixDeg(prefix, m, -1, -1, redColumns: redColumns)
+    static func printMatrix(_ prefix: String, _ m: Matrix, redColumns: [Int]? = nil, redRows: [Int]? = nil) {
+        printMatrixDeg(prefix, m, -1, -1, redColumns: redColumns, redRows: redRows)
     }
 
     static func printMatrixDeg(_ prefix: String, _ m: Matrix, _ degFrom: Int, _ degTo: Int) {
-        printMatrixDeg(prefix, m, degFrom, degTo, redColumns: nil)
+        printMatrixDeg(prefix, m, degFrom, degTo, redColumns: nil, redRows: nil)
     }
 
-    static func printMatrixDeg(_ prefix: String, _ m: Matrix, _ degFrom: Int, _ degTo: Int, redColumns: [Int]?) {
+    static func printMatrixDeg(_ prefix: String, _ m: Matrix, _ degFrom: Int, _ degTo: Int,
+                               redColumns: [Int]?, redRows: [Int]?) {
         OutputFile.writeLog(.normal, prefix)
 
         let posesFrom = posesFromDeg(degFrom)
@@ -33,7 +34,7 @@ final class PrintUtils: NSObject {
             for j in 0 ..< line.count {
                 let cellLeft = cellBorder(j, posesFrom)
                 file.write("<td class='c_t_\(cellTop) c_l_\(cellLeft)'")
-                if let redColumns = redColumns, redColumns.contains(j)  {
+                if (redColumns?.contains(j) ?? false) || (redRows?.contains(i) ?? false) {
                     file.write("><font color=red>" + line[j].htmlStr + "</font></td>")
                 } else {
                     file.write(">" + line[j].htmlStr + "</td>")

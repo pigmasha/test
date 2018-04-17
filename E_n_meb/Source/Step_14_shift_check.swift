@@ -19,19 +19,23 @@ struct Step_14_shift_check {
     }
 
     private static func process(type: Int, deg: Int) -> Bool {
-        var hh = HHElem(deg: deg, type: type)
-        let startShift = PathAlg.alg.dummy1 > 2 ? PathAlg.alg.dummy1 - 1 : 1
+        let startShift = PathAlg.alg.dummy1
         let ell = deg / PathAlg.twistPeriod
-        if startShift > 1 {
-            hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: startShift - 1)
-            OutputFile.writeLog(.time, "HH Shift \(startShift) (type=\(type), ell=\(ell))")
-            //PrintUtils.printMatrix("HH Shift \(startShift) (type=\(type))", hh)
+
+        var shifts: [Int] = []
+        if startShift > 0 {
+            var x = startShift
+            while x > 0 {
+                shifts = [x] + shifts
+                x -= PathAlg.twistPeriod
+            }
         } else {
-            OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell))")
-            //PrintUtils.printMatrix("HH (type=\(type))", hh)
+            for i in 1 ... PathAlg.s * PathAlg.twistPeriod + 1 { shifts += [i] }
         }
 
-        for shift in startShift ... 2 {// * PathAlg.s * PathAlg.twistPeriod + 1 {
+        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell))")
+        for shift in shifts {
+            let hh = shift > 1 ? ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift - 1) : HHElem(deg: deg, type: type)
             OutputFile.writeLog(.time, "Shift \(shift) (\(shift % PathAlg.twistPeriod))")
             let hh_shift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift) {
@@ -40,7 +44,6 @@ struct Step_14_shift_check {
                 //let _ = allVariants!.writeToFile(pathWithShift(shift))
                 return true
             }
-            hh = hh_shift
         }
         return false
     }

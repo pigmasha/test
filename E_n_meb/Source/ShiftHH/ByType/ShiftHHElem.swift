@@ -71,7 +71,7 @@ class ShiftHHElem {
         hh_shift.twist(shift)
         if withTwist {
             typealias TryGetKoefFunction = (_ s: Int, _ ell: Int) -> Int
-            let koefFunc: TryGetKoefFunction = { s, ell in
+            let koefFunc5: TryGetKoefFunction = { s, ell in
                 if s % 3 == 0 {
                     return minusDeg(3*(1-ell-s)/s)
                 } else {
@@ -82,14 +82,19 @@ class ShiftHHElem {
                     }
                 }
             }
+            let koefFunc9: TryGetKoefFunction = { s, ell in
+                if ell == 0 { return 1 }
+                if ell == 1 { return s == 11 || s == 13 ? -1 : 1 }
+                return minusDeg(ell / s) * (ell % s == 3 ? -1 : 1)
+            }
             let kk: Int
             let s = PathAlg.s
             let ell_0 = V.ell_0
             switch type {
             case 9:
-                kk = minusDeg(ell_0 / s) * (ell_0 % s == 3 ? -1 : 1)
+                kk = koefFunc9(s, ell_0)
             case 5:
-                kk = koefFunc(s, ell_0)
+                kk = koefFunc5(s, ell_0)
             case 2:
                 kk = PathAlg.sigmaDeg(ell_0, i: -6*ell_0, isGamma: true)
             default:

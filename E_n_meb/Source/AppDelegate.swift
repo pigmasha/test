@@ -219,6 +219,7 @@ class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     func onOpen() {
         NSWorkspace.shared().openFile(path!.stringValue)
+        onCancel()
     }
 
     // MARK: UI

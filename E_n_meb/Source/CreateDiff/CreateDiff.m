@@ -22,7 +22,7 @@ void createDiffWithNumber(Diff *diff, NSInteger degree) {
     {
         for (NSInteger i = 0; i < [rows count]; ++i)
             for (NSInteger j = 0; j < [[rows lastObject] count]; ++j)
-                [[[rows objectAtIndex:i] objectAtIndex:j] twist];
+                [[[rows objectAtIndex:i] objectAtIndex:j] twistWithBackward:NO];
     }
 }
 
