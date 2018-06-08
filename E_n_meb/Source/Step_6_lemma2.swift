@@ -1,14 +1,13 @@
 //
 //  Created by M on 02.04.17.
 //
-//
 
-struct Step_6_lemma2
-{
-    static func runCase() -> Bool
-    {
+import Foundation
+
+struct Step_6_lemma2 {
+    static func runCase() -> Bool {
         let s = PathAlg.s
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
         for _ in 0...2 * PathAlg.twistPeriod {
             let matrix = KoefIntMatrix(size: s)
             createMatrix2(matrix)
@@ -17,8 +16,8 @@ struct Step_6_lemma2
             let rk1 = matrix.rank
 
             if rk2 != 0 && rk1 != rk2 {
-                OutputFile.writeLog(.error, "%d (must be %d)! N=%d, S=%d, char=%d, matrix:",
-                                    rk1, rk2, PathAlg.n, s, PathAlg.charK)
+                OutputFile.writeLog(.error, "\(rk1) (must be \(rk2))"
+                    + " N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK), matrix:")
                 PrintUtils.printKoefIntMatrix(matrix, deg: 0, skipLines: 0)
                 return true
             }
@@ -26,8 +25,7 @@ struct Step_6_lemma2
         return false
     }
 
-    private static func createMatrix2(_ matrix: KoefIntMatrix)
-    {
+    private static func createMatrix2(_ matrix: KoefIntMatrix) {
         let s = PathAlg.s
         for i in 0 ..< s {
             matrix.rows[i][i].intValue = arc4random_uniform(2) == 0 ? 1 : -1
@@ -35,8 +33,7 @@ struct Step_6_lemma2
         }
     }
 
-    private static func rankLemma2(_ matrix: KoefIntMatrix) -> Int
-    {
+    private static func rankLemma2(_ matrix: KoefIntMatrix) -> Int {
         let charK = PathAlg.charK
         let n = matrix.rows.count
 

@@ -1,18 +1,16 @@
 //
 //  Created by M on 21.04.16.
 //
-//
 
 import Foundation
 
-final class Tenzor: NSObject {
+final class Tenzor {
     private var wLeft: Way
     private var wRight: Way
 
     init(left: Way, right: Way) {
         self.wLeft = Way(way: left)
         self.wRight = Way(way: right)
-        super.init()
     }
 
     convenience init(tenzor: Tenzor) {

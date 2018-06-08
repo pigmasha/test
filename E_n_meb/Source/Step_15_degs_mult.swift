@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_15_degs_mult {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=%d, S=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let c0 = PathAlg.charK
         let s0 = PathAlg.s

@@ -1,11 +1,10 @@
 //
 //  Created by M on 09.06.17.
 //
-//
 
 import Foundation
 
-final class PrintUtils: NSObject {
+final class PrintUtils {
     static func printMatrix(_ prefix: String, _ m: Matrix) {
         printMatrix(prefix, m, redColumns: nil)
     }

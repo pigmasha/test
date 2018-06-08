@@ -1,11 +1,10 @@
 //
 //  Created by M on 22.01.17.
 //
-//
 
 import Foundation
 
-class ShiftAllVariants : NSObject {
+final class ShiftAllVariants {
     let seqNumber: [Int]
     let variants: [[ShiftVariant]]
 
@@ -13,7 +12,6 @@ class ShiftAllVariants : NSObject {
         guard seqNumber.count == variants.count else { return nil }
         self.seqNumber = seqNumber
         self.variants = variants
-        super.init()
     }
 
     convenience init?(withContentsOf path: String) {

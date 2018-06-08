@@ -1,20 +1,18 @@
 //
 //  Created by M on 09.04.16.
 //
-//
 
 import Foundation
 
-final class Vertex: NSObject {
+final class Vertex {
     private var i: Int
 
-    convenience override init() {
+    convenience init() {
         self.init(i: 0)
     }
 
     init(i: Int) {
         self.i = i
-        super.init()
         self.reload()
     }
 

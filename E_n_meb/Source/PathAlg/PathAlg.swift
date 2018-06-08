@@ -1,7 +1,6 @@
 //
 //  Created by M on 09.04.16.
 //
-//
 
 import Foundation
 
@@ -18,7 +17,7 @@ func myMod2S(_ number: Int) -> Int {
     return myMod(number, mod: 2 * PathAlg.s)
 }
 
-final class PathAlg: NSObject {
+final class PathAlg {
     static var s: Int {
         get {
             return alg.s
@@ -116,11 +115,10 @@ final class PathAlg: NSObject {
         return charK == 3 && k2 == 2 ? -1 : k2
     }
 
-    override init() {
+    init() {
         self.n = 0
         self.s = 0
         self.charK = 0
         self.dummy1 = 0
-        super.init()
     }
 }

@@ -1,7 +1,6 @@
 //
 //  Created by M on 17.04.16.
 //
-//
 
 struct ShiftHHGenProgram {
     private let hhElem: HHElem

@@ -1,12 +1,11 @@
 //
 //  Created by M on 24.04.16.
 //
-//
 
 import Foundation
 
-class Dim : NSObject {
-    class func deg(_ deg: Int, hasType type: Int) -> Bool {
+struct Dim {
+    static func deg(_ deg: Int, hasType type: Int) -> Bool {
         let n = PathAlg.n
         let s = PathAlg.s
         let charK = PathAlg.charK
@@ -58,7 +57,7 @@ class Dim : NSObject {
         return false
     }
 
-    class func dimHom(_ deg: Int) -> Int {
+    static func dimHom(_ deg: Int) -> Int {
         let n = PathAlg.n
         let s = PathAlg.s
         let ell = deg / PathAlg.twistPeriod
@@ -126,7 +125,8 @@ class Dim : NSObject {
 
         return 0
     }
-    class func dimIm(_ deg: Int) -> Int {
+
+    static func dimIm(_ deg: Int) -> Int {
         let n = PathAlg.n
         let s = PathAlg.s
         let charK = PathAlg.charK
@@ -175,7 +175,8 @@ class Dim : NSObject {
 
         return 0
     }
-    class func dimHH(_ deg: Int) -> Int {
+
+    static func dimHH(_ deg: Int) -> Int {
         let n = PathAlg.n
         let s = PathAlg.s
         let charK = PathAlg.charK
@@ -185,7 +186,7 @@ class Dim : NSObject {
         if s == 1 {
             switch r {
             case 0:
-                return (ell % 2 == 0) ? ((charK == 3) ? 6 : 5) : 0
+                return (ell % 2 == 0) ? (charK == 3 ? 6 : 5) : 0
             case 1:
                 return 1
             case 2:
@@ -193,11 +194,11 @@ class Dim : NSObject {
             case 3:
                 return (ell % 2 == 1 || charK == 2) ? 1 : 0
             case 4:
-                return (ell % 2 == 0) ? ((charK == 2) ? 1 : 0) : ((charK == 3) ? 6 : 5)
+                return (ell % 2 == 0) ? (charK == 2 ? 1 : 0) : (charK == 3 ? 6 : 5)
             case 5:
                 return (charK == 3) ? 1 : 0
             case 6:
-                return (ell % 2 == 0) ? ((charK == 3) ? 2 : 1) : ((charK == 2) ? 5 : 4)
+                return (ell % 2 == 0) ? (charK == 3 ? 2 : 1) : (charK == 2 ? 5 : 4)
             case 7:
                 return (ell % 2 == 0 || charK == 2) ? 1 : 0
             case 8:
@@ -205,7 +206,7 @@ class Dim : NSObject {
             case 9:
                 return 1
             case 10:
-                return (ell % 2 == 0) ? 4 : ((charK == 3) ? 2 : 1)
+                return (ell % 2 == 0) ? 4 : (charK == 3 ? 2 : 1)
             default:
                 return 0
             }

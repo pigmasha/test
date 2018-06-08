@@ -1,27 +1,25 @@
 //
 //  Created by M on 19.04.16.
 //
-//
 
 import Foundation
 
-@objc enum ArrType: Int {
+enum ArrType: Int {
     case alpha
     case gamma
 }
 
-final class Way: NSObject {
+final class Way {
     private var vStart: Vertex
     private var vEnd: Vertex
     private var arr: [[NumInt]]
     var isZero: Bool
 
-    override init() {
+    init() {
         vStart = Vertex()
         vEnd = Vertex()
         arr = [[NumInt]]()
         isZero = true
-        super.init()
     }
 
     convenience init(from: Int, to: Int) {
@@ -33,7 +31,6 @@ final class Way: NSObject {
         vEnd = Vertex(i: to)
         arr = [[NumInt]]()
         isZero = false
-        super.init()
 
         let s = PathAlg.s
         let v = Vertex(i: from)

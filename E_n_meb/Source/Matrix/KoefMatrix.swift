@@ -4,23 +4,6 @@
 
 import Foundation
 
-final class KoefMatrix {
-    let deg: Int
-    private var items: [ [NumFloat] ]
-
-    init(im: ImMatrix) {
-        deg = im.deg
-        items = []
-        for row in im.rows {
-            items += [ row.map { NumFloat(floatValue: $0.koef) } ]
-        }
-    }
-
-    var rows: [ [NumFloat] ] {
-        return items
-    }
-}
-
 final class KoefIntMatrix {
     let deg: Int
     private var items: [ [NumInt] ]

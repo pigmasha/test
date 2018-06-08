@@ -1,11 +1,10 @@
 //
 //  Created by M on 22.01.17.
 //
-//
 
 import Foundation
 
-class ShiftVariant : NSObject {
+final class ShiftVariant {
     let hh: HHElem
     let key: NumInt?
     let nonZeroCnt: Int
@@ -22,6 +21,5 @@ class ShiftVariant : NSObject {
             }
         }
         nonZeroCnt = nonZero
-        super.init()
     }
 }

@@ -1,16 +1,14 @@
 //
 //  Created by M on 24.04.16.
 //
-//
 
 import Foundation
 
-class Matrix : NSObject {
+class Matrix {
     private var combs: [[Comb]]
 
-    override init() {
+    init() {
         combs = [[Comb]]()
-        super.init()
     }
 
     convenience init(zeroMatrix width: Int, h height: Int) {

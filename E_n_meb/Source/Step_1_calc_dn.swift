@@ -4,13 +4,13 @@
 
 struct Step_1_calc_dn {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
         for deg in 0...7 * PathAlg.twistPeriod + 2 {
             let prevDiff = deg == 0 ? nil : Diff(deg: deg - 1)
             let diff = Diff(deg: deg)
             let err = CalcDiff.calcDiffWithNumber(diff, deg: deg, prevDiff: prevDiff)
             if err != 0 {
-                OutputFile.writeLog(.error, "Err %d", err)
+                OutputFile.writeLog(.error, "Err \(err)")
                 return true
             }
             if let prevDiff = prevDiff {
@@ -27,7 +27,7 @@ struct Step_1_calc_dn {
 
             let lenErr = CalcDiff.checkDiffLen(diff, deg: deg)
             if lenErr != 0 {
-                OutputFile.writeLog(.error, "deg=\(deg): ERROR= \(lenErr)!")
+                OutputFile.writeLog(.error, "deg=\(deg): ERROR= \(lenErr)")
                 return true
             }
         }

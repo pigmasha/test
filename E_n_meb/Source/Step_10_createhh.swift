@@ -1,11 +1,10 @@
 //
 //  Created by M on 02.04.17.
 //
-//
 
 struct Step_10_createhh {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d (types %d)",  PathAlg.n, PathAlg.s, PathAlg.charK, 22)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK) (types 22)")
         for type in 1...22 {
             if (type == RunCase.kCurrentType && process(type: type)) {
                 return true

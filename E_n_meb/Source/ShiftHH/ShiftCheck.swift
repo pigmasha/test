@@ -1,7 +1,6 @@
 //
 //  Created by M on 12.11.17.
 //
-//
 
 struct ShiftCheck {
     static func checkHH(_ hh: HHElem, hhShift: HHElem, degree: Int, shift: Int, detailLog: Bool) -> Bool {

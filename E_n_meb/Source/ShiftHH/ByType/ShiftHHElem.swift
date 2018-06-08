@@ -1,9 +1,5 @@
 //
-//  ShiftHHElem.swift
-//  E_n_meb
-//
 //  Created by M on 09.04.16.
-//
 //
 
 import Foundation
@@ -33,7 +29,7 @@ class ShiftHHElem {
         self.type = type
     }
 
-    class func shiftForType(_ type: Int) -> ShiftHHElem? {
+    class func shiftForType(_ type: Int) -> ShiftHHElem {
         switch type {
         case  1: return ShiftHHElem01()
         case  2: return ShiftHHElem02()
@@ -46,7 +42,7 @@ class ShiftHHElem {
         case  9: return ShiftHHElem09c()
         case 10: return ShiftHHElem10c()
         case 18: return ShiftHHElem18()
-        default: return nil
+        default: return ShiftHHElem(type: 0)
         }
     }
 

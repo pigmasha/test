@@ -1,22 +1,20 @@
 //
 //  Created by M on 21.04.16.
 //
-//
 
 import Foundation
 
-final class WayPair: NSObject {
+final class WayPair {
     let way: Way?
     let koef: Double
 
-    convenience override init() {
+    convenience init() {
         self.init(way: nil, koef: 0)
     }
     
     init(way: Way?, koef: Double) {
         self.way = way
         self.koef = koef
-        super.init()
     }
 
     class func pairWithWay(_ way: Way?, koef: Double) -> WayPair {
@@ -24,14 +22,13 @@ final class WayPair: NSObject {
     }
 }
 
-final class TenzorPair: NSObject {
+final class TenzorPair {
     let tenzor: Tenzor
     var koef: Double
 
     init(tenzor: Tenzor, koef: Double) {
         self.tenzor = tenzor
         self.koef = koef
-        super.init()
     }
 
     class func pairWithTenzor(_ tenzor: Tenzor, koef: Double) -> TenzorPair {
@@ -39,14 +36,13 @@ final class TenzorPair: NSObject {
     }
 }
 
-final class IntPair: NSObject {
+final class IntPair {
     var n0: Int
     var n1: Int
 
     init(n0: Int, n1: Int) {
         self.n0 = n0
         self.n1 = n1
-        super.init()
     }
 
     class func pairWithN0(_ n0: Int, n1: Int) -> IntPair {

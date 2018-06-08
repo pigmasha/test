@@ -1,11 +1,10 @@
 //
 //  Created by M on 03.04.17.
 //
-//
 
 import Cocoa
 
-class Application: NSApplication {
+final class Application: NSApplication {
     let strongDelegate = AppDelegate()
 
     override init() {
@@ -19,7 +18,7 @@ class Application: NSApplication {
 }
 
 @NSApplicationMain
-class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
+final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private let kNN = 6
 
     private let kButtonW: CGFloat = 100

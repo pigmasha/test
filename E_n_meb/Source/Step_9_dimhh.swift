@@ -1,15 +1,12 @@
 //
 //  Created by M on 02.04.17.
 //
-//
 
 import Foundation
 
-struct Step_9_dimhh
-{
-    static func runCase() -> Bool
-    {
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+struct Step_9_dimhh {
+    static func runCase() -> Bool {
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
         for deg in 1...30 * PathAlg.twistPeriod + 2 {
             let r = deg % PathAlg.twistPeriod
             let ell = Int(deg / PathAlg.twistPeriod)
@@ -20,15 +17,14 @@ struct Step_9_dimhh
             let dimHH1 = Dim.dimHH(deg)
 
             if dimHH1 != dimHom1 - dimIm1 - dimIm2 || dimHH1 != dimHH2(deg) {
-                OutputFile.writeLog(.error, "HH %d and %d (deg=%d, r=%d, ell=%d, char=%d)",
-                                    dimHH1, dimHom1 - dimIm1 - dimIm2, deg, r, ell, PathAlg.charK)
+                OutputFile.writeLog(.error, "HH \(dimHH1) and \(dimHom1 - dimIm1 - dimIm2)"
+                    + " (deg=\(deg), r=\(r), ell=\(ell), char=\(PathAlg.charK))")
             }
         }
         return false
     }
 
-    private static func dimHH2(_ deg: Int) -> Int
-    {
+    private static func dimHH2(_ deg: Int) -> Int {
         let n = PathAlg.n
         let s = PathAlg.s
         let charK = PathAlg.charK

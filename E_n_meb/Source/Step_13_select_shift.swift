@@ -2,9 +2,11 @@
 //  Created by M on 07.05.17.
 //
 
+import Foundation
+
 struct Step_13_select_shift {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = RunCase.kCurrentType
         for deg in 1...30 * PathAlg.twistPeriod + 2 {
@@ -22,10 +24,10 @@ struct Step_13_select_shift {
         var hh = HHElem(deg: deg, type: type)
         let shiftFrom = PathAlg.alg.dummy1
         if shiftFrom > 0 {
-            hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
-            OutputFile.writeLog(.time, "HH Shift \(shiftFrom) (ell=%d, type=%d)", ell, type)
+            hh = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shiftFrom)
+            OutputFile.writeLog(.time, "HH Shift \(shiftFrom) (ell=\(ell), type=\(type))")
         } else {
-            OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
+            OutputFile.writeLog(.time, "HH (ell=\(ell), type=\(type))")
         }
         if !checkMyShift(type: type, deg: deg, shift: shiftFrom, hh: hh) {
             PrintUtils.printMatrix("hh", hh)
@@ -76,7 +78,7 @@ struct Step_13_select_shift {
     }
 
     private static func checkMyShift(type: Int, deg: Int, shift: Int, hh: HHElem) -> Bool {
-        let myShift = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shift)
+        let myShift = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shift)
         let nDifferents = myShift.numberOfDifferents(hh, debug: true)
         if nDifferents != 0 {
             OutputFile.writeLog(.error, "<br>Bad my shift, nDiff=\(nDifferents), myMatrix:")

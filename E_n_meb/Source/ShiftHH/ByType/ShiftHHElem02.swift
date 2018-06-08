@@ -1,7 +1,6 @@
 //
 //  Created by M on 10.04.16.
 //
-//
 
 import Foundation
 

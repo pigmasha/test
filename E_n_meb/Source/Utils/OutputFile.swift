@@ -1,11 +1,10 @@
 //
 //  Created by M on 17.04.16.
 //
-//
 
 import Foundation
 
-class OutputFile : NSObject {
+final class OutputFile {
     static var fileName : String? = nil
     private static var fileNames : [String] = []
     private var fh: FileHandle
@@ -26,10 +25,8 @@ class OutputFile : NSObject {
         }
     }
 
-    static func writeLog(_ mode: LogMode, _ format: String, _ args: CVarArg...) {
-        let string = String(format: format, arguments: args)
-        let file = OutputFile()
-        file.write(prefixForMode(mode) + string + suffixForMode(mode))
+    static func writeLog(_ mode: LogMode, _ string: String) {
+        OutputFile().write(prefixForMode(mode) + string + suffixForMode(mode))
     }
 
     private class func prefixForMode(_ mode: LogMode) -> String {
@@ -63,7 +60,7 @@ class OutputFile : NSObject {
         }
     }
 
-    override init() {
+    init() {
         fh = FileHandle(forWritingAtPath: OutputFile.fileName!)!
         fh.seekToEndOfFile()
     }

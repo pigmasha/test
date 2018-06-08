@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_16_mult {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type1 = 18
         let type2 = 5
@@ -37,9 +37,9 @@ struct Step_16_mult {
             return true
         }
         let multRes = Matrix(mult: HHElem(deg: deg2, type: type2),
-                             and: ShiftHHElem.shiftForType(type1)!.shift(degree: deg1, shift: deg2))
+                             and: ShiftHHElem.shiftForType(type1).shift(degree: deg1, shift: deg2))
         let multRes2 = Matrix(mult: HHElem(deg: deg1, type: type1),
-                              and: ShiftHHElem.shiftForType(type2)!.shift(degree: deg2, shift: deg1))
+                              and: ShiftHHElem.shiftForType(type2).shift(degree: deg2, shift: deg1))
         let hh = HHElem(deg: deg1 + deg2, type: type)
         hh.compKoef(-koef)
         multRes.addMatrix(hh)
@@ -51,7 +51,7 @@ struct Step_16_mult {
             OutputFile.writeLog(.normal, "\(deg1) * \(deg2) OK")
         case .notInIm:
             PrintUtils.printMatrix("hh", HHElem(deg: deg2, type: type2))
-            PrintUtils.printMatrix("shift", ShiftHHElem.shiftForType(type1)!.shift(degree: deg1, shift: deg2))
+            PrintUtils.printMatrix("shift", ShiftHHElem.shiftForType(type1).shift(degree: deg1, shift: deg2))
             PrintUtils.printMatrix("multRes", multRes)
             OutputFile.writeLog(.error, "\(deg1) * \(deg2) not in im")
         case .failed:
@@ -69,9 +69,9 @@ struct Step_16_mult {
 
     private static func processCommutative(type1: Int, type2: Int, deg1: Int, deg2: Int) -> Bool {
         let multRes = Matrix(mult: HHElem(deg: deg2, type: type2),
-                             and: ShiftHHElem.shiftForType(type1)!.shift(degree: deg1, shift: deg2))
+                             and: ShiftHHElem.shiftForType(type1).shift(degree: deg1, shift: deg2))
         let multRes2 = Matrix(mult: HHElem(deg: deg1, type: type1),
-                              and: ShiftHHElem.shiftForType(type2)!.shift(degree: deg2, shift: deg1))
+                              and: ShiftHHElem.shiftForType(type2).shift(degree: deg2, shift: deg1))
         multRes.subtractMatrix(multRes2)
         let r2 = CheckHH.checkForIm(multRes, degree: deg1 + deg2, shouldBeInIm: true, logError: false)
         if r2 != .inIm {

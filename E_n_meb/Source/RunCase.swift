@@ -3,8 +3,8 @@
 //
 
 struct RunCase {
-    static let kStep = 14
-    static let kCurrentType = 9
+    static let kStep = 12
+    static let kCurrentType = 11
     
     static func runCase() -> Bool {
         switch kStep {
@@ -12,6 +12,8 @@ struct RunCase {
             return Step_1_calc_dn.runCase()
         case 3:
             return Step_3_sigma_deg.runCase()
+        case 4:
+            return Step_4_dimhom.runCase()
         case 6:
             return Step_6_lemma2.runCase()
         case 7:

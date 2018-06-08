@@ -17,6 +17,18 @@ struct Utils {
     }
 }
 
+func f(_ x: Int, _ y: Int) -> Int {
+    return x == y ? 1 : 0
+}
+
+func f0(_ x: Int, _ y: Int) -> Int {
+    return x < y ? 1 : 0
+}
+
+func f1(_ x: Int, _ y: Int) -> Int {
+    return x < y ? 1 : -1
+}
+
 func f2(_ x: Int, _ y: Int) -> Int {
     return x == y ? 1 : -1
 }

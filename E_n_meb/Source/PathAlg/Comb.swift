@@ -1,24 +1,21 @@
 //
 //  Created by M on 22.04.16.
 //
-//
 
 import Foundation
 
-final class Comb: NSObject {
+final class Comb {
     private var tenzors: [TenzorPair]
     var isPotential = false
     var isFirstStep = false
     var isOnlyZero = false
 
-    override init() {
+    init() {
         tenzors = [TenzorPair]()
-        super.init()
     }
 
     init(tenzor: Tenzor, koef: Double) {
         tenzors = [TenzorPair]()
-        super.init()
         if !tenzor.isZero && koef != 0 {
             addTenzor(tenzor, koef: koef)
         }
@@ -26,7 +23,6 @@ final class Comb: NSObject {
 
     init(comb: Comb) {
         tenzors = [TenzorPair]()
-        super.init()
         addComb(comb)
     }
 

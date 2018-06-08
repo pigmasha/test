@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_12_shift_enum {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=%d, S=%d, Char=%d",  PathAlg.n, PathAlg.s, PathAlg.charK)
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = RunCase.kCurrentType
         if (process(type: type)) { return true }
@@ -29,10 +29,10 @@ struct Step_12_shift_enum {
 
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
-        OutputFile.writeLog(.time, "HH (ell=%d, type=%d)", ell, type)
+        OutputFile.writeLog(.time, "HH (ell=\(ell), type=\(type)")
         PrintUtils.printMatrix("HH", hh)
         if shiftFrom > 0 {
-            hh = ShiftHHElem.shiftForType(type)!.shift(degree: deg, shift: shiftFrom)
+            hh = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shiftFrom)
             PrintUtils.printMatrix("Shift \(shiftFrom)", hh)
         }
 
