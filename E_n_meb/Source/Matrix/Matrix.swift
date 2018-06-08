@@ -23,6 +23,12 @@ class Matrix : NSObject {
         mult(matr1, and: matr2)
     }
 
+    convenience init(sum matr1: Matrix, and matr2: Matrix, koef2: Int) {
+        self.init(matrix: matr2)
+        compKoef(koef2)
+        addMatrix(matr1)
+    }
+
     convenience init(matrix matr: Matrix) {
         self.init()
 

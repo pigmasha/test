@@ -4,7 +4,7 @@
 
 final class ShiftHHElem07 : ShiftHHElem {
     init() {
-        super.init(type:7, withTwist: false)
+        super.init(type:7)
     }
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
         hhElem.makeZeroMatrix(8*s, h:6*s)

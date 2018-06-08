@@ -10,25 +10,25 @@ struct CalcDiff {
         let s = PathAlg.s
         let d = deg % PathAlg.twistPeriod
 
-        let qFrom = BimodQ(forDeg: d + 1)!
-        let qTo = BimodQ(forDeg: d)!
-        let checkDiff = Diff(zeroMatrix: qFrom.pij().count, h: qTo.pij().count)
+        let qFrom = BimodQ(deg: d + 1)
+        let qTo = BimodQ(deg: d)
+        let checkDiff = Diff(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
 
         var col = 0
         var row = 0
-        for nSq in 0 ..< qFrom.sizes().count {
+        for nSq in 0 ..< qFrom.sizes.count {
             var sq1 = false
-            for i in 0 ..< qTo.sizes()[nSq].intValue {
-                for j in 0 ..< qFrom.sizes()[nSq].intValue {
+            for i in 0 ..< qTo.sizes[nSq].intValue {
+                for j in 0 ..< qFrom.sizes[nSq].intValue {
                     for k in 0 ..< s {
                         let ii = row + i * s + k
                         let jj = col + j * s + k
 
-                        let fromSz = qFrom.sizes()[nSq].intValue
-                        let toSz   = qTo.sizes()[nSq].intValue
+                        let fromSz = qFrom.sizes[nSq].intValue
+                        let toSz   = qTo.sizes[nSq].intValue
 
-                        let wL = Way(from: qTo.pij()[ii].n0, to: qFrom.pij()[jj].n0, noZeroLen: true)
-                        let wR = Way(from: qFrom.pij()[jj].n1, to: qTo.pij()[ii].n1)
+                        let wL = Way(from: qTo.pij[ii].n0, to: qFrom.pij[jj].n0, noZeroLen: true)
+                        let wR = Way(from: qFrom.pij[jj].n1, to: qTo.pij[ii].n1)
 
                         if fromSz == 2 && toSz == 2 {
                             if i == 0 && j == 0 {
@@ -55,8 +55,8 @@ struct CalcDiff {
                     }
                 }
             }
-            col += s * qFrom.sizes()[nSq].intValue
-            row += s * qTo.sizes()[nSq].intValue
+            col += s * qFrom.sizes[nSq].intValue
+            row += s * qTo.sizes[nSq].intValue
         }
 
         if deg == 0 {
@@ -127,13 +127,13 @@ struct CalcDiff {
     }
 
     private static func createZeroDiff(_ diff: Diff, qFrom: BimodQ, qTo: BimodQ) -> Int {
-        for i in 0 ..< qTo.pij().count {
-            for j in 0 ..< qFrom.pij().count {
+        for i in 0 ..< qTo.pij.count {
+            for j in 0 ..< qFrom.pij.count {
                 let c1 = diff.rows[i][j]
                 if !c1.isZero { continue }
 
-                let wL = Way(from: qTo.pij()[i].n0, to: qFrom.pij()[j].n0)
-                let wR = Way(from: qFrom.pij()[j].n1, to:qTo.pij()[i].n1)
+                let wL = Way(from: qTo.pij[i].n0, to: qFrom.pij[j].n0)
+                let wR = Way(from: qFrom.pij[j].n1, to:qTo.pij[i].n1)
 
                 if !wL.isZero && !wR.isZero {
                     if wL.len + wR.len != 1 {
@@ -144,10 +144,10 @@ struct CalcDiff {
                 }
             }
         }
-        for j in 0 ..< qFrom.pij().count {
+        for j in 0 ..< qFrom.pij.count {
             var hasPos = false
             var hasNeg = false
-            for i in 0 ..< qTo.pij().count {
+            for i in 0 ..< qTo.pij.count {
                 let c1 = diff.rows[i][j]
                 if (c1.isZero) { continue; }
 

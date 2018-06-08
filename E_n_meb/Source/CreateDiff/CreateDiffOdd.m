@@ -1,5 +1,6 @@
 #import "CreateDiffOdd.h"
 #import "Utils.h"
+#import "E_n_meb-Swift.h"
 
 void createDiffWithNumber1(Diff *diff);
 void createDiffWithNumber3(Diff *diff);

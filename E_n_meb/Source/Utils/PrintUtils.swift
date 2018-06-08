@@ -77,19 +77,18 @@ final class PrintUtils: NSObject {
         file.write("</table><p>")
     }
 
-    static func printIm(_ m: ImMatrix, deg: Int) {
-        let posesFrom = posesFromDeg(deg)
-        let posesTo = posesFromDeg(deg + 1)
+    static func printIm(_ prefix: String, _ m: ImMatrix) {
+        OutputFile.writeLog(.normal, prefix)
 
         let file = OutputFile()
         file.write("<table>")
         let rows = m.rows
         for i in 0 ..< rows.count {
-            let cellTop = cellBorder(i, posesTo)
+            let cellTop = cellBorder(i, nil)
             file.write("<tr>")
             let line = rows[i]
             for j in 0 ..< line.count {
-                let cellLeft = cellBorder(j, posesFrom)
+                let cellLeft = cellBorder(j, nil)
                 file.write("<td class='c_t_\(cellTop) c_l_\(cellLeft)'>")
                 let pp = line[j]
                 if pp.koef == 0 || pp.way == nil || pp.way!.isZero {
@@ -135,10 +134,10 @@ final class PrintUtils: NSObject {
 
     private static func posesFromDeg(_ deg: Int) -> [Int]? {
         guard deg >= 0 else { return nil }
-        let q = BimodQ(forDeg: deg)!
+        let q = BimodQ(deg: deg)
         var sum = 0
         var poses: [Int] = []
-        for n in q.sizes() {
+        for n in q.sizes {
             sum += n.intValue
             poses += [ sum ]
         }

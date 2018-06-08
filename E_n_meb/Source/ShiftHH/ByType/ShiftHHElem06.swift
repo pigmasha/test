@@ -4,7 +4,7 @@
 
 final class ShiftHHElem06 : ShiftHHElem {
     init() {
-        super.init(type:6, withTwist: false)
+        super.init(type:6)
     }
 
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {

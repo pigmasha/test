@@ -7,7 +7,7 @@ import Foundation
 
 final class ShiftHHElem02 : ShiftHHElem {
     init() {
-        super.init(type:2, withTwist: true)
+        super.init(type:2)
     }
 
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -100,5 +100,9 @@ final class ShiftHHElem02 : ShiftHHElem {
 
         let j = myModS(-n*ell_0 - m)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m), leftTo:4*(j+m+1), right:4*j, koef:1)
+    }
+
+    override func koef11(s: Int, ell: Int) -> Int {
+        return PathAlg.sigmaDeg(ell, i: -6*ell, isGamma: true)
     }
 }

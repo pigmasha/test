@@ -13,6 +13,10 @@
 //
 
 struct ShiftAlgAll {
+    private enum GoodPosMode { case first, last, index1 }
+
+    private static var bySVal = true
+
     static func allVariants(for hh: HHElem, degree: Int, shift: Int) -> ShiftAllVariants? {
         let multRes = Matrix(mult: hh, and: Diff(deg: degree + shift - 1))
         if multRes.isNil {
@@ -25,9 +29,9 @@ struct ShiftAlgAll {
         let d_down = Diff(deg: shift - 1)
 
         var allVariants: [[ShiftVariant]] = []
-        for col in stride(from: 0, to: width, by: s) {
-            let multRes2 = multRes.submatrixFromCol(col, toCol: col + s)
-            let variants = shiftForMultRes(multRes2, dDown: d_down)
+        for col in stride(from: 0, to: width, by: bySVal ? s : 1) {
+            let multRes2 = multRes.submatrixFromCol(col, toCol: col + (bySVal ? s : 1))
+            let variants = shiftForMultRes(multRes2, dDown: d_down, byS: bySVal)
             guard variants.count > 0 else { return nil }
             allVariants += [ variants ]
         }
@@ -41,13 +45,13 @@ struct ShiftAlgAll {
         return ShiftAllVariants(seqNumber: seqNumber, variants: allVariants)
     }
 
-    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff) -> [ShiftVariant] {
+    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff, byS: Bool) -> [ShiftVariant] {
         let multResW = multRes.width
 
         var hasNonZeroElements = false
         for i in 0 ..< multRes.height {
             for j in 0 ..< multResW {
-                if !multRes.rows[i][j].isZero { hasNonZeroElements = true; break; }
+                if !multRes.rows[i][j].isZero { hasNonZeroElements = true; break }
             }
         }
 
@@ -61,11 +65,11 @@ struct ShiftAlgAll {
 
         var result: [ShiftVariant] = []
 
-        let rowMask = twoDeg(height / s)
+        let rowMask = byS ? twoDeg(height / s) : twoDeg(height)
         for r in 1 ..< rowMask {
-            for i in 0 ..< 1 {
+            for goodPosMode in [/*GoodPosMode.first,*/ GoodPosMode.last/*, GoodPosMode.index1*/] {
                 let hhElem = HHElem()
-                let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, isLast: i == 1, result: hhElem)
+                let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, goodPosMode: goodPosMode, byS: byS, result: hhElem)
                 if nDiff != 0 { continue }
                 var hasHH = false
                 for v in result {
@@ -83,7 +87,8 @@ struct ShiftAlgAll {
         return result
     }
 
-    private static func shiftForRowMask(_ rowMask: Int, multRes: Matrix, dDown: Diff, isLast: Bool, result hh_shift: HHElem) -> Int {
+    private static func shiftForRowMask(_ rowMask: Int, multRes: Matrix, dDown: Diff,
+                                        goodPosMode: GoodPosMode, byS: Bool, result hh_shift: HHElem) -> Int {
         let s = PathAlg.s;
         let width = multRes.width
         let height = dDown.width
@@ -105,7 +110,8 @@ struct ShiftAlgAll {
                     var goodPoses: [Int] = []
                     for k in 0 ..< dDown.width {
                         guard !dDown.rows[i0][k].isZero && hh_shift.rows[k][j].isZero else { continue }
-                        guard rowMask & (1 << Int(k / s)) != 0 else { continue }
+                        guard (byS && (rowMask & (1 << Int(k / s)) != 0)) ||
+                            (!byS && (rowMask & (1 << k) != 0)) else { continue }
                         let div = Tenzor(byDivide: multRes_shift.rows[i0][j].firstTenzor!, to: dDown.rows[i0][k].firstTenzor!)
                         if !div.isZero { goodPoses += [k] }
                     }
@@ -116,7 +122,14 @@ struct ShiftAlgAll {
                     }
                     if goodPoses.count == 1 { break }
                 }
-                guard let goodPos = isLast ? goodPositions?.last : goodPositions?.first else { continue }
+                guard (goodPositions?.count ?? 0) > 0 else { continue }
+
+                let goodPos: Int
+                switch goodPosMode {
+                case .first: goodPos = goodPositions![0]
+                case .last: goodPos = goodPositions!.last!
+                case .index1: goodPos = goodPositions!.count > 1 ? goodPositions![1] : goodPositions![0]
+                }
 
                 let tt = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][goodPos].firstTenzor!)
                 guard !tt.isZero else { continue }

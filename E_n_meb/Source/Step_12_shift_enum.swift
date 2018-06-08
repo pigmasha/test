@@ -85,7 +85,7 @@ struct Step_12_shift_enum {
         }
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
-        if hh.maxNonZeroPos.1 < 2*PathAlg.s && hh.minNonZeroPos.1 >= PathAlg.s {
+        if hh.maxNonZeroPos.1 < PathAlg.s && hh.minNonZeroPos.1 < PathAlg.s {
             let path = OutputFile.fileName!
             try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
             OutputFile.writeLog(.bold, "RESULT")

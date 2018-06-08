@@ -1,8 +1,8 @@
 #import "CreateDiff.h"
 #import "CreateDiffEven.h"
 #import "CreateDiffOdd.h"
-#import "BimodQ.h"
 #import "Utils.h"
+#import "E_n_meb-Swift.h"
 
 //----------------------------------------------------------------------------
 void createDiffWithNumber(Diff *diff, NSInteger degree) {

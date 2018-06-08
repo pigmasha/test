@@ -11,7 +11,6 @@ BOOL IsVectorsEqual(NSArray* a, NSArray* b, NSInteger s);
     NSLog(@"ERROR %d, d=%d (%@\n\n%@)", __c, deg, lengthes, myLens); \
     [lengthes release]; \
     [myLens   release]; \
-    WriteLog(2, "ERROR %d", __c); \
     return YES; \
 }
 
@@ -19,7 +18,7 @@ BOOL IsVectorsEqual(NSArray* a, NSArray* b, NSInteger s);
 BOOL _RunCase() {
     NSInteger s = PathAlg.s;
     
-    WriteLog(2, "s=%d", s);
+    NSLog(@"s=%d", s);
     
     NSInteger degMax = 50 * s * PathAlg.twistPeriod;
     
@@ -52,7 +51,7 @@ BOOL _RunCase() {
         }
         
         if ([lengthes count] != 6) {
-            WriteLog(1, "Bad lengthes count = %d", [lengthes count]);
+            NSLog(@"Bad lengthes count = %d", [lengthes count]);
             [lengthes release];
             return YES;
         }
@@ -76,7 +75,6 @@ BOOL _RunCase() {
         NSInteger myDeg = dimHom(deg);
         if (deg2 != myDeg) {
             NSLog(@"Error! Bad dimHom=%d (must be %d), s=%d, deg=%d", myDeg, deg2, s, deg % PathAlg.twistPeriod);
-            WriteLog(2, "Error! Bad dimHom=%d (must be %d), s=%d, deg=%d", myDeg, deg2, s, deg % PathAlg.twistPeriod);
             return YES;
         }
     }

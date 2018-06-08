@@ -28,6 +28,10 @@ struct RunCase {
             return Step_13_select_shift.runCase()
         case 14:
             return Step_14_shift_check.runCase()
+        case 15:
+            return Step_15_degs_mult.runCase()
+        case 16:
+            return Step_16_mult.runCase()
         default:
             return false
         }

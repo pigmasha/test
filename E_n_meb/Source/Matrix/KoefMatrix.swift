@@ -29,7 +29,7 @@ final class KoefIntMatrix {
         deg = im.deg
         items = []
         for row in im.rows {
-            items += [ row.map { NumInt(intValue: Int($0.koef)) } ]
+            items += [ row.map { NumInt(intValue: Int(($0.way?.isZero ?? true) ? 0 : $0.koef)) } ]
         }
     }
     init(size: Int) {

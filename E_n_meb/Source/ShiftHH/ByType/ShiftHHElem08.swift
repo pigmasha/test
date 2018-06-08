@@ -4,7 +4,7 @@
 
 final class ShiftHHElem08 : ShiftHHElem {
     init() {
-        super.init(type:8, withTwist: true)
+        super.init(type:8)
     }
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
         hhElem.makeZeroMatrix(9*s, h:6*s)
@@ -631,5 +631,9 @@ final class ShiftHHElem08 : ShiftHHElem {
                                leftFrom:4*(j+m+1)+1, leftTo:4*(j+m+1)+1,
                                rightFrom:4*j+3, rightTo:4*(j+s+1)+1, koef:1)
         }
+    }
+
+    override func koef11(s: Int, ell: Int) -> Int {
+        return minusDeg(ell)
     }
 }

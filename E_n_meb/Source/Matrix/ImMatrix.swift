@@ -20,6 +20,10 @@ final class ImMatrix {
         return items
     }
 
+    var height: Int {
+        return items.count
+    }
+
     func addRow(_ row: [WayPair]) {
         if row.count != items[0].count {
             items = []
@@ -29,26 +33,22 @@ final class ImMatrix {
     }
 
     private func pairFromComb(_ c: Comb) -> WayPair {
-        guard !c.isZero, let t = c.content.last else { return WayPair(way: nil, koef: 0) }
-
-        let w = Way(from: t.tenzor.rightComponent.endsWith.number, to: t.tenzor.leftComponent.startsWith.number)
-        if !w.isZero {
-            w.compLeft(t.tenzor.leftComponent)
-            w.compRight(t.tenzor.rightComponent)
-        }
-        guard !w.isZero else { return WayPair(way: nil, koef: 0) }
-
+        guard !c.isZero, let t = c.content.last else { return WayPair() }
+        guard let w = ImMatrix.wayForTenzor(t.tenzor) else { return WayPair() }
         var k = 0.0
         for t in c.content {
-            let w2 = Way(from: t.tenzor.rightComponent.endsWith.number, to: t.tenzor.leftComponent.startsWith.number)
-            if !w2.isZero {
-                w2.compLeft(t.tenzor.leftComponent)
-                w2.compRight(t.tenzor.rightComponent)
-            }
-            if !w2.isZero {
+            if ImMatrix.wayForTenzor(t.tenzor) != nil {
                 k += t.koef
             }
         }
         return WayPair(way: w, koef: k)
+    }
+
+    static func wayForTenzor(_ tenzor: Tenzor) -> Way? {
+        let w = Way(from: tenzor.rightComponent.endsWith.number, to: tenzor.leftComponent.startsWith.number)
+        guard !w.isZero else { return nil }
+        w.compLeft(tenzor.leftComponent)
+        w.compRight(tenzor.rightComponent)
+        return w.isZero ? nil : w
     }
 }

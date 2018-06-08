@@ -9,6 +9,10 @@ final class WayPair: NSObject {
     let way: Way?
     let koef: Double
 
+    convenience override init() {
+        self.init(way: nil, koef: 0)
+    }
+    
     init(way: Way?, koef: Double) {
         self.way = way
         self.koef = koef
