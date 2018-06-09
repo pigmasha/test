@@ -57,39 +57,39 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         let w = v.bounds.width
         var y = v.bounds.height - 20 - kButtonH
 
-        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: 10, y: y - 3, w: 70, text: "Html file:")
-        path = addField(to: v, autoSz: [ .viewWidthSizable, .viewMinYMargin], x: 90, y: y, w: w - 2 * kButtonW - 10)
+        addLabel(to: v, align: .right, autoSz: .minYMargin, x: 10, y: y - 3, w: 70, text: "Html file:")
+        path = addField(to: v, autoSz: [ .width, .minYMargin], x: 90, y: y, w: w - 2 * kButtonW - 10)
         btFile = addButton(to: v, title: "Browse...", action: #selector(onFile),
-                           autoSz: [.viewMinXMargin, .viewMinYMargin], x: w - kButtonW - 10, y: y)
+                           autoSz: [.minXMargin, .minYMargin], x: w - kButtonW - 10, y: y)
 
         // s, n, char
         y -= 44
-        addLabel(to: v, align: .left, autoSz: .viewMinYMargin, x: 20, y: y - 3, w: 50, text: "N = \(kNN)")
+        addLabel(to: v, align: .left, autoSz: .minYMargin, x: 20, y: y - 3, w: 50, text: "N = \(kNN)")
         var x: CGFloat = 70
-        sFrom = addField(to: v, autoSz: .viewMinYMargin, x: x + 22, y: y, w: 40)
-        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 55, y: y - 3, w: 50, text: "≤ S ≤")
-        sTo = addField(to: v, autoSz: .viewMinYMargin, x: x + 110, y: y, w: 40)
+        sFrom = addField(to: v, autoSz: .minYMargin, x: x + 22, y: y, w: 40)
+        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 55, y: y - 3, w: 50, text: "≤ S ≤")
+        sTo = addField(to: v, autoSz: .minYMargin, x: x + 110, y: y, w: 40)
 
         x += 180
-        charKFrom = addField(to: v, autoSz: .viewMinYMargin, x: x + 16, y: y, w: 40)
-        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 55, y: y - 3, w: 65, text: "≤ char ≤")
-        charKTo = addField(to: v, autoSz: .viewMinYMargin, x: x + 126, y: y, w: 40)
+        charKFrom = addField(to: v, autoSz: .minYMargin, x: x + 16, y: y, w: 40)
+        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 55, y: y - 3, w: 65, text: "≤ char ≤")
+        charKTo = addField(to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
 
         x += 160
-        addLabel(to: v, align: .right, autoSz: .viewMinYMargin, x: x + 35, y: y - 3, w: 85, text: "Step From")
-        dummy1 = addField(to: v, autoSz: .viewMinYMargin, x: x + 126, y: y, w: 40)
+        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 35, y: y - 3, w: 85, text: "Step From")
+        dummy1 = addField(to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
 
         loadDefaults()
 
         // run
         y -= 44
-        btRun = addButton(to: v, title: "Run", action: #selector(onRun), autoSz: .viewMinYMargin, x: 90, y: y)
-        _ = addButton(to: v, title: "Open html", action: #selector(onOpen), autoSz: .viewMinYMargin, x: 90 + kButtonW, y: y)
+        btRun = addButton(to: v, title: "Run", action: #selector(onRun), autoSz: .minYMargin, x: 90, y: y)
+        _ = addButton(to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
 
         // info
         y -= 44
         let info = NSTextView(frame: NSMakeRect(0, 0, w - 20, y - 20))
-        info.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
+        info.autoresizingMask = [.width, .height]
         info.font = NSFont.systemFont(ofSize: kLabelFontSz)
         info.isEditable = false
         let scr = NSScrollView(frame: NSMakeRect(10, 50, w - 20, y - 20))
@@ -98,12 +98,12 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         scr.hasHorizontalScroller = false
         scr.autohidesScrollers = true
         scr.borderType = .grooveBorder
-        scr.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
+        scr.autoresizingMask = [.width, .height]
         v.addSubview(scr)
         self.info = info
 
         // cancel
-        btCancel = addButton(to: v, title: "Exit", action: #selector(onCancel), autoSz: .viewMinXMargin, x: w - kButtonW - 10, y: 10)
+        btCancel = addButton(to: v, title: "Exit", action: #selector(onCancel), autoSz: .minXMargin, x: w - kButtonW - 10, y: 10)
 
         // show
         window.center()
@@ -111,11 +111,11 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     private func addInfoStr(_ str: String) {
-        info!.string = info!.string == "" ? str : info!.string! + "\n" + str
+        info!.string = info!.string == "" ? str : info!.string + "\n" + str
     }
 
     // MARK:- Run
-    func onRun() {
+    @objc func onRun() {
         saveDefaults()
         guard isRun == false else { return }
 
@@ -155,14 +155,14 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         PathAlg.s = sFrom?.integerValue ?? 0
         PathAlg.charK = charKFrom?.integerValue ?? 0
         addInfoStr("s=\(PathAlg.s)")
-        NSApplication.shared().dockTile.badgeLabel = "•"
+        Application.shared.dockTile.badgeLabel = "•"
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
-    func threadCase() {
+    @objc func threadCase() {
         isErr = RunCase.runCase()
         performSelector(onMainThread: #selector(caseFinished), with: nil, waitUntilDone: false)
     }
-    func caseFinished() {
+    @objc func caseFinished() {
         if isErr {
             addInfoStr("ERROR!")
             onRunFinish()
@@ -194,35 +194,35 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         btRun?.isEnabled = true
         btCancel?.isEnabled = true
         btFile?.isEnabled = true
-        NSApplication.shared().dockTile.badgeLabel = nil
+        Application.shared.dockTile.badgeLabel = nil
     }
 
     // MARK: Buttons actions
-    func onFile() {
+    @objc func onFile() {
         let p = NSSavePanel()
         p.message = "Save to .html"
         p.nameFieldStringValue = "res"
         p.allowedFileTypes = ["html"]
         p.beginSheetModal(for: window!) { [unowned self] returnCode in
-            if returnCode == NSFileHandlingPanelOKButton {
+            if returnCode.rawValue == NSFileHandlingPanelOKButton {
                 self.path?.stringValue = p.url?.path ?? ""
                 self.saveDefaults()
             }
         }
     }
-    func onCancel() {
+    @objc func onCancel() {
         saveDefaults()
         if isRun == false {
             window?.close()
         }
     }
-    func onOpen() {
-        NSWorkspace.shared().openFile(path!.stringValue)
+    @objc func onOpen() {
+        NSWorkspace.shared.openFile(path!.stringValue)
         onCancel()
     }
 
     // MARK: UI
-    private func addLabel(to superView: NSView, align: NSTextAlignment, autoSz: NSAutoresizingMaskOptions,
+    private func addLabel(to superView: NSView, align: NSTextAlignment, autoSz: NSView.AutoresizingMask,
                           x: CGFloat, y: CGFloat, w: CGFloat, text: String) {
         let view = NSTextField(frame: NSMakeRect(x, y, w, kButtonH))
         view.autoresizingMask = autoSz
@@ -234,14 +234,14 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         view.stringValue = text
         superView.addSubview(view)
     }
-    private func addField(to superView: NSView, autoSz: NSAutoresizingMaskOptions, x: CGFloat, y: CGFloat, w: CGFloat) -> NSTextField {
+    private func addField(to superView: NSView, autoSz: NSView.AutoresizingMask, x: CGFloat, y: CGFloat, w: CGFloat) -> NSTextField {
         let view = NSTextField(frame: NSMakeRect(x, y, w, kButtonH))
         view.autoresizingMask = autoSz
         view.font = .systemFont(ofSize: kLabelFontSz)
         superView.addSubview(view)
         return view
     }
-    private func addButton(to superView: NSView, title: String, action: Selector, autoSz: NSAutoresizingMaskOptions,
+    private func addButton(to superView: NSView, title: String, action: Selector, autoSz: NSView.AutoresizingMask,
                            x: CGFloat, y: CGFloat) -> NSButton {
         let view = NSButton(frame: NSMakeRect(x, y, kButtonW, kButtonH))
         view.autoresizingMask = autoSz
@@ -278,7 +278,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     // MARK: NSWindowDelegate
-    func windowShouldClose(_ sender: Any) -> Bool {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
         saveDefaults()
         return true
     }
