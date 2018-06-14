@@ -44,6 +44,7 @@
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CAEC04820C42B0E005CA74A /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEC04720C42B0E005CA74A /* BimodQ.swift */; };
 		0CB239D92043416000FDA96C /* CalcDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB239D82043416000FDA96C /* CalcDiff.swift */; };
+		0CB34D7820CDE80900348A1A /* ShiftHHElem11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB34D7720CDE80900348A1A /* ShiftHHElem11.swift */; };
 		0CB49FAA20A85E0F005F629F /* ShiftHHElem10c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB49FA920A85E0F005F629F /* ShiftHHElem10c.swift */; };
 		0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB0E271CC595B9007DC5F5 /* Way.swift */; };
 		0CCC46E4203EE92B00CE7FE3 /* ImMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC46E3203EE92B00CE7FE3 /* ImMatrix.swift */; };
@@ -109,6 +110,7 @@
 		0CAEC04720C42B0E005CA74A /* BimodQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
 		0CB0879F203A1DA100D8CF6C /* ShiftHHElem09.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem09.swift; sourceTree = "<group>"; };
 		0CB239D82043416000FDA96C /* CalcDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcDiff.swift; sourceTree = "<group>"; };
+		0CB34D7720CDE80900348A1A /* ShiftHHElem11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem11.swift; sourceTree = "<group>"; };
 		0CB49FA920A85E0F005F629F /* ShiftHHElem10c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem10c.swift; sourceTree = "<group>"; };
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
 		0CCC46E3203EE92B00CE7FE3 /* ImMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImMatrix.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */,
 				0C00818020CA07E700E34444 /* ShiftHHElem09c.swift */,
 				0CB49FA920A85E0F005F629F /* ShiftHHElem10c.swift */,
+				0CB34D7720CDE80900348A1A /* ShiftHHElem11.swift */,
 				0C06889D20B62CBC00D79C95 /* ShiftHHElem18.swift */,
 			);
 			path = ByType;
@@ -409,6 +412,7 @@
 				0C52975D20273D0C00742B45 /* HHElem+Create.swift in Sources */,
 				0CCC46E6203EFA1100CE7FE3 /* KoefMatrix.swift in Sources */,
 				0CDBC4F31F093AAF009A76F7 /* Step_1_calc_dn.swift in Sources */,
+				0CB34D7820CDE80900348A1A /* ShiftHHElem11.swift in Sources */,
 				0C1BF8E9202D080B001FE614 /* ShiftAllSelect.swift in Sources */,
 				0CEE15E620431F52007DA97B /* DiffLen.swift in Sources */,
 				0C06889E20B62CBC00D79C95 /* ShiftHHElem18.swift in Sources */,
@@ -468,6 +472,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -512,6 +517,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;

@@ -30,18 +30,71 @@ struct ShiftHHGenProgram {
         file.writeln("</pre>")
     }
 
+    private struct BlockItem {
+        let minCol: Int
+        let maxCol: Int
+        let programs: [Program]
+
+        func setPrograms(_ items: [Program]) -> BlockItem {
+            return BlockItem(minCol: minCol, maxCol: maxCol, programs: items)
+        }
+    }
+
+    private struct Program {
+        let format: String
+        let iVariants: [String]
+        let k: Int
+    }
+
     private func printBlocksProgram() {
         let s = PathAlg.s
         let w = Int(width / s)
         let h = Int(height / s)
         for blockCol in 0..<w {
+            var blocks: [BlockItem] = []
             for blockRow in 0..<h {
                 if let minElem = minColElementInBlock(blockRow, blockCol: blockCol),
                     let maxElem = maxColElementInBlock(blockRow, blockCol: blockCol) {
-                    file.writeln("for j in \(stringByS(minElem.col)) ..< \(stringByS(maxElem.col + 1)) {")
-                    printOnePerBlockProgram(minElem.col, row: minElem.row)
-                    file.writeln("}")
+                    let program = onePerBlockProgram(minElem.col, row: minElem.row)
+                    if let item = blocks.last, item.minCol == minElem.col, item.maxCol == maxElem.col {
+                        blocks[blocks.count - 1] = item.setPrograms(item.programs + [program])
+                        continue
+                    } else {
+                        blocks += [ BlockItem(minCol: minElem.col, maxCol: maxElem.col, programs: [program]) ]
+                    }
                 }
+            }
+            if blocks.count > 1 {
+                for i in 0 ..< blocks.count - 1 {
+                    let block = blocks[i]
+                    let nextBlock = blocks[i + 1]
+                    guard block.programs.count == 1 && nextBlock.programs.count == 1 else { continue }
+                    guard block.programs[0].format == nextBlock.programs[0].format else { continue }
+                    guard block.maxCol + 1 == nextBlock.minCol || block.minCol == nextBlock.maxCol + 1 else { continue }
+                    let iVariant = block.programs[0].iVariants.first { nextBlock.programs[0].iVariants.contains($0) }
+                    guard let iV = iVariant else { continue }
+                    blocks[i] = BlockItem(minCol: min(block.minCol, nextBlock.minCol),
+                                          maxCol: max(block.maxCol, nextBlock.maxCol),
+                                          programs: [Program(format: block.programs[0].format, iVariants: [iV], k: block.programs[0].k)])
+                    blocks[i + 1] = nextBlock.setPrograms([])
+                }
+            }
+            blocks = blocks.filter { $0.programs.count > 0 }
+            if blocks.count > 1 {
+                for i in 0 ..< blocks.count - 1 {
+                    let block = blocks[i]
+                    let nextBlock = blocks[i + 1]
+                    if block.minCol == nextBlock.minCol, block.maxCol == nextBlock.maxCol {
+                        blocks[i] = block.setPrograms(block.programs + nextBlock.programs)
+                        blocks[i + 1] = nextBlock.setPrograms([])
+                    }
+                }
+            }
+            blocks = blocks.filter { $0.programs.count > 0 }
+
+            for item in blocks {
+                file.writeln("for j in \(stringByS(item.minCol)) ..< \(stringByS(item.maxCol + 1)) {")
+                file.writeln(item.programs.map(defaultProgramString).joined(separator: "") + "}")
             }
         }
     }
@@ -89,14 +142,26 @@ struct ShiftHHGenProgram {
                 file.writeln("j += \(stringByS(col - j))")
             }
 
-            printOnePerBlockProgram(col, row: nil)
+            let program = onePerBlockProgram(col, row: nil)
+            file.write(defaultProgramString(program))
             j = col
         }
     }
 
-    private func printOnePerBlockProgram(_ col: Int, row fixedRow: Int?) {
-        let m = (shift % PathAlg.twistPeriod) / 2
+    private func defaultProgramString(_ program: Program) -> String {
+        if program.iVariants.count > 0 {
+            let str = program.format.replacingOccurrences(of: "!i", with: program.iVariants[0])
+            return str.replacingOccurrences(of: "!k", with: "\(program.k)")
+        } else {
+            return program.format
+        }
+    }
 
+    private func onePerBlockProgram(_ col: Int, row fixedRow: Int?) -> Program {
+        let m = (shift % PathAlg.twistPeriod) / 2
+        var str = ""
+        var items: [String] = []
+        var k = 0
         for row in 0..<height {
             if let rr = fixedRow, row != rr { continue }
             let c = hhElem.rows[row][col]
@@ -105,11 +170,27 @@ struct ShiftHHGenProgram {
                 let l = t.leftComponent
                 let r = t.rightComponent
 
-                file.writeln("HHElem.addElemToHH(hhElem, i:\(iString(row, col: col)), j:j,")
-                file.writeln("                   leftFrom:\(vertexString(l.startsWith, j: col, m: m)), leftTo:\(vertexString(l.endsWith, j: col, m: m)),")
-                file.writeln("                   rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\((c.firstKoef == 1 || PathAlg.charK == 2) ? "1" : "-1"))")
+                let iS: String
+                if items.count == 0 {
+                    items = iString(row, col: col)
+                    iS = "!i"
+                } else {
+                    iS = iString(row, col: col)[0]
+                }
+                let kS: String
+                if k == 0 {
+                    k = c.firstKoef == 1 || PathAlg.charK == 2 ? 1 : -1
+                    kS = "!k"
+                } else {
+                    kS = c.firstKoef == 1 || PathAlg.charK == 2 ? "1" : "-1"
+                }
+
+                str += "HHElem.addElemToHH(hhElem, i:\(iS), j:j,\n"
+                str += "                   leftFrom:\(vertexString(l.startsWith, j: col, m: m)), leftTo:\(vertexString(l.endsWith, j: col, m: m)),\n"
+                str += "                   rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\(kS))\n"
             }
         }
+        return Program(format: str, iVariants: items, k: k)
     }
 
     private func vertexString(_ v: Vertex, j: Int, m: Int) -> String {
@@ -138,17 +219,29 @@ struct ShiftHHGenProgram {
         return "???"
     }
 
-    private func iString(_ row: Int, col: Int) -> String {
+    private func iString(_ row: Int, col: Int) -> [String] {
         let s = PathAlg.s
         let d = row - col
 
         if (d % s == 0) {
-            if (d == 0) { return "j" }
-            if (d == s) { return "j+s" }
-            if (d == -s) { return "j-s" }
-            return "j" + ((d > 0) ? "+" : "") + "\(d / s)*s"
+            if (d == 0) { return ["j"] }
+            if (d == s) { return ["j+s"] }
+            if (d == -s) { return ["j-s"] }
+            return ["j" + ((d > 0) ? "+" : "") + "\(d / s)*s"]
         }
-        return "\(sStringPart(row))+myModS(j+1)";
+        var result = ["\(sStringPart(row))+myModS(j+1)"]
+        if (col + 1) % s == (col + 1) % (2*s) {
+            result += ["\(sStringPart(row))+myMod2S(j+1)"]
+        } else {
+            result += ["\(sStringPart(row))+myMod2S(j+s+1)"]
+            if row >= s {
+                result += ["\(sStringPart(row-s))+myMod2S(j+1)"]
+            }
+        }
+        if row >= s && ((col + s + 1) % (2*s) == s + (col + 1) % s) {
+            result += ["\(sStringPart(row-s))+myMod2S(j+s+1)"]
+        }
+        return result;
     }
 
     private func sStringPart(_ i: Int) -> String {

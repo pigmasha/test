@@ -41,6 +41,7 @@ class ShiftHHElem {
         case  8: return ShiftHHElem08()
         case  9: return ShiftHHElem09c()
         case 10: return ShiftHHElem10c()
+        case 11: return ShiftHHElem11()
         case 18: return ShiftHHElem18()
         default: return ShiftHHElem(type: 0)
         }
