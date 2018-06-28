@@ -12,7 +12,7 @@ struct Step_13_select_shift {
         for deg in 1...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
-                return false
+                //return false
             }
         }
         return false
@@ -81,7 +81,7 @@ struct Step_13_select_shift {
         let myShift = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shift)
         let nDifferents = myShift.numberOfDifferents(hh, debug: true)
         if nDifferents != 0 {
-            OutputFile.writeLog(.error, "<br>Bad my shift, nDiff=\(nDifferents), myMatrix:")
+            OutputFile.writeLog(.error, "<br>Bad my shift \(shift), nDiff=\(nDifferents), myMatrix:")
             PrintUtils.printMatrix("myShift", myShift, redColumns: myShift.differentColumns(hh))
             return false
         }

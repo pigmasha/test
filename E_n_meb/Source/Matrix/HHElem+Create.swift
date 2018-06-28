@@ -250,16 +250,12 @@ extension HHElem {
         let s = PathAlg.s, m = 5, ell = Int(deg / PathAlg.twistPeriod)
         makeZeroMatrix(6*s, h: 6*s)
 
-        var k = 1
         for j in 0..<s {
-            HHElem.addElemToHH(self, i:j, j:j, leftFrom:4*j, leftTo:4*j, right:4*j, koef:minusDeg(j)*k)
-            k *= PathAlg.sigmaDeg(ell, i: j+m, isGamma: true)
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:4*j, leftTo:4*j, right:4*j, koef:PathAlg.k1J(ell, j:j, m:m))
         }
 
-        k = 1
         for j in 5*s..<6*s {
-            HHElem.addElemToHH(self, i:j, j:j, leftFrom:4*j+3, leftTo:4*j+3, right:4*j+3, koef:minusDeg(j+1)*k)
-            k *= PathAlg.sigmaDeg(ell, i: j+m, isGamma: true)
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:4*j+3, leftTo:4*j+3, right:4*j+3, koef:-PathAlg.k1J(ell, j:j, m:m))
         }
     }
     private func createHH22() {

@@ -52,7 +52,7 @@ struct Step_14_shift_check {
         let ell = deg / PathAlg.twistPeriod
         OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell))")
         var hh = HHElem(deg: deg, type: type)
-        for shift in 0 ... PathAlg.s * PathAlg.twistPeriod + 1 {
+        for shift in 0 ... 2/*PathAlg.s*/ * PathAlg.twistPeriod + 1 {
             OutputFile.writeLog(.time, "Shift \(shift) (\(shift % PathAlg.twistPeriod))")
             let hh_shift = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift, detailLog: false) {

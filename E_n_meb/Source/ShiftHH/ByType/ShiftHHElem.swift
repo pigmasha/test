@@ -42,7 +42,10 @@ class ShiftHHElem {
         case  9: return ShiftHHElem09c()
         case 10: return ShiftHHElem10c()
         case 11: return ShiftHHElem11()
+        case 13: return ShiftHHElem13()
+        case 14: return ShiftHHElem14()
         case 18: return ShiftHHElem18()
+        case 21: return ShiftHHElem21()
         default: return ShiftHHElem(type: 0)
         }
     }
@@ -266,8 +269,13 @@ class ShiftHHElem {
         }
     }
 
+    func printK(prefix: String, jFrom: Int, m: Int, ell: Int, f: @escaping (Int) -> Int) {
+        printK(prefix: prefix, jFrom: jFrom, jTo: jFrom + PathAlg.s, m: m, ell: ell, f: f)
+    }
+
     func printK(prefix: String, jFrom: Int, jTo: Int, m: Int, ell: Int, f: @escaping (Int) -> Int) {
-        for j in jFrom ..< jTo { print(prefix + " j=\(j), k=\(f(j))") }
+        //for j in jFrom ..< jTo { print(prefix + " j=\(j), k=\(f(j))") }
+        print(prefix)
         let checkF: (String, (Int) -> Int) -> Void = { name, f2 in
             var ch1 = true
             var ch2 = true
@@ -275,16 +283,16 @@ class ShiftHHElem {
                 if f(j) != f2(j) { ch1 = false }
                 if f(j) != -f2(j) { ch2 = false }
             }
-            if ch1 { print("OK: \(name)") }
-            if ch2 { print("OK: -\(name)") }
+            if ch1 { print("s=\(PathAlg.s) ell=\(ell) OK: \(name)") }
+            if ch2 { print("s=\(PathAlg.s) ell=\(ell) OK: -\(name)") }
         }
 
         for m0 in -1 ..< PathAlg.s - 1 {
             let mS = m0 == 0 ? "" : (m0 < 0 ? "\(m0)" : "+\(m0)")
             checkF("PathAlg.k1J(ell, j: j, m: m\(mS))", { j in PathAlg.k1J(ell, j: j, m: m+m0) })
-            checkF("PathAlg.kGamma(ell, j: j, m: m\(mS))", { j in PathAlg.kGamma(ell, j: j, m: m+m0) })
+            //checkF("PathAlg.kGamma(ell, j: j, m: m\(mS))", { j in PathAlg.kGamma(ell, j: j, m: m+m0) })
             checkF("PathAlg.k1J(ell+1, j: j, m: m\(mS))", { j in PathAlg.k1J(ell+1, j: j, m: m+m0) })
-            checkF("PathAlg.kGamma(ell+1, j: j, m: m\(mS))", { j in PathAlg.kGamma(ell+1, j: j, m: m+m0) })
+            //checkF("PathAlg.kGamma(ell+1, j: j, m: m\(mS))", { j in PathAlg.kGamma(ell+1, j: j, m: m+m0) })
             /*for m1 in -1 ..< PathAlg.s - 1 {
                 let mS1 = m1 == 0 ? "" : (m1 < 0 ? "\(m1)" : "+\(m1)")
                 checkF("PathAlg.k1J(ell, j: j, m: m\(mS)) * PathAlg.kGamma(ell, j: j, m: m\(mS1))",

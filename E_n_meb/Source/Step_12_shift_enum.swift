@@ -29,7 +29,7 @@ struct Step_12_shift_enum {
 
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
-        OutputFile.writeLog(.time, "HH (ell=\(ell), type=\(type)")
+        OutputFile.writeLog(.time, "HH (ell=\(ell), type=\(type))")
         PrintUtils.printMatrix("HH", hh)
         if shiftFrom > 0 {
             hh = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shiftFrom)
@@ -59,7 +59,7 @@ struct Step_12_shift_enum {
                 }
             }
             if shift % PathAlg.twistPeriod == 0 {
-                processLastShift(variants: allVariants!, shift: shift, firstHH: hh0)
+                processLastShift(variants: allVariants!, shift: shift, firstHH: hh0, type: type)
                 //break
                 shift = stepBack(shift: shift)
                 guard shift > shiftFrom else { break }
@@ -76,7 +76,7 @@ struct Step_12_shift_enum {
         return false
     }
 
-    private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem) {
+    private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem, type: Int) {
         var seqStr = ""
         for sh in shift - PathAlg.twistPeriod + 1 ..< shift {
             if let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh)) {
@@ -85,7 +85,15 @@ struct Step_12_shift_enum {
         }
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
-        if hh.maxNonZeroPos.1 < PathAlg.s && hh.minNonZeroPos.1 < PathAlg.s {
+        let s = PathAlg.s
+        //let isGood = hh.maxNonZeroPos.1 < 2*s && hh.maxNonZeroPos.0 < 2*s
+        var isGood = true
+        switch type {
+        case 20: for j in 0 ..< 2*s { if hh.rows[j][j].isZero { isGood = false } }
+        case 21: for j in 0 ..< s { if hh.rows[j][j].isZero { isGood = false } }
+        default: break
+        }
+        if isGood {
             let path = OutputFile.fileName!
             try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
             OutputFile.writeLog(.bold, "RESULT")

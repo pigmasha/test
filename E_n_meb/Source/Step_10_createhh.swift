@@ -14,7 +14,7 @@ struct Step_10_createhh {
     }
 
     private static func process(type: Int) -> Bool {
-        for deg in 1...30 * PathAlg.twistPeriod + 2 {
+        for deg in 1...10 * PathAlg.s * PathAlg.twistPeriod + 2 {
             guard Dim.deg(deg, hasType: type) else { continue }
             
             let ell = deg / PathAlg.twistPeriod
