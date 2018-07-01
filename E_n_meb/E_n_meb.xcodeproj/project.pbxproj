@@ -34,6 +34,7 @@
 		0C64F16A1CB9B99800495383 /* ShiftHHElem02.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64F1691CB9B99800495383 /* ShiftHHElem02.swift */; };
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
+		0C7E695820E9760E00FF73DD /* ShiftHHElem17c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */; };
 		0C80E9B32030F5E5002F1175 /* ShiftHHElem08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */; };
 		0C9970CB1FB8829A00666F12 /* ShiftCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9970CA1FB8829A00666F12 /* ShiftCheck.swift */; };
 		0C9D72EF1CCCF4500051B8C9 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9D72EE1CCCF4500051B8C9 /* Matrix.swift */; };
@@ -103,6 +104,7 @@
 		0C7E5DC71AF3D9F7003A425A /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0C7E5DC81AF3D9F7003A425A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem17c.swift; sourceTree = "<group>"; };
 		0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem08.swift; sourceTree = "<group>"; };
 		0C9970CA1FB8829A00666F12 /* ShiftCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftCheck.swift; sourceTree = "<group>"; };
 		0C9D72EE1CCCF4500051B8C9 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				0CB34D7720CDE80900348A1A /* ShiftHHElem11.swift */,
 				0CB54CE820D6C044004449AB /* ShiftHHElem13.swift */,
 				0CB54CEA20D6CBDC004449AB /* ShiftHHElem14.swift */,
+				0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */,
 				0C06889D20B62CBC00D79C95 /* ShiftHHElem18.swift */,
 				0C14677820E828BC004EB7E8 /* ShiftHHElem20.swift */,
 				0CAC5BD620D6EEB9006BFA3D /* ShiftHHElem21.swift */,
@@ -341,7 +344,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				TargetAttributes = {
 					0C7E5DA21AF3D9D5003A425A = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -399,6 +402,7 @@
 				0C9D72F31CCD05660051B8C9 /* Diff.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0C9D72EF1CCCF4500051B8C9 /* Matrix.swift in Sources */,
+				0C7E695820E9760E00FF73DD /* ShiftHHElem17c.swift in Sources */,
 				0CD8A31F1E915D1700C1C32C /* Step_10_createhh.swift in Sources */,
 				0C0BAB9420CB39F1000A42F2 /* Diff+Create.swift in Sources */,
 				0C64F15D1CB93C3000495383 /* ShiftHHElem.swift in Sources */,
@@ -460,12 +464,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -512,12 +518,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

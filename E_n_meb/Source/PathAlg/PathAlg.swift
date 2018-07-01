@@ -45,6 +45,7 @@ final class PathAlg {
 
     static let alg = PathAlg()
     var dummy1: Int
+    var currentType: Int
     private var n: Int
     private var s: Int
     private var charK: Int
@@ -120,5 +121,6 @@ final class PathAlg {
         self.s = 0
         self.charK = 0
         self.dummy1 = 0
+        self.currentType = 0
     }
 }

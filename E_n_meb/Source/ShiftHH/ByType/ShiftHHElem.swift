@@ -44,6 +44,7 @@ class ShiftHHElem {
         case 11: return ShiftHHElem11()
         case 13: return ShiftHHElem13()
         case 14: return ShiftHHElem14()
+        case 17: return ShiftHHElem17c()
         case 18: return ShiftHHElem18()
         case 20: return ShiftHHElem20()
         case 21: return ShiftHHElem21()
@@ -290,7 +291,7 @@ class ShiftHHElem {
 
         for m0 in -1 ..< PathAlg.s - 1 {
             let mS = m0 == 0 ? "" : (m0 < 0 ? "\(m0)" : "+\(m0)")
-            //checkF("PathAlg.k1J(ell, j: j, m: m\(mS))", { j in PathAlg.k1J(ell, j: j, m: m+m0) })
+            checkF("PathAlg.k1J(ell, j: j, m: m\(mS))", { j in PathAlg.k1J(ell, j: j, m: m+m0) })
             //checkF("PathAlg.kGamma(ell, j: j, m: m\(mS))", { j in PathAlg.kGamma(ell, j: j, m: m+m0) })
             checkF("PathAlg.k1J(ell+1, j: j, m: m\(mS))", { j in PathAlg.k1J(ell+1, j: j, m: m+m0) })
             //checkF("PathAlg.kGamma(ell+1, j: j, m: m\(mS))", { j in PathAlg.kGamma(ell+1, j: j, m: m+m0) })

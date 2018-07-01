@@ -8,7 +8,7 @@ struct Step_14_shift_check {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        let type = RunCase.kCurrentType
+        let type = PathAlg.alg.currentType
         for deg in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
@@ -86,7 +86,8 @@ struct Step_14_shift_check {
             return true
         }
 
-        for shift in 1 ... PathAlg.twistPeriod {
+        let endShift = PathAlg.alg.dummy1 > 0 ? PathAlg.alg.dummy1 : PathAlg.twistPeriod
+        for shift in 1 ... endShift {
             OutputFile.writeLog(.time, "Shift \(shift)")
             let hhCheap_shift = ShiftHHElem.shiftForType(type).oddShift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hhCheap, hhShift: hhCheap_shift, degree: deg, shift: shift, detailLog: false) {

@@ -8,7 +8,7 @@ struct Step_12_shift_enum {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        let type = RunCase.kCurrentType
+        let type = PathAlg.alg.currentType
         if (process(type: type)) { return true }
         return false
     }
@@ -86,9 +86,11 @@ struct Step_12_shift_enum {
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
         let s = PathAlg.s
-        //let isGood = hh.maxNonZeroPos.1 < 2*s && hh.maxNonZeroPos.0 < 2*s
         var isGood = true
         switch type {
+        case 12, 17: isGood = hh.maxNonZeroPos.1 < 2*s && hh.maxNonZeroPos.0 < 2*s
+        case 15, 22: isGood = hh.maxNonZeroPos.1 < s && hh.maxNonZeroPos.0 < s
+        case 16, 19: isGood = hh.maxNonZeroPos.1 < 3*s && hh.maxNonZeroPos.0 < 3*s
         case 20: for j in 0 ..< 2*s { if hh.rows[j][j].isZero { isGood = false } }
         case 21: for j in 0 ..< s { if hh.rows[j][j].isZero { isGood = false } }
         default: break

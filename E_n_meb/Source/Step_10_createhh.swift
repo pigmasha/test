@@ -6,7 +6,7 @@ struct Step_10_createhh {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK) (types 22)")
         for type in 1...22 {
-            if (type == RunCase.kCurrentType && process(type: type)) {
+            if (type == PathAlg.alg.currentType && process(type: type)) {
                 return true
             }
         }
