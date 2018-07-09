@@ -42,8 +42,10 @@ class ShiftHHElem {
         case  9: return ShiftHHElem09c()
         case 10: return ShiftHHElem10c()
         case 11: return ShiftHHElem11()
+        case 12: return ShiftHHElem12c()
         case 13: return ShiftHHElem13()
         case 14: return ShiftHHElem14()
+        case 16: return ShiftHHElem16c()
         case 17: return ShiftHHElem17c()
         case 18: return ShiftHHElem18()
         case 20: return ShiftHHElem20()
@@ -71,11 +73,14 @@ class ShiftHHElem {
         case 11:
             let V0 = ShiftVars(shift: 0, degree: degree)
             shift0(hh_shift, degree: degree, shift:0, n:V0.n, s:V0.s, m: V0.m, ell_0: V0.ell_0, ell: V0.ell)
-            hh_shift.compKoef(-oddKoef0(degree: degree, n:V0.n, s:V0.s, m: V0.m, ell: V0.ell))
         default: break
         }
         hh_shift.twist(shift)
-        hh_shift.compKoef(oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell))
+        if shift == 11 {
+            hh_shift.compKoef(-1 * koef11(s: PathAlg.s, ell: V.ell_0))
+        } else {
+            hh_shift.compKoef(oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell))
+        }
         return hh_shift
     }
 
@@ -91,11 +96,10 @@ class ShiftHHElem {
                 hh_shift = oddShift(degree: degree, shift: V.r_0)
             }
             hh_shift.twist(shift)
-            var k = 1
-            for _ in 0 ..< V.ell_0 {
-                k *= -oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell)
+            if V.ell_0 % 2 == 1 {
+                hh_shift.compKoef(-oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell))
             }
-            hh_shift.compKoef(k)
+            hh_shift.compKoef(koef11(s: PathAlg.s, ell: V.ell_0))
             return hh_shift
         }
 
@@ -115,11 +119,6 @@ class ShiftHHElem {
             default: break
         }
         hh_shift.twist(shift)
-        if type == 9 {
-            printLastK(f: { s, ell in
-                koef11(s: s, ell: ell)
-            })
-        }
         hh_shift.compKoef(koef11(s: PathAlg.s, ell: V.ell_0))
 
         return hh_shift

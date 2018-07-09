@@ -166,6 +166,16 @@ class Matrix {
         return result
     }
 
+    var nonZeroCount: Int {
+        var result = 0
+        for line in combs {
+            for c in line {
+                if !c.isZero { result += 1 }
+            }
+        }
+        return result
+    }
+
     var maxRow: Int {
         var result = 0
         for line in combs {
