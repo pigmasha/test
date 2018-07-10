@@ -68,7 +68,7 @@ struct Step_14_shift_check {
 
     private static func processCheap(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
-        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell))")
+        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell)), deg=\(deg)")
         let hh = HHElem(deg: deg, type: type)
         var hhCheap = ShiftHHElem.shiftForType(type).oddShift(degree: deg, shift: 0)
         let hhZero = Matrix(sum: hh, and: hhCheap, koef2: -1)

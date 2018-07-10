@@ -50,7 +50,7 @@ struct ShiftAllSelect {
                 hh.addMatrixX(variants[1].hh, x: col)
             } else if type == 11 && shift == 9 && col < s {
                 hh.addMatrixX(variants[1].hh, x: col)
-            } else if (type == 11 || type == 20) && shift == 10 {
+            } else if (type == 11 || (type == 12 && s > 2) || type == 20) && shift == 10 {
                 hh.addMatrixX(variants.last!.hh, x: col)
             } else if type == 17 && shift == 10 && col >= 2*s {
                 hh.addMatrixX(variants.last!.hh, x: col)
@@ -58,6 +58,14 @@ struct ShiftAllSelect {
                 hh.addMatrixX(variants[1].hh, x: col)
             } else if type == 20 && shift == 9 && (col >= 6*s && col < 7*s) {
                 hh.addMatrixX(variants[2].hh, x: col)
+            } else if type == 12 && shift == 9 && s > 2 && (col >= s && col < 3*s) {
+                hh.addMatrixX(variants[1].hh, x: col)
+            } else if type == 12 && shift == 9 && s == 2 && col < s {
+                hh.addMatrixX(variants[1].hh, x: col)
+            } else if type == 12 && s == 2 && shift == 10 && col < 8*s {
+                hh.addMatrixX(variants.last!.hh, x: col)
+            } else if type == 16 && shift == 10 && col >= 2*s {
+                hh.addMatrixX(variants.last!.hh, x: col)
             } else {
                 hh.addMatrixX(variants[0].hh, x: col)
             }
@@ -80,7 +88,7 @@ struct ShiftAllSelect {
                 if width == height && hasNonZeroInSq(i, hhCol: v.hh) {
                     variant = v
                 }
-                if (width == height + s && hasNonZeroInSq(i - 1, hhCol: v.hh)) {
+                if i > 0 && i < height / s - 1 && width >= height + s && hasNonZeroInSq(i - 1, hhCol: v.hh) {
                     variant = v;
                 }
             }

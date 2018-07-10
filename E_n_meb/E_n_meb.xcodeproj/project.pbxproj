@@ -10,6 +10,7 @@
 		0C00817E20C9EDE900E34444 /* ShiftHHElem05c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C00817D20C9EDE900E34444 /* ShiftHHElem05c.swift */; };
 		0C00818120CA07E700E34444 /* ShiftHHElem09c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C00818020CA07E700E34444 /* ShiftHHElem09c.swift */; };
 		0C06889E20B62CBC00D79C95 /* ShiftHHElem18.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C06889D20B62CBC00D79C95 /* ShiftHHElem18.swift */; };
+		0C0B910720EC483B00BF52E3 /* ShiftHHElem12c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B910620EC483B00BF52E3 /* ShiftHHElem12c.swift */; };
 		0C0BAB9420CB39F1000A42F2 /* Diff+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0BAB9320CB39F1000A42F2 /* Diff+Create.swift */; };
 		0C0BAB9620CB49E7000A42F2 /* Step_4_dimhom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0BAB9520CB49E7000A42F2 /* Step_4_dimhom.swift */; };
 		0C14677920E828BC004EB7E8 /* ShiftHHElem20.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C14677820E828BC004EB7E8 /* ShiftHHElem20.swift */; };
@@ -44,6 +45,7 @@
 		0CA520992027D75300B1025B /* ShiftHHElem07.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA520982027D75300B1025B /* ShiftHHElem07.swift */; };
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
+		0CA8134920F2824F0040E12F /* ShiftHHElem16c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA8134820F2824F0040E12F /* ShiftHHElem16c.swift */; };
 		0CAC5BD720D6EEB9006BFA3D /* ShiftHHElem21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC5BD620D6EEB9006BFA3D /* ShiftHHElem21.swift */; };
 		0CAEC04820C42B0E005CA74A /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAEC04720C42B0E005CA74A /* BimodQ.swift */; };
 		0CB239D92043416000FDA96C /* CalcDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB239D82043416000FDA96C /* CalcDiff.swift */; };
@@ -77,6 +79,7 @@
 		0C00818020CA07E700E34444 /* ShiftHHElem09c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem09c.swift; sourceTree = "<group>"; };
 		0C06889D20B62CBC00D79C95 /* ShiftHHElem18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem18.swift; sourceTree = "<group>"; };
 		0C0A443B1F71E11F00F11EFE /* ShiftHHElem05.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftHHElem05.swift; sourceTree = "<group>"; };
+		0C0B910620EC483B00BF52E3 /* ShiftHHElem12c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem12c.swift; sourceTree = "<group>"; };
 		0C0BAB9320CB39F1000A42F2 /* Diff+Create.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diff+Create.swift"; sourceTree = "<group>"; };
 		0C0BAB9520CB49E7000A42F2 /* Step_4_dimhom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_4_dimhom.swift; sourceTree = "<group>"; };
 		0C14677820E828BC004EB7E8 /* ShiftHHElem20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem20.swift; sourceTree = "<group>"; };
@@ -114,6 +117,7 @@
 		0CA520982027D75300B1025B /* ShiftHHElem07.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem07.swift; sourceTree = "<group>"; };
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
+		0CA8134820F2824F0040E12F /* ShiftHHElem16c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem16c.swift; sourceTree = "<group>"; };
 		0CAC5BD620D6EEB9006BFA3D /* ShiftHHElem21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem21.swift; sourceTree = "<group>"; };
 		0CAEC04720C42B0E005CA74A /* BimodQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
 		0CB0879F203A1DA100D8CF6C /* ShiftHHElem09.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem09.swift; sourceTree = "<group>"; };
@@ -307,8 +311,10 @@
 				0C00818020CA07E700E34444 /* ShiftHHElem09c.swift */,
 				0CB49FA920A85E0F005F629F /* ShiftHHElem10c.swift */,
 				0CB34D7720CDE80900348A1A /* ShiftHHElem11.swift */,
+				0C0B910620EC483B00BF52E3 /* ShiftHHElem12c.swift */,
 				0CB54CE820D6C044004449AB /* ShiftHHElem13.swift */,
 				0CB54CEA20D6CBDC004449AB /* ShiftHHElem14.swift */,
+				0CA8134820F2824F0040E12F /* ShiftHHElem16c.swift */,
 				0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */,
 				0C06889D20B62CBC00D79C95 /* ShiftHHElem18.swift */,
 				0C14677820E828BC004EB7E8 /* ShiftHHElem20.swift */,
@@ -390,6 +396,7 @@
 				0C64F1671CB9555200495383 /* ShiftHHElem01.swift in Sources */,
 				0CAC5BD720D6EEB9006BFA3D /* ShiftHHElem21.swift in Sources */,
 				0CEBF10A20B1C9FB009D70A2 /* ShiftHHElem03c.swift in Sources */,
+				0C0B910720EC483B00BF52E3 /* ShiftHHElem12c.swift in Sources */,
 				0CCC46E4203EE92B00CE7FE3 /* ImMatrix.swift in Sources */,
 				0C1BF8E7202D06CE001FE614 /* ShiftAlgAll.swift in Sources */,
 				0CAEC04820C42B0E005CA74A /* BimodQ.swift in Sources */,
@@ -429,6 +436,7 @@
 				0CD8A3251E91643600C1C32C /* Step_7_lemma3.swift in Sources */,
 				0C9970CB1FB8829A00666F12 /* ShiftCheck.swift in Sources */,
 				0C52975D20273D0C00742B45 /* HHElem+Create.swift in Sources */,
+				0CA8134920F2824F0040E12F /* ShiftHHElem16c.swift in Sources */,
 				0CCC46E6203EFA1100CE7FE3 /* KoefMatrix.swift in Sources */,
 				0CDBC4F31F093AAF009A76F7 /* Step_1_calc_dn.swift in Sources */,
 				0CB54CEB20D6CBDC004449AB /* ShiftHHElem14.swift in Sources */,
@@ -456,9 +464,6 @@
 		0C7E5DBE1AF3D9D5003A425A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -481,17 +486,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
@@ -500,19 +497,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		0C7E5DBF1AF3D9D5003A425A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -535,11 +530,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -547,35 +539,31 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 		0C7E5DC11AF3D9D5003A425A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Res/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.test.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		0C7E5DC21AF3D9D5003A425A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Res/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.test.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

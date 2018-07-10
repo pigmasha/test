@@ -96,10 +96,7 @@ class ShiftHHElem {
                 hh_shift = oddShift(degree: degree, shift: V.r_0)
             }
             hh_shift.twist(shift)
-            if V.ell_0 % 2 == 1 {
-                hh_shift.compKoef(-oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell))
-            }
-            hh_shift.compKoef(koef11(s: PathAlg.s, ell: V.ell_0))
+            hh_shift.compKoef(minusDeg(V.ell_0) * koef11(s: PathAlg.s, ell: V.ell_0))
             return hh_shift
         }
 

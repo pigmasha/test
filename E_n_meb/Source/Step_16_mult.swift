@@ -7,23 +7,47 @@ import Foundation
 struct Step_16_mult {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
+        return processCommutativeType(PathAlg.alg.dummy1 > 0 ? PathAlg.alg.dummy1 : 12)
 
-        let type1 = 18
-        let type2 = 5
+        /*let type1 = 12
+        let type2 = PathAlg.alg.dummy1 > 0 ? PathAlg.alg.dummy1 : 4
         let typeRes = 22
         OutputFile.writeLog(.bold, "Types \(type1) * \(type2)")
         for deg1 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg1, hasType: type1) {
                 for deg2 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
                     if Dim.deg(deg2, hasType: type2) {
-                        let ell = deg1 / PathAlg.twistPeriod
-                        let k = PathAlg.k1J(ell, j:0, m:5)
+                        //let ell = deg1 / PathAlg.twistPeriod
+                        //let k = -1//PathAlg.k1J(ell, j:0, m:5)
                         if processCommutative(type1: type1, type2: type2, deg1: deg1, deg2: deg2) {
                             return true
                         }
                         if process(type1: type1, type2: type2, type: typeRes, deg1: deg1, deg2: deg2, koef: k) {
                             return true
                         }
+                    }
+                }
+            }
+        }*/
+        return false
+    }
+
+    private static func processCommutativeType(_ type: Int) -> Bool {
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
+
+        for deg1 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+            guard Dim.deg(deg1, hasType: type) else { continue }
+
+            for type2 in 1 ... 22 {
+                for deg2 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+                    guard Dim.deg(deg2, hasType: type2) else { continue }
+                    var tt = false
+                    for type3 in 1 ... 22 {
+                        if Dim.deg(deg1 + deg2, hasType: type3) { tt = true }
+                    }
+                    guard tt else { continue }
+                    if processCommutative(type1: type, type2: type2, deg1: deg1, deg2: deg2) {
+                        return true
                     }
                 }
             }
@@ -74,12 +98,13 @@ struct Step_16_mult {
                               and: ShiftHHElem.shiftForType(type2).shift(degree: deg2, shift: deg1))
         multRes.subtractMatrix(multRes2)
         let r2 = CheckHH.checkForIm(multRes, degree: deg1 + deg2, shouldBeInIm: true, logError: false)
+        let ss = "\(deg1) * \(deg2) (types \(type1) * \(type2))"
         if r2 != .inIm {
-            OutputFile.writeLog(.error, "\(deg1) * \(deg2) not commutative")
+            OutputFile.writeLog(.error, "\(ss) not commutative")
             PrintUtils.printMatrix("multRes", multRes)
             PrintUtils.printMatrix("multRes2", multRes2)
         } else {
-            OutputFile.writeLog(.normal, "\(deg1) * \(deg2) commutative")
+            OutputFile.writeLog(.normal, "\(ss) commutative")
         }
         return r2 != .inIm
     }
