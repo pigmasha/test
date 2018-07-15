@@ -66,6 +66,12 @@ struct ShiftAllSelect {
                 hh.addMatrixX(variants.last!.hh, x: col)
             } else if type == 16 && shift == 10 && col >= 2*s {
                 hh.addMatrixX(variants.last!.hh, x: col)
+            } else if type == 19 && shift == 9 && s > 2 && (col >= 2*s && col < 3*s) {
+                hh.addMatrixX(variants[1].hh, x: col)
+            } else if type == 19 && shift == 9 && s == 2 && (col >= s && col < 2*s) {
+                hh.addMatrixX(variants[1].hh, x: col)
+            } else if type == 19 && shift == 10 && s == 2 && col < 4*s {
+                hh.addMatrixX(variants.last!.hh, x: col)
             } else {
                 hh.addMatrixX(variants[0].hh, x: col)
             }
@@ -84,31 +90,9 @@ struct ShiftAllSelect {
             let variants = allVariants.variants[i]
             guard variants.count > 0 else { continue }
             var variant = variants[allVariants.seqNumber[i]]
-            for v in variants {
-                if width == height && hasNonZeroInSq(i, hhCol: v.hh) {
-                    variant = v
-                }
-                if i > 0 && i < height / s - 1 && width >= height + s && hasNonZeroInSq(i - 1, hhCol: v.hh) {
-                    variant = v;
-                }
-            }
-            var firstHHSq = -1
-            for j in 0 ..< firstHH.height {
-                if !firstHH.rows[j][i * s].isZero { firstHHSq = j / s; break; }
-            }
-            if firstHHSq < 0 && i > 0 {
-                for j in 0 ..< firstHH.height {
-                    if !firstHH.rows[j][(i - 1) * s].isZero { firstHHSq = j / s; break; }
-                }
-            }
-            if firstHHSq > -1 {
+            if !variant.hh.isZero {
                 for v in variants {
-                    if s * (firstHHSq + 1) < firstHH.height && hasNonZeroInSq(firstHHSq + 1, hhCol: v.hh) {
-                        variant = v
-                    }
-                }
-                for v in variants {
-                    if hasNonZeroInSq(firstHHSq, hhCol: v.hh) {
+                    if minRightLen(hh: v.hh) < minRightLen(hh: variant.hh) {
                         variant = v
                     }
                 }
@@ -118,14 +102,16 @@ struct ShiftAllSelect {
         return hh
     }
 
-    private static func hasNonZeroInSq(_ sq1: Int, hhCol: HHElem) -> Bool {
-        let sq = max(sq1, 0)
-        for i in 0 ..< PathAlg.s {
-            for j in 0 ..< PathAlg.s {
-                if !hhCol.rows[sq * PathAlg.s + i][j].isZero { return true }
+    private static func minRightLen(hh: HHElem) -> Int {
+        var L = 10
+        for row in hh.rows {
+            for c in row {
+                if !c.isZero {
+                    L = min(L, c.content[0].tenzor.rightComponent.len)
+                }
             }
         }
-        return false
+        return L == 10 ? 0 : L
     }
 
     static func isEqual(_ all1: ShiftAllVariants, _ all2: ShiftAllVariants) -> Bool {

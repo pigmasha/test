@@ -37,6 +37,7 @@
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
 		0C7E695820E9760E00FF73DD /* ShiftHHElem17c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */; };
 		0C80E9B32030F5E5002F1175 /* ShiftHHElem08.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */; };
+		0C90BFA220FBD23800A9AC0B /* ShiftHHElem19c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C90BFA120FBD23800A9AC0B /* ShiftHHElem19c.swift */; };
 		0C9970CB1FB8829A00666F12 /* ShiftCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9970CA1FB8829A00666F12 /* ShiftCheck.swift */; };
 		0C9D72EF1CCCF4500051B8C9 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9D72EE1CCCF4500051B8C9 /* Matrix.swift */; };
 		0C9D72F11CCD02350051B8C9 /* HHElem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9D72F01CCD02350051B8C9 /* HHElem.swift */; };
@@ -109,6 +110,7 @@
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem17c.swift; sourceTree = "<group>"; };
 		0C80E9B22030F5E5002F1175 /* ShiftHHElem08.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem08.swift; sourceTree = "<group>"; };
+		0C90BFA120FBD23800A9AC0B /* ShiftHHElem19c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem19c.swift; sourceTree = "<group>"; };
 		0C9970CA1FB8829A00666F12 /* ShiftCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftCheck.swift; sourceTree = "<group>"; };
 		0C9D72EE1CCCF4500051B8C9 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		0C9D72F01CCD02350051B8C9 /* HHElem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHElem.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				0CA8134820F2824F0040E12F /* ShiftHHElem16c.swift */,
 				0C7E695720E9760E00FF73DD /* ShiftHHElem17c.swift */,
 				0C06889D20B62CBC00D79C95 /* ShiftHHElem18.swift */,
+				0C90BFA120FBD23800A9AC0B /* ShiftHHElem19c.swift */,
 				0C14677820E828BC004EB7E8 /* ShiftHHElem20.swift */,
 				0CAC5BD620D6EEB9006BFA3D /* ShiftHHElem21.swift */,
 			);
@@ -405,6 +408,7 @@
 				0C456D9A1EBF72FA001D49BC /* Step_13_select_shift.swift in Sources */,
 				0C0BAB9620CB49E7000A42F2 /* Step_4_dimhom.swift in Sources */,
 				0CA652661CC843ED00272A59 /* Pairs.swift in Sources */,
+				0C90BFA220FBD23800A9AC0B /* ShiftHHElem19c.swift in Sources */,
 				0C64F15F1CB93E3A00495383 /* PathAlg.swift in Sources */,
 				0C9D72F31CCD05660051B8C9 /* Diff.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,

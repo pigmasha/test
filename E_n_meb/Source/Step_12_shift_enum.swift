@@ -99,11 +99,10 @@ struct Step_12_shift_enum {
         let s = PathAlg.s
         var isGood = true
         switch type {
-        case 12: isGood = hh.nonZeroCount == 2
-        case 15: isGood = hh.nonZeroCount == 1
+        case 12, 19: isGood = hh.nonZeroCount == 2
+        case 15, 22: isGood = hh.nonZeroCount == 1
         case 17: isGood = hh.maxNonZeroPos.1 < 2*s && hh.maxNonZeroPos.0 < 2*s
-        case 22: isGood = hh.maxNonZeroPos.1 < s && hh.maxNonZeroPos.0 < s
-        case 16, 19: isGood = hh.maxNonZeroPos.1 < 3*s && hh.maxNonZeroPos.0 < 3*s
+        case 16: isGood = hh.maxNonZeroPos.1 < 3*s && hh.maxNonZeroPos.0 < 3*s
         case 20: for j in 0 ..< 2*s { if hh.rows[j][j].isZero { isGood = false } }
         case 21: for j in 0 ..< s { if hh.rows[j][j].isZero { isGood = false } }
         default: break
