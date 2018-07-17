@@ -266,6 +266,7 @@ extension HHElem {
     private func createHH22() {
         let s = PathAlg.s
         makeZeroMatrix(6*s, h: 6*s)
-        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:4, right:0, koef:1)
+        let j = 0
+        HHElem.addElemToHH(self, i:j, j:j, leftFrom:4*j, leftTo:4*(j+1), right:4*j, koef:1)
     }
 }

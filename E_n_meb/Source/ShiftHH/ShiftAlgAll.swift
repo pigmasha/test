@@ -67,7 +67,7 @@ struct ShiftAlgAll {
 
         let rowMask = byS ? twoDeg(height / s) : twoDeg(height)
         for r in 1 ..< rowMask {
-            for goodPosMode in [/*GoodPosMode.first,*/ GoodPosMode.last/*, GoodPosMode.index1*/] {
+            for goodPosMode in [GoodPosMode.first, /*GoodPosMode.last, GoodPosMode.index1*/] {
                 let hhElem = HHElem()
                 let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, goodPosMode: goodPosMode, byS: byS, result: hhElem)
                 if nDiff != 0 { continue }

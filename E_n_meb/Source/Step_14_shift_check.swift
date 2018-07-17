@@ -75,7 +75,8 @@ struct Step_14_shift_check {
         //let s = PathAlg.s
         //OutputFile.writeLog(.normal, "\(Diff(deg: deg - 1).rows[0][s].str) * \(Diff(deg: deg - 1).rows[1][s+1].str)")
         if CheckHH.checkForIm(hhZero, degree: deg, shouldBeInIm: true, logError: true) != .inIm {
-            PrintUtils.printMatrix("Diff", Diff(deg: deg - 1))
+            PrintUtils.printMatrix("Diff (deg = \(deg - 1))", Diff(deg: deg - 1))
+            PrintUtils.printMatrix("Diff no twist", Diff(deg: (deg - 1) % 11))
             OutputFile.writeLog(.error, "Init cheap")
             return true
         }
@@ -86,6 +87,7 @@ struct Step_14_shift_check {
             return true
         }
 
+        if PathAlg.alg.dummy1 == -1 { return false }
         let endShift = PathAlg.alg.dummy1 > 0 ? PathAlg.alg.dummy1 : PathAlg.twistPeriod
         for shift in 1 ... endShift {
             OutputFile.writeLog(.time, "Shift \(shift)")
