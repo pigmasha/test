@@ -32,7 +32,7 @@ class ShiftHHElem {
     class func shiftForType(_ type: Int) -> ShiftHHElem {
         switch type {
         case  1: return ShiftHHElem01()
-        case  2: return ShiftHHElem02()
+        case  2: return ShiftHHElem02c()
         case  3: return ShiftHHElem03c()
         case  4: return ShiftHHElem04()
         case  5: return ShiftHHElem05c()
