@@ -199,9 +199,10 @@ extension HHElem {
         }
     }
     private func createHH15() {
-        let s = PathAlg.s
+        let s = PathAlg.s, m = 3, ell = Int(deg / PathAlg.twistPeriod)
         makeZeroMatrix(9*s, h: 6*s)
-        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:4, right:0, koef:1)
+        let j = 7*s 
+        HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:4*j+3, leftTo:4*(j+1)+3, right:4*j+3, koef:PathAlg.k1J(ell, j: j, m: m))
     }
     private func createHH16() {
         let s = PathAlg.s
