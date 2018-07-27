@@ -201,4 +201,8 @@ final class ShiftHHElem05c : ShiftHHElem {
     override func oddKoef0(degree: Int, n: Int, s: Int, m: Int, ell: Int) -> Int {
         return PathAlg.k1J(ell, j: 0, m: 0) * PathAlg.k1J(ell, j: myModS(3), m: 0)
     }
+
+    override func mainKoef(ell: Int) -> Int {
+        return -PathAlg.k1J(ell, j:PathAlg.s, m:2)
+    }
 }

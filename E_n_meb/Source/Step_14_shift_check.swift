@@ -8,10 +8,12 @@ struct Step_14_shift_check {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        let type = PathAlg.alg.currentType
+        //let type = PathAlg.alg.currentType
         for deg in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
-            if Dim.deg(deg, hasType: type) {
-                if (process(type: type, deg: deg)) { return true }
+            for type in 1 ... 22 {
+                if Dim.deg(deg, hasType: type) {
+                    if (process(type: type, deg: deg)) { return true }
+                }
             }
         }
         return false
@@ -50,10 +52,10 @@ struct Step_14_shift_check {
 
     private static func processAll(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
-        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell))")
+        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell), deg=\(deg))")
         var hh = HHElem(deg: deg, type: type)
         for shift in 0 ... 2/*PathAlg.s*/ * PathAlg.twistPeriod + 1 {
-            OutputFile.writeLog(.time, "Shift \(shift) (\(shift % PathAlg.twistPeriod))")
+            OutputFile.writeLog(.simple, "Shift \(shift) ")
             let hh_shift = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift, detailLog: false) {
                 //let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
@@ -68,7 +70,7 @@ struct Step_14_shift_check {
 
     private static func processCheap(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
-        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell)), deg=\(deg)")
+        OutputFile.writeLog(.time, "HH (type=\(type), ell=\(ell), deg=\(deg))")
         let hh = HHElem(deg: deg, type: type)
         var hhCheap = ShiftHHElem.shiftForType(type).oddShift(degree: deg, shift: 0)
         let hhZero = Matrix(sum: hh, and: hhCheap, koef2: -1)
@@ -90,7 +92,7 @@ struct Step_14_shift_check {
         if PathAlg.alg.dummy1 == -1 { return false }
         let endShift = PathAlg.alg.dummy1 > 0 ? PathAlg.alg.dummy1 : PathAlg.twistPeriod
         for shift in 1 ... endShift {
-            OutputFile.writeLog(.time, "Shift \(shift)")
+            OutputFile.writeLog(.simple, "Shift \(shift) ")
             let hhCheap_shift = ShiftHHElem.shiftForType(type).oddShift(degree: deg, shift: shift)
             if !ShiftCheck.checkHH(hhCheap, hhShift: hhCheap_shift, degree: deg, shift: shift, detailLog: false) {
                 OutputFile.writeLog(.error, "Shift cheap")

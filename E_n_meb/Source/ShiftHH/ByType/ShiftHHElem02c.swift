@@ -111,4 +111,8 @@ final class ShiftHHElem02c : ShiftHHElem {
     override func koef11(s: Int, ell: Int) -> Int {
         return minusDeg(ell)
     }
+
+    override func mainKoef(ell: Int) -> Int {
+        return -PathAlg.k1J(ell, j:0, m:0)
+    }
 }

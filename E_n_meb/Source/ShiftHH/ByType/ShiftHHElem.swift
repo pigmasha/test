@@ -84,6 +84,7 @@ class ShiftHHElem {
         } else {
             hh_shift.compKoef(oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell))
         }
+        hh_shift.compKoef(mainKoef(ell: V.ell))
         return hh_shift
     }
 
@@ -95,6 +96,7 @@ class ShiftHHElem {
             if V.r_0 == 0 {
                 hh_shift = HHElem()
                 shift0(hh_shift, degree: degree, shift:0, n:V.n, s:V.s, m: V.m, ell_0: 0, ell: V.ell)
+                hh_shift.compKoef(mainKoef(ell: V.ell))
             } else {
                 hh_shift = oddShift(degree: degree, shift: V.r_0)
             }
@@ -195,6 +197,10 @@ class ShiftHHElem {
     }
 
     func oddKoef0(degree: Int, n: Int, s: Int, m: Int, ell: Int) -> Int {
+        return 1
+    }
+
+    func mainKoef(ell: Int) -> Int {
         return 1
     }
 

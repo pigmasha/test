@@ -12,16 +12,16 @@ struct Step_15_degs_mult {
         let s0 = PathAlg.s
 
         initDegsMult()
-        for ch in [0, 3] {
+        for ch in [0, 2, 3] {
             PathAlg.charK = ch
             for s in Array(2 ... 50) {
                 PathAlg.s = s
                 fillDegsMult()
             }
         }
-        printDegsMult("Char not 2")
+        printDegsMult("")
 
-        initDegsMult()
+        /*initDegsMult()
         for ch in [2] {
             PathAlg.charK = ch
             for s in Array(2 ... 50) {
@@ -29,7 +29,7 @@ struct Step_15_degs_mult {
                 fillDegsMult()
             }
         }
-        printDegsMult("<p><p>Char=2")
+        printDegsMult("<p><p>Char=2")*/
 
         PathAlg.charK = c0
         PathAlg.s = s0

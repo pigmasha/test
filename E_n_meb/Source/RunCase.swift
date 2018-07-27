@@ -3,7 +3,7 @@
 //
 
 struct RunCase {
-    static let kStep = 14
+    static let kStep = 17
     static func runCase() -> Bool {
         switch kStep {
         case  1: return Step_1_calc_dn.runCase()
@@ -18,7 +18,8 @@ struct RunCase {
         case 13: return Step_13_select_shift.runCase()
         case 14: return Step_14_shift_check.runCase()
         case 15: return Step_15_degs_mult.runCase()
-        case 16: return Step_16_mult.runCase()
+        case 16: return Step_16_mult_comm.runCase()
+        case 17: return Step_17_mult.runCase()
         default: return false
         }
     }
