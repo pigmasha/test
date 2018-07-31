@@ -3,13 +3,12 @@
 //
 
 import Foundation
-import Foundation
 
 struct Step_17_mult {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        for type1 in 21 ... 22 {
+        for type1 in 1 ... 22 {
             for type2 in type1 ... 22 {
                 if process(type1: type1, type2: type2, type: typeMult(type1: type1, type2: type2)) {
                     return true
@@ -118,9 +117,11 @@ struct Step_17_mult {
 
     private static func koef(type1: Int, type2: Int, deg1: Int, deg2: Int) -> Int {
         switch (type1, type2) {
-        case (2,8), (2,21), (4,7), (6,8), (6,14), (6,17), (8,14), (9,14), (12,14), (12,21): return -1
-        case (3,7), (3,8), (3,11), (3,13), (3,21), (5,8), (7,13), (8,8), (8,11), (8,17), (8,21),
-             (13,13), (13,19), (21,21): return 0
+        case (6,6), (6,18), (18,21): return -PathAlg.s
+        case (6,8), (6,21), (8,18), (8,20), (11,18), (18,18), (18,20): return PathAlg.s
+        case (2,8), (2,21), (4,7), (6,14), (6,17), (8,14), (9,14), (12,14), (12,21), (14,14), (14,17): return -1
+        case (3,7), (3,8), (3,11), (3,13), (3,21), (5,8), (7,13), (8,8), (8,11), (8,17),
+             (8,21), (13,13), (13,19), (17,21), (21,21): return 0
         default: return 1
         }
     }
