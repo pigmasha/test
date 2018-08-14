@@ -1,15 +1,12 @@
 //
-//  ShiftHHElem15c.swift
-//  E_n_meb
-//
 //  Created by M on 20.07.2018.
 //
 
 import Foundation
 
-final class ShiftHHElem15c: ShiftHHElem {
+final class ShiftHHElem14c: ShiftHHElem {
     init() {
-        super.init(type:15)
+        super.init(type:14)
     }
 
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {

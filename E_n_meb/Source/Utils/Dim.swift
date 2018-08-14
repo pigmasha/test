@@ -29,16 +29,16 @@ struct Dim {
             if eq20 { return (type == 6) }
             if eq2s0 && charK == 2 { return (type == 7) }
         case 4:
-            if eq2s0 && ell % 2 == 1 && charK == 3 { return (type == 8) }
-            if eq21 { return (type == 9) }
-            if eq2s1 && charK == 2 { return (type == 10) }
+            if eq2s1 && charK == 2 { return (type == 8) }
+            if eq2s0 && ell % 2 == 1 && charK == 3 { return (type == 9) }
+            if eq21 { return (type == 10) }
         case 5:
             if eq20 && ell % 2 == 0 && charK == 3 { return (type == 11) }
             if eq2s0 && ell % 2 == 1 && charK == 3 { return (type == 12) }
         case 6:
             if eq20 && charK == 2 { return (type == 13) }
-            if eq2s0 { return (type == 14) }
-            if eq21 && ell % 2 == 0 && charK == 3 { return (type == 15) }
+            if eq21 && ell % 2 == 0 && charK == 3 { return (type == 14) }
+            if eq2s0 { return (type == 15) }
         case 7:
             if eq20 && charK == 2 { return (type == 16) }
             if eq2s0 { return (type == 17) }
@@ -48,8 +48,8 @@ struct Dim {
             if eq20 && (ell % 2 == 0 || charK == 2) { return (type == 19) }
             if eq2s0 && (ell % 2 == 1 || charK == 2) { return (type == 20) }
         case 10:
-            if eq20 && ell % 2 == 1 && charK == 3 { return (type == 21) }
-            if eq2s1 && (ell % 2 == 1 || charK == 2) { return (type == 22) }
+            if eq2s1 && (ell % 2 == 1 || charK == 2) { return (type == 21) }
+            if eq20 && ell % 2 == 1 && charK == 3 { return (type == 22) }
         default:
             return false
         }

@@ -2,9 +2,9 @@
 //  Created by M on 12.02.18.
 //
 
-final class ShiftHHElem08 : ShiftHHElem {
+final class ShiftHHElem09 : ShiftHHElem {
     init() {
-        super.init(type:8)
+        super.init(type:9)
     }
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
         hhElem.makeZeroMatrix(9*s, h:6*s)

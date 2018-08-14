@@ -4,9 +4,9 @@
 
 import Foundation
 
-final class ShiftHHElem21: ShiftHHElem {
+final class ShiftHHElem22: ShiftHHElem {
     init() {
-        super.init(type:21)
+        super.init(type:22)
     }
 
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
