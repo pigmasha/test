@@ -455,7 +455,7 @@ extension Diff {
                                    _ rightFrom: Int, _ rightTo: Int, _ rightNoZero: Bool, _ koef: Int) {
         let wL = Way(from: leftFrom, to: leftTo, noZeroLen: leftNoZero)
         let wR = Way(from: rightFrom, to: rightTo, noZeroLen : rightNoZero)
-        if wL.isZero || wR.isZero { return }
+        if wL.isZero || wR.isZero { fatalError("[\(i), \(j)]: zero way \(wL.str) \(wR.str)") }
         rows[i][j].addComb(Comb(tenzor: Tenzor(left: wL, right: wR), koef: Double(koef)))
     }
 
@@ -463,7 +463,7 @@ extension Diff {
                                 _ rightFrom: Int, _ rightLen: Int, _ koef: Int) {
         let wL = Way(to: leftTo, len: leftLen)
         let wR = Way(from: rightFrom, len: rightLen)
-        if wL.isZero || wR.isZero { return }
+        if wL.isZero || wR.isZero { fatalError("[\(i), \(j)]: zero way \(wL.str) \(wR.str)") }
         rows[i][j].addComb(Comb(tenzor: Tenzor(left: wL, right: wR), koef: Double(koef)))
     }
 }

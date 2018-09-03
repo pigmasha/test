@@ -14,7 +14,7 @@ struct Step_12_shift_enum {
     }
 
     private static func process(type: Int) -> Bool {
-        for deg in 1...30 * PathAlg.twistPeriod + 2 {
+        for deg in 0...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
                 return false
@@ -100,7 +100,7 @@ struct Step_12_shift_enum {
         var isGood = true
         switch type {
         case 12, 19: isGood = hh.nonZeroCount == 2
-        case 15, 22: isGood = hh.nonZeroCount == 1
+        case 15, 22, 23, 24: isGood = hh.nonZeroCount == 1
         case 17: isGood = hh.maxNonZeroPos.1 < 2*s && hh.maxNonZeroPos.0 < 2*s
         case 16: isGood = hh.maxNonZeroPos.1 < 3*s && hh.maxNonZeroPos.0 < 3*s
         case 20: for j in 0 ..< 2*s { if hh.rows[j][j].isZero { isGood = false } }

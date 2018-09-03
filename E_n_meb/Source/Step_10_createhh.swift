@@ -4,27 +4,47 @@
 
 struct Step_10_createhh {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK) (types 22)")
-        for type in 1...22 {
-            if (type == PathAlg.alg.currentType && process(type: type)) {
+        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK) (types \(Dim.typeMax))")
+        for deg in 0...10 * PathAlg.s * PathAlg.twistPeriod + 2 {
+            if process(deg: deg) {
                 return true
             }
         }
         return false
     }
 
-    private static func process(type: Int) -> Bool {
-        for deg in 1...10 * PathAlg.s * PathAlg.twistPeriod + 2 {
+    private static func process(deg: Int) -> Bool {
+        var hhElements: [HHElem] = []
+        for type in 1...Dim.typeMax {
+            //if PathAlg.alg.currentType > 0 && type != PathAlg.alg.currentType { continue }
             guard Dim.deg(deg, hasType: type) else { continue }
             
             let ell = deg / PathAlg.twistPeriod
             let hh = HHElem(deg: deg, type: type)
             if (!CheckHH.checkHHElem(hh, degree: deg)) {
-                OutputFile.writeLog(.error, "type=\(type): HH (ell=\(ell))")
+                OutputFile.writeLog(.error, "type=\(type), ell=\(ell)")
                 PrintUtils.printMatrix("Bad HH", hh)
                 return true
             } else {
-                OutputFile.writeLog(.bold, "type=\(type): HH (ell=\(ell)): checked :)")
+                OutputFile.writeLog(.normal, "type=\(type): HH (ell=\(ell)): checked :)")
+            }
+            hhElements += [hh]
+        }
+        if hhElements.count < 2 { return false }
+        for i in 0 ..< hhElements.count - 1 {
+            for j in i + 1 ..< hhElements.count {
+                guard let checkResult = CheckHH.checkHHElemNotSame(hhElements[i], hhElements[j], degree: deg) else {
+                    OutputFile.writeLog(.error, "Check same error, deg=\(deg)")
+                    PrintUtils.printMatrix("HH1", hhElements[i])
+                    PrintUtils.printMatrix("HH2", hhElements[j])
+                    return true
+                }
+                if checkResult == false {
+                    OutputFile.writeLog(.error, "Same elements, deg=\(deg)")
+                    PrintUtils.printMatrix("HH1", hhElements[i])
+                    PrintUtils.printMatrix("HH2", hhElements[j])
+                    return true
+                }
             }
         }
         return false

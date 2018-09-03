@@ -53,6 +53,8 @@ class ShiftHHElem {
         case 20: return ShiftHHElem20()
         case 21: return ShiftHHElem21c()
         case 22: return ShiftHHElem22()
+        case 23: return ShiftHHElem23()
+        case 24: return ShiftHHElem24()
         default: return ShiftHHElem(type: 0)
         }
     }

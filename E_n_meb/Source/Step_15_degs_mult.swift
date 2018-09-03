@@ -40,23 +40,23 @@ struct Step_15_degs_mult {
     static var result: [Int: [ [Int] ]] = [:]
 
     private static func initDegsMult() {
-        for type in 1 ... 22 {
-            for t2 in type ... 22 {
-                result[type * 22 + t2] = []
+        for type in 1 ... Dim.typeMax {
+            for t2 in type ... Dim.typeMax {
+                result[type * Dim.typeMax + t2] = []
             }
         }
     }
 
     private static func fillDegsMult() {
-        for type in 1 ... 22 {
-            for deg1 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+        for type in 1 ... Dim.typeMax {
+            for deg1 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
                 guard Dim.deg(deg1, hasType: type) else { continue }
-                for deg2 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
-                    for t2 in type ... 22 {
+                for deg2 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+                    for t2 in type ... Dim.typeMax {
                         guard Dim.deg(deg2, hasType: t2) else { continue }
                         let deg = deg1 + deg2
-                        let types = Array(1 ... 22).flatMap { Dim.deg(deg, hasType: $0) ? $0 : nil }
-                        let kk = type * 22 + t2
+                        let types = Array(1 ... Dim.typeMax).compactMap { Dim.deg(deg, hasType: $0) ? $0 : nil }
+                        let kk = type * Dim.typeMax + t2
                         let items = result[kk]!
                         if types.count == 0 && items.contains { $0.count == 0 } { continue }
                         if types.count == 1 && items.contains { $0.count == 1 && $0[0] == types[0] } { continue }
@@ -71,16 +71,16 @@ struct Step_15_degs_mult {
         OutputFile.writeLog(.bold, "Degs mult \(prefix)")
 
         OutputFile.writeLog(.simple, "<table border=1><tr><td width=30>&nbsp;</td>")
-        for t2 in 1 ... 22 {
+        for t2 in 1 ... Dim.typeMax {
             OutputFile.writeLog(.simple, "<td width=30>\(t2)</td>")
         }
-        for type in 1 ... 22 {
+        for type in 1 ... Dim.typeMax {
             OutputFile.writeLog(.simple, "</tr><tr><td>\(type)</td>")
             for _ in 1 ..< type {
                 OutputFile.writeLog(.simple, "<td>&nbsp;</td>")
             }
-            for t2 in type ... 22 {
-                let items = result[type * 22 + t2]!
+            for t2 in type ... Dim.typeMax {
+                let items = result[type * Dim.typeMax + t2]!
                 let s: String
                 switch items.count {
                 case 0: s = "-"

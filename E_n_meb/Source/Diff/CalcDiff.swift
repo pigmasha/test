@@ -6,7 +6,7 @@ import Foundation
 
 struct CalcDiff {
     static func calcDiffWithNumber(_ diff: Diff, deg: Int, prevDiff: Diff?) -> Int {
-        OutputFile.writeLog(.simple, "deg=\(deg)")
+        OutputFile.writeLog(.simple, "deg=\(deg) ")
         let s = PathAlg.s
         let d = deg % PathAlg.twistPeriod
 
@@ -136,11 +136,17 @@ struct CalcDiff {
                 let wR = Way(from: qFrom.pij[j].n1, to:qTo.pij[i].n1)
 
                 if !wL.isZero && !wR.isZero {
+
                     if wL.len + wR.len != 1 {
-                        return 1
+                        if PathAlg.s == 1 {
+                            if wL.len + wR.len < 5 { return 1 }
+                        } else {
+                            return 1
+                        }
+                    } else {
+                        let t = Tenzor(left: wL, right: wR)
+                        c1.addComb(Comb(tenzor: t, koef: -1))
                     }
-                    let t = Tenzor(left: wL, right: wR)
-                    c1.addComb(Comb(tenzor: t, koef: -1))
                 }
             }
         }

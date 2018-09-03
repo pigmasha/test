@@ -15,15 +15,12 @@ struct Step_8_im {
             let im = ImMatrix(diff: diff)
             let k = KoefIntMatrix(im: im)
 
-            //PrintUtils.printMatrixDeg(diff, deg + 1, deg)
-            //PrintUtils.printIm(im, deg:deg)
-            //printKoefIntMatrix(k, deg, 0);
-
             let rk1 = k.rank
             let rk2 = Dim.dimIm(deg)
 
             if rk1 != rk2 {
                 OutputFile.writeLog(.error, "Rk \(rk1) and \(rk2) (deg=\(deg), r=\(r), ell=\(ell), char=\(PathAlg.charK))")
+                return true
             }
         }
         return false

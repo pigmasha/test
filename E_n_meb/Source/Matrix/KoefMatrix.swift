@@ -8,11 +8,19 @@ final class KoefIntMatrix {
     let deg: Int
     private var items: [ [NumInt] ]
 
-    init(im: ImMatrix) {
+    init(im: ImMatrix, zeroCols: Set<Int>? = nil) {
         deg = im.deg
         items = []
         for row in im.rows {
-            items += [ row.map { NumInt(intValue: Int(($0.way?.isZero ?? true) ? 0 : $0.koef)) } ]
+            var item: [NumInt] = []
+            for i in 0 ..< row.count {
+                if zeroCols?.contains(i) ?? false {
+                    item += [ NumInt(intValue: 0) ]
+                } else {
+                    item += [ NumInt(intValue: Int((row[i].way?.isZero ?? true) ? 0 : row[i].koef)) ]
+                }
+            }
+            items += [item]
         }
     }
     init(size: Int) {
@@ -29,6 +37,19 @@ final class KoefIntMatrix {
 
     var rows: [ [NumInt] ] {
         return items
+    }
+
+    func addRow(_ row: [WayPair]) {
+        guard items.count == 0 || row.count == items[0].count else {
+            items = []
+            return
+        }
+        var koefs: [NumInt] = []
+        for r in row {
+            let k = (r.way?.isZero ?? true) ? 0 : r.koef
+            koefs += [ NumInt(intValue: Int(k)) ]
+        }
+        items += [ koefs ]
     }
 
     func addLine(to addTo: Int, tok addToK: Int, line add: Int, k: Int) {

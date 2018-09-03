@@ -37,7 +37,8 @@ final class ImMatrix {
         guard let w = ImMatrix.wayForTenzor(t.tenzor) else { return WayPair() }
         var k = 0.0
         for t in c.content {
-            if ImMatrix.wayForTenzor(t.tenzor) != nil {
+            if let w2 = ImMatrix.wayForTenzor(t.tenzor) {
+                if !w2.isEq(w) { fatalError("Create Im error, various ways in comb=\(c.str)") }
                 k += t.koef
             }
         }

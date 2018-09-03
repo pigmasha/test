@@ -27,17 +27,19 @@ final class HHElem: Matrix {
         super.init()
     }
 
-    class func addElemToHH(_ hh: HHElem, i: Int, j: Int, leftFrom from: Int, leftTo to: Int, right: Int, koef: Int) {
-        let wL = Way(from: from, to: to, noZeroLen: false)
+    static func addElemToHH(_ hh: HHElem, i: Int, j: Int, leftFrom from: Int, leftTo to: Int, right: Int, koef: Int,
+                            noZeroLenL: Bool = false) {
+        let wL = Way(from: from, to: to, noZeroLen: noZeroLenL)
         let wR = Way(from: right, to: right, noZeroLen: false)
         if wL.isZero || wR.isZero { return }
 
         hh.rows[i][j].addComb(Comb(tenzor: Tenzor(left: wL, right: wR), koef: Double(koef)))
     }
 
-    class func addElemToHH(_ hh: HHElem, i: Int, j: Int, leftFrom from: Int, leftTo to: Int, rightFrom: Int, rightTo: Int, koef: Int) {
-        let wL = Way(from: from, to: to, noZeroLen: false)
-        let wR = Way(from: rightFrom, to: rightTo, noZeroLen: false)
+    static func addElemToHH(_ hh: HHElem, i: Int, j: Int, leftFrom from: Int, leftTo to: Int,
+                            rightFrom: Int, rightTo: Int, koef: Int, noZeroLenL: Bool = false, noZeroLenR: Bool = false) {
+        let wL = Way(from: from, to: to, noZeroLen: noZeroLenL)
+        let wR = Way(from: rightFrom, to: rightTo, noZeroLen: noZeroLenR)
         if wL.isZero || wR.isZero { return }
 
         hh.rows[i][j].addComb(Comb(tenzor: Tenzor(left: wL, right: wR), koef: Double(koef)))

@@ -3,7 +3,7 @@
 //
 
 struct RunCase {
-    static let kStep = 17
+    static let kStep = 12
     static func runCase() -> Bool {
         switch kStep {
         case  1: return Step_1_calc_dn.runCase()
@@ -21,6 +21,26 @@ struct RunCase {
         case 16: return Step_16_mult_comm.runCase()
         case 17: return Step_17_mult.runCase()
         default: return false
+        }
+    }
+
+    static var stepTitle: String {
+        switch kStep {
+        case  1: return "Calc Dn"
+        case  3: return "Sigma deg"
+        case  4: return "Dim Hom"
+        case  6: return "Lemma 2"
+        case  7: return "Lemma 3"
+        case  8: return "Dim Im"
+        case  9: return "Dim HH"
+        case 10: return "Create HH"
+        case 12: return "Shift enum"
+        case 13: return "Select shift"
+        case 14: return "Shift check"
+        case 15: return "Degs mult"
+        case 16: return "Mult comm"
+        case 17: return "Mults"
+        default: fatalError("Unknown step \(kStep)")
         }
     }
 }

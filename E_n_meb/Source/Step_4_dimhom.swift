@@ -10,7 +10,6 @@ struct Step_4_dimhom {
         OutputFile.writeLog(.bold, "s=\(s)")
 
         let degMax = 50 * s * PathAlg.twistPeriod
-
         for deg in 0 ..< degMax {
             let q = BimodQ(deg: deg)
             var lengthes: [[NumInt]] = []
@@ -33,6 +32,15 @@ struct Step_4_dimhom {
             }
             if lengthes.count != 6 {
                 OutputFile.writeLog(.error, "Bad lengthes count = \(lengthes.count)")
+                return true
+            }
+
+            var deg2 = 0
+            for item in lengthes { deg2 += item.count }
+
+            let myDeg = Dim.dimHom(deg)
+            if deg2 != myDeg {
+                OutputFile.writeLog(.error, "Bad dimHom=\(myDeg) (must be \(deg2)), s=\(s), deg=\(deg) (\(deg % PathAlg.twistPeriod))")
                 return true
             }
         }

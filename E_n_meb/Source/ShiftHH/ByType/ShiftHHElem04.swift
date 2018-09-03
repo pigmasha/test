@@ -74,14 +74,14 @@ final class ShiftHHElem04 : ShiftHHElem {
             let k0 = PathAlg.k1JPlus2(ell, j: j, m: m)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+1), leftTo:4*(j+m+2),
-                               rightFrom:4*j+3, rightTo:4*j+3, koef:j == 6*s - 1 ? k0 : -k0)
-            if j == 6*s - 2 {
+                               rightFrom:4*j+3, rightTo:4*j+3, koef:j == 6*s - 1 ? k0 : -k0, noZeroLenL: true)
+            if j == 5*s + myModS(s - 2) {
                 HHElem.addElemToHH(hhElem, i:4*s+myModS(j+1), j:j,
                                    leftFrom:4*(j+m+1)+3, leftTo:4*(j+m+2),
                                    rightFrom:4*j+3, rightTo:4*(j+s+1)+2, koef:-k0)
                 HHElem.addElemToHH(hhElem, i:6*s+myModS(j+1), j:j,
                                    leftFrom:4*(j+m+2), leftTo:4*(j+m+2),
-                                   rightFrom:4*j+3, rightTo:4*(j+s+1)+3, koef:-k0)
+                                   rightFrom:4*j+3, rightTo:4*(j+s+1)+3, koef:-k0, noZeroLenR: true)
             }
         }
     }

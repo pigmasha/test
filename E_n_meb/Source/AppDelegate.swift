@@ -126,6 +126,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         let n = kNN
         info?.string = ""
+        addInfoStr(RunCase.stepTitle)
         addInfoStr("Check params")
 
         let s = sTo?.integerValue ?? 0

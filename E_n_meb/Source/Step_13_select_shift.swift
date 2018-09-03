@@ -9,7 +9,7 @@ struct Step_13_select_shift {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
-        for deg in 1...30 * PathAlg.twistPeriod + 2 {
+        for deg in 0...30 * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
                 //return false

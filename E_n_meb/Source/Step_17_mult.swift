@@ -8,8 +8,8 @@ struct Step_17_mult {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        for type1 in 1 ... 22 {
-            for type2 in type1 ... 22 {
+        for type1 in 1 ... Dim.typeMax {
+            for type2 in type1 ... Dim.typeMax {
                 if process(type1: type1, type2: type2, type: typeMult(type1: type1, type2: type2)) {
                     return true
                 }
@@ -20,12 +20,12 @@ struct Step_17_mult {
 
     private static func process(type1: Int, type2: Int, type: Int) -> Bool {
         OutputFile.writeLog(.bold, "Types \(type1) * \(type2)")
-        for deg1 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+        for deg1 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg1, hasType: type1) {
-                for deg2 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+                for deg2 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
                     if Dim.deg(deg2, hasType: type2) {
                         if type == 0 {
-                            for t in 1 ... 22 {
+                            for t in 1 ... Dim.typeMax {
                                 if Dim.deg(deg1 + deg2, hasType: t) { return true }
                             }
                         } else {

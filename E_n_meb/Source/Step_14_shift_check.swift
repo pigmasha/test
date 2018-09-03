@@ -8,13 +8,13 @@ struct Step_14_shift_check {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        //let type = PathAlg.alg.currentType
-        for deg in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
-            for type in 1 ... 22 {
+        let type = PathAlg.alg.currentType
+        for deg in 0...25 * PathAlg.s * PathAlg.twistPeriod + 2 {
+            //for type in 1 ... Dim.typeMax {
                 if Dim.deg(deg, hasType: type) {
                     if (process(type: type, deg: deg)) { return true }
                 }
-            }
+            //}
         }
         return false
     }
@@ -57,7 +57,7 @@ struct Step_14_shift_check {
         for shift in 0 ... 2/*PathAlg.s*/ * PathAlg.twistPeriod + 1 {
             OutputFile.writeLog(.simple, "Shift \(shift) ")
             let hh_shift = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shift)
-            if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift, detailLog: false) {
+            if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift, detailLog: true) {
                 //let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 //PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
                 //let _ = allVariants!.writeToFile(pathWithShift(shift))
@@ -76,9 +76,14 @@ struct Step_14_shift_check {
         let hhZero = Matrix(sum: hh, and: hhCheap, koef2: -1)
         //let s = PathAlg.s
         //OutputFile.writeLog(.normal, "\(Diff(deg: deg - 1).rows[0][s].str) * \(Diff(deg: deg - 1).rows[1][s+1].str)")
-        if CheckHH.checkForIm(hhZero, degree: deg, shouldBeInIm: true, logError: true) != .inIm {
+        if deg > 0, CheckHH.checkForIm(hhZero, degree: deg, shouldBeInIm: true, logError: true) != .inIm {
             PrintUtils.printMatrix("Diff (deg = \(deg - 1))", Diff(deg: deg - 1))
             PrintUtils.printMatrix("Diff no twist", Diff(deg: (deg - 1) % 11))
+            OutputFile.writeLog(.error, "Init cheap")
+            return true
+        }
+        if deg == 0, !hhZero.isZero {
+            PrintUtils.printMatrix("HH (should be zero)", hhZero)
             OutputFile.writeLog(.error, "Init cheap")
             return true
         }

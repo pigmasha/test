@@ -37,7 +37,7 @@ struct ShiftCheck {
         //PrintUtils.printMatrix("dDown \(shift - 1) (\((shift - 1) % PathAlg.twistPeriod))", dDown, redRows: rows)
         //PrintUtils.printMatrix("dDown (no twist)", Diff(deg: (shift - 1) % 11), redRows: rows)
         PrintUtils.printMatrix("hhShift", hhShift, redColumns: columns)
-        //PrintUtils.printMatrix("multRes", multRes, redColumns: columns)
+        PrintUtils.printMatrix("multRes", multRes, redColumns: columns)
         //PrintUtils.printMatrix("multResShift", multResShift, redColumns: columns)
         //hhShift.twist(shift, backward: true); PrintUtils.printMatrix("hhShift (no twist)", hhShift, redColumns: columns)
         //PrintUtils.printMatrix("hh", hh)

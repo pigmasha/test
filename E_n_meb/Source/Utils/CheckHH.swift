@@ -98,9 +98,69 @@ struct CheckHH {
 
     static func checkForIm(_ hh: Matrix, degree: Int, shouldBeInIm: Bool, logError: Bool) -> CheckImResult {
         guard degree > 0 else { return .notInIm }
-        let s = PathAlg.s
-        let diff = Diff(deg: degree - 1)
-        let im = ImMatrix(diff: diff)
+        guard let (hhElem, zeroCols) = waysAndZeroCols(for: hh, degree: degree) else {
+            return .failed
+        }
+
+        let im = ImMatrix(diff: Diff(deg: degree - 1))
+        let dimIm = KoefIntMatrix(im: im, zeroCols: zeroCols).rank
+        let koefMatrix = KoefIntMatrix(im: im, zeroCols: zeroCols)
+        koefMatrix.addRow(hhElem)
+        if koefMatrix.rows.count == 0 {
+            OutputFile.writeLog(.error, "Error: bad row size \(hhElem.count)")
+            return .failed
+        }
+        let dimImAdd = koefMatrix.rank
+        if logError && ((dimImAdd == dimIm && !shouldBeInIm) || (dimImAdd > dimIm && shouldBeInIm)) {
+            PrintUtils.printMatrix("HH", hh)
+            PrintUtils.printIm("Im", im)
+            OutputFile.writeLog(.normal, "dim=\(dimImAdd)")
+        }
+        return dimImAdd == dimIm ? .inIm : .notInIm
+    }
+
+    static func checkHHElemNotSame(_ hh1: HHElem, _ hh2: HHElem, degree: Int) -> Bool? {
+        guard degree > 0 else {
+            return checkHHElemNotSameZeroDeg(hh1, hh2)
+        }
+        guard let (hhElem1, zeroCols1) = waysAndZeroCols(for: hh1, degree: degree),
+            let (hhElem2, zeroCols2) = waysAndZeroCols(for: hh2, degree: degree) else {
+                return nil
+        }
+        if (zeroCols1 != zeroCols2) {
+            //OutputFile.writeLog(.error, "#checkHHElemNotSame: various zero cols \(zeroCols1) and \(zeroCols2)")
+            //PrintUtils.printMatrix("HH1", hh1); PrintUtils.printMatrix("HH2", hh2)
+            return true
+        }
+        let im = ImMatrix(diff: Diff(deg: degree - 1))
+        let dimIm = KoefIntMatrix(im: im, zeroCols: zeroCols1).rank
+        let koefMatrix = KoefIntMatrix(im: im, zeroCols: zeroCols1)
+        koefMatrix.addRow(hhElem1)
+        koefMatrix.addRow(hhElem2)
+        if koefMatrix.rows.count == 0 {
+            OutputFile.writeLog(.error, "#checkHHElemNotSame: bad row size \(hhElem1.count)")
+            return nil
+        }
+        return koefMatrix.rank == dimIm + 2
+    }
+
+    static func checkHHElemNotSameZeroDeg(_ hh1: HHElem, _ hh2: HHElem) -> Bool? {
+        guard let hhElem1 = wayPairs(for: hh1), let hhElem2 = wayPairs(for: hh2) else {
+            return nil
+        }
+        for i in 0 ..< hhElem1.count {
+            if let w1 = hhElem1[i].way, let w2 = hhElem2[i].way, !w1.isEq(w2) {
+                //OutputFile.writeLog(.error, "#checkHHElemNotSame: Different ways \(w1) & \(w2)")
+                return true
+            }
+        }
+        let koefMatrix = KoefIntMatrix(size: 0)
+        koefMatrix.addRow(hhElem1)
+        koefMatrix.addRow(hhElem2)
+        return koefMatrix.rank == 2
+    }
+
+    private static func wayPairs(for hh: Matrix) -> [WayPair]? {
         var hhElem: [WayPair] = [] // line with koefficients
 
         for i in 0 ..< hh.width {
@@ -110,7 +170,7 @@ struct CheckHH {
                 guard !hh.rows[j][i].isZero else { continue }
                 if hh.rows[j][i].content.count != 1 {
                     PrintUtils.printMatrix("Error: multiple comb at [\(j),\(i)]: \(hh.rows[j][i].str), hh:", hh, redColumns: [i])
-                    return .failed
+                    return nil
                 }
                 let w = ImMatrix.wayForTenzor(hh.rows[j][i].content[0].tenzor) ?? Way()
                 if hhWay == nil {
@@ -118,38 +178,44 @@ struct CheckHH {
                 } else {
                     if (hhWay!.isZero != w.isZero) || (!w.isZero && !w.isEq(hhWay!)) {
                         PrintUtils.printMatrix("Error: different ways at column \(i), hh:", hh, redColumns: [i])
-                        return .failed
+                        return nil
                     }
                 }
                 hhKoef += Int(hh.rows[j][i].content[0].koef)
             }
-            guard let w = hhWay else { hhElem += [ WayPair() ]; continue }
+            if let w = hhWay {
+                hhElem += [ WayPair(way: w, koef: Double(hhKoef)) ]
+            } else {
+                hhElem += [ WayPair() ];
+            }
+        }
+        return hhElem
+    }
 
+    private static func waysAndZeroCols(for hh: Matrix, degree: Int) -> (hhElem: [WayPair], zeroCols: Set<Int>)? {
+        guard degree > 0 else { return nil }
+        guard let hhElem = wayPairs(for: hh) else { return nil }
+
+        let s = PathAlg.s
+        let im = ImMatrix(diff: Diff(deg: degree - 1))
+        var zeroCols = Set<Int>()
+
+        for i in 0 ..< hh.width {
+            guard let w = hhElem[i].way else { continue }
             for j in 0 ..< im.height {
                 if im.rows[j][i].koef != 0, let ww = im.rows[j][i].way, !ww.isZero {
-                    if !ww.isEq(w) {
-                        PrintUtils.printMatrix("Error: different ways at column \(i), hh:", hh, redColumns: [i])
-                        return .failed
-                    }
                     if s == 1 && ww.len == 4 && w.len == 0 {
-                        return .notInIm
+                        zeroCols.insert(i)
+                        continue
+                    }
+                    if !ww.isEq(w) {
+                        PrintUtils.printMatrix("Error: different ways at column \(i) (deg=\(degree)), hh:", hh, redColumns: [i])
+                        PrintUtils.printIm("Im", im)
+                        return nil
                     }
                 }
             }
-            hhElem += [ WayPair(way: w, koef: Double(hhKoef)) ]
         }
-        let dimIm = KoefIntMatrix(im: im).rank
-        im.addRow(hhElem)
-        if im.rows.count == 0 {
-            OutputFile.writeLog(.error, "Error: bad row size \(hhElem.count)")
-            return .failed
-        }
-        let dimImAdd = KoefIntMatrix(im: im).rank
-        if logError && ((dimImAdd == dimIm && !shouldBeInIm) || (dimImAdd > dimIm && shouldBeInIm)) {
-            PrintUtils.printMatrix("HH", hh)
-            PrintUtils.printIm("Im", im)
-            OutputFile.writeLog(.normal, "dim=\(dimImAdd)")
-        }
-        return dimImAdd == dimIm ? .inIm : .notInIm
+        return (hhElem, zeroCols)
     }
 }
