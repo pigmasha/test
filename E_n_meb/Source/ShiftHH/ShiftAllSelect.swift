@@ -19,7 +19,7 @@ struct ShiftAllSelect {
     }
 
     static func select(from allVariants: ShiftAllVariants, type: Int, shift: Int) -> HHElem {
-        guard type != 4 else { return hhFrom(allVariants) }
+        //guard type != 4 else { return hhFrom(allVariants) }
 
         let s = PathAlg.s
         let width = allVariants.variants.count * s
@@ -28,6 +28,27 @@ struct ShiftAllSelect {
 
         var col = 0
         for variants in allVariants.variants {
+            if s == 1 {
+                if type == 4 && shift == 9 && col == 5 {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 5 && shift == 6 && col == 0 {
+                    hh.addMatrixX(variants[7].hh, x: col)
+                } else if type == 5 && shift == 9 && col == 2 {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 5 && shift == 9 && col == 4 {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 8 && shift == 9 && col == 0 {
+                    hh.addMatrixX(variants[6].hh, x: col)
+                } else if type == 8 && shift == 10 && (col == 0 || col == 7) {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 12 && shift == 9 && col == 0 {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 12 && shift == 10 {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else {
+                    hh.addMatrixX(variants[0].hh, x: col)
+                }
+            } else {
             if type == 3 && shift % 11 == 10 && (col >= 5 * s || col < s) {
                 hh.addMatrixX(variants.last!.hh, x: col)
             } else if (type == 3 && shift % 11 == 8) || type == 5 {
@@ -74,6 +95,7 @@ struct ShiftAllSelect {
                 hh.addMatrixX(variants.last!.hh, x: col)
             } else {
                 hh.addMatrixX(variants[0].hh, x: col)
+            }
             }
             col += s
         }

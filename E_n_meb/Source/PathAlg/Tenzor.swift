@@ -21,8 +21,17 @@ final class Tenzor {
         if smallTen.isZero || bigTen.isZero {
             self.init(left: Way(), right: Way())
         } else {
-            self.init(left: Way(from: smallTen.leftComponent.endsWith.number, to: bigTen.leftComponent.endsWith.number),
-                      right: Way(from: bigTen.rightComponent.startsWith.number, to: smallTen.rightComponent.startsWith.number))
+            var wayL = Way(from: smallTen.leftComponent.endsWith.number, to: bigTen.leftComponent.endsWith.number)
+            var wayR = Way(from: bigTen.rightComponent.startsWith.number, to: smallTen.rightComponent.startsWith.number)
+            if !wayL.isZero && wayL.len == 0 && smallTen.leftComponent.len < bigTen.leftComponent.len {
+                let w = Way(from: smallTen.leftComponent.endsWith.number, to: bigTen.leftComponent.endsWith.number, noZeroLen: true)
+                if !w.isZero { wayL = w }
+            }
+            if !wayR.isZero && wayR.len == 0 && smallTen.rightComponent.len < bigTen.rightComponent.len {
+                let w = Way(from: bigTen.rightComponent.startsWith.number, to: smallTen.rightComponent.startsWith.number, noZeroLen: true)
+                if !w.isZero { wayR = w }
+            }
+            self.init(left: wayL, right: wayR)
         }
     }
 

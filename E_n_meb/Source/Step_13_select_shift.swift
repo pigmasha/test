@@ -70,6 +70,8 @@ struct Step_13_select_shift {
                     }
                 }
                 return true
+            } else {
+                OutputFile.writeLog(.normal, "Shift \(shift) ok!")
             }
             if shift == 2*PathAlg.twistPeriod + shiftFrom { break }
             shift += 1
