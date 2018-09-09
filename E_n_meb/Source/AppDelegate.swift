@@ -34,6 +34,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var charKTo: NSTextField? = nil
     private var dummy1: NSTextField? = nil
     private var currentType: NSTextField? = nil
+    private var currentStep: NSTextField? = nil
 
     private var btRun: NSButton? = nil
     private var btFile: NSButton? = nil
@@ -84,12 +85,15 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Type")
         currentType = addField(to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
 
-        loadDefaults()
-
         // run
         y -= 44
         btRun = addButton(to: v, title: "Run", action: #selector(onRun), autoSz: .minYMargin, x: 90, y: y)
         _ = addButton(to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
+
+        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Step")
+        currentStep = addField(to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
+
+        loadDefaults()
 
         // info
         y -= 44
@@ -124,6 +128,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         saveDefaults()
         guard isRun == false else { return }
 
+        PathAlg.alg.currentStep = currentStep?.integerValue ?? 0
         let n = kNN
         info?.string = ""
         addInfoStr(RunCase.stepTitle)
@@ -270,6 +275,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         charKTo?.integerValue = UserDefaults.standard.integer(forKey: "Cmax")
         dummy1?.integerValue = UserDefaults.standard.integer(forKey: "Dummy1")
         currentType?.integerValue = UserDefaults.standard.integer(forKey: "Type")
+        currentStep?.integerValue = UserDefaults.standard.integer(forKey: "Step")
     }
     private func saveDefaults() {
         UserDefaults.standard.set(path?.stringValue, forKey: "P")
@@ -279,6 +285,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         UserDefaults.standard.set(charKTo?.integerValue, forKey: "Cmax")
         UserDefaults.standard.set(dummy1?.integerValue, forKey: "Dummy1")
         UserDefaults.standard.set(currentType?.integerValue, forKey: "Type")
+        UserDefaults.standard.set(currentStep?.integerValue, forKey: "Step")
     }
 
     // MARK: NSApplicationDelegate

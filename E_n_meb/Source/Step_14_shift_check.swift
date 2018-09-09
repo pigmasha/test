@@ -9,7 +9,7 @@ struct Step_14_shift_check {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
-        for deg in 0...25 * PathAlg.s * PathAlg.twistPeriod + 2 {
+        for deg in 0...(PathAlg.s == 1 ? 125 : 25) * PathAlg.s * PathAlg.twistPeriod + 2 {
             //for type in 1 ... Dim.typeMax {
                 if Dim.deg(deg, hasType: type) {
                     if (process(type: type, deg: deg)) { return true }

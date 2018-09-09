@@ -3,9 +3,8 @@
 //
 
 struct RunCase {
-    static let kStep = 14
     static func runCase() -> Bool {
-        switch kStep {
+        switch PathAlg.alg.currentStep {
         case  1: return Step_1_calc_dn.runCase()
         case  3: return Step_3_sigma_deg.runCase()
         case  4: return Step_4_dimhom.runCase()
@@ -25,7 +24,7 @@ struct RunCase {
     }
 
     static var stepTitle: String {
-        switch kStep {
+        switch PathAlg.alg.currentStep {
         case  1: return "Calc Dn"
         case  3: return "Sigma deg"
         case  4: return "Dim Hom"
@@ -40,7 +39,7 @@ struct RunCase {
         case 15: return "Degs mult"
         case 16: return "Mult comm"
         case 17: return "Mults"
-        default: fatalError("Unknown step \(kStep)")
+        default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }
 }

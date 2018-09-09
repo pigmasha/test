@@ -44,11 +44,12 @@ final class PathAlg {
     }
 
     static let alg = PathAlg()
-    var dummy1: Int
-    var currentType: Int
-    private var n: Int
-    private var s: Int
-    private var charK: Int
+    var dummy1 = 0
+    var currentType = 0
+    var currentStep = 0
+    private var n = 0
+    private var s = 0
+    private var charK = 0
 
     static let twistPeriod = 11
 
@@ -114,13 +115,5 @@ final class PathAlg {
         while k2 >= charK { k2 -= charK }
         while k2 < 0 { k2 += charK }
         return charK == 3 && k2 == 2 ? -1 : k2
-    }
-
-    init() {
-        self.n = 0
-        self.s = 0
-        self.charK = 0
-        self.dummy1 = 0
-        self.currentType = 0
     }
 }
