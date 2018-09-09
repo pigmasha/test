@@ -68,7 +68,7 @@ final class PrintUtils {
                 } else if c.isZero {
                     file.write(" width=16>&nbsp;</td>")
                 } else {
-                    file.write(" width=16>" + (c.firstKoef > 0 ? "+" : "&minus;") + "</td>")
+                    file.write(" width=16>" + (c.terminateKoef(isLast: false) > 0 ? "+" : "&minus;") + "</td>")
                 }
             }
             file.writeln("</tr>")

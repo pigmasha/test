@@ -71,7 +71,6 @@ struct Step_12_shift_enum {
             }
             if shift % PathAlg.twistPeriod == 0 {
                 processLastShift(variants: allVariants!, shift: shift, firstHH: hh0, type: type)
-                //break
                 shift = stepBack(shift: shift)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)

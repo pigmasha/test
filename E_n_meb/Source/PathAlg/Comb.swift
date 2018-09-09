@@ -134,12 +134,12 @@ final class Comb {
         tenzors.first?.koef = koef
     }
 
-    var firstKoef: Double {
-        return tenzors.first?.koef ?? 0
+    func terminateKoef(isLast: Bool) -> Double {
+        return (isLast ? tenzors.last?.koef : tenzors.first?.koef) ?? 0
     }
 
-    var firstTenzor: Tenzor? {
-        return tenzors.first?.tenzor
+    func terminateTenzor(isLast: Bool) -> Tenzor? {
+        return isLast ? tenzors.last?.tenzor : tenzors.first?.tenzor
     }
 
     var str: String {

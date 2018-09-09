@@ -28,6 +28,9 @@ struct ShiftAlgAll {
         let width = multRes.width;
         let d_down = Diff(deg: shift - 1)
 
+        PrintUtils.printMatrix("d_down", d_down)
+        PrintUtils.printMatrix("multRes", multRes)
+
         var allVariants: [[ShiftVariant]] = []
         for col in stride(from: 0, to: width, by: bySVal ? s : 1) {
             let multRes2 = multRes.submatrixFromCol(col, toCol: col + (bySVal ? s : 1))
@@ -68,27 +71,30 @@ struct ShiftAlgAll {
         let rowMask = byS ? twoDeg(height / s) : twoDeg(height)
         for r in 1 ..< rowMask {
             for goodPosMode in [GoodPosMode.first, GoodPosMode.last/*, GoodPosMode.index1*/] {
-                let hhElem = HHElem()
-                let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, goodPosMode: goodPosMode, byS: byS, result: hhElem)
-                if nDiff != 0 { continue }
-                var hasHH = false
-                for v in result {
-                    if v.hh.isEq(hhElem, debug: false) {
-                        if (v.key!.intValue > r) { v.key!.intValue = r }
-                        hasHH = true
-                        break
+                for useLastTenzor in (s == 1 ? [false, true] : [false]) {
+                    let hhElem = HHElem()
+                    let nDiff = shiftForRowMask(r, multRes: multRes, dDown: dDown, goodPosMode: goodPosMode,
+                                                useLastTenzor: useLastTenzor, byS: byS, result: hhElem)
+                    if nDiff != 0 { continue }
+                    var hasHH = false
+                    for v in result {
+                        if v.hh.isEq(hhElem, debug: false) {
+                            if (v.key!.intValue > r) { v.key!.intValue = r }
+                            hasHH = true
+                            break
+                        }
                     }
-                }
-                if !hasHH {
-                    result += [ ShiftVariant(HH: hhElem, key: NumInt(intValue: r)) ]
+                    if !hasHH {
+                        result += [ ShiftVariant(HH: hhElem, key: NumInt(intValue: r)) ]
+                    }
                 }
             }
         }
         return result
     }
 
-    private static func shiftForRowMask(_ rowMask: Int, multRes: Matrix, dDown: Diff,
-                                        goodPosMode: GoodPosMode, byS: Bool, result hh_shift: HHElem) -> Int {
+    private static func shiftForRowMask(_ rowMask: Int, multRes: Matrix, dDown: Diff, goodPosMode: GoodPosMode,
+                                        useLastTenzor: Bool, byS: Bool, result hh_shift: HHElem) -> Int {
         let s = PathAlg.s;
         let width = multRes.width
         let height = dDown.width
@@ -112,7 +118,8 @@ struct ShiftAlgAll {
                         guard !dDown.rows[i0][k].isZero && hh_shift.rows[k][j].isZero else { continue }
                         guard (byS && (rowMask & (1 << Int(k / s)) != 0)) ||
                             (!byS && (rowMask & (1 << k) != 0)) else { continue }
-                        let div = Tenzor(byDivide: multRes_shift.rows[i0][j].firstTenzor!, to: dDown.rows[i0][k].firstTenzor!)
+                        let div = Tenzor(byDivide: multRes_shift.rows[i0][j].terminateTenzor(isLast: useLastTenzor)!,
+                                         to: dDown.rows[i0][k].terminateTenzor(isLast: useLastTenzor)!)
                         if !div.isZero { goodPoses += [k] }
                     }
                     guard goodPoses.count > 0 else { continue }
@@ -131,10 +138,12 @@ struct ShiftAlgAll {
                 case .index1: goodPos = goodPositions!.count > 1 ? goodPositions![1] : goodPositions![0]
                 }
 
-                let tt = Tenzor(byDivide: multRes_shift.rows[i][j].firstTenzor!, to: dDown.rows[i][goodPos].firstTenzor!)
+                let tt = Tenzor(byDivide: multRes_shift.rows[i][j].terminateTenzor(isLast: useLastTenzor)!,
+                                to: dDown.rows[i][goodPos].terminateTenzor(isLast: useLastTenzor)!)
                 guard !tt.isZero else { continue }
 
-                let koef = multRes_shift.rows[i][j].firstKoef / dDown.rows[i][goodPos].firstKoef
+                let koef = multRes_shift.rows[i][j].terminateKoef(isLast: useLastTenzor) /
+                    dDown.rows[i][goodPos].terminateKoef(isLast: useLastTenzor)
                 hh_sub.rows[goodPos][j].addComb(Comb(tenzor: tt, koef: PathAlg.modCharK2(koef)))
             }
             hh_shift.addMatrix(hh_sub)

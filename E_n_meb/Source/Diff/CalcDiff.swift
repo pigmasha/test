@@ -157,7 +157,7 @@ struct CalcDiff {
                 let c1 = diff.rows[i][j]
                 if (c1.isZero) { continue; }
 
-                let k = c1.firstKoef
+                let k = c1.terminateKoef(isLast: false)
                 if k > 0 {
                     if hasPos { return 2 }
                     hasPos = true

@@ -166,7 +166,7 @@ struct ShiftHHGenProgram {
             if let rr = fixedRow, row != rr { continue }
             let c = hhElem.rows[row][col]
             if !hhElem.rows[row][col].isZero {
-                let t = c.firstTenzor!
+                let t = c.terminateTenzor(isLast: false)!
                 let l = t.leftComponent
                 let r = t.rightComponent
 
@@ -179,10 +179,10 @@ struct ShiftHHGenProgram {
                 }
                 let kS: String
                 if k == 0 {
-                    k = c.firstKoef == 1 || PathAlg.charK == 2 ? 1 : -1
+                    k = c.terminateKoef(isLast: false) == 1 || PathAlg.charK == 2 ? 1 : -1
                     kS = "!k"
                 } else {
-                    kS = c.firstKoef == 1 || PathAlg.charK == 2 ? "1" : "-1"
+                    kS = c.terminateKoef(isLast: false) == 1 || PathAlg.charK == 2 ? "1" : "-1"
                 }
 
                 str += "HHElem.addElemToHH(hhElem, i:\(iS), j:j,\n"
