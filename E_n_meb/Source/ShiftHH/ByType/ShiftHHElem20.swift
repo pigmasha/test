@@ -70,7 +70,7 @@ final class ShiftHHElem20: ShiftHHElem {
             if j == s - 1 {
                 HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                    leftFrom:4*(j+m)+3, leftTo:4*(j+m+1),
-                                   rightFrom:4*j, rightTo:4*(j+1), koef:k)
+                                   rightFrom:4*j, rightTo:4*(j+1), koef:k, noZeroLenR: true)
             }
         }
         for j in s ..< 2*s - 1 {
@@ -133,7 +133,7 @@ final class ShiftHHElem20: ShiftHHElem {
             if j < s - 1 {
                 HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                    leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                                   rightFrom:4*j, rightTo:4*(j+1), koef:k)
+                                   rightFrom:4*j, rightTo:4*(j+1), koef:k, noZeroLenR: true)
             }
         }
         for j in s ..< 3*s {
@@ -151,7 +151,7 @@ final class ShiftHHElem20: ShiftHHElem {
         for j in s ..< 2*s {
             HHElem.addElemToHH(hhElem, i:+myMod2S(j+1), j:j,
                                leftFrom:4*(j+m+1)+1, leftTo:4*(j+m+1)+2,
-                               rightFrom:4*j, rightTo:4*(j+1), koef:1)
+                               rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+1), leftTo:4*(j+m+1)+2,
                                rightFrom:4*j, rightTo:4*(j+s)+1, koef:1)
@@ -190,7 +190,7 @@ final class ShiftHHElem20: ShiftHHElem {
             let k = PathAlg.k1J(ell+1, j: j, m: m-1)
             HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                leftFrom:4*(j+m+1), leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*(j+1), koef:k)
+                               rightFrom:4*j, rightTo:4*(j+1), koef:k, noZeroLenR: true)
         }
         for j in 2*s ..< 4*s {
             if j < 3*s - 1 || j == 4*s - 1 {
@@ -249,7 +249,7 @@ final class ShiftHHElem20: ShiftHHElem {
             if j == s - 1 {
                 HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                    leftFrom:4*(j+m)+3, leftTo:4*(j+m+1),
-                                   rightFrom:4*j, rightTo:4*(j+1), koef:k)
+                                   rightFrom:4*j, rightTo:4*(j+1), koef:k, noZeroLenR: true)
             }
         }
         for j in s ..< 2*s - 1 {
@@ -266,7 +266,7 @@ final class ShiftHHElem20: ShiftHHElem {
             let k = -PathAlg.k1J(ell+1, j: j, m: m-1)
             HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
-                               rightFrom:4*j+3, rightTo:4*(j+1), koef:k)
+                               rightFrom:4*j+3, rightTo:4*(j+1), koef:k, noZeroLenL: true)
             HHElem.addElemToHH(hhElem, i:2*s+myModS(j+1), j:j,
                                leftFrom:4*(j+m+1+s*f(j,8*s-1))+2, leftTo:4*(j+m+1)+3,
                                rightFrom:4*j+3, rightTo:4*(j+1+s*f(j,8*s-1))+1, koef:k)
@@ -349,7 +349,7 @@ final class ShiftHHElem20: ShiftHHElem {
                                rightFrom:4*(j+s)+2, rightTo:4*(j+s+1)+1, koef:-1)
         }
         for j in 6*s - 1 ..< 6*s {
-            let k = PathAlg.k1J(ell+1, j: j, m: m+1)
+            let k = -f2(s,1)*PathAlg.k1J(ell+1, j: j, m: m+1)
             HHElem.addElemToHH(hhElem, i:2*s+myModS(j+1), j:j,
                                leftFrom:4*(j+m+1)+1, leftTo:4*(j+m+2),
                                rightFrom:4*j+3, rightTo:4*(j+s+1)+1, koef:k)
@@ -361,7 +361,7 @@ final class ShiftHHElem20: ShiftHHElem {
                                rightFrom:4*j+3, rightTo:4*(j+s+1)+2, koef:-k)
             HHElem.addElemToHH(hhElem, i:5*s+myModS(j+1), j:j,
                                leftFrom:4*(j+m+1)+3, leftTo:4*(j+m+2),
-                               rightFrom:4*j+3, rightTo:4*(j+1)+3, koef:k)
+                               rightFrom:4*j+3, rightTo:4*(j+1)+3, koef:k, noZeroLenR: true)
         }
     }
 }
