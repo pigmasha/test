@@ -97,7 +97,7 @@ struct CheckHH {
     }
 
     static func checkForIm(_ hh: Matrix, degree: Int, shouldBeInIm: Bool, logError: Bool) -> CheckImResult {
-        guard degree > 0 else { return .notInIm }
+        guard degree > 0 else { return hh.isZero ? .inIm : .notInIm }
         guard let (hhElem, zeroCols) = waysAndZeroCols(for: hh, degree: degree) else {
             return .failed
         }
@@ -168,11 +168,28 @@ struct CheckHH {
             var hhKoef = 0
             for j in 0 ..< hh.height {
                 guard !hh.rows[j][i].isZero else { continue }
-                if hh.rows[j][i].content.count != 1 {
+                let content_ji = hh.rows[j][i].content
+                if content_ji.count != 1 && content_ji.count != 2 {
                     PrintUtils.printMatrix("Error: multiple comb at [\(j),\(i)]: \(hh.rows[j][i].str), hh:", hh, redColumns: [i])
                     return nil
                 }
-                let w = ImMatrix.wayForTenzor(hh.rows[j][i].content[0].tenzor) ?? Way()
+                let w: Way
+                let k: Double
+                if content_ji.count == 2 {
+                    let w0 = ImMatrix.wayForTenzor(content_ji[0].tenzor) ?? Way()
+                    let w1 = ImMatrix.wayForTenzor(content_ji[1].tenzor) ?? Way()
+                    if (w0.isZero != w1.isZero) || (!w0.isZero && !w0.isEq(w1)) {
+                        PrintUtils.printMatrix("Error: different ways multiple comb at [\(j),\(i)]: \(hh.rows[j][i].str), hh:", hh, redColumns: [i])
+                        return nil
+                    }
+                    w = w0
+                    k = content_ji[0].koef + content_ji[1].koef
+                } else {
+                    w = ImMatrix.wayForTenzor(content_ji[0].tenzor) ?? Way()
+                    k = content_ji[0].koef
+                }
+                if k == 0 { continue }
+
                 if hhWay == nil {
                     hhWay = w
                 } else {
@@ -181,7 +198,7 @@ struct CheckHH {
                         return nil
                     }
                 }
-                hhKoef += Int(hh.rows[j][i].content[0].koef)
+                hhKoef += Int(k)
             }
             if let w = hhWay {
                 hhElem += [ WayPair(way: w, koef: Double(hhKoef)) ]
@@ -201,7 +218,7 @@ struct CheckHH {
         var zeroCols = Set<Int>()
 
         for i in 0 ..< hh.width {
-            guard let w = hhElem[i].way else { continue }
+            guard let w = hhElem[i].way, !w.isZero else { continue }
             for j in 0 ..< im.height {
                 if im.rows[j][i].koef != 0, let ww = im.rows[j][i].way, !ww.isZero {
                     if s == 1 && ww.len == 4 && w.len == 0 {
@@ -209,7 +226,7 @@ struct CheckHH {
                         continue
                     }
                     if !ww.isEq(w) {
-                        PrintUtils.printMatrix("Error: different ways at column \(i) (deg=\(degree)), hh:", hh, redColumns: [i])
+                        PrintUtils.printMatrix("Error: different ways \(ww.str), \(w.str) at column \(i) (deg=\(degree)), hh:", hh, redColumns: [i])
                         PrintUtils.printIm("Im", im)
                         return nil
                     }

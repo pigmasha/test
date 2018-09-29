@@ -18,11 +18,12 @@ struct Step_16_mult_comm {
     private static func processCommutativeType(_ type: Int) -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        for deg1 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+        let kk = PathAlg.s == 1 ? 25 : 5
+        for deg1 in 0...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
             guard Dim.deg(deg1, hasType: type) else { continue }
 
             for type2 in 1 ... Dim.typeMax {
-                for deg2 in 1...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+                for deg2 in 1...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
                     guard Dim.deg(deg2, hasType: type2) else { continue }
                     var tt = false
                     for type3 in 1 ... Dim.typeMax {

@@ -10,7 +10,7 @@ struct Step_17_mult {
 
         for type1 in 1 ... Dim.typeMax {
             for type2 in type1 ... Dim.typeMax {
-                if process(type1: type1, type2: type2, type: typeMult(type1: type1, type2: type2)) {
+                if process(type1: type1, type2: type2) {
                     return true
                 }
             }
@@ -18,18 +18,20 @@ struct Step_17_mult {
         return false
     }
 
-    private static func process(type1: Int, type2: Int, type: Int) -> Bool {
+    private static func process(type1: Int, type2: Int) -> Bool {
         OutputFile.writeLog(.bold, "Types \(type1) * \(type2)")
-        for deg1 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+        let kk = PathAlg.s == 1 ? 25 : 5
+        for deg1 in 0...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg1, hasType: type1) {
-                for deg2 in 0...5 * PathAlg.s * PathAlg.twistPeriod + 2 {
+                for deg2 in 0...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
                     if Dim.deg(deg2, hasType: type2) {
-                        if type == 0 {
+                        let type = typeMult(type1, type2, deg1, deg2)
+                        if type == 0 && PathAlg.s > 1 {
                             for t in 1 ... Dim.typeMax {
                                 if Dim.deg(deg1 + deg2, hasType: t) { return true }
                             }
                         } else {
-                            let k = koef(type1: type1, type2: type2, deg1: deg1, deg2: deg2)
+                            let k = type == 0 ? 0 : koef(type1, type2, deg1, deg2)
                             if process(type1: type1, type2: type2, type: type, deg1: deg1, deg2: deg2, koef: k) {
                                 return true
                             }
@@ -41,8 +43,13 @@ struct Step_17_mult {
         return false
     }
 
-    private static func typeMult(type1: Int, type2: Int) -> Int {
+    private static func typeMult(_ type1: Int, _ type2: Int, _ deg1: Int, _ deg2: Int) -> Int {
         switch (type1, type2) {
+        case (1,23): return deg1 == 0 ? 23 : 0
+        case (1,24): return deg1 == 0 ? 24 : (PathAlg.charK == 3 ? 2 : 0)
+        case (9,24): return 10
+        case (15,24): return PathAlg.charK == 3 ? 14 : 0
+        case (22,24): return 21
         case (1,_): return type2
         case (2,9): return 10
         case (2,15): return 14
@@ -115,11 +122,11 @@ struct Step_17_mult {
         }
     }
 
-    private static func koef(type1: Int, type2: Int, deg1: Int, deg2: Int) -> Int {
+    private static func koef(_ type1: Int, _ type2: Int, _ deg1: Int, _ deg2: Int) -> Int {
         switch (type1, type2) {
         case (6,6), (6,18), (18,22): return -PathAlg.s
         case (6,9), (6,22), (9,18), (9,20), (11,18), (18,18), (18,20): return PathAlg.s
-        case (2,9), (2,22), (4,7), (6,15), (6,17), (9,15), (10,15), (12,15), (12,22), (15,15), (15,17): return -1
+        case (2,9), (2,22), (4,7), (6,15), (6,17), (9,15), (10,15), (12,15), (12,22), (15,15), (15,17), (9,24), (22,24): return -1
         case (3,7), (3,9), (3,11), (3,13), (3,22), (5,9), (7,13), (9,9), (9,11), (9,17),
              (9,22), (13,13), (13,19), (17,22), (22,22): return 0
         default: return 1
@@ -127,16 +134,18 @@ struct Step_17_mult {
     }
 
     private static func process(type1: Int, type2: Int, type: Int, deg1: Int, deg2: Int, koef: Int) -> Bool {
-        guard Dim.deg(deg1 + deg2, hasType: type) else {
+        guard type == 0 || Dim.deg(deg1 + deg2, hasType: type) else {
             OutputFile.writeLog(.error, "\(deg1) + \(deg2) not type \(type)")
             return true
         }
         let multRes = Matrix(mult: HHElem(deg: deg2, type: type2),
                              and: ShiftHHElem.shiftForType(type1).shift(degree: deg1, shift: deg2))
 
-        let hh = HHElem(deg: deg1 + deg2, type: type)
-        hh.compKoef(-koef)
-        multRes.addMatrix(hh)
+        if koef != 0 {
+            let hh = HHElem(deg: deg1 + deg2, type: type)
+            hh.compKoef(-koef)
+            multRes.addMatrix(hh)
+        }
 
         let r = CheckHH.checkForIm(multRes, degree: deg1 + deg2, shouldBeInIm: true, logError: true)
         switch r {

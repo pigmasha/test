@@ -14,7 +14,7 @@ struct Step_15_degs_mult {
         initDegsMult()
         for ch in [0, 2, 3] {
             PathAlg.charK = ch
-            for s in Array(2 ... 50) {
+            for s in (s0 == 1 ? [1] : Array(2 ... 50)) {
                 PathAlg.s = s
                 fillDegsMult()
             }
