@@ -88,8 +88,8 @@ final class ShiftHHElem10c : ShiftHHElem {
         hhElem.makeZeroMatrix(6*s, h:8*s)
 
         let j = 0
-        let k1 = s == 1 ? -PathAlg.kGamma(ell, j: j, m: m) :
-            PathAlg.kGamma(ell, j: j, m: m) * PathAlg.kGamma(ell, j: j, m: m+1) * PathAlg.kGamma(ell, j: j, m: m+2)
+        let k1 = s == 1 ? -PathAlg.kGamma(ell, j: 0, m: m) :
+            PathAlg.kGamma(ell, j: 0, m: m) * PathAlg.kGamma(ell, j: 0, m: m+1) * PathAlg.kGamma(ell, j: 0, m: m+2)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s*f(j, s-1)+1)+2, leftTo:4*(j+m+2),
                            rightFrom:4*j, rightTo:4*(j+1), koef:k1, noZeroLenR: true)
@@ -99,9 +99,9 @@ final class ShiftHHElem10c : ShiftHHElem {
         hhElem.makeZeroMatrix(7*s, h:6*s)
 
         let j = s*(1-f(s,1))
-        let k1 = s == 1 ? -PathAlg.k1J(ell, j: j, m: m+4) :
-            PathAlg.kGamma(ell, j: j, m: m-1) * PathAlg.kGamma(ell, j: j, m: m) *
-            PathAlg.kGamma(ell, j: j, m: m+1) * PathAlg.k1J(ell+1, j: j, m: s)
+        let k1 = s == 1 ? -PathAlg.k1J(ell, j: 0, m: m+4) :
+            PathAlg.kGamma(ell, j: 0, m: m-1) * PathAlg.kGamma(ell, j: 0, m: m) *
+            PathAlg.kGamma(ell, j: 0, m: m+1) * PathAlg.k1J(ell+1, j: 0, m: 0)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m+s+1)+1,
                            rightFrom:4*j, rightTo:4*(j+1), koef:k1, noZeroLenR: true)
@@ -118,7 +118,7 @@ final class ShiftHHElem10c : ShiftHHElem {
         }
 
         let j = 0
-        let k1 = -PathAlg.kGamma(ell, j: j, m: m-1) * PathAlg.kGamma(ell, j: j, m: m) * PathAlg.kGamma(ell, j: j, m: m+1)
+        let k1 = -PathAlg.kGamma(ell, j: 0, m: m-1) * PathAlg.kGamma(ell, j: 0, m: m) * PathAlg.kGamma(ell, j: 0, m: m+1)
         HHElem.addElemToHH(hhElem, i:5*s+j, j:j,
                            leftFrom:4*(j+m+1)+2, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j, rightTo:4*j+3, koef:-k1)
@@ -142,8 +142,8 @@ final class ShiftHHElem10c : ShiftHHElem {
         }
 
         var j = 0
-        let k1 = PathAlg.kGamma(ell, j: j, m: m-2) * PathAlg.kGamma(ell, j: j, m: m-1) * PathAlg.kGamma(ell, j: j, m: m) *
-            PathAlg.kGamma(ell, j: j, m: m+1) * PathAlg.k1J(ell+1, j: j, m: 1)
+        let k1 = PathAlg.kGamma(ell, j: 0, m: m-2) * PathAlg.kGamma(ell, j: 0, m: m-1) * PathAlg.kGamma(ell, j: 0, m: m) *
+            PathAlg.kGamma(ell, j: 0, m: m+1) * PathAlg.k1J(ell+1, j: 0, m: 1)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1), leftTo:4*(j+m+s+1)+2,
                            rightFrom:4*j, rightTo:4*(j+1), koef:k1, noZeroLenR: true)

@@ -19,11 +19,11 @@ final class ShiftHHElem24: ShiftHHElem {
 
         var j = 4*s
         HHElem.addElemToHH(hhElem, i:j, j:j,
-                           leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
+                           leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+2, rightTo:4*j+2, koef:1, noZeroLenL: true)
         j = 5*s
         HHElem.addElemToHH(hhElem, i:j, j:j,
-                           leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
+                           leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+2, rightTo:4*j+2, koef:1, noZeroLenL: true)
     }
 
@@ -32,7 +32,7 @@ final class ShiftHHElem24: ShiftHHElem {
 
         let j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
-                           leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
+                           leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenL: true)
     }
 
@@ -55,11 +55,11 @@ final class ShiftHHElem24: ShiftHHElem {
         var j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
         j = s
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m), leftTo:4*(j+m),
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
     }
 
     override func shift5(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -68,11 +68,11 @@ final class ShiftHHElem24: ShiftHHElem {
         var j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m)+1, leftTo:4*(j+m)+1,
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
         j = s
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m)+1, leftTo:4*(j+m)+1,
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
     }
 
     override func shift6(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -81,7 +81,7 @@ final class ShiftHHElem24: ShiftHHElem {
         let j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m), leftTo:4*(j+m),
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
     }
 
     override func shift7(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -90,11 +90,11 @@ final class ShiftHHElem24: ShiftHHElem {
         var j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m)+2, leftTo:4*(j+m)+2,
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
         j = s
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m)+2, leftTo:4*(j+m)+2,
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
     }
 
     override func shift8(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -103,7 +103,7 @@ final class ShiftHHElem24: ShiftHHElem {
         let j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
+                           rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
     }
 
     override func shift9(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
@@ -123,14 +123,14 @@ final class ShiftHHElem24: ShiftHHElem {
 
         var j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
-                           leftFrom:4*(j+m), leftTo:4*(j+m),
+                           leftFrom:4*(j+m), leftTo:4*(j+m+1),
                            rightFrom:4*j, rightTo:4*j, koef:-1, noZeroLenL: true)
         j = 5*s
         HHElem.addElemToHH(hhElem, i:j-5*s, j:j,
                            leftFrom:4*(j+m), leftTo:4*(j+m)+3,
                            rightFrom:4*j+3, rightTo:4*j, koef:1)
         HHElem.addElemToHH(hhElem, i:j, j:j,
-                           leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
+                           leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+3, rightTo:4*j+3, koef:1, noZeroLenL: true)
     }
 }
