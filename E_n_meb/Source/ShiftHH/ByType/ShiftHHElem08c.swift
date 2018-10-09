@@ -32,7 +32,7 @@ final class ShiftHHElem08c : ShiftHHElem {
         HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+2),
                            rightFrom:4*j+1, rightTo:4*(j+1), koef:1)
-        j += 2*s
+        j = 6*s - 1
         HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+2, rightTo:4*(j+1), koef:1)
@@ -54,7 +54,7 @@ final class ShiftHHElem08c : ShiftHHElem {
         HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+2, leftTo:4*(j+m+s+1)+2,
                            rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
-        j += 2*s
+        j = 4*s - 1
         HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+2, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+1, rightTo:4*(j+1), koef:1)
@@ -79,7 +79,7 @@ final class ShiftHHElem08c : ShiftHHElem {
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1+s*f(j, s - 1))+1, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
-        j += 2*s
+        j = 3*s - 1
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+1, leftTo:4*(j+m+2),
                            rightFrom:4*(j+s)+1, rightTo:4*(j+1), koef:1)
@@ -104,7 +104,7 @@ final class ShiftHHElem08c : ShiftHHElem {
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1+s*f(j, s - 1))+2, leftTo:4*(j+m+2),
                            rightFrom:4*j, rightTo:4*(j+1), koef:1, noZeroLenR: true)
-        j += 2*s
+        j = 3*s - 1
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+s+1)+2, leftTo:4*(j+m+s+2)+1,
                            rightFrom:4*(j+s)+1, rightTo:4*(j+1), koef:1)
@@ -139,7 +139,7 @@ final class ShiftHHElem08c : ShiftHHElem {
                                rightFrom:4*j, rightTo:4*(j+s)+1, koef:1)
         }
 
-        j += 2*s
+        j = 3*s - 1
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1)+3, leftTo:4*(j+m+s+2)+2,
                            rightFrom:4*(j+s)+1, rightTo:4*(j+1), koef:1)
@@ -156,19 +156,19 @@ final class ShiftHHElem08c : ShiftHHElem {
             HHElem.addElemToHH(hhElem, i:j+5*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+2,
                                rightFrom:4*j, rightTo:4*j+3, koef:1)
-            j += s
+            j = s
             HHElem.addElemToHH(hhElem, i:j-s, j:j,
                                leftFrom:4*(j+m), leftTo:4*(j+m+1)+2,
                                rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenR: true)
-            j += 2*s
+            j = 3*s
             HHElem.addElemToHH(hhElem, i:j-3*s, j:j,
                                leftFrom:4*(j+m), leftTo:4*(j+m)+3,
                                rightFrom:4*j+1, rightTo:4*j, koef:1)
-            j += 2*s
+            j = 5*s
             HHElem.addElemToHH(hhElem, i:j-5*s, j:j,
                                leftFrom:4*(j+m), leftTo:4*(j+m),
                                rightFrom:4*j+2, rightTo:4*j, koef:1, noZeroLenL: true)
-            j += 2*s
+            j = 7*s
             HHElem.addElemToHH(hhElem, i:j-2*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m)+1,
                                rightFrom:4*j+3, rightTo:4*j+3, koef:1, noZeroLenR: true)

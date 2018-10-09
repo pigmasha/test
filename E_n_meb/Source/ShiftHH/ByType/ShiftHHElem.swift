@@ -60,6 +60,56 @@ class ShiftHHElem {
     }
 
     func oddShift(degree: Int, shift: Int) -> HHElem {
+        let hh_shift = justOddShift(degree: degree, shift: shift)
+        let V = ShiftVars(shift: shift, degree: degree)
+        if shift == 11 {
+            hh_shift.twist(shift)
+            hh_shift.compKoef(koef11(ell: 1))
+        } else {
+            hh_shift.compKoef(oddKoef0(s: V.s, ell: V.ell))
+        }
+        return hh_shift
+    }
+
+    func shift(degree: Int, shift: Int) -> HHElem {
+        let V = ShiftVars(shift: shift, degree: degree)
+
+        guard oddShift(degree: degree, shift: 0).isZero else {
+            let hh_shift: HHElem
+            if V.r_0 == 0 {
+                hh_shift = HHElem()
+                shift0(hh_shift, degree: degree, shift:0, n:V.n, s:V.s, m: V.m, ell_0: 0, ell: V.ell)
+                hh_shift.compKoef(koef11(ell: V.ell_0))
+            } else {
+                hh_shift = justOddShift(degree: degree, shift: V.r_0)
+                hh_shift.compKoef(koef11(ell: V.ell_0) * oddKoef0(s: V.s, ell: V.ell))
+            }
+            hh_shift.twist(shift)
+            return hh_shift
+        }
+
+        let hh_shift = HHElem()
+        switch (V.r_0) {
+            case 0: shift0(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 1: shift1(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 2: shift2(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 3: shift3(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 4: shift4(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 5: shift5(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 6: shift6(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 7: shift7(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 8: shift8(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 9: shift9(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            case 10: shift10(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
+            default: break
+        }
+        hh_shift.twist(shift)
+        hh_shift.compKoef(koef11(ell: V.ell_0))
+
+        return hh_shift
+    }
+
+    func justOddShift(degree: Int, shift: Int) -> HHElem {
         let hh_shift = HHElem()
         let V = ShiftVars(shift: shift, degree: degree)
 
@@ -80,51 +130,6 @@ class ShiftHHElem {
             shift0(hh_shift, degree: degree, shift:0, n:V0.n, s:V0.s, m: V0.m, ell_0: V0.ell_0, ell: V0.ell)
         default: break
         }
-        hh_shift.twist(shift)
-        if shift == 11 {
-            hh_shift.compKoef(-1 * koef11(s: PathAlg.s, ell: V.ell_0))
-        } else {
-            hh_shift.compKoef(oddKoef0(degree: degree, n:V.n, s:V.s, m: V.m, ell: V.ell))
-        }
-        hh_shift.compKoef(mainKoef(ell: V.ell))
-        return hh_shift
-    }
-
-    func shift(degree: Int, shift: Int) -> HHElem {
-        let V = ShiftVars(shift: shift, degree: degree)
-
-        guard oddShift(degree: degree, shift: 0).isZero else {
-            let hh_shift: HHElem
-            if V.r_0 == 0 {
-                hh_shift = HHElem()
-                shift0(hh_shift, degree: degree, shift:0, n:V.n, s:V.s, m: V.m, ell_0: 0, ell: V.ell)
-                hh_shift.compKoef(mainKoef(ell: V.ell))
-            } else {
-                hh_shift = oddShift(degree: degree, shift: V.r_0)
-            }
-            hh_shift.twist(shift)
-            hh_shift.compKoef(minusDeg(V.ell_0) * koef11(s: PathAlg.s, ell: V.ell_0))
-            return hh_shift
-        }
-
-        let hh_shift = HHElem()
-        switch (V.r_0) {
-            case 0: shift0(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 1: shift1(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 2: shift2(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 3: shift3(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 4: shift4(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 5: shift5(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 6: shift6(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 7: shift7(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 8: shift8(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 9: shift9(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            case 10: shift10(hh_shift, degree: degree, shift:shift, n:V.n, s:V.s, m: V.m, ell_0: V.ell_0, ell: V.ell)
-            default: break
-        }
-        hh_shift.twist(shift)
-        hh_shift.compKoef(koef11(s: PathAlg.s, ell: V.ell_0))
-
         return hh_shift
     }
 
@@ -161,7 +166,7 @@ class ShiftHHElem {
     func shift10(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
     }
 
-    func koef11(s: Int, ell: Int) -> Int {
+    func koef11(ell: Int) -> Int {
         return 1
     }
 
@@ -198,11 +203,7 @@ class ShiftHHElem {
     func oddShift10(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell: Int) {
     }
 
-    func oddKoef0(degree: Int, n: Int, s: Int, m: Int, ell: Int) -> Int {
-        return 1
-    }
-
-    func mainKoef(ell: Int) -> Int {
+    func oddKoef0(s: Int, ell: Int) -> Int {
         return 1
     }
 

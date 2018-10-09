@@ -166,7 +166,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         PathAlg.s = sFrom?.integerValue ?? 0
         PathAlg.charK = charKFrom?.integerValue ?? 0
-        addInfoStr("s=\(PathAlg.s)")
+        addInfoStr("s=\(PathAlg.s), char=\(PathAlg.charK)")
         Application.shared.dockTile.badgeLabel = "•"
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
@@ -198,7 +198,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         PathAlg.s = s;
         PathAlg.charK = charK
-        addInfoStr("s=\(s)")
+        addInfoStr("s=\(s), char=\(charK)")
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
     private func onRunFinish() {
@@ -216,7 +216,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         p.nameFieldStringValue = "res"
         p.allowedFileTypes = ["html"]
         p.beginSheetModal(for: window!) { [unowned self] returnCode in
-            if returnCode.rawValue == NSFileHandlingPanelOKButton {
+            if returnCode == .OK {
                 self.path?.stringValue = p.url?.path ?? ""
                 self.saveDefaults()
             }

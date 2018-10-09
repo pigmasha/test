@@ -13,7 +13,7 @@ final class ShiftHHElem02c : ShiftHHElem {
         hhElem.makeZeroMatrix(6*s, h:6*s)
 
         let j = 0
-        HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m), leftTo:4*(j+m+1), right:4*j, koef:s == 1 ? 1 : -1, noZeroLenL: true)
+        HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m), leftTo:4*(j+m+1), right:4*j, koef:PathAlg.k1J(ell, j:0, m:m), noZeroLenL: true)
     }
 
     override func oddShift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell: Int) {
@@ -43,7 +43,7 @@ final class ShiftHHElem02c : ShiftHHElem {
         var j = 4 * s + myModS(4)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 5 * s + myModS(4)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
     }
 
@@ -60,7 +60,7 @@ final class ShiftHHElem02c : ShiftHHElem {
         var j = 2 * s + myModS(3)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+1, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 3 * s + myModS(3)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+1, koef:1, noZeroLenL: true)
     }
 
@@ -80,7 +80,7 @@ final class ShiftHHElem02c : ShiftHHElem {
         var j = 4 * s + myModS(2)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 5 * s + myModS(2)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
     }
 
@@ -97,7 +97,7 @@ final class ShiftHHElem02c : ShiftHHElem {
         var j = s + myModS(1)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*(j+s)+1, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 2 * s + myModS(1)
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*(j+s)+1, koef:1, noZeroLenL: true)
     }
 
@@ -108,11 +108,7 @@ final class ShiftHHElem02c : ShiftHHElem {
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m), leftTo:4*(j+m+1), right:4*j, koef:1, noZeroLenL: true)
     }
 
-    override func koef11(s: Int, ell: Int) -> Int {
-        return minusDeg(ell)
-    }
-
-    override func mainKoef(ell: Int) -> Int {
-        return PathAlg.s == 1 ? PathAlg.k1J(ell, j:0, m:0) : -PathAlg.k1J(ell, j:0, m:0)
+    override func oddKoef0(s: Int, ell: Int) -> Int {
+        return f2(s,1)*PathAlg.k1J(ell, j: 0, m: 0)
     }
 }

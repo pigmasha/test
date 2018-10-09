@@ -28,22 +28,22 @@ final class ShiftHHElem18 : ShiftHHElem {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 
         for j in 0 ..< s {
-            let k = PathAlg.k1J(ell, j:j+4, m:m)
+            let k1 = PathAlg.k1J(ell, j:j+4, m:m)
             HHElem.addElemToHH(hhElem, i:j, j:j,
                                leftFrom:4*(j+m)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j, rightTo:4*j, koef:k)
+                               rightFrom:4*j, rightTo:4*j, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+s)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j, rightTo:4*j, koef:-k)
+                               rightFrom:4*j, rightTo:4*j, koef:-k1)
         }
         for j in s ..< 3*s {
-            let k = PathAlg.k1JPlus1(ell, j: j, m: m+4)
+            let k1 = PathAlg.k1JPlus1(ell, j: j, m: m+4)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+s)+2, leftTo:4*(j+m+1),
-                               rightFrom:4*(j+s)+1, rightTo:4*(j+s)+1, koef:k)
+                               rightFrom:4*(j+s)+1, rightTo:4*(j+s)+1, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+3*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m+1),
-                               rightFrom:4*(j+s)+1, rightTo:4*(j+s)+2, koef:k)
+                               rightFrom:4*(j+s)+1, rightTo:4*(j+s)+2, koef:k1)
         }
         for j in 3*s ..< 5*s {
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
@@ -79,13 +79,13 @@ final class ShiftHHElem18 : ShiftHHElem {
         hhElem.makeZeroMatrix(6*s, h:8*s)
 
         for j in 0 ..< s {
-            let k = PathAlg.k1JPlus1(ell, j: j, m: m+4)
+            let k1 = PathAlg.k1JPlus1(ell, j: j, m: m+4)
             HHElem.addElemToHH(hhElem, i:j, j:j,
                                leftFrom:4*(j+m)+2, leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*j, koef:k)
+                               rightFrom:4*j, rightTo:4*j, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+2*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*j+1, koef:k)
+                               rightFrom:4*j, rightTo:4*j+1, koef:k1)
         }
         for j in s ..< 3*s {
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
@@ -103,13 +103,13 @@ final class ShiftHHElem18 : ShiftHHElem {
                                rightFrom:4*(j+s)+2, rightTo:4*(j+1), koef:f1(j, 5*s - 1))
         }
         for j in 5*s ..< 6*s {
-            let k = -PathAlg.k1JPlus1(ell, j: j, m: m+4) * f1(j, 6*s - 1)
+            let k1 = -PathAlg.k1JPlus1(ell, j: j, m: m+4) * f1(j, 6*s - 1)
             HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                leftFrom:4*(j+m+s+1+s*f(j,6*s-1))+2, leftTo:4*(j+m+1)+3,
-                               rightFrom:4*j+3, rightTo:4*(j+1), koef:k)
+                               rightFrom:4*j+3, rightTo:4*(j+1), koef:k1)
             HHElem.addElemToHH(hhElem, i:2*s+myModS(j+1), j:j,
                                leftFrom:4*(j+m+1)+3, leftTo:4*(j+m+1)+3,
-                               rightFrom:4*j+3, rightTo:4*(j+s+1+s*f(j,6*s-1))+1, koef:k)
+                               rightFrom:4*j+3, rightTo:4*(j+s+1+s*f(j,6*s-1))+1, koef:k1)
         }
     }
 
@@ -150,19 +150,19 @@ final class ShiftHHElem18 : ShiftHHElem {
         hhElem.makeZeroMatrix(6*s, h:8*s)
 
         for j in 0 ..< s {
-            let k = -PathAlg.k1J(ell, j:j+4, m:m)
+            let k1 = -PathAlg.k1J(ell, j:j+4, m:m)
             HHElem.addElemToHH(hhElem, i:j, j:j,
                                leftFrom:4*(j+m)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j, rightTo:4*j, koef:k)
+                               rightFrom:4*j, rightTo:4*j, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+s)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j, rightTo:4*j, koef:k)
+                               rightFrom:4*j, rightTo:4*j, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+4*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                               rightFrom:4*j, rightTo:4*j+2, koef:-k)
+                               rightFrom:4*j, rightTo:4*j+2, koef:-k1)
             HHElem.addElemToHH(hhElem, i:j+5*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                               rightFrom:4*j, rightTo:4*(j+s)+2, koef:-k)
+                               rightFrom:4*j, rightTo:4*(j+s)+2, koef:-k1)
         }
         for j in s ..< 3*s {
             HHElem.addElemToHH(hhElem, i:myMod2S(j+1), j:j,
@@ -200,22 +200,15 @@ final class ShiftHHElem18 : ShiftHHElem {
                                rightFrom:4*j, rightTo:4*(j+s)+1, koef:1)
         }
         for j in 2*s ..< 3*s {
-            let k = PathAlg.k1J(ell, j: j, m: m+4)*f2(j%s,s-1)
             HHElem.addElemToHH(hhElem, i:j-s, j:j,
                                leftFrom:4*(j+m)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+1, koef:k)
+                               rightFrom:4*j+1, rightTo:4*j+1, koef:PathAlg.k1J(ell, j: j, m: m+4)*f2(j%s,s-1))
         }
         for j in 3*s ..< 4*s {
-            let k = PathAlg.k1J(ell, j: j, m: m+4)*f2(j%s,s-1)
             HHElem.addElemToHH(hhElem, i:j, j:j,
                                leftFrom:4*(j+m)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+1, koef:-k)
+                               rightFrom:4*j+1, rightTo:4*j+1, koef:-PathAlg.k1J(ell, j: j, m: m+4)*f2(j%s,s-1))
         }
-        /*let f: (Int) -> Int = { j in
-            return PathAlg.k1J(ell+1, j: j, m: m+s-1)
-            //if s == 7 { return (ell == 18 ? -1 : 1) * ([1, 5, 6].contains(j%s) ? -1 : 1) }
-        }*/
-        //printK(prefix: "s=\(s)", jFrom: 4*s, jTo: 5*s - 1, m: m, ell: ell, f: f)
         for j in 4*s ..< 6*s {
             if j < 5*s - 1 || j == 6*s - 1 {
                 HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
@@ -248,25 +241,20 @@ final class ShiftHHElem18 : ShiftHHElem {
     override func shift7(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
         hhElem.makeZeroMatrix(9*s, h:8*s)
 
-        /*let f: (Int) -> Int = { j in
-            if s == 5 { return [1, 2, 3].contains(j%s) ? -1 : 1 }
-            return 1
-        }
-        printK(prefix: "s=\(s)", jFrom: s, jTo: 2*s, m: m, ell: ell, f: f)*/
         for j in s ..< 2*s {
-            let k = PathAlg.k1J(ell+1, j: j, m: m-1)
+            let k1 = PathAlg.k1J(ell+1, j: j, m: m-1)
             HHElem.addElemToHH(hhElem, i:j, j:j,
                                leftFrom:4*(j+m)+2, leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*j, koef:-k)
+                               rightFrom:4*j, rightTo:4*j, koef:-k1)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*(j+s)+1, koef:k)
+                               rightFrom:4*j, rightTo:4*(j+s)+1, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+3*s, j:j,
                                leftFrom:4*(j+m+1), leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*(j+s)+2, koef:k)
+                               rightFrom:4*j, rightTo:4*(j+s)+2, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+4*s, j:j,
                                leftFrom:4*(j+m+1), leftTo:4*(j+m+1),
-                               rightFrom:4*j, rightTo:4*j+2, koef:k)
+                               rightFrom:4*j, rightTo:4*j+2, koef:k1)
         }
         for j in 2*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j,
@@ -298,15 +286,14 @@ final class ShiftHHElem18 : ShiftHHElem {
                                rightFrom:4*j, rightTo:4*j+2, koef:1)
         }
         for j in 2*s ..< 4*s {
-            let k = PathAlg.k1J(ell+1, j: j, m: m-1)
             if j < 3*s - 1 || j == 4*s - 1 {
                 HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                                    leftFrom:4*(j+m)+3, leftTo:4*(j+m+1),
-                                   rightFrom:4*j+1, rightTo:4*(j+1), koef:k)
+                                   rightFrom:4*j+1, rightTo:4*(j+1), koef:PathAlg.k1J(ell+1, j: j, m: m-1))
             }
             HHElem.addElemToHH(hhElem, i:j-s, j:j,
                                leftFrom:4*(j+m)+2, leftTo:4*(j+m+1),
-                               rightFrom:4*j+1, rightTo:4*j+1, koef:k)
+                               rightFrom:4*j+1, rightTo:4*j+1, koef:PathAlg.k1J(ell+1, j: j, m: m-1))
         }
         for j in 6*s ..< 8*s {
             HHElem.addElemToHH(hhElem, i:s+myMod2S(j+s+1), j:j,
@@ -372,28 +359,28 @@ final class ShiftHHElem18 : ShiftHHElem {
                                rightFrom:4*j, rightTo:4*j+2, koef:1)
         }
         for j in 2*s ..< 3*s {
-            let k = PathAlg.k1J(ell+1, j: j, m: m-2)
+            let k1 = PathAlg.k1J(ell+1, j: j, m: m-2)
             HHElem.addElemToHH(hhElem, i:j-s, j:j,
                                leftFrom:4*(j+m+s)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+1, koef:-k)
+                               rightFrom:4*j+1, rightTo:4*j+1, koef:-k1)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+s)+2, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+2, koef:k)
+                               rightFrom:4*j+1, rightTo:4*j+2, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+3*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+3, koef:k)
+                               rightFrom:4*j+1, rightTo:4*j+3, koef:k1)
         }
         for j in 3*s ..< 4*s {
-            let k = PathAlg.k1J(ell+1, j: j, m: m-2)
+            let k1 = PathAlg.k1J(ell+1, j: j, m: m-2)
             HHElem.addElemToHH(hhElem, i:j-s, j:j,
                                leftFrom:4*(j+m+s)+1, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+1, koef:-k)
+                               rightFrom:4*j+1, rightTo:4*j+1, koef:-k1)
             HHElem.addElemToHH(hhElem, i:j+s, j:j,
                                leftFrom:4*(j+m+s)+2, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+2, koef:k)
+                               rightFrom:4*j+1, rightTo:4*j+2, koef:k1)
             HHElem.addElemToHH(hhElem, i:j+2*s, j:j,
                                leftFrom:4*(j+m)+3, leftTo:4*(j+m)+3,
-                               rightFrom:4*j+1, rightTo:4*j+3, koef:-k)
+                               rightFrom:4*j+1, rightTo:4*j+3, koef:-k1)
         }
     }
 }

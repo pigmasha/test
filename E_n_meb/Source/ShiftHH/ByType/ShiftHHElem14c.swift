@@ -34,7 +34,7 @@ final class ShiftHHElem14c: ShiftHHElem {
         HHElem.addElemToHH(hhElem, i:j+2*s, j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+1, rightTo:4*j+2, koef:-PathAlg.k1J(ell, j: j, m: m+3), noZeroLenL: true)
-        j += s
+        j = 3*s + myModS(3)
         HHElem.addElemToHH(hhElem, i:j+2*s, j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+1, rightTo:4*j+2, koef:-PathAlg.k1J(ell, j: j, m: m+3), noZeroLenL: true)
@@ -79,7 +79,7 @@ final class ShiftHHElem14c: ShiftHHElem {
     override func oddShift6(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(7*s, h:9*s)
 
-        let j = s == 1 ? 0 : s + 2
+        let j = s + 2 - 3*f(s,1)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m+1), leftTo:4*(j+m+s+1)+1,
                            rightFrom:4*j, rightTo:4*(j+1), koef:-1, noZeroLenR: true)
@@ -97,7 +97,7 @@ final class ShiftHHElem14c: ShiftHHElem {
     override func oddShift8(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(8*s, h:6*s)
 
-        let j = s == 1 ? 0 : s + 2
+        let j = s + 2 - 3*f(s,1)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m+s+1)+2,
                            rightFrom:4*j, rightTo:4*(j+1), koef:-f2(s,1), noZeroLenR: true)
@@ -116,12 +116,8 @@ final class ShiftHHElem14c: ShiftHHElem {
         hhElem.makeZeroMatrix(8*s, h:6*s)
 
         let j = 4*s + 1
-        HHElem.addElemToHH(hhElem, i:s == 1 ? 5 : j+s, j:j,
+        HHElem.addElemToHH(hhElem, i:j+s-f(s,1), j:j,
                            leftFrom:4*(j+m)+3, leftTo:4*(j+m+1)+3,
                            rightFrom:4*j+2, rightTo:4*j+3, koef:-f2(s,1)*PathAlg.k1J(ell+1, j: j, m: m-1), noZeroLenL: true)
-    }
-
-    override func koef11(s: Int, ell: Int) -> Int {
-        return minusDeg(ell)
     }
 }

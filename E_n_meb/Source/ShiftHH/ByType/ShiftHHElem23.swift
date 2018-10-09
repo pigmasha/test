@@ -36,7 +36,7 @@ final class ShiftHHElem23: ShiftHHElem {
         var j = 4 * s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 5*s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
     }
 
@@ -53,7 +53,7 @@ final class ShiftHHElem23: ShiftHHElem {
         var j = 2 * s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+1, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 3*s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+1, koef:1, noZeroLenL: true)
     }
 
@@ -73,7 +73,7 @@ final class ShiftHHElem23: ShiftHHElem {
         var j = 4 * s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 5*s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*j+2, koef:1, noZeroLenL: true)
     }
 
@@ -90,7 +90,7 @@ final class ShiftHHElem23: ShiftHHElem {
         var j = s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*(j+s)+1, koef:1, noZeroLenL: true)
 
-        j += s
+        j = 2*s
         HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:4*(j+m+1), leftTo:4*(j+m+2), right:4*(j+s)+1, koef:1, noZeroLenL: true)
     }
 

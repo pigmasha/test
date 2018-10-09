@@ -15,7 +15,7 @@ final class ShiftHHElem21c : ShiftHHElem {
         let j = 0
         HHElem.addElemToHH(hhElem, i:j, j:j,
                            leftFrom:4*(j+m), leftTo:4*(j+m+1),
-                           rightFrom:4*j, rightTo:4*j, koef:1, noZeroLenL: true)
+                           rightFrom:4*j, rightTo:4*j, koef:-PathAlg.k1J(ell, j:0, m:5), noZeroLenL: true)
     }
 
     override func oddShift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell: Int) {
@@ -120,11 +120,12 @@ final class ShiftHHElem21c : ShiftHHElem {
                            rightFrom:4*j, rightTo:4*(j+1), koef:-PathAlg.kGamma(ell+1, j: j, m: m-2), noZeroLenR: true)
     }
 
-    override func oddKoef0(degree: Int, n: Int, s: Int, m: Int, ell: Int) -> Int {
-        return PathAlg.kGamma(ell, j: 0, m: 4) * PathAlg.kGamma(ell, j: 1, m: 4) * PathAlg.kGamma(ell, j: 2, m: 4)
+    override func oddKoef0(s: Int, ell: Int) -> Int {
+        return PathAlg.kGamma(ell, j: 0, m: 4) * PathAlg.kGamma(ell, j: 1, m: 4)
+            * PathAlg.kGamma(ell, j: 2, m: 4) * -PathAlg.k1J(ell, j:0, m:5)
     }
 
-    override func mainKoef(ell: Int) -> Int {
-        return -PathAlg.k1J(ell, j:0, m:5)
+    override func koef11(ell: Int) -> Int {
+        return minusDeg(ell)
     }
 }
