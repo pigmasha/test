@@ -2,7 +2,7 @@
 //  Created by M on 02.07.17.
 //
 
-struct Step_1_calc_dn {
+struct Step_2_calc_dn {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
         for deg in 0...7 * PathAlg.twistPeriod + 2 {

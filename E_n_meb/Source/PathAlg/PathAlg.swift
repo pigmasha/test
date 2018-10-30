@@ -18,6 +18,10 @@ func myMod2S(_ number: Int) -> Int {
 }
 
 final class PathAlg {
+    static var vertexMod: Int {
+        return 8 * s
+    }
+
     static var s: Int {
         get {
             return alg.s
