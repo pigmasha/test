@@ -82,6 +82,12 @@ final class Way {
         self.setWay(way)
     }
 
+    convenience init(way1: Way, way2: Way) {
+        self.init()
+        self.setWay(way1)
+        self.compLeft(way2)
+    }
+
     convenience init(from: Int, len: Int) {
         self.init(from: from, to: from + len, noZeroLen: len > 0)
     }
@@ -167,6 +173,33 @@ final class Way {
             let koef = myMod(w.last!.intValue, mod: isG ? s : 6 * s)
             ss += isG ? "&gamma;\(koef)" : "a\(koef)"
         }
+        return ss
+    }
+
+    var shortStr: String {
+        if isZero { return "0" }
+        if arr.count == 0 { return "e" }
+        var ss = ""
+        /*let s = PathAlg.s
+        for w in arr.reversed() {
+            let isG = w.first!.intValue == ArrType.gamma.rawValue
+            let koef = myMod(w.last!.intValue, mod: isG ? s : 6 * s)
+            ss += isG ? "\\g_{\(koef)}" : "\\a_{\(koef)}"
+        }*/
+
+        var item = (0, 0)
+        for w in arr.reversed() {
+            let type = w.first!.intValue == ArrType.gamma.rawValue ? 1 : 2
+            if item.0 == type {
+                item.1 += 1
+            } else {
+                if item.1 != 0 {
+                    ss += (item.0 == 1 ? "\\g" : "\\a") + (item.1 > 1 ? "^{\(item.1)}" : "")
+                }
+                item = (type, 1)
+            }
+        }
+        ss += (item.0 == 1 ? "\\g" : "\\a") + (item.1 > 1 ? "^{\(item.1)}" : "")
         return ss
     }
 

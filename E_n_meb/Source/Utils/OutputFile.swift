@@ -20,7 +20,11 @@ final class OutputFile {
     static func setFileName(fileName: String) throws {
         self.fileName = fileName
         if !fileNames.contains(fileName) {
-            try header.write(toFile: fileName, atomically: true, encoding: .utf8)
+            if PathAlg.alg.currentStep != 1 {
+                try header.write(toFile: fileName, atomically: true, encoding: .utf8)
+            } else {
+                try "".write(toFile: fileName, atomically: true, encoding: .utf8)
+            }
             fileNames += [ fileName ]
         }
     }

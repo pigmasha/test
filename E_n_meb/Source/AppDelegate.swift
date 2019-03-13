@@ -39,6 +39,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var btRun: NSButton? = nil
     private var btFile: NSButton? = nil
     private var btCancel: NSButton? = nil
+    private var btOpen: NSButton? = nil
 
     private var isRun = false
     private var isErr = false
@@ -88,12 +89,13 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         // run
         y -= 44
         btRun = addButton(to: v, title: "Run", action: #selector(onRun), autoSz: .minYMargin, x: 90, y: y)
-        _ = addButton(to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
+        btOpen = addButton(to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
 
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Step")
         currentStep = addField(to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
 
         loadDefaults()
+        btOpen?.title = (self.path?.stringValue ?? "").hasSuffix(".tex") ? "Open tex" : "Open html"
 
         // info
         y -= 44
@@ -143,6 +145,9 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         guard path != "" else {
             addInfoStr("ERROR! Select .html")
             return
+        }
+        if path.hasSuffix(".tex") {
+            try? FileManager.default.removeItem(atPath: path.replacingOccurrences(of: ".tex", with: ".pdf"))
         }
 
         PathAlg.n = n;
@@ -218,6 +223,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         p.beginSheetModal(for: window!) { [unowned self] returnCode in
             if returnCode == .OK {
                 self.path?.stringValue = p.url?.path ?? ""
+                self.btOpen?.title = (self.path?.stringValue ?? "").hasSuffix(".tex") ? "Open tex" : "Open html"
                 self.saveDefaults()
             }
         }

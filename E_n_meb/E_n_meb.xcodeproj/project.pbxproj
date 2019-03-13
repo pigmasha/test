@@ -59,6 +59,7 @@
 		0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB0E271CC595B9007DC5F5 /* Way.swift */; };
 		0CCC46E4203EE92B00CE7FE3 /* ImMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC46E3203EE92B00CE7FE3 /* ImMatrix.swift */; };
 		0CCC46E6203EFA1100CE7FE3 /* KoefMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC46E5203EFA1100CE7FE3 /* KoefMatrix.swift */; };
+		0CCFF5A821D73195008F4045 /* WayKoef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFF5A721D73195008F4045 /* WayKoef.swift */; };
 		0CD3438C1CC9834D00FD9D61 /* Comb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3438B1CC9834D00FD9D61 /* Comb.swift */; };
 		0CD6F503213C2BDE00D14919 /* ShiftHHElem23.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD6F502213C2BDE00D14919 /* ShiftHHElem23.swift */; };
 		0CD6F505213C2BE800D14919 /* ShiftHHElem24.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD6F504213C2BE800D14919 /* ShiftHHElem24.swift */; };
@@ -75,6 +76,7 @@
 		0CEBF10820B1A7E9009D70A2 /* Step_16_mult_comm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEBF10720B1A7E9009D70A2 /* Step_16_mult_comm.swift */; };
 		0CEBF10A20B1C9FB009D70A2 /* ShiftHHElem03c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEBF10920B1C9FB009D70A2 /* ShiftHHElem03c.swift */; };
 		0CEE15E620431F52007DA97B /* DiffLen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEE15E520431F52007DA97B /* DiffLen.swift */; };
+		0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF6BDCA2198EA1C0054A309 /* PKer.swift */; };
 		9B78BE56218362F800722B6D /* Step_1_calc_s.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B78BE55218362F800722B6D /* Step_1_calc_s.swift */; };
 		9BA1E5EA1EEA7AC500AF50CD /* PrintUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */; };
 		9BB88F021EE7CBDF0083E276 /* Step_14_shift_check.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */; };
@@ -136,6 +138,7 @@
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
 		0CCC46E3203EE92B00CE7FE3 /* ImMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImMatrix.swift; sourceTree = "<group>"; };
 		0CCC46E5203EFA1100CE7FE3 /* KoefMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoefMatrix.swift; sourceTree = "<group>"; };
+		0CCFF5A721D73195008F4045 /* WayKoef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayKoef.swift; sourceTree = "<group>"; };
 		0CD3438B1CC9834D00FD9D61 /* Comb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comb.swift; sourceTree = "<group>"; };
 		0CD6F502213C2BDE00D14919 /* ShiftHHElem23.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem23.swift; sourceTree = "<group>"; };
 		0CD6F504213C2BE800D14919 /* ShiftHHElem24.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem24.swift; sourceTree = "<group>"; };
@@ -152,6 +155,7 @@
 		0CEBF10720B1A7E9009D70A2 /* Step_16_mult_comm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_16_mult_comm.swift; sourceTree = "<group>"; };
 		0CEBF10920B1C9FB009D70A2 /* ShiftHHElem03c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem03c.swift; sourceTree = "<group>"; };
 		0CEE15E520431F52007DA97B /* DiffLen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffLen.swift; sourceTree = "<group>"; };
+		0CF6BDCA2198EA1C0054A309 /* PKer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKer.swift; sourceTree = "<group>"; };
 		9B78BE55218362F800722B6D /* Step_1_calc_s.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_1_calc_s.swift; sourceTree = "<group>"; };
 		9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintUtils.swift; sourceTree = "<group>"; };
 		9BB88F011EE7CBDF0083E276 /* Step_14_shift_check.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_14_shift_check.swift; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 				0C55D52F1CC3B5380051135A /* OutputFile.swift */,
 				9BA1E5E91EEA7AC500AF50CD /* PrintUtils.swift */,
 				0CD8A31C1E9158E700C1C32C /* Utils.swift */,
+				0CF6BDCA2198EA1C0054A309 /* PKer.swift */,
+				0CCFF5A721D73195008F4045 /* WayKoef.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -405,6 +411,7 @@
 				0CAC5BD720D6EEB9006BFA3D /* ShiftHHElem22.swift in Sources */,
 				0CEBF10A20B1C9FB009D70A2 /* ShiftHHElem03c.swift in Sources */,
 				0C0B910720EC483B00BF52E3 /* ShiftHHElem12c.swift in Sources */,
+				0CCFF5A821D73195008F4045 /* WayKoef.swift in Sources */,
 				0CCC46E4203EE92B00CE7FE3 /* ImMatrix.swift in Sources */,
 				0C1BF8E7202D06CE001FE614 /* ShiftAlgAll.swift in Sources */,
 				0C384E3B20FC03BB00FFEF7F /* ShiftHHElem21c.swift in Sources */,
@@ -423,6 +430,7 @@
 				0C7E695820E9760E00FF73DD /* ShiftHHElem17c.swift in Sources */,
 				0CD8A31F1E915D1700C1C32C /* Step_10_createhh.swift in Sources */,
 				0C0BAB9420CB39F1000A42F2 /* Diff+Create.swift in Sources */,
+				0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */,
 				0C64F15D1CB93C3000495383 /* ShiftHHElem.swift in Sources */,
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
 				0C00817E20C9EDE900E34444 /* ShiftHHElem05c.swift in Sources */,
@@ -517,7 +525,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
