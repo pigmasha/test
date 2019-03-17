@@ -14,21 +14,27 @@ struct CalcDiff {
         let qTo = BimodQ(deg: d)
         let checkDiff = Diff(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
 
+        let onError: (Int) -> Int = { code in
+            PrintUtils.printMatrixDeg("check diff", checkDiff, deg + 1, deg)
+            PrintUtils.printMatrixDeg("my diff", diff, deg + 1, deg)
+            return code
+        }
+
         var col = 0
         var row = 0
         for nSq in 0 ..< qFrom.sizes.count {
             var sq1 = false
-            for i in 0 ..< qTo.sizes[nSq].intValue {
-                for j in 0 ..< qFrom.sizes[nSq].intValue {
+            for i in 0 ..< qTo.sizes[nSq] {
+                for j in 0 ..< qFrom.sizes[nSq] {
                     for k in 0 ..< s {
                         let ii = row + i * s + k
                         let jj = col + j * s + k
 
-                        let fromSz = qFrom.sizes[nSq].intValue
-                        let toSz   = qTo.sizes[nSq].intValue
+                        let fromSz = qFrom.sizes[nSq]
+                        let toSz   = qTo.sizes[nSq]
 
-                        let wL = Way(from: qTo.pij[ii].n0, to: qFrom.pij[jj].n0, noZeroLen: true)
-                        let wR = Way(from: qFrom.pij[jj].n1, to: qTo.pij[ii].n1)
+                        let wL = Way(from: qTo.pij[ii].0, to: qFrom.pij[jj].0, noZeroLen: true)
+                        let wR = Way(from: qFrom.pij[jj].1, to: qTo.pij[ii].1)
 
                         if fromSz == 2 && toSz == 2 {
                             if i == 0 && j == 0 {
@@ -55,8 +61,8 @@ struct CalcDiff {
                     }
                 }
             }
-            col += s * qFrom.sizes[nSq].intValue
-            row += s * qTo.sizes[nSq].intValue
+            col += s * qFrom.sizes[nSq]
+            row += s * qTo.sizes[nSq]
         }
 
         if deg == 0 {
@@ -68,27 +74,22 @@ struct CalcDiff {
             }
         } else {
             let multRes = Diff(mult: prevDiff!, and: diff)
-            if !multRes.isZero {
-                PrintUtils.printMatrixDeg("diff", diff, deg + 1, deg)
-                PrintUtils.printMatrixDeg("check diff", checkDiff, deg + 1, deg)
-                return 9
-            }
+            if !multRes.isZero { return onError(9) }
         }
         checkDiff.twist(deg)
-        PrintUtils.printMatrixDeg("check diff", checkDiff, deg + 1, deg)
         
-        if checkDiff.height != diff.rows.count { return 10 }
-        if checkDiff.width != diff.rows.last!.count { return 11 }
+        if checkDiff.height != diff.rows.count { return onError(10) }
+        if checkDiff.width != diff.rows.last!.count { return onError(11) }
 
         for i in 0 ..< checkDiff.height {
             for j in 0 ..< checkDiff.width {
                 let c1 = checkDiff.rows[i][j]
                 let c2 = diff.rows[i][j]
-                if c1.isOnlyZero && !c2.isZero { return 12 }
+                if c1.isOnlyZero && !c2.isZero { return onError(12) }
                 if c1.isZero { continue; }
                 if !c2.hasSummand(c1) {
                     OutputFile.writeLog(.error, "i=\(i), j=\(j)")
-                    return 13
+                    return onError(13)
                 }
             }
         }
@@ -97,7 +98,7 @@ struct CalcDiff {
     }
 
     static func checkDiffLen(_ diff: Diff, deg: Int) -> Int {
-        let lens = DiffLen(deg: deg)
+        /*let lens = DiffLen(deg: deg)
         if lens.items.count == 0 { return 0 }
 
         let items = lens.items
@@ -123,7 +124,7 @@ struct CalcDiff {
                     }
                 }
             }
-        }
+        }*/
         return 0
     }
 
@@ -133,8 +134,8 @@ struct CalcDiff {
                 let c1 = diff.rows[i][j]
                 if !c1.isZero { continue }
 
-                let wL = Way(from: qTo.pij[i].n0, to: qFrom.pij[j].n0)
-                let wR = Way(from: qFrom.pij[j].n1, to:qTo.pij[i].n1)
+                let wL = Way(from: qTo.pij[i].0, to: qFrom.pij[j].0)
+                let wR = Way(from: qFrom.pij[j].1, to:qTo.pij[i].1)
 
                 if !wL.isZero && !wR.isZero {
 

@@ -90,8 +90,8 @@ final class Comb {
         addComb(comb)
     }
 
-    /*func twist(backward: Bool = false) {
-        let n = PathAlg.n
+    func twist(backward: Bool = false) {
+        /*let n = PathAlg.n
         let s = PathAlg.s
         let sk = backward ? -1 : 1
 
@@ -113,8 +113,8 @@ final class Comb {
             way.startsWith.number = PathAlg.sigma(way.startsWith.number)
             way.endsWith.number = PathAlg.sigma(way.endsWith.number)
         }
-        normalForm()
-    }*/
+        normalForm()*/
+    }
 
     func hasSummand(_ comb: Comb) -> Bool {
         if (comb.content.count != 1) { return false }
