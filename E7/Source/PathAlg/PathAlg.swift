@@ -55,10 +55,10 @@ final class PathAlg {
     private var s = 0
     private var charK = 0
 
-    static let twistPeriod = 11
+    static let twistPeriod = 17
 
     static func sigma(_ i: Int) -> Int {
-        return 4 * (n + s) + i
+        return 9 * n + i
     }
 
     static func sigma(_ i: Int, isGamma: Bool) -> Int {

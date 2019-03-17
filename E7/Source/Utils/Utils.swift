@@ -21,20 +21,12 @@ func f(_ x: Int, _ y: Int) -> Int {
     return x == y ? 1 : 0
 }
 
+func f(_ x: Int, _ y1: Int, _ y2: Int) -> Int {
+    return x >= y1 && x <= y2 ? 1 : 0
+}
+
 func f0(_ x: Int, _ y: Int) -> Int {
     return x < y ? 1 : 0
-}
-
-func f1(_ x: Int, _ y: Int) -> Int {
-    return x < y ? 1 : -1
-}
-
-func f2(_ x: Int, _ y: Int) -> Int {
-    return x == y ? 1 : -1
-}
-
-func h(_ x: Int, _ y: Int) -> Int {
-    return x >= y ? ((x % 2 == 1) ? 1 : 0) : ((x % 2 == 1) ? 0 : 1)
 }
 
 func sigmaDeg() -> Int {

@@ -5,87 +5,97 @@
 import Foundation
 
 final class BimodQ {
-    let pij: [IntPair]
-    let sizes: [NumInt]
+    let pij: [(Int, Int)]
+    let sizes: [Int]
 
     init(deg: Int) {
+        let n = PathAlg.n
         let s = PathAlg.s
         let d = deg % PathAlg.twistPeriod
         let m = Int(d / 2)
         let q = d % 2 == 0 ? BimodQ.evenQ(m) : BimodQ.oddQ(m)
-        let r = Int(deg / PathAlg.twistPeriod)
-        var ij = [IntPair]()
+        let twistDeg = Int(deg / PathAlg.twistPeriod)
+        var ij: [(Int, Int)] = []
         for pij in q.pij {
-            for r0 in 0 ..< s {
-                let pair = IntPair(n0: 4*r0+pij.n0, n1: 4*r0+pij.n1)
-                for _ in 0 ..< r { pair.n0 = PathAlg.sigma(pair.n0) }
-                ij += [pair]
+            for r in 0 ..< s {
+                var n0 = n*r+pij.0
+                for _ in 0 ..< twistDeg { n0 = PathAlg.sigma(n0) }
+                ij += [(myMod(n0, mod: n*s), pij.1+n*r)]
             }
         }
         self.sizes = q.sizes
         self.pij = ij
     }
 
-    private static func evenQ(_ m: Int) -> (pij: [IntPair], sizes: [NumInt]) {
-        var p_ij = [IntPair]()
-        var sizes = [NumInt]()
+    private static func evenQ(_ m: Int) -> (pij: [(Int, Int)], sizes: [Int]) {
+        var p_ij = [(Int, Int)]()
+        var sizes = [Int]()
 
-        let s = PathAlg.s
-        var sz = 1 + f(m, 2) + f(m, 3) + f(m, 4) + f(m, 5)
+        var sz = 1+f(m,2,5)
         for i in 0 ..< sz {
-            p_ij += [IntPair(n0: 4*m-1+h(m,2)+i, n1: 0)]
+            p_ij += [(7*m-f(i,0)*(1-f(m,0)-f(m,6)-f(m,8)), 0)]
         }
-        sizes += [NumInt(intValue: sz)]
+        sizes += [sz]
+
+        for j in 0 ... 2 {
+            sz = 1+f(m+j,4)+f(m+j,6)
+            for i in 0 ..< sz {
+                p_ij += [(7*m+m+1+j-4*f(i,0)*f(m+j,4,5)-f(m+j,6)*(f(i,0)+3)-3*f(m+j,7)-8*f(m+j,8,10), 1+j)]
+            }
+            sizes += [sz]
+        }
 
         for j in 0 ... 1 {
-            sz = 1 + f(m, 3)
+            sz = 1+f(m+j,3,6)
             for i in 0 ..< sz {
-                p_ij += [IntPair(n0: 4*(m+j*s+(f(m,2)+f(m,5))*s)+2-h(m,3)+i*(4*s+1), n1: 4*j*s+1)]
+                p_ij += [(7*m+m+4+j-5*f(m+j,2)-f(m+j,3,4)*(2*f(i,0)+3)-f(m+j,5,6)*(3*f(i,1)+5)-8*f(m+j,7,9), 4+j)]
             }
-            sizes += [NumInt(intValue: sz)]
+            sizes += [sz]
         }
 
-        for j in 0 ... 1 {
-            sz = 1 + f(m, 2)
-            for i in 0 ..< sz {
-                p_ij += [IntPair(n0: 4*(m+j*s+(f(m,1)+f(m,4)+f(m,5))*s)+1+h(m,2)+i*(4*s+1), n1: 4*j*s+2)]
-            }
-            sizes += [NumInt(intValue: sz)]
-        }
-
-        sz = 1 + f(m, 3)
+        sz = 1+f(m,3,6)
         for i in 0 ..< sz {
-            p_ij += [IntPair(n0: 4*(m+1)-h(m,3)+i, n1: 3)]
+            p_ij += [(7*m+6+f(i,0)*(f(m,1)+f(m,7))+f(i,1), 6)]
         }
-        sizes += [NumInt(intValue: sz)]
+        sizes += [sz]
 
         return (pij: p_ij, sizes: sizes)
     }
 
-    private static func oddQ(_ m: Int) -> (pij: [IntPair], sizes: [NumInt]) {
-        var p_ij = [IntPair]()
-        var sizes = [NumInt]()
+    private static func oddQ(_ m: Int) -> (pij: [(Int, Int)], sizes: [Int]) {
+        var p_ij = [(Int, Int)]()
+        var sizes = [Int]()
 
-        let s = PathAlg.s
-        for i in 0 ... 1 - f(m, 4) {
-            p_ij += [IntPair(n0: 4*m+1+h(m,0)+2*f(m,4)+4*s*i, n1: 0)]
+        var sz = 2+f(m,2,4)-f(m,7)
+        for i in 0 ..< sz {
+            p_ij += [(7*m+m+1+3*f(i,1)*f(m,0,1)+f(m,2)*(f(i,0)-2*f(i,2))+f(m,3)*(f(i,1)-2*f(i,0))-2*f(m,4)*(f(i,1)+2*f(i,2))-2*f(m,5,6)*(1+f(i,0))-2*f(m,7), 0)]
         }
-        sizes += [NumInt(intValue: 2 - f(m, 4))]
+        sizes += [sz]
+
+        for j in 0 ... 2 {
+            p_ij += [(7*m+m+j+2+2*f(m+j,2,3)-2*f(m+j,6,9), 1+j)]
+            sizes += [1]
+        }
 
         for j in 0 ... 1 {
-            p_ij += [IntPair(n0: 4*(m+1+j*s)-h(m,0)-2*f(m,0), n1: 4*j*s+1)]
+            sz = 1+f(m+j,4)
+            for i in 0 ..< sz {
+                p_ij += [(7*m+m+j+5-2*f(m+j,3)-f(m+j,4)*(2+f(i,1))-3*f(m+j,5)-5*(f(m+j,6)+f(m+j,7))-2*f(m+j,8), 4+j)]
+            }
+            sizes += [sz]
         }
-        for j in 0 ... 1 {
-            p_ij += [IntPair(n0: 4*(m+1+j*s+f(m,4)*s)-h(m,5)+2*f(m,4), n1: 4*j*s+2)]
-        }
-        sizes += [NumInt(intValue: 1), NumInt(intValue: 1), NumInt(intValue: 1), NumInt(intValue: 1)]
 
-        for i in 0 ... 1 - f(m, 0) {
-            p_ij += [IntPair(n0: 4*(m+1)+1+h(m,5)-2*f(m,0)+4*s*i, n1: 3)]
+        sz = 2+f(m,3,5)-f(m,0)
+        for i in 0 ..< sz {
+            p_ij += [(7*(m+1)+m+3*f(m,1,2)*f(i,1)+f(m,3)*(f(i,0)-2*f(i,2))+f(m,4)*(f(i,1)-2*f(i,0))-2*f(m,5)*(f(i,1)+2*f(i,2))-2*f(m,6,7)*(2*f(i,0)+f(i,1)), 6)]
         }
-        sizes += [NumInt(intValue: 2 - f(m, 0))]
+        sizes += [sz]
 
         return (pij: p_ij, sizes: sizes)
+    }
+
+    var ppp: [(Int, Int)] {
+        return pij
     }
 
     var html: String {
@@ -96,9 +106,9 @@ final class BimodQ {
 
         for i in 0 ..< pij.count {
             let p = pij[i]
-            str += "P<sub>\(p.n0),\(p.n1)</sub>"
+            str += "P<sub>\(p.0),\(p.1)</sub>"
             sIn += 1
-            if sIn == sizes[sPos].intValue * s {
+            if sIn == sizes[sPos] * s {
                 sIn = 0
                 sPos += 1
                 str += "<big>)</big>"

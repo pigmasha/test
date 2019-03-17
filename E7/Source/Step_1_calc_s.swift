@@ -3,23 +3,43 @@
 //
 
 struct Step_1_calc_s {
+    static var Qs: [CalcBimodQ] = []
+    static let printHomos = false
+
     static func runCase() -> Bool {
+        Qs = []
         OutputFile.writeLog(.simple, header)
         OutputFile.writeLog(.simple, "N=\(PathAlg.n), S=\(PathAlg.s)\n\n")
         var res = false
         for i in 0 ... 6 {
-            if processS(i) { res = true; break }
+            for j in 0 ..< PathAlg.s {
+                if processS(i+7*j) { res = true; break }
+            }
+        }
+        for d in 0 ..< Qs.count {
+            let myQ = BimodQ(deg: d)
+            if !checkSameQ(Qs[d].pij, myQ.ppp) {
+                OutputFile.writeLog(.simple, "ERROR deg=\(d)!\n")
+                printQ(Qs[d].pij, deg: d)
+                OutputFile.writeLog(.simple, "My\n")
+                printQ(myQ.ppp, deg: d)
+                res = true
+                break
+            }
         }
         OutputFile.writeLog(.simple, "\\end{document}\n")
         return res
     }
 
     private static func processS(_ i: Int) -> Bool {
-        OutputFile.writeLog(.simple, "\\begin{center}{\\large $\\mathbf{S_{\(kStr(i))}}$}\\end{center}\n\n")
+        if printHomos {  OutputFile.writeLog(.simple, "\\begin{center}{\\large $\\mathbf{S_{\(kStr(i))}}$}\\end{center}\n\n") }
         let w = maxLenWay(end: i)
         var homos: [PHomo] = []
         var lastHomo = PHomo(from: [w.endsWith.number], to: [w.startsWith.number], matrix: [[WayKoef(koef: 1, way: w)]])
-        for d in 0 ... 15 {
+        for d in 0 ... 20 {
+            if Qs.count < d + 1 { Qs += [CalcBimodQ()] }
+            Qs[d].sizes += [lastHomo.from.count]
+            Qs[d].pij += lastHomo.from.map { ($0, i) }
             homos.append(lastHomo)
             let myKer = PKer.ker(lastHomo, onlyGen: true, logRemoves: false)
             //myKer.printTex()
@@ -35,7 +55,7 @@ struct Step_1_calc_s {
                              to: lastHomo.from,
                              matrix: matrix)
             //if checkLast(homo, deg: d, i: i) { break }
-            printHomo(homo, deg: d)
+            if printHomos { printHomo(homo, deg: d) }
             if checkExact(lastHomo, homo) { return true }
             lastHomo = homo
         }
@@ -113,9 +133,38 @@ struct Step_1_calc_s {
         } else {
             fatalError("Bad counts \(homo.from.count) and \(homo.to.count)")
         }
+        /*let dd = deg + 1
+        if dd % 2 == 1 {
+            OutputFile.writeLog(.simple, "$$Q_{2\\cdot \(dd / 2)+1}=\(pStr(homo.from))$$\n")
+        }*/
         let sStr = deg == 0 ? "\\longrightarrow S_{\(kStr(homo.to[0]))}" : ""
         OutputFile.writeLog(.simple, "$$d_{\(deg)}: Q_{\(deg+1)}=\(pStr(homo.from))"
             + "\\stackrel{\(matrixStr)}\\longrightarrow \(pStr(homo.to))\(sStr)$$\n")
+    }
+
+    private static func printQ(_ q: [(Int, Int)], deg: Int) {
+        var str = ""
+        var lastR = 0
+        for i in 0 ..< q.count {
+            if i > 0 {
+                let r = q[i].1 % PathAlg.n
+                let nlStr = i % 10 == 0 ? "\\\\\n" : ""
+                str += r != lastR ? ") \(nlStr)\\oplus ( " : "\(nlStr)\\oplus "
+                lastR = r
+            }
+            str += "P_{\(q[i].0),\(q[i].1)}"
+        }
+        OutputFile.writeLog(.simple, "\\begin{multline*}Q_{\(deg)}=(\(str))\\end{multline*}\n")
+    }
+
+    private static func checkSameQ(_ q1: [(Int, Int)], _ q2: [(Int, Int)]) -> Bool {
+        guard q1.count == q2.count else { return false }
+        let sq1 = q1.sorted { $0.1 == $1.1 ? $0.0 > $1.0 : $0.1 > $1.1 }
+        let sq2 = q2.sorted { $0.1 == $1.1 ? $0.0 > $1.0 : $0.1 > $1.1 }
+        for i in 0 ..< sq1.count {
+            if sq1[i].0 != sq2[i].0 || sq1[i].1 != sq2[i].1 { return false }
+        }
+        return true
     }
 
     private static func maxLenWay(end: Int) -> Way {
@@ -150,6 +199,11 @@ struct PHomo {
 
 enum PElementsType {
     case ker, im
+}
+
+class CalcBimodQ {
+    var pij: [(Int, Int)] = []
+    var sizes: [Int] = []
 }
 
 let header = """
