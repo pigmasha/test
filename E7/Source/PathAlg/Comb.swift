@@ -160,7 +160,7 @@ final class Comb {
         if isZero {
             return isPotential ? "&bull;" : (isFirstStep ? "&#x1f43d;" : "&nbsp;&nbsp;&nbsp;")
         }
-        var ss = isFirstStep ? "&#x1f43d; " : ""
+        var ss = isFirstStep ? "<b> " : ""
         var is1 = true
         for item in tenzors {
             let koef = Int(item.koef)
@@ -171,7 +171,7 @@ final class Comb {
             }
             ss += item.tenzor.htmlStr
         }
-        return ss
+        return ss + (isFirstStep ? "</b>" : "")
     }
 
     func compareK(_ other: Comb) -> Double {

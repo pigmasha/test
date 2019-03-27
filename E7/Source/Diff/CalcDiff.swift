@@ -7,62 +7,18 @@ import Foundation
 struct CalcDiff {
     static func calcDiffWithNumber(_ diff: Diff, deg: Int, prevDiff: Diff?) -> Int {
         OutputFile.writeLog(.simple, "deg=\(deg) ")
-        let s = PathAlg.s
         let d = deg % PathAlg.twistPeriod
 
         let qFrom = BimodQ(deg: d + 1)
         let qTo = BimodQ(deg: d)
         let checkDiff = Diff(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
+        if CalcDiffAll.fillCheckMatrix(deg: deg, checkDiff: checkDiff) != 0 { return 1 }
 
         let onError: (Int) -> Int = { code in
             PrintUtils.printMatrixDeg("check diff", checkDiff, deg + 1, deg)
             PrintUtils.printMatrixDeg("my diff", diff, deg + 1, deg)
+            //DiffProgram.diffProgram(checkDiff, deg: deg)
             return code
-        }
-
-        var col = 0
-        var row = 0
-        for nSq in 0 ..< qFrom.sizes.count {
-            var sq1 = false
-            for i in 0 ..< qTo.sizes[nSq] {
-                for j in 0 ..< qFrom.sizes[nSq] {
-                    for k in 0 ..< s {
-                        let ii = row + i * s + k
-                        let jj = col + j * s + k
-
-                        let fromSz = qFrom.sizes[nSq]
-                        let toSz   = qTo.sizes[nSq]
-
-                        let wL = Way(from: qTo.pij[ii].0, to: qFrom.pij[jj].0, noZeroLen: true)
-                        let wR = Way(from: qFrom.pij[jj].1, to: qTo.pij[ii].1)
-
-                        if fromSz == 2 && toSz == 2 {
-                            if i == 0 && j == 0 {
-                                if wL.isZero { return 1 }
-                                sq1 = (wL.len == 1)
-                            }
-                            if j == 1 && ((i == 1 && sq1) || (i == 0 && !sq1)) {
-                                checkDiff.rows[ii][jj].isOnlyZero = true
-                                continue
-                            }
-                        }
-                        if wL.isZero || wR.isZero {
-                            OutputFile.writeLog(.error, "deg=\(deg), row=\(ii), col=\(jj), fromSz=\(fromSz), toSz=\(toSz)")
-                            PrintUtils.printMatrixDeg("", checkDiff, deg + 1, deg)
-                            return 1
-                        }
-                        let t = Tenzor(left: wL, right: wR)
-                        let c = Comb(tenzor: t, koef: 1)
-
-                        if (toSz == 2 && fromSz == 1 && i == 1 && wL.len < 3) { c.compKoef(-1) }
-                        if (toSz == 2 && fromSz == 2 && i == 1 && j == 0) { c.compKoef(-1) }
-
-                        checkDiff.rows[ii][jj].addComb(c)
-                    }
-                }
-            }
-            col += s * qFrom.sizes[nSq]
-            row += s * qTo.sizes[nSq]
         }
 
         if deg == 0 {
@@ -74,7 +30,11 @@ struct CalcDiff {
             }
         } else {
             let multRes = Diff(mult: prevDiff!, and: diff)
-            if !multRes.isZero { return onError(9) }
+            if !multRes.isZero {
+                PrintUtils.printMatrixDeg("Prev diff", prevDiff!, deg, deg - 1)
+                PrintUtils.printMatrixDeg("multRes", multRes, deg + 1, deg)
+                return onError(9)
+            }
         }
         checkDiff.twist(deg)
         
@@ -86,7 +46,7 @@ struct CalcDiff {
                 let c1 = checkDiff.rows[i][j]
                 let c2 = diff.rows[i][j]
                 if c1.isOnlyZero && !c2.isZero { return onError(12) }
-                if c1.isZero { continue; }
+                if c1.isZero || !c1.isFirstStep { continue; }
                 if !c2.hasSummand(c1) {
                     OutputFile.writeLog(.error, "i=\(i), j=\(j)")
                     return onError(13)
@@ -128,27 +88,23 @@ struct CalcDiff {
         return 0
     }
 
-    private static func createZeroDiff(_ diff: Diff, qFrom: BimodQ, qTo: BimodQ) -> Int {
+    static func createZeroDiff(_ diff: Diff, qFrom: BimodQ, qTo: BimodQ) -> Int {
         for i in 0 ..< qTo.pij.count {
             for j in 0 ..< qFrom.pij.count {
                 let c1 = diff.rows[i][j]
-                if !c1.isZero { continue }
-
+                if !c1.isZero || c1.isOnlyZero { continue }
                 let wL = Way(from: qTo.pij[i].0, to: qFrom.pij[j].0)
                 let wR = Way(from: qFrom.pij[j].1, to:qTo.pij[i].1)
+                guard !wL.isZero && !wR.isZero else { continue }
 
-                if !wL.isZero && !wR.isZero {
-
-                    if wL.len + wR.len != 1 {
-                        if PathAlg.s == 1 {
-                            if wL.len + wR.len < 5 { return 1 }
-                        } else {
-                            return 1
-                        }
+                if wL.len + wR.len != 1 {
+                    if PathAlg.s == 1 {
+                        if wL.len + wR.len < 5 { return 1 }
                     } else {
-                        let t = Tenzor(left: wL, right: wR)
-                        c1.addComb(Comb(tenzor: t, koef: -1))
+                        return 1
                     }
+                } else {
+                    c1.addComb(Comb(tenzor: Tenzor(left: wL, right: wR), koef: -1))
                 }
             }
         }
@@ -157,7 +113,7 @@ struct CalcDiff {
             var hasNeg = false
             for i in 0 ..< qTo.pij.count {
                 let c1 = diff.rows[i][j]
-                if (c1.isZero) { continue; }
+                if c1.isZero { continue; }
 
                 let k = c1.terminateKoef(isLast: false)
                 if k > 0 {
@@ -170,8 +126,8 @@ struct CalcDiff {
                 }
                 if k == 0 { return 4 }
             }
-            if (!hasPos) { return 5 }
-            if (!hasNeg) { return 6 }
+            if !hasPos { return 5 }
+            if !hasNeg { return 6 }
         }
         return 0
     }

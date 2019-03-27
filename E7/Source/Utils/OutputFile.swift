@@ -16,6 +16,7 @@ final class OutputFile {
         case h2      // 3
         case simple  // 4
         case time    // 5
+        case simpleTime
     }
     static func setFileName(fileName: String) throws {
         self.fileName = fileName
@@ -44,8 +45,11 @@ final class OutputFile {
         case .time:
             let t = time(nil)
             let t0 = t / 60
-            let t1 = t0 / 60
-            return  String(format: "<b>%02d:%02d:%02d \n", Int(t1 % 60), Int(t0 % 60), Int(t % 60))
+            return  String(format: "<b>%02d:%02d:%02d \n", Int((t0 / 60) % 60), Int(t0 % 60), Int(t % 60))
+        case .simpleTime:
+            let t = time(nil)
+            let t0 = t / 60
+            return  String(format: "%02d:%02d:%02d \n", Int((t0 / 60) % 60), Int(t0 % 60), Int(t % 60))
         case .normal, .simple:
             return ""
         }
@@ -59,7 +63,7 @@ final class OutputFile {
             return "</b><br>\n"
         case .h2:
             return "</h2>\n"
-        case .simple:
+        case .simple, .simpleTime:
             return ""
         }
     }

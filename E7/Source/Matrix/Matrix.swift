@@ -18,7 +18,12 @@ class Matrix {
 
     convenience init(mult matr1: Matrix, and matr2: Matrix) {
         self.init()
-        mult(matr1, and: matr2)
+        mult(matr1, and: matr2, col2: nil)
+    }
+
+    convenience init(mult matr1: Matrix, and matr2: Matrix, col2: Int) {
+        self.init()
+        mult(matr1, and: matr2, col2: col2)
     }
 
     convenience init(sum matr1: Matrix, and matr2: Matrix, koef2: Int) {
@@ -296,7 +301,7 @@ class Matrix {
         }
     }
 
-    private func mult(_ matr1: Matrix, and matr2: Matrix) {
+    private func mult(_ matr1: Matrix, and matr2: Matrix, col2: Int?) {
         combs.removeAll()
         let combs1 = matr1.rows
         let combs2 = matr2.rows
@@ -305,11 +310,11 @@ class Matrix {
         if combs1[0].count != combs2.count { return }
 
         let nn = combs2.count
-        let ww = combs2[0].count
+        let ww = col2 == nil ? combs2[0].count : col2! + 1
 
         for i in 0..<combs1.count {
             var line = [Comb]()
-            for j in 0..<ww {
+            for j in (col2 ?? 0)..<ww {
                 let c = Comb()
                 for k in 0..<nn {
                     let cc = Comb(comb: combs1[i][k])

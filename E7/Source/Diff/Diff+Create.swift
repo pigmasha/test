@@ -24,6 +24,13 @@ extension Diff {
     private func createEvenDiff(_ m: Int) {
         switch (m) {
         case 0: createDiffWithNumber0()
+        case 1: createDiffWithNumber2()
+        case 2: createDiffWithNumber4()
+        case 3: createDiffWithNumber6()
+        case 4: createDiffWithNumber2()
+        case 5: createDiffWithNumber2()
+        case 6: createDiffWithNumber2()
+        case 7: createDiffWithNumber2()
         default: break
         }
     }
@@ -31,6 +38,12 @@ extension Diff {
     private func createOddDiff(_ m: Int) {
         switch (m) {
         case 0: createDiffWithNumber1()
+        case 1: createDiffWithNumber3()
+        case 2: createDiffWithNumber5()
+        case 3: createDiffWithNumber1()
+        case 4: createDiffWithNumber1()
+        case 5: createDiffWithNumber1()
+        case 6: createDiffWithNumber1()
         default: break
         }
     }
@@ -65,6 +78,29 @@ extension Diff {
     }
 
     private func createDiffWithNumber1() {
+        /*for j in 0 ..< s {
+            for j_1 in 0 ..< 4 {
+                addTenToPos(j+s*(j_1+1-f(j_1,0)), j, 7*(j+m)+1+j_1+2*f(j_1,3), 7*(j+m+1)-1, 7*j, 7*j+j_1, 1)
+            }
+            for j_1 in 0 ..< 3 {
+                addTenToPos(j+s*(j_1+4-3*f(j_1,0)), j, 7*(j+m+1)-3+j_1, 7*(j+m+1)-1, 7*j, 7*j+j_1+3*(1-f(j_1,0)), -1)
+            }
+        }*/
+    }
+
+    private func createDiffWithNumber2() {
+    }
+
+    private func createDiffWithNumber3() {
+    }
+
+    private func createDiffWithNumber4() {
+    }
+
+    private func createDiffWithNumber5() {
+    }
+
+    private func createDiffWithNumber6() {
     }
 
     private func addTenToPos(_ i: Int, _ j: Int, _ leftFrom: Int, _ leftTo: Int,
