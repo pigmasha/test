@@ -18,7 +18,7 @@ struct Step_1_calc_s {
         }
         for d in 0 ..< Qs.count {
             let myQ = BimodQ(deg: d)
-            if !checkSameQ(Qs[d].pij, myQ.ppp) {
+            if !checkSameQ(Qs[d].pij, myQ.ppp, myQ.sizes) {
                 OutputFile.writeLog(.simple, "ERROR deg=\(d)!\n")
                 printQ(Qs[d].pij, deg: d)
                 OutputFile.writeLog(.simple, "My\n")
@@ -157,8 +157,21 @@ struct Step_1_calc_s {
         OutputFile.writeLog(.simple, "\\begin{multline*}Q_{\(deg)}=(\(str))\\end{multline*}\n")
     }
 
-    private static func checkSameQ(_ q1: [(Int, Int)], _ q2: [(Int, Int)]) -> Bool {
+    private static func checkSameQ(_ q1: [(Int, Int)], _ q2: [(Int, Int)], _ sizes: [Int]) -> Bool {
         guard q1.count == q2.count else { return false }
+        let s = PathAlg.s
+        var qPos = 0
+        for size in sizes {
+            for x in 0 ..< size {
+                for i in 0 ..< 1 {
+                    if q1[qPos+i*size+x].0 != q2[qPos+i+s*x].0 || q1[qPos+i*size+x].1 != q2[qPos+i+s*x].1 {
+                        OutputFile.writeLog(.simple, "x=\(x), \(qPos+i*size) != \(qPos+i)\n\n")
+                        return false
+                    }
+                }
+            }
+            qPos += s * size
+        }
         let sq1 = q1.sorted { $0.1 == $1.1 ? $0.0 > $1.0 : $0.1 > $1.1 }
         let sq2 = q2.sorted { $0.1 == $1.1 ? $0.0 > $1.0 : $0.1 > $1.1 }
         for i in 0 ..< sq1.count {

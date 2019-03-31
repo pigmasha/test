@@ -48,7 +48,7 @@ final class BimodQ {
         for j in 0 ... 1 {
             sz = 1+f(m+j,3,6)
             for i in 0 ..< sz {
-                p_ij += [(7*m+m+4+j-5*f(m+j,2)-f(m+j,3,4)*(2*f(i,0)+3)-f(m+j,5,6)*(3*f(i,1)+5)-8*f(m+j,7,9), 4+j)]
+                p_ij += [(7*m+m+4+j-5*f(m+j,2)-f(m+j,3,4)*(2*f(i,0)+3)-f(m+j,5)*(3*f(i,1)+5)-f(m+j,6)*(3*f(i,0)+5)-8*f(m+j,7,9), 4+j)]
             }
             sizes += [sz]
         }
@@ -80,7 +80,7 @@ final class BimodQ {
         for j in 0 ... 1 {
             sz = 1+f(m+j,4)
             for i in 0 ..< sz {
-                p_ij += [(7*m+m+j+5-2*f(m+j,3)-f(m+j,4)*(2+f(i,1))-3*f(m+j,5)-5*(f(m+j,6)+f(m+j,7))-2*f(m+j,8), 4+j)]
+                p_ij += [(7*m+m+j+5-2*f(m+j,3)-f(m+j,4)*(2+f(i,0))-3*f(m+j,5)-5*(f(m+j,6)+f(m+j,7))-2*f(m+j,8), 4+j)]
             }
             sizes += [sz]
         }

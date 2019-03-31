@@ -72,9 +72,11 @@ struct CalcDiffAll {
             return false
         }
         diffs = [CalcDiffIterator(deg: 0, prevDiff: Diff(), diff: diff.0!, variants: [])]
+        //PrintUtils.printMatrix("Diff 0", diffs[0].currentDiff)
         curDiff = 1
         while true {
-            OutputFile.writeLog(.simpleTime, "\(curDiff): ")
+            DiffProgram.diffProgram(diffs[curDiff - 1].currentDiff, deg: curDiff - 1)
+            if curDiff > PathAlg.twistPeriod { break }
             if diffs.count == curDiff {
                 let result = calcDiffWithNumber(deg: curDiff, prevDiff: diffs[curDiff - 1].currentDiff, variants: nil)
                 if result.2 != 0 {
@@ -86,11 +88,16 @@ struct CalcDiffAll {
                     OutputFile.writeLog(.normal, "back-1")
                     curDiff -= 1
                 } else {
+                    //PrintUtils.printMatrix("Diff \(curDiff)", result.0!)
+                    let multRes = Diff(mult: diffs[curDiff - 1].currentDiff, and: result.0!)
+                    if !multRes.isZero {
+                        PrintUtils.printMatrix("multRes", multRes)
+                        return false
+                    }
+
                     diffs += [CalcDiffIterator(deg: curDiff, prevDiff: diffs[curDiff - 1].currentDiff,
                                                diff: result.0!, variants: result.1!)]
-                    OutputFile.writeLog(.normal, "push \(result.1!)")
-                    //let poses = CalcDiffPoses(variants: result.1!)
-                    //print("poses \(result.1!)"); while let next = poses.next { print(" --> \(next)") }; print("    ok")
+                    //OutputFile.writeLog(.normal, "push \(result.1!)")
                     curDiff += 1
                 }
                 continue
@@ -122,14 +129,12 @@ struct CalcDiffAll {
     }
 
     fileprivate static func calcDiffWithNumber(deg: Int, prevDiff: Diff, variants: [Int: Int]?) -> (Diff?, [[Int]]?, Int) {
-        OutputFile.writeLog(.simple, "deg=\(deg) ")
         let d = deg % PathAlg.twistPeriod
 
         let qFrom = BimodQ(deg: d + 1)
         let qTo = BimodQ(deg: d)
         let checkDiff = Diff()
         if fillCheckMatrix(deg: deg, checkDiff: checkDiff) != 0 { return (nil, nil, 1) }
-
         let allVariants = createNonZeroDiff(checkDiff, qFrom: qFrom, qTo: qTo, prevDiff: prevDiff, variants: variants)
         if allVariants == nil { return (nil, nil, 16) }
         let multRes = Diff(mult: prevDiff, and: checkDiff)
@@ -168,8 +173,16 @@ struct CalcDiffAll {
                 let wL = Way(from: qTo.pij[i].0, to: qFrom.pij[j].0)
                 let wR = Way(from: qFrom.pij[j].1, to:qTo.pij[i].1)
                 if !wL.isZero && !wR.isZero {
-                    col.append(Comb(tenzor: Tenzor(left: wL, right: wR), koef: 1))
-                    sz += 1
+                    let c = Comb(tenzor: Tenzor(left: wL, right: wR), koef: 1)
+                    let matrix = Diff(zeroMatrix: 1, h: qTo.pij.count)
+                    matrix.rows[i][0].addComb(c)
+                    if !Diff(mult: prevDiff, and: matrix).isZero {
+                        col.append(Comb(tenzor: Tenzor(left: wL, right: wR), koef: 1))
+                        sz += 1
+                    } else {
+                        print("Zero! \(c.htmlStr)\n")
+                        col.append(Comb())
+                    }
                 } else {
                     col.append(Comb())
                 }
@@ -179,8 +192,9 @@ struct CalcDiffAll {
             if let variants = variants {
                 kk = variants[j / s]!
             } else {
-                var vv: [Int] = []
+                var vv: [(Int, Int)] = []
                 var count = 1; for _ in 0 ..< sz { count *= 3 }
+                var weight = 0
                 for k in 0 ..< count {
                     var kk = k
                     for i in 0 ..< col.count {
@@ -188,13 +202,17 @@ struct CalcDiffAll {
                         guard !c.isFirstStep && !c.isZero else { continue }
                         diff.rows[i][j].setComb(c)
                         diff.rows[i][j].compKoef(kk % 3 == 2 ? -1 : Double(kk % 3))
+                        if kk % 3 != 0 { weight += 1 }
                         kk /= 3
                     }
-                    if Diff(mult: prevDiff, and: diff, col2: j).isZero { vv += [k] }
+                    if Diff(mult: prevDiff, and: diff, col2: j).isZero { vv += [(k, weight)] }
                 }
-                guard vv.count != 0 else { return nil }
-                kk = vv[0]
-                allVariants += [vv]
+                guard vv.count != 0 else {
+                    PrintUtils.printMatrix("Prev diff", prevDiff, redColumns: [j])
+                    return nil
+                }
+                kk = vv[0].0
+                allVariants += [vv.map { $0.0 }]
             }
             for i in 0 ..< col.count {
                 let c = col[i]

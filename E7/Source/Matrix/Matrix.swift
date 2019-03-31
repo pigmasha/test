@@ -67,7 +67,9 @@ class Matrix {
         for line2 in combs {
             var line = [Comb]()
             for j in fromCol..<toCol {
-                line.append(Comb(comb: line2[j]))
+                let c = Comb(comb: line2[j])
+                if line2[j].isFirstStep { c.isFirstStep = true }
+                line.append(c)
             }
             m.combs.append(line)
         }

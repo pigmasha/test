@@ -58,7 +58,8 @@ struct DiffProgram {
     private static func koefStr(_ v: Vertex, _ j: Int, jStr: String) -> String {
         let dd = myMod(v.number - 7 * j, mod: 7 * PathAlg.s)
         let m1 = dd / 7
-        let ss = m1 == 0 ? (jStr == "j" ? "7*\(jStr)" : "7*(\(jStr))") : "7*(" + jStr + (m1 < 0 ? "" : "+") + "\(m1))"
+        let m2 = m1 == PathAlg.s - 1 ? -1 : m1
+        let ss = m1 == 0 ? (jStr == "j" ? "7*\(jStr)" : "7*(\(jStr))") : "7*(" + jStr + (m2 < 0 ? "" : "+") + "\(m2))"
         return dd == 7 * m1 ? ss : "\(ss)+\(dd - 7 * m1)"
     }
 }
