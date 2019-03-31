@@ -5,7 +5,7 @@
 struct Step_2_calc_dn {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
-        let degTo = PathAlg.alg.dummy1 == 0 ? 7 * PathAlg.twistPeriod + 3 : PathAlg.alg.dummy1
+        let degTo = PathAlg.alg.dummy1 == 0 ? 2 * PathAlg.twistPeriod + 3 : PathAlg.alg.dummy1
         /*if CalcDiffAll.calcDiffAllVariants() == false {
             return true
         }*/
