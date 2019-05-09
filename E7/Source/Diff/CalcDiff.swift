@@ -14,9 +14,9 @@ struct CalcDiff {
         let checkDiff = Diff(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
         if CalcDiffAll.fillCheckMatrix(deg: deg, checkDiff: checkDiff) != 0 { return 1 }
 
-        let onError: (Int) -> Int = { code in
-            PrintUtils.printMatrixDeg("check diff", checkDiff, deg + 1, deg)
-            PrintUtils.printMatrixDeg("my diff", diff, deg + 1, deg)
+        let onError: (Int, _ redColumns: [Int]?) -> Int = { code, redColumns in
+            //PrintUtils.printMatrixDeg("check diff", checkDiff, deg + 1, deg)
+            PrintUtils.printMatrix("my diff", diff, redColumns: redColumns)
             //DiffProgram.diffProgram(checkDiff, deg: deg)
             return code
         }
@@ -31,25 +31,25 @@ struct CalcDiff {
         } else {
             let multRes = Diff(mult: prevDiff!, and: diff)
             if !multRes.isZero {
-                PrintUtils.printMatrixDeg("Prev diff", prevDiff!, deg, deg - 1)
+                //PrintUtils.printMatrixDeg("Prev diff", prevDiff!, deg, deg - 1)
                 PrintUtils.printMatrixDeg("multRes", multRes, deg + 1, deg)
-                return onError(9)
+                return onError(9, nil)
             }
         }
         checkDiff.twist(deg)
         
-        if checkDiff.height != diff.rows.count { return onError(10) }
-        if checkDiff.width != diff.rows.last!.count { return onError(11) }
+        if checkDiff.height != diff.rows.count { return onError(10, nil) }
+        if checkDiff.width != diff.rows.last!.count { return onError(11, nil) }
 
         for i in 0 ..< checkDiff.height {
             for j in 0 ..< checkDiff.width {
                 let c1 = checkDiff.rows[i][j]
                 let c2 = diff.rows[i][j]
-                if c1.isOnlyZero && !c2.isZero { return onError(12) }
+                if c1.isOnlyZero && !c2.isZero { return onError(12, [j]) }
                 if c1.isZero || !c1.isFirstStep { continue; }
                 if !c2.hasSummand(c1) {
                     OutputFile.writeLog(.error, "i=\(i), j=\(j)")
-                    return onError(13)
+                    return onError(13, [j])
                 }
             }
         }

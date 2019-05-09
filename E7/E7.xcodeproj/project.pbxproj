@@ -25,6 +25,7 @@
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA96FB92223194600D9BDDF /* BimodQ.swift */; };
+		0CADF8162284B3C00086090C /* Step_3_sigma_deg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CADF8152284B3C00086090C /* Step_3_sigma_deg.swift */; };
 		0CAFC74622205384006DB03B /* PElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAFC74522205384006DB03B /* PElements.swift */; };
 		0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB0E271CC595B9007DC5F5 /* Way.swift */; };
 		0CCDB4D321FE47FF003BE0D0 /* PKerThinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB4D221FE47FF003BE0D0 /* PKerThinUtils.swift */; };
@@ -57,6 +58,7 @@
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CA96FB92223194600D9BDDF /* BimodQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
+		0CADF8152284B3C00086090C /* Step_3_sigma_deg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_3_sigma_deg.swift; sourceTree = "<group>"; };
 		0CAFC74522205384006DB03B /* PElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PElements.swift; sourceTree = "<group>"; };
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
 		0CCDB4D221FE47FF003BE0D0 /* PKerThinUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKerThinUtils.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				0C60C9291E34F78400F285AC /* RunCase.swift */,
 				9B78BE55218362F800722B6D /* Step_1_calc_s.swift */,
 				0C07A727223EDB5A00BF8C61 /* Step_2_calc_dn.swift */,
+				0CADF8152284B3C00086090C /* Step_3_sigma_deg.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -260,6 +264,7 @@
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0C07A721223ED9A800BF8C61 /* Diff+Create.swift in Sources */,
 				0C07A720223ED9A800BF8C61 /* Diff.swift in Sources */,
+				0CADF8162284B3C00086090C /* Step_3_sigma_deg.swift in Sources */,
 				0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */,
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
 				0CAFC74622205384006DB03B /* PElements.swift in Sources */,

@@ -91,14 +91,29 @@ final class Comb {
     }
 
     func twist(backward: Bool = false) {
-        /*let n = PathAlg.n
-        let s = PathAlg.s
         let sk = backward ? -1 : 1
 
         for item in tenzors {
             let way = item.tenzor.leftComponent
+
+            var arrays: [WayArr] = []
             for arrow in way.arrays {
-                let arr = arrow.last!
+                let a: WayArr
+                switch arrow.type {
+                case .alpha:
+                    a = WayArr(type: arrow.type, i: arrow.i + 9 * 4 * sk)
+                    item.koef *= -1
+                case .beta:
+                    a = WayArr(type: arrow.type, i: arrow.i + 9 * 3 * sk)
+                    if arrow.i % 3 != 0 {
+                        item.koef *= -1
+                    }
+                case .gamma:
+                    a = WayArr(type: arrow.type, i: arrow.i + 9 * sk)
+                    item.koef *= -1
+                }
+                arrays += [a]
+                /*let arr = arrow.last!
                 let isG = arrow.first!.intValue == ArrType.gamma.rawValue
                 if (isG) {
                     if myModS(arr.intValue) != s - 1 { item.koef *= -1 }
@@ -108,12 +123,13 @@ final class Comb {
                     let hasS = myMod(arr.intValue, mod: 6 * s) >= 3 * s
                     if (k1 == 0 && !hasS) || k1 == 1 || (k1 == 2 && hasS) { item.koef *= -1 }
                     arr.intValue = arr.intValue + 3*(n+s) * sk
-                }
+                }*/
             }
+            way.updateArrays(arrays)
             way.startsWith.number = PathAlg.sigma(way.startsWith.number)
             way.endsWith.number = PathAlg.sigma(way.endsWith.number)
         }
-        normalForm()*/
+        normalForm()
     }
 
     func hasSummand(_ comb: Comb) -> Bool {

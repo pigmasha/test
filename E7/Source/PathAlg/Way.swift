@@ -105,6 +105,10 @@ final class Way {
         return arr.count
     }
 
+    func updateArrays(_ a: [WayArr]) {
+        arr = a
+    }
+
     func setWay(_ way: Way) {
         vStart.number = way.startsWith.number
         vEnd.number = way.endsWith.number
