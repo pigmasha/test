@@ -200,6 +200,7 @@ final class Way {
     func isEq(_ other: Way) -> Bool {
         if isZero || other.isZero { return false }
         if !vStart.isEq(other.startsWith) || !vEnd.isEq(other.endsWith) { return false }
+        if (len == 0 && other.len != 0) || (len != 0 && other.len == 0) { return false }
         return true
     }
 

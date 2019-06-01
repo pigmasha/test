@@ -34,6 +34,16 @@
 		0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A31C1E9158E700C1C32C /* Utils.swift */; };
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
 		0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF6BDCA2198EA1C0054A309 /* PKer.swift */; };
+		9B184122229D334E00600B7A /* Step_4_dimhom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B184121229D334E00600B7A /* Step_4_dimhom.swift */; };
+		9B184124229D33D700600B7A /* Dim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B184123229D33D700600B7A /* Dim.swift */; };
+		9B26FD5922A2633A0002DA2F /* HHElem+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */; };
+		9B26FD5A22A2633A0002DA2F /* HHElem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5822A2633A0002DA2F /* HHElem.swift */; };
+		9B26FD5C22A2649F0002DA2F /* Step_7_createhh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5B22A2649F0002DA2F /* Step_7_createhh.swift */; };
+		9B26FD5E22A265210002DA2F /* CheckHH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5D22A265210002DA2F /* CheckHH.swift */; };
+		9B27DE1A22A18BED00BB0642 /* Step_6_dimhh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B27DE1922A18BED00BB0642 /* Step_6_dimhh.swift */; };
+		9B2993E1229E92FA0015C10A /* Step_5_im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2993E0229E92FA0015C10A /* Step_5_im.swift */; };
+		9B2993E3229E93BC0015C10A /* ImMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2993E2229E93BC0015C10A /* ImMatrix.swift */; };
+		9B2993E5229E95C50015C10A /* KoefIntMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2993E4229E95C50015C10A /* KoefIntMatrix.swift */; };
 		9B78BE56218362F800722B6D /* Step_1_calc_s.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B78BE55218362F800722B6D /* Step_1_calc_s.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +77,16 @@
 		0CD8A31C1E9158E700C1C32C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CF6BDCA2198EA1C0054A309 /* PKer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKer.swift; sourceTree = "<group>"; };
+		9B184121229D334E00600B7A /* Step_4_dimhom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_4_dimhom.swift; sourceTree = "<group>"; };
+		9B184123229D33D700600B7A /* Dim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dim.swift; sourceTree = "<group>"; };
+		9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HHElem+Create.swift"; sourceTree = "<group>"; };
+		9B26FD5822A2633A0002DA2F /* HHElem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHElem.swift; sourceTree = "<group>"; };
+		9B26FD5B22A2649F0002DA2F /* Step_7_createhh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_7_createhh.swift; sourceTree = "<group>"; };
+		9B26FD5D22A265210002DA2F /* CheckHH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckHH.swift; sourceTree = "<group>"; };
+		9B27DE1922A18BED00BB0642 /* Step_6_dimhh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_6_dimhh.swift; sourceTree = "<group>"; };
+		9B2993E0229E92FA0015C10A /* Step_5_im.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_5_im.swift; sourceTree = "<group>"; };
+		9B2993E2229E93BC0015C10A /* ImMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImMatrix.swift; sourceTree = "<group>"; };
+		9B2993E4229E95C50015C10A /* KoefIntMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KoefIntMatrix.swift; sourceTree = "<group>"; };
 		9B78BE55218362F800722B6D /* Step_1_calc_s.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_1_calc_s.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,6 +105,11 @@
 		0C07A722223EDA9100BF8C61 /* Matrix */ = {
 			isa = PBXGroup;
 			children = (
+				9B26FD5D22A265210002DA2F /* CheckHH.swift */,
+				9B26FD5822A2633A0002DA2F /* HHElem.swift */,
+				9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */,
+				9B2993E2229E93BC0015C10A /* ImMatrix.swift */,
+				9B2993E4229E95C50015C10A /* KoefIntMatrix.swift */,
 				0C07A723223EDA9100BF8C61 /* Matrix.swift */,
 			);
 			path = Matrix;
@@ -129,6 +154,10 @@
 				9B78BE55218362F800722B6D /* Step_1_calc_s.swift */,
 				0C07A727223EDB5A00BF8C61 /* Step_2_calc_dn.swift */,
 				0CADF8152284B3C00086090C /* Step_3_sigma_deg.swift */,
+				9B184121229D334E00600B7A /* Step_4_dimhom.swift */,
+				9B2993E0229E92FA0015C10A /* Step_5_im.swift */,
+				9B27DE1922A18BED00BB0642 /* Step_6_dimhh.swift */,
+				9B26FD5B22A2649F0002DA2F /* Step_7_createhh.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -150,6 +179,7 @@
 		0C7E5DF01AF3D9F7003A425A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				9B184123229D33D700600B7A /* Dim.swift */,
 				0C55D52F1CC3B5380051135A /* OutputFile.swift */,
 				0CAFC74522205384006DB03B /* PElements.swift */,
 				0CF6BDCA2198EA1C0054A309 /* PKer.swift */,
@@ -198,7 +228,7 @@
 			dependencies = (
 			);
 			name = E7;
-			productName = E_n_meb;
+			productName = E7;
 			productReference = 0C7E5DA31AF3D9D5003A425A /* E7.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -256,28 +286,38 @@
 				0CD3438C1CC9834D00FD9D61 /* Comb.swift in Sources */,
 				0C07A728223EDB5A00BF8C61 /* Step_2_calc_dn.swift in Sources */,
 				0C07A726223EDB2700BF8C61 /* PrintUtils.swift in Sources */,
+				9B2993E1229E92FA0015C10A /* Step_5_im.swift in Sources */,
 				0CCFF5A821D73195008F4045 /* WayKoef.swift in Sources */,
 				0CA652661CC843ED00272A59 /* Pairs.swift in Sources */,
+				9B27DE1A22A18BED00BB0642 /* Step_6_dimhh.swift in Sources */,
 				0C04E01D2249A5AD00F1E4E0 /* DiffProgram.swift in Sources */,
+				9B2993E3229E93BC0015C10A /* ImMatrix.swift in Sources */,
 				0C64F15F1CB93E3A00495383 /* PathAlg.swift in Sources */,
 				0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */,
+				9B26FD5922A2633A0002DA2F /* HHElem+Create.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0C07A721223ED9A800BF8C61 /* Diff+Create.swift in Sources */,
 				0C07A720223ED9A800BF8C61 /* Diff.swift in Sources */,
+				9B184122229D334E00600B7A /* Step_4_dimhom.swift in Sources */,
 				0CADF8162284B3C00086090C /* Step_3_sigma_deg.swift in Sources */,
+				9B184124229D33D700600B7A /* Dim.swift in Sources */,
 				0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */,
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
 				0CAFC74622205384006DB03B /* PElements.swift in Sources */,
+				9B26FD5E22A265210002DA2F /* CheckHH.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
 				0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */,
 				0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */,
 				0C07A724223EDA9100BF8C61 /* Matrix.swift in Sources */,
 				0CCDB4D321FE47FF003BE0D0 /* PKerThinUtils.swift in Sources */,
 				9B78BE56218362F800722B6D /* Step_1_calc_s.swift in Sources */,
+				9B2993E5229E95C50015C10A /* KoefIntMatrix.swift in Sources */,
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
+				9B26FD5A22A2633A0002DA2F /* HHElem.swift in Sources */,
 				0C07A71F223ED9A800BF8C61 /* CalcDiff.swift in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
+				9B26FD5C22A2649F0002DA2F /* Step_7_createhh.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

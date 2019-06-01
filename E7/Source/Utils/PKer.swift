@@ -8,13 +8,13 @@ struct PKer {
     private static var items: [[WayKoef]] = []
     private static var isIm = false
 
-    static func ker(_ homo: PHomo, onlyGen: Bool, logRemoves: Bool) -> PElements {
+    static func ker(_ homo: PHomo, onlyGen: Bool, logRemoves: Bool, removeWithLastZero: Bool) -> PElements {
         isIm = false
         tryAddAll(homo: homo)
         removeIndexes(PKerThinUtils.sumElemsIndexes(items))
         if !onlyGen { return PElements(type: .ker, items: items) }
         removeIndexes(PKerThinUtils.nonGenElemsIndexes(items))
-        if let i = findRemoveIndex() {
+        if let i = findRemoveIndex(withLastZero: removeWithLastZero) {
             if logRemoves {
                 OutputFile.writeLog(.simple, "$$\\text{remove }\(items[i].str)\\text{ from }" +
                     "\(items.map { $0.str }.joined(separator: ", "))$$\n")
@@ -204,7 +204,7 @@ struct PKer {
         return w
     }
 
-    private static func findRemoveIndex() -> Int? {
+    private static func findRemoveIndex(withLastZero: Bool) -> Int? {
         guard items.count == 3, items[0].count > 1,
             let i2 = items.firstIndex(where: { ii in return ii.contains(where: { $0.isZero }) == false }) else { return nil }
         let i0 = i2 == 0 ? 1 : 0
@@ -222,6 +222,9 @@ struct PKer {
         if indexes1.contains(1) || indexes2.contains(1) {
             let w0 = items[i0].first { $0.isZero == false }
             let w1 = items[i1].first { $0.isZero == false }
+            if withLastZero && w0!.ways[0].len == w1!.ways[0].len {
+                return items[i0][0].isZero ? i1 : i0
+            }
             return w0!.ways[0].len <= w1!.ways[0].len ? i1 : i0
         }
         return findRemoveIndex2()

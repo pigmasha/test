@@ -44,6 +44,13 @@ func twoDeg(_ k: Int) -> Int {
     return n
 }
 
+// 3^k
+func threeDeg(_ k: Int) -> Int {
+    var n = 1
+    for _ in 0 ..< k { n *= 3 }
+    return n
+}
+
 // (-1)^s
 func minusDeg(_ s: Int) -> Int {
     return s % 2 == 0 ? 1 : -1

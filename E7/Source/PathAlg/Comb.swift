@@ -113,17 +113,6 @@ final class Comb {
                     item.koef *= -1
                 }
                 arrays += [a]
-                /*let arr = arrow.last!
-                let isG = arrow.first!.intValue == ArrType.gamma.rawValue
-                if (isG) {
-                    if myModS(arr.intValue) != s - 1 { item.koef *= -1 }
-                    arr.intValue = arr.intValue + n * sk
-                } else {
-                    let k1 = myMod(arr.intValue, mod: 3)
-                    let hasS = myMod(arr.intValue, mod: 6 * s) >= 3 * s
-                    if (k1 == 0 && !hasS) || k1 == 1 || (k1 == 2 && hasS) { item.koef *= -1 }
-                    arr.intValue = arr.intValue + 3*(n+s) * sk
-                }*/
             }
             way.updateArrays(arrays)
             way.startsWith.number = PathAlg.sigma(way.startsWith.number)

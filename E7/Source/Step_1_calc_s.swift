@@ -41,7 +41,7 @@ struct Step_1_calc_s {
             Qs[d].sizes += [lastHomo.from.count]
             Qs[d].pij += lastHomo.from.map { ($0, i) }
             homos.append(lastHomo)
-            let myKer = PKer.ker(lastHomo, onlyGen: true, logRemoves: false)
+            let myKer = PKer.ker(lastHomo, onlyGen: true, logRemoves: false, removeWithLastZero: (d == 6 && i == 5) || (d == 8 && i == 4))
             //myKer.printTex()
             if myKer.items.count != 1 && myKer.items.count != 2 && myKer.items.count != 3 {
                 OutputFile.writeLog(.simple, "bad ker count \(myKer.items.count)")
@@ -68,7 +68,7 @@ struct Step_1_calc_s {
     //     h_2      h_1
     // Q_3 ---→ Q_2 ---→ Q_1
     private static func checkExact(_ homo1: PHomo, _ homo2: PHomo) -> Bool {
-        let ker = PKer.ker(homo1, onlyGen: false, logRemoves: false)
+        let ker = PKer.ker(homo1, onlyGen: false, logRemoves: false, removeWithLastZero: false)
         let im = PKer.im(homo2)
         var imErr = false
         for k in ker.items {
@@ -161,16 +161,27 @@ struct Step_1_calc_s {
         guard q1.count == q2.count else { return false }
         let s = PathAlg.s
         var qPos = 0
+        var sizeIndex = 0
         for size in sizes {
             for x in 0 ..< size {
                 for i in 0 ..< 1 {
-                    if q1[qPos+i*size+x].0 != q2[qPos+i+s*x].0 || q1[qPos+i*size+x].1 != q2[qPos+i+s*x].1 {
-                        OutputFile.writeLog(.simple, "x=\(x), \(qPos+i*size) != \(qPos+i)\n\n")
+                    let errorMessage: String?
+                    if q1[qPos+i*size+x].0 != q2[qPos+i+s*x].0 {
+                        errorMessage = "0: \(q1[qPos+i*size+x].0) != \(q2[qPos+i+s*x].0)"
+                    } else if q1[qPos+i*size+x].1 != q2[qPos+i+s*x].1 {
+                        errorMessage = "1: \(q1[qPos+i*size+x].1) != \(q2[qPos+i+s*x].1)"
+                    } else {
+                        errorMessage = nil
+                    }
+                    if let errorMessage = errorMessage {
+                        OutputFile.writeLog(.simple, "x=\(x), sizeIndex=\(sizeIndex), sizes \(sizes), qPos=\(qPos), "
+                            + " Q: \(q1[qPos+i*size+x]) & \(q2[qPos+i+s*x]) \(errorMessage)\n\n")
                         return false
                     }
                 }
             }
             qPos += s * size
+            sizeIndex += 1
         }
         let sq1 = q1.sorted { $0.1 == $1.1 ? $0.0 > $1.0 : $0.1 > $1.1 }
         let sq2 = q2.sorted { $0.1 == $1.1 ? $0.0 > $1.0 : $0.1 > $1.1 }

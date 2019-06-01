@@ -76,18 +76,20 @@ final class PrintUtils {
         file.write("</table><p>")
     }
 
-    /*static func printIm(_ prefix: String, _ m: ImMatrix) {
+    static func printIm(_ prefix: String, _ m: ImMatrix, deg: Int) {
         OutputFile.writeLog(.normal, prefix)
+        let posesFrom = posesFromDeg(deg)
+        let posesTo = posesFromDeg(deg + 1)
 
         let file = OutputFile()
         file.write("<table>")
         let rows = m.rows
         for i in 0 ..< rows.count {
-            let cellTop = cellBorder(i, nil)
+            let cellTop = cellBorder(i, posesFrom)
             file.write("<tr>")
             let line = rows[i]
             for j in 0 ..< line.count {
-                let cellLeft = cellBorder(j, nil)
+                let cellLeft = cellBorder(j, posesTo)
                 file.write("<td class='c_t_\(cellTop) c_l_\(cellLeft)'>")
                 let pp = line[j]
                 if pp.koef == 0 || pp.way == nil || pp.way!.isZero {
@@ -111,11 +113,11 @@ final class PrintUtils {
         let rows = m.rows
         for i in 0 ..< rows.count {
             if i < skipLines { continue }
-            let cellTop = cellBorder(i, posesTo)
+            let cellTop = cellBorder(i, posesFrom)
             file.write("<tr>")
             let line = rows[i]
             for j in 0 ..< line.count {
-                let cellLeft = cellBorder(j, posesFrom)
+                let cellLeft = cellBorder(j, posesTo)
                 file.write("<td class='c_t_\(cellTop) c_l_\(cellLeft)' width=16>")
                 let n = line[j]
                 file.write(n.intValue == 0 ? "&nbsp;</td>" : "\(n.intValue)</td>")
@@ -123,7 +125,7 @@ final class PrintUtils {
             file.writeln("</tr>")
         }
         file.write("</table><p>")
-    }*/
+    }
 
     private static func cellBorder(_ i: Int, _ poses: [Int]?) -> Int {
         guard i > 0 && (i % PathAlg.s) == 0 else { return 0 }
