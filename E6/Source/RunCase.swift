@@ -11,7 +11,6 @@ struct RunCase {
         case  4: return Step_4_dimhom.runCase()
         case  5: return Step_5_im.runCase()
         case  6: return Step_6_dimhh.runCase()
-        case  7: return Step_7_createhh.runCase()
         default: return false
         }
     }
@@ -24,7 +23,6 @@ struct RunCase {
         case  4: return "Dim Hom"
         case  5: return "Dim Im"
         case  6: return "Dim HH"
-        case  7: return "HH gen"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }

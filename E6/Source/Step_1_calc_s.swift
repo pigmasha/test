@@ -4,19 +4,19 @@
 
 struct Step_1_calc_s {
     static var Qs: [CalcBimodQ] = []
-    static let printHomos = false
+    static let printHomos = true
 
     static func runCase() -> Bool {
         Qs = []
         OutputFile.writeLog(.simple, header)
         OutputFile.writeLog(.simple, "N=\(PathAlg.n), S=\(PathAlg.s)\n\n")
         var res = false
-        for i in 0 ... 6 {
-            for j in 0 ..< PathAlg.s {
-                if processS(i+7*j) { res = true; break }
+        for i in 0 ... 5 {
+            for j in 0 ..< 1/*PathAlg.s*/ {
+                if processS(i+6*j) { res = true; break }
             }
         }
-        for d in 0 ..< Qs.count {
+        /*for d in 0 ..< Qs.count {
             let myQ = BimodQ(deg: d)
             if !checkSameQ(Qs[d].pij, myQ.ppp, myQ.sizes) {
                 OutputFile.writeLog(.simple, "ERROR deg=\(d)!\n")
@@ -26,7 +26,7 @@ struct Step_1_calc_s {
                 res = true
                 break
             }
-        }
+        }*/
         OutputFile.writeLog(.simple, "\\end{document}\n")
         return res
     }
@@ -36,12 +36,12 @@ struct Step_1_calc_s {
         let w = maxLenWay(end: i)
         var homos: [PHomo] = []
         var lastHomo = PHomo(from: [w.endsWith.number], to: [w.startsWith.number], matrix: [[WayKoef(koef: 1, way: w)]])
-        for d in 0 ... 20 {
+        for d in 0 ... 10 {
             if Qs.count < d + 1 { Qs += [CalcBimodQ()] }
             Qs[d].sizes += [lastHomo.from.count]
             Qs[d].pij += lastHomo.from.map { ($0, i) }
             homos.append(lastHomo)
-            let myKer = PKer.ker(lastHomo, onlyGen: true, logRemoves: false, removeWithLastZero: (d == 6 && i == 5) || (d == 8 && i == 4))
+            let myKer = PKer.ker(lastHomo, onlyGen: true, logRemoves: false, removeWithLastZero: (i % 6) == 0 && d == 3 ? false : nil)
             //myKer.printTex()
             if myKer.items.count != 1 && myKer.items.count != 2 && myKer.items.count != 3 {
                 OutputFile.writeLog(.simple, "bad ker count \(myKer.items.count)")
@@ -68,7 +68,7 @@ struct Step_1_calc_s {
     //     h_2      h_1
     // Q_3 ---→ Q_2 ---→ Q_1
     private static func checkExact(_ homo1: PHomo, _ homo2: PHomo) -> Bool {
-        let ker = PKer.ker(homo1, onlyGen: false, logRemoves: false, removeWithLastZero: false)
+        let ker = PKer.ker(homo1, onlyGen: false, logRemoves: false, removeWithLastZero: nil)
         let im = PKer.im(homo2)
         var imErr = false
         for k in ker.items {
@@ -209,9 +209,9 @@ struct Step_1_calc_s {
     }
 
     private static func kStr(_ k: Int) -> String {
-        guard k != 0 else { return "7r" }
-        guard k > 7 else { return "7r+\(k)" }
-        return "7(r+\(k/7))" + (k % 7 == 0 ? "" : "+\(k%7)")
+        guard k != 0 else { return "6r" }
+        guard k > 6 else { return "6r+\(k)" }
+        return "6(r+\(k/6))" + (k % 6 == 0 ? "" : "+\(k%6)")
     }
 }
 

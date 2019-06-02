@@ -36,10 +36,6 @@
 		0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF6BDCA2198EA1C0054A309 /* PKer.swift */; };
 		9B184122229D334E00600B7A /* Step_4_dimhom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B184121229D334E00600B7A /* Step_4_dimhom.swift */; };
 		9B184124229D33D700600B7A /* Dim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B184123229D33D700600B7A /* Dim.swift */; };
-		9B26FD5922A2633A0002DA2F /* HHElem+Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */; };
-		9B26FD5A22A2633A0002DA2F /* HHElem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5822A2633A0002DA2F /* HHElem.swift */; };
-		9B26FD5C22A2649F0002DA2F /* Step_7_createhh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5B22A2649F0002DA2F /* Step_7_createhh.swift */; };
-		9B26FD5E22A265210002DA2F /* CheckHH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B26FD5D22A265210002DA2F /* CheckHH.swift */; };
 		9B27DE1A22A18BED00BB0642 /* Step_6_dimhh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B27DE1922A18BED00BB0642 /* Step_6_dimhh.swift */; };
 		9B2993E1229E92FA0015C10A /* Step_5_im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2993E0229E92FA0015C10A /* Step_5_im.swift */; };
 		9B2993E3229E93BC0015C10A /* ImMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2993E2229E93BC0015C10A /* ImMatrix.swift */; };
@@ -61,7 +57,7 @@
 		0C60C9291E34F78400F285AC /* RunCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase.swift; sourceTree = "<group>"; };
 		0C64F15E1CB93E3A00495383 /* PathAlg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathAlg.swift; sourceTree = "<group>"; };
 		0C64F1601CB9474D00495383 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
-		0C7E5DA31AF3D9D5003A425A /* E7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = E7.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C7E5DA31AF3D9D5003A425A /* E6.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = E6.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C7E5DC71AF3D9F7003A425A /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0C7E5DC81AF3D9F7003A425A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -79,10 +75,6 @@
 		0CF6BDCA2198EA1C0054A309 /* PKer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKer.swift; sourceTree = "<group>"; };
 		9B184121229D334E00600B7A /* Step_4_dimhom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_4_dimhom.swift; sourceTree = "<group>"; };
 		9B184123229D33D700600B7A /* Dim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dim.swift; sourceTree = "<group>"; };
-		9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HHElem+Create.swift"; sourceTree = "<group>"; };
-		9B26FD5822A2633A0002DA2F /* HHElem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHElem.swift; sourceTree = "<group>"; };
-		9B26FD5B22A2649F0002DA2F /* Step_7_createhh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_7_createhh.swift; sourceTree = "<group>"; };
-		9B26FD5D22A265210002DA2F /* CheckHH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckHH.swift; sourceTree = "<group>"; };
 		9B27DE1922A18BED00BB0642 /* Step_6_dimhh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_6_dimhh.swift; sourceTree = "<group>"; };
 		9B2993E0229E92FA0015C10A /* Step_5_im.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_5_im.swift; sourceTree = "<group>"; };
 		9B2993E2229E93BC0015C10A /* ImMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImMatrix.swift; sourceTree = "<group>"; };
@@ -105,9 +97,6 @@
 		0C07A722223EDA9100BF8C61 /* Matrix */ = {
 			isa = PBXGroup;
 			children = (
-				9B26FD5D22A265210002DA2F /* CheckHH.swift */,
-				9B26FD5822A2633A0002DA2F /* HHElem.swift */,
-				9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */,
 				9B2993E2229E93BC0015C10A /* ImMatrix.swift */,
 				9B2993E4229E95C50015C10A /* KoefIntMatrix.swift */,
 				0C07A723223EDA9100BF8C61 /* Matrix.swift */,
@@ -128,7 +117,7 @@
 		0C7E5DA41AF3D9D5003A425A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0C7E5DA31AF3D9D5003A425A /* E7.app */,
+				0C7E5DA31AF3D9D5003A425A /* E6.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,7 +146,6 @@
 				9B184121229D334E00600B7A /* Step_4_dimhom.swift */,
 				9B2993E0229E92FA0015C10A /* Step_5_im.swift */,
 				9B27DE1922A18BED00BB0642 /* Step_6_dimhh.swift */,
-				9B26FD5B22A2649F0002DA2F /* Step_7_createhh.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -215,9 +203,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0C7E5DA21AF3D9D5003A425A /* E7 */ = {
+		0C7E5DA21AF3D9D5003A425A /* E6 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0C7E5DC01AF3D9D5003A425A /* Build configuration list for PBXNativeTarget "E7" */;
+			buildConfigurationList = 0C7E5DC01AF3D9D5003A425A /* Build configuration list for PBXNativeTarget "E6" */;
 			buildPhases = (
 				0C7E5D9F1AF3D9D5003A425A /* Sources */,
 				0C7E5DA01AF3D9D5003A425A /* Frameworks */,
@@ -227,9 +215,9 @@
 			);
 			dependencies = (
 			);
-			name = E7;
-			productName = E7;
-			productReference = 0C7E5DA31AF3D9D5003A425A /* E7.app */;
+			name = E6;
+			productName = E6;
+			productReference = 0C7E5DA31AF3D9D5003A425A /* E6.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -247,7 +235,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0C7E5D9E1AF3D9D5003A425A /* Build configuration list for PBXProject "E7" */;
+			buildConfigurationList = 0C7E5D9E1AF3D9D5003A425A /* Build configuration list for PBXProject "E6" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -261,7 +249,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0C7E5DA21AF3D9D5003A425A /* E7 */,
+				0C7E5DA21AF3D9D5003A425A /* E6 */,
 			);
 		};
 /* End PBXProject section */
@@ -294,7 +282,6 @@
 				9B2993E3229E93BC0015C10A /* ImMatrix.swift in Sources */,
 				0C64F15F1CB93E3A00495383 /* PathAlg.swift in Sources */,
 				0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */,
-				9B26FD5922A2633A0002DA2F /* HHElem+Create.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0C07A721223ED9A800BF8C61 /* Diff+Create.swift in Sources */,
 				0C07A720223ED9A800BF8C61 /* Diff.swift in Sources */,
@@ -304,7 +291,6 @@
 				0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */,
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
 				0CAFC74622205384006DB03B /* PElements.swift in Sources */,
-				9B26FD5E22A265210002DA2F /* CheckHH.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
 				0C55D5301CC3B5380051135A /* OutputFile.swift in Sources */,
 				0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */,
@@ -313,11 +299,9 @@
 				9B78BE56218362F800722B6D /* Step_1_calc_s.swift in Sources */,
 				9B2993E5229E95C50015C10A /* KoefIntMatrix.swift in Sources */,
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
-				9B26FD5A22A2633A0002DA2F /* HHElem.swift in Sources */,
 				0C07A71F223ED9A800BF8C61 /* CalcDiff.swift in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
-				9B26FD5C22A2649F0002DA2F /* Step_7_createhh.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +423,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0C7E5D9E1AF3D9D5003A425A /* Build configuration list for PBXProject "E7" */ = {
+		0C7E5D9E1AF3D9D5003A425A /* Build configuration list for PBXProject "E6" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0C7E5DBE1AF3D9D5003A425A /* Debug */,
@@ -448,7 +432,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0C7E5DC01AF3D9D5003A425A /* Build configuration list for PBXNativeTarget "E7" */ = {
+		0C7E5DC01AF3D9D5003A425A /* Build configuration list for PBXNativeTarget "E6" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0C7E5DC11AF3D9D5003A425A /* Debug */,

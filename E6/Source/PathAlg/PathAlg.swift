@@ -19,7 +19,7 @@ func myMod2S(_ number: Int) -> Int {
 
 final class PathAlg {
     static var vertexMod: Int {
-        return 7 * s
+        return 6 * s
     }
 
     static var s: Int {
@@ -55,10 +55,15 @@ final class PathAlg {
     private var s = 0
     private var charK = 0
 
-    static let twistPeriod = 17
+    static let twistPeriod = 11
 
     static func sigma(_ i: Int) -> Int {
-        return 9 * n + i
+        let i6 = myMod(i, mod: 6)
+        if i6 == 0 || i6 == 5 {
+            return i + n * n
+        } else {
+            return i + n * n + (i6 < 3 ? 2 : -2)
+        }
     }
 
     static func modCharK(_ k: Int) -> Int {

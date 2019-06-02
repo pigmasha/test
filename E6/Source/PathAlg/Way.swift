@@ -39,28 +39,28 @@ final class Way {
         let v = Vertex(i: from)
         while true {
             if v.isEq(vEnd) && (!noZeroLen || arr.count > 0) { break }
-            if arr.count > 5 { isZero = true; break }
+            if arr.count > 4 { isZero = true; break }
 
-            let x_from = v.number % 7
+            let x_from = v.number % 6
             let wayArr: WayArr
             switch x_from {
             case 0:
-                let x_to = vEnd.number % 7
-                if x_to == 4 || x_to == 5 {
+                let x_to = vEnd.number % 6
+                if x_to == 3 || x_to == 4 {
                     wayArr = WayArr(type: .beta, i: 3 * v.number)
-                    v.number += 4
+                    v.number += 3
                 } else {
-                    wayArr = WayArr(type: .alpha, i: 4 * v.number)
+                    wayArr = WayArr(type: .alpha, i: 3 * v.number)
                     v.number += 1
                 }
-            case 1...3:
-                wayArr = WayArr(type: .alpha, i: 4 * (v.number / 7) + x_from)
-                v.number += (x_from == 3 ? 3 : 1)
-            case 4...5:
-                wayArr = WayArr(type: .beta, i: 3 * (v.number / 7) + x_from - 3)
+            case 1...2:
+                wayArr = WayArr(type: .alpha, i: 3 * (v.number / 6) + x_from)
+                v.number += (x_from == 2 ? 3 : 1)
+            case 3...4:
+                wayArr = WayArr(type: .beta, i: 3 * (v.number / 6) + x_from - 2)
                 v.number += 1
-            case 6:
-                wayArr = WayArr(type: .gamma, i: v.number / 7)
+            case 5:
+                wayArr = WayArr(type: .gamma, i: v.number / 6)
                 v.number += 1
             default: fatalError("bad \(x_from)")
             }
@@ -153,7 +153,7 @@ final class Way {
         var ss = ""
         for w in arr {
             switch w.type {
-            case .alpha: ss += "a\(myMod(w.i, mod: 4 * s))"
+            case .alpha: ss += "a\(myMod(w.i, mod: 3 * s))"
             case .beta: ss += "b\(myMod(w.i, mod: 3 * s))"
             case .gamma: ss += "g\(myMod(w.i, mod: s))"
             }
@@ -200,13 +200,12 @@ final class Way {
     func isEq(_ other: Way) -> Bool {
         if isZero || other.isZero { return false }
         if !vStart.isEq(other.startsWith) || !vEnd.isEq(other.endsWith) { return false }
-        if (len == 0 && other.len != 0) || (len != 0 && other.len == 0) { return false }
-        return true
+        return len == other.len
     }
 
     private var isZeroSmart: Bool {
-        if arr.count > 5 { return true }
-        if arr.contains(where: { $0.type == .beta }) && (arr.contains(where: { $0.type == .alpha }) || arr.count > 4) {
+        if arr.count > 4 { return true }
+        if arr.contains(where: { $0.type == .beta }) && arr.contains(where: { $0.type == .alpha }) {
             return true
         }
         return false
