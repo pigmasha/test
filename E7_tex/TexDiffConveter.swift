@@ -28,7 +28,7 @@ struct TexDiffConveter {
                 throw TexDiffConverterError.noMatrixSize("part \(d): no matrix size \(s)")
             }
             str += "\n\\centerline{\\bf Description of the $d_{\(d)}$}\n"
-            str += "\\centerline{$d_{\(d)}:Q_{\(d+1)}\\rightarrow Q_{\(d)}\\text{ -- is an } (\(sizes[0])\\times \(sizes[1]))\\text{ matrix}.$}\n"
+            str += "\\centerline{$d_{\(d)}:Q_{\(d+1)}\\rightarrow Q_{\(d)}\\text{ -- is an } (\(sizes[1])\\times \(sizes[0]))\\text{ matrix}.$}\n"
             let fors = s.components(separatedBy: "for j in ")
             for i in 1 ..< fors.count {
                 var forStr = fors[i]
