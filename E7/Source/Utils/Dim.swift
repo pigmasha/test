@@ -133,20 +133,10 @@ struct Dim {
         }
         let eq0 = (m + 9 * ell) % s == 0
         let eq1 = (m + 9 * ell) % s == 1
-        switch d {
-        case 0, 8, 16:
-            if eq0 && ((ell + m) % 2 == 0 || charK == 2) { return 1 }
-            if eq1 && ((ell + m) % 2 == 1 || charK == 2) { return 1 }
-        case 1, 3, 7, 9, 12, 13, 15:
-            if eq0 && ((ell + m) % 2 == 0 || charK == 2) { return 1 }
-        case 4:
-            if eq1 && ((ell + m) % 2 == 1 || charK == 2) { return 1 }
-        case 6:
-            if eq1 && (ell + m) % 2 == 1 && charK == 3 { return 1 }
-        case 5, 10, 11:
-            if eq0 && (ell + m) % 2 == 0 && charK == 3 { return 1 }
-        default: break
-        }
+        if [0, 1, 3, 7, 8, 9, 12, 13, 15, 16].contains(d) && eq0 && ((ell + m) % 2 == 0 || charK == 2) { return 1 }
+        if [0, 4, 8, 16].contains(d) && eq1 && ((ell + m) % 2 == 1 || charK == 2) { return 1 }
+        if [6].contains(d) && eq1 && (ell + m) % 2 == 1 && charK == 3 { return 1 }
+        if [5, 10, 11].contains(d) && eq0 && (ell + m) % 2 == 0 && charK == 3 { return 1 }
         return 0
     }
 }
