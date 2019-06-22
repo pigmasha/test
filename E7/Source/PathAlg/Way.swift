@@ -42,25 +42,26 @@ final class Way {
             if arr.count > 5 { isZero = true; break }
 
             let x_from = v.number % 7
+            let g_from = v.number / 7
             let wayArr: WayArr
             switch x_from {
             case 0:
                 let x_to = vEnd.number % 7
                 if x_to == 4 || x_to == 5 {
-                    wayArr = WayArr(type: .beta, i: 3 * v.number)
+                    wayArr = WayArr(type: .beta, i: 3 * g_from)
                     v.number += 4
                 } else {
-                    wayArr = WayArr(type: .alpha, i: 4 * v.number)
+                    wayArr = WayArr(type: .alpha, i: 4 * g_from)
                     v.number += 1
                 }
             case 1...3:
-                wayArr = WayArr(type: .alpha, i: 4 * (v.number / 7) + x_from)
+                wayArr = WayArr(type: .alpha, i: 4 * g_from + x_from)
                 v.number += (x_from == 3 ? 3 : 1)
             case 4...5:
-                wayArr = WayArr(type: .beta, i: 3 * (v.number / 7) + x_from - 3)
+                wayArr = WayArr(type: .beta, i: 3 * g_from + x_from - 3)
                 v.number += 1
             case 6:
-                wayArr = WayArr(type: .gamma, i: v.number / 7)
+                wayArr = WayArr(type: .gamma, i: g_from)
                 v.number += 1
             default: fatalError("bad \(x_from)")
             }

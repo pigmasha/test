@@ -69,4 +69,13 @@ final class PathAlg {
         while k2 < 0 { k2 += charK }
         return charK == 3 && k2 == 2 ? -1 : k2
     }
+
+    static func modCharK2(_ k: Double) -> Double {
+        let charK = Double(PathAlg.charK)
+        guard charK != 0 else { return k }
+        var k2 = k
+        while k2 >= charK { k2 -= charK }
+        while k2 < 0 { k2 += charK }
+        return charK == 3 && k2 == 2 ? -1 : k2
+    }
 }
