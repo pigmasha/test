@@ -16,7 +16,7 @@ struct ShiftAlgAll {
     private enum GoodPosMode { case first, last, index1 }
 
     private static var bySVal = true
-    private static let diagMatrix = true
+    private static let diagMatrix = false
 
     static func allVariants(for hh: HHElem, degree: Int, shift: Int) -> ShiftAllVariants? {
         let multRes = Matrix(mult: hh, and: Diff(deg: degree + shift - 1))

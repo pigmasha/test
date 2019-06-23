@@ -43,13 +43,9 @@ final class OutputFile {
         case .h2:
             return "<h2>\n"
         case .time:
-            let t = time(nil)
-            let t0 = t / 60
-            return  String(format: "<b>%02d:%02d:%02d \n", Int((t0 / 60) % 60), Int(t0 % 60), Int(t % 60))
+            return "<b>" + DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium) + " \n"
         case .simpleTime:
-            let t = time(nil)
-            let t0 = t / 60
-            return  String(format: "%02d:%02d:%02d \n", Int((t0 / 60) % 60), Int(t0 % 60), Int(t % 60))
+            return DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium) + " "
         case .normal, .simple:
             return ""
         }

@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_9_select_shift {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
+        OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
         for deg in 0...30 * PathAlg.twistPeriod + 2 {

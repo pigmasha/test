@@ -6,7 +6,7 @@ import Foundation
 
 struct Step_10_shift_check {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
+        OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
         for deg in 0...(PathAlg.s == 1 ? 125 : 10) * PathAlg.s * PathAlg.twistPeriod + 2 {

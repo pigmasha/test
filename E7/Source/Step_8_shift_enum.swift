@@ -8,7 +8,7 @@ struct Step_8_shift_enum {
     static let stopAtLast = true
 
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "N=\(PathAlg.n), S=\(PathAlg.s), Char=\(PathAlg.charK)")
+        OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
         if (process(type: type)) { return true }
@@ -72,8 +72,8 @@ struct Step_8_shift_enum {
                 }
             }
             if shift % PathAlg.twistPeriod == 0 {
-                processLastShift(variants: allVariants!, shift: shift, firstHH: hh0, type: type)
-                if stopAtLast { break }
+                let isGood = processLastShift(variants: allVariants!, shift: shift, firstHH: hh0, type: type)
+                if stopAtLast && isGood { break }
                 shift = stepBack(shift: shift)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)
@@ -89,7 +89,7 @@ struct Step_8_shift_enum {
         return false
     }
 
-    private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem, type: Int) {
+    private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem, type: Int) -> Bool {
         var seqStr = ""
         for sh in shift - PathAlg.twistPeriod + 1 ..< shift {
             if let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh)) {
@@ -101,23 +101,20 @@ struct Step_8_shift_enum {
         let s = PathAlg.s
         var isGood = true
         switch type {
-        case 12, 19: isGood = hh.nonZeroCount == 2
-        case 8, 15, 22, 23, 24: isGood = hh.nonZeroCount == 1
-        case 17: isGood = hh.maxNonZeroPos.1 < 2*s && hh.maxNonZeroPos.0 < 2*s
-        case 16: isGood = hh.maxNonZeroPos.1 < 3*s && hh.maxNonZeroPos.0 < 3*s
-        case 20: for j in 0 ..< 2*s { if hh.rows[j][j].isZero { isGood = false } }
-        case 21: for j in 0 ..< s { if hh.rows[j][j].isZero { isGood = false } }
+        case 3: isGood = hh.maxNonZeroPos.1 < 2*s && hh.nonZeroCount == 2
         default: break
         }
-        if isGood {
-            let path = OutputFile.fileName!
-            try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
-            OutputFile.writeLog(.bold, "RESULT")
-            OutputFile.writeLog(.normal, seqStr)
-            //PrintUtils.printMatrixKoefs(hh, colsMax: PathAlg.s, rowsMax: PathAlg.s)
-            PrintUtils.printMatrix("HH", hh)
-            try? OutputFile.setFileName(fileName: path)
+        guard isGood else {
+            return false
         }
+        let path = OutputFile.fileName!
+        try? OutputFile.setFileName(fileName: path + "_s\(PathAlg.s).html")
+        OutputFile.writeLog(.bold, "RESULT")
+        OutputFile.writeLog(.normal, seqStr)
+        //PrintUtils.printMatrixKoefs(hh, colsMax: PathAlg.s, rowsMax: PathAlg.s)
+        PrintUtils.printMatrix("HH", hh)
+        try? OutputFile.setFileName(fileName: path)
+        return isGood
     }
 
     private static func stepBack(shift: Int) -> Int {
