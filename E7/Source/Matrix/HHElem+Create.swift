@@ -93,7 +93,8 @@ extension HHElem {
     private func createHH7() {
         let s = PathAlg.s
         makeZeroMatrix(12*s, h: 7*s)
-        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:6, right:0, koef:1)
+        let j = 10*s
+        HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:7*j+6, leftTo:7*(j+1)+6, right:7*j+6, koef:1)
     }
     private func createHH8() {
         let s = PathAlg.s

@@ -40,13 +40,13 @@ struct Step_9_select_shift {
         
         var shift = 1 + shiftFrom
         while true {
-            let path = pathWithShift(shift)
+            let path = Utils.pathWithShift(shift, type: type)
             var allVariants: ShiftAllVariants? = nil
             if (FileManager.default.fileExists(atPath: path)) {
                 allVariants = ShiftAllVariants(withContentsOf: path)
             } else {
                 allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
-                let _ = allVariants!.writeToFile(pathWithShift(shift))
+                let _ = allVariants!.writeToFile(Utils.pathWithShift(shift, type: type))
             }
             guard allVariants != nil else {
                 OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
@@ -63,8 +63,8 @@ struct Step_9_select_shift {
                 ShiftHHGenProgram(hhElem: hh, shift: shift, isOdd: isOdd).printProgram()
                 if shift + 1 < PathAlg.twistPeriod {
                     for i in shift + 1 ..< PathAlg.twistPeriod {
-                        if FileManager.default.fileExists(atPath: pathWithShift(i)) {
-                            allVariants = ShiftAllVariants(withContentsOf: pathWithShift(i))
+                        if FileManager.default.fileExists(atPath: Utils.pathWithShift(i, type: type)) {
+                            allVariants = ShiftAllVariants(withContentsOf: Utils.pathWithShift(i, type: type))
                             hh = ShiftAllSelect.select(from: allVariants!, type: type, shift: i)
                             ShiftHHGenProgram(hhElem: hh, shift: i, isOdd: isOdd).printProgram()
                         } else {
@@ -91,9 +91,5 @@ struct Step_9_select_shift {
             return false
         }
         return true
-    }
-
-    private static func pathWithShift(_ shift: Int) -> String {
-        return OutputFile.fileName! + ".s\(PathAlg.s).sh\(shift).txt"
     }
 }

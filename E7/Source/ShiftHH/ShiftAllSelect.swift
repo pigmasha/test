@@ -37,6 +37,16 @@ struct ShiftAllSelect {
             } else {
                 if type == 3 && (shift == 15 || shift == 16 && col < s) {
                     hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 5 && shift == 16 && col < 2*s && col >= s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 6 && shift == 15 && col < s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 6 && shift == 16 && (col < 2*s || col >= 5*s) {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 7 && shift == 16 {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 8 && shift == 16 && (col < 2*s || col >= 11*s) {
+                    hh.addMatrixX(variants.last!.hh, x: col)
                 } else {
                     hh.addMatrixX(variants[0].hh, x: col)
                 }

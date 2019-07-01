@@ -18,28 +18,31 @@ final class Application: NSApplication {
 }
 
 @NSApplicationMain
-final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
     private let kNN = 7
+    private var terminateByClose = true
 
     private let kButtonW: CGFloat = 100
     private let kButtonH: CGFloat = 24
     private let kLabelFontSz: CGFloat = 15
 
-    private var window: NSWindow? = nil
-    private var path: NSTextField? = nil
+    private var mainWindow: MainWindow? = nil
+    private var statusBarItem: NSStatusItem?
+    private let path = NSTextField(frame: .zero)
     private var info: NSTextView? = nil
-    private var sFrom: NSTextField? = nil
-    private var sTo: NSTextField? = nil
-    private var charKFrom: NSTextField? = nil
-    private var charKTo: NSTextField? = nil
-    private var dummy1: NSTextField? = nil
-    private var currentType: NSTextField? = nil
-    private var currentStep: NSTextField? = nil
+    private let sFrom = NSTextField(frame: .zero)
+    private let sTo = NSTextField(frame: .zero)
+    private let charKFrom = NSTextField(frame: .zero)
+    private let charKTo = NSTextField(frame: .zero)
+    private let dummy1 = NSTextField(frame: .zero)
+    private let currentType = NSTextField(frame: .zero)
+    private let currentStep = NSTextField(frame: .zero)
 
-    private var btRun: NSButton? = nil
-    private var btFile: NSButton? = nil
-    private var btCancel: NSButton? = nil
-    private var btOpen: NSButton? = nil
+    private let btRun = NSButton(frame: .zero)
+    private let btFile = NSButton(frame: .zero)
+    private let btCancel = NSButton(frame: .zero)
+    private let btOpen = NSButton(frame: .zero)
+    private let btSwitch = NSButton(frame: .zero)
 
     private var isRun = false
     private var isErr = false
@@ -47,55 +50,48 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var charMax = 0
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let window = NSWindow(contentRect: NSMakeRect(0, 0, 700, 520),
-                              styleMask: [.titled, .closable, .miniaturizable, .resizable],
-                              backing: .buffered,
-                              defer: false)
-        window.minSize = NSMakeSize(700, 450)
-        window.title = "E7"
-        window.delegate = self
-        self.window = window
+        self.mainWindow = MainWindow()
 
-        let v = window.contentView!
+        let v = mainWindow!.window!.contentView!
         let w = v.bounds.width
         var y = v.bounds.height - 20 - kButtonH
 
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: 10, y: y - 3, w: 70, text: "Html file:")
-        path = addField(to: v, autoSz: [ .width, .minYMargin], x: 90, y: y, w: w - 2 * kButtonW - 10)
-        btFile = addButton(to: v, title: "Browse...", action: #selector(onFile),
-                           autoSz: [.minXMargin, .minYMargin], x: w - kButtonW - 10, y: y)
+        addField(path, to: v, autoSz: [ .width, .minYMargin], x: 90, y: y, w: w - 2 * kButtonW - 10)
+        addButton(btFile, to: v, title: "Browse...", action: #selector(onFile),
+                  autoSz: [.minXMargin, .minYMargin], x: w - kButtonW - 10, y: y)
 
         // s, n, char
         y -= 44
         addLabel(to: v, align: .left, autoSz: .minYMargin, x: 20, y: y - 3, w: 50, text: "N = \(kNN)")
         var x: CGFloat = 70
-        sFrom = addField(to: v, autoSz: .minYMargin, x: x + 22, y: y, w: 40)
+        addField(sFrom, to: v, autoSz: .minYMargin, x: x + 22, y: y, w: 40)
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 55, y: y - 3, w: 50, text: "≤ S ≤")
-        sTo = addField(to: v, autoSz: .minYMargin, x: x + 110, y: y, w: 40)
+        addField(sTo, to: v, autoSz: .minYMargin, x: x + 110, y: y, w: 40)
 
         x += 180
-        charKFrom = addField(to: v, autoSz: .minYMargin, x: x + 16, y: y, w: 40)
+        addField(charKFrom, to: v, autoSz: .minYMargin, x: x + 16, y: y, w: 40)
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 55, y: y - 3, w: 65, text: "≤ char ≤")
-        charKTo = addField(to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
+        addField(charKTo, to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
 
         x += 150
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 35, y: y - 3, w: 85, text: "Step From")
-        dummy1 = addField(to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
+        addField(dummy1, to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
 
         x += 150
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Type")
-        currentType = addField(to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
+        addField(currentType, to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
 
         // run
         y -= 44
-        btRun = addButton(to: v, title: "Run", action: #selector(onRun), autoSz: .minYMargin, x: 90, y: y)
-        btOpen = addButton(to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
+        addButton(btRun, to: v, title: "Run", action: #selector(onRun), autoSz: .minYMargin, x: 90, y: y)
+        addButton(btOpen, to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
 
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Step")
-        currentStep = addField(to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
+        addField(currentStep, to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
 
         loadDefaults()
-        btOpen?.title = (self.path?.stringValue ?? "").hasSuffix(".tex") ? "Open tex" : "Open html"
+        btOpen.title = path.stringValue.hasSuffix(".tex") ? "Open tex" : "Open html"
 
         // info
         y -= 44
@@ -114,11 +110,12 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         self.info = info
 
         // cancel
-        btCancel = addButton(to: v, title: "Exit", action: #selector(onCancel), autoSz: .minXMargin, x: w - kButtonW - 10, y: 10)
+        addButton(btCancel, to: v, title: "Exit", action: #selector(onCancel), autoSz: .minXMargin, x: w - kButtonW - 10, y: 10)
+        addButton(btSwitch, to: v, title: "Menu mode", action: #selector(onSwitch), autoSz: .minXMargin, x: w - 2*kButtonW - 20, y: 10)
 
         // show
-        window.center()
-        window.makeKeyAndOrderFront(NSApp)
+        mainWindow?.window?.center()
+        mainWindow?.window?.makeKeyAndOrderFront(NSApp)
 
         //DispatchQueue.main.async { [weak self] in self?.onRun() }
     }
@@ -132,18 +129,18 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         saveDefaults()
         guard isRun == false else { return }
 
-        PathAlg.alg.currentStep = currentStep?.integerValue ?? 0
+        PathAlg.alg.currentStep = currentStep.integerValue
         let n = kNN
         info?.string = ""
         addInfoStr(RunCase.stepTitle)
         addInfoStr("Check params")
 
-        let s = sTo?.integerValue ?? 0
+        let s = sTo.integerValue
         guard s > 0 else {
             addInfoStr("ERROR! s < 1")
             return
         }
-        let path = self.path?.stringValue ?? ""
+        let path = self.path.stringValue
         guard path != "" else {
             addInfoStr("ERROR! Select .html")
             return
@@ -154,9 +151,9 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         PathAlg.n = n;
         sMax = s
-        charMax = charKTo?.integerValue ?? 0
-        PathAlg.alg.dummy1 = dummy1?.integerValue ?? 0
-        PathAlg.alg.currentType = currentType?.integerValue ?? 0
+        charMax = charKTo.integerValue
+        PathAlg.alg.dummy1 = dummy1.integerValue
+        PathAlg.alg.currentType = currentType.integerValue
 
         do {
             try OutputFile.setFileName(fileName: path)
@@ -166,13 +163,13 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
 
         isRun = true
-        btRun?.isEnabled = false
-        btCancel?.isEnabled = false
-        btFile?.isEnabled = false
+        btRun.isEnabled = false
+        btCancel.isEnabled = false
+        btFile.isEnabled = false
         isErr = false
 
-        PathAlg.s = sFrom?.integerValue ?? 0
-        PathAlg.charK = charKFrom?.integerValue ?? 0
+        PathAlg.s = sFrom.integerValue
+        PathAlg.charK = charKFrom.integerValue
         addInfoStr("s=\(PathAlg.s), char=\(PathAlg.charK)")
         Application.shared.dockTile.badgeLabel = "•"
         performSelector(inBackground: #selector(threadCase), with: nil)
@@ -194,7 +191,7 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         while (!isPrimary(charK)) { charK += 1 }
 
         if (charK > charMax) {
-            charK = charKFrom?.integerValue ?? 0
+            charK = charKFrom.integerValue
             s += 1
         }
         if (s > sMax) {
@@ -210,9 +207,9 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     private func onRunFinish() {
         isRun = false
-        btRun?.isEnabled = true
-        btCancel?.isEnabled = true
-        btFile?.isEnabled = true
+        btRun.isEnabled = true
+        btCancel.isEnabled = true
+        btFile.isEnabled = true
         Application.shared.dockTile.badgeLabel = nil
     }
 
@@ -222,10 +219,10 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         p.message = "Save to .html"
         p.nameFieldStringValue = "res"
         p.allowedFileTypes = ["html"]
-        p.beginSheetModal(for: window!) { [unowned self] returnCode in
+        p.beginSheetModal(for: mainWindow!.window!) { [unowned self] returnCode in
             if returnCode == .OK {
-                self.path?.stringValue = p.url?.path ?? ""
-                self.btOpen?.title = (self.path?.stringValue ?? "").hasSuffix(".tex") ? "Open tex" : "Open html"
+                self.path.stringValue = p.url?.path ?? ""
+                self.btOpen.title = self.path.stringValue.hasSuffix(".tex") ? "Open tex" : "Open html"
                 self.saveDefaults()
             }
         }
@@ -233,12 +230,29 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
     @objc func onCancel() {
         saveDefaults()
         if isRun == false {
-            window?.close()
+            terminateByClose = true
+            mainWindow?.window?.close()
         }
     }
     @objc func onOpen() {
-        NSWorkspace.shared.openFile(path!.stringValue)
+        NSWorkspace.shared.openFile(path.stringValue)
         onCancel()
+    }
+
+    @objc func onSwitch() {
+        terminateByClose = !terminateByClose
+        if terminateByClose {
+            statusBarItem = nil
+            NSApp.setActivationPolicy(.regular)
+        } else {
+            statusBarItem = statusBarItem ?? NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+            statusBarItem?.button.flatMap { button in
+                button.title = "E7"
+                button.target = self
+                button.action = #selector(showApp)
+            }
+            NSApp.setActivationPolicy(.accessory)
+        }
     }
 
     // MARK: UI
@@ -254,56 +268,79 @@ final class AppDelegate : NSObject, NSApplicationDelegate, NSWindowDelegate {
         view.stringValue = text
         superView.addSubview(view)
     }
-    private func addField(to superView: NSView, autoSz: NSView.AutoresizingMask, x: CGFloat, y: CGFloat, w: CGFloat) -> NSTextField {
-        let view = NSTextField(frame: NSMakeRect(x, y, w, kButtonH))
-        view.autoresizingMask = autoSz
-        view.font = .systemFont(ofSize: kLabelFontSz)
-        superView.addSubview(view)
-        return view
+    private func addField(_ field: NSTextField, to superView: NSView, autoSz: NSView.AutoresizingMask, x: CGFloat, y: CGFloat, w: CGFloat) {
+        field.frame = NSMakeRect(x, y, w, kButtonH)
+        field.autoresizingMask = autoSz
+        field.font = .systemFont(ofSize: kLabelFontSz)
+        superView.addSubview(field)
     }
-    private func addButton(to superView: NSView, title: String, action: Selector, autoSz: NSView.AutoresizingMask,
-                           x: CGFloat, y: CGFloat) -> NSButton {
-        let view = NSButton(frame: NSMakeRect(x, y, kButtonW, kButtonH))
-        view.autoresizingMask = autoSz
-        view.bezelStyle = .rounded
-        view.font = .systemFont(ofSize: 13)
-        view.title = title
-        view.target = self
-        view.action = action
-        superView.addSubview(view)
-        return view
+    private func addButton(_ button: NSButton, to superView: NSView, title: String, action: Selector,
+                           autoSz: NSView.AutoresizingMask, x: CGFloat, y: CGFloat) {
+        button.frame = NSMakeRect(x, y, kButtonW, kButtonH)
+        button.autoresizingMask = autoSz
+        button.bezelStyle = .rounded
+        button.font = .systemFont(ofSize: 13)
+        button.title = title
+        button.target = self
+        button.action = action
+        superView.addSubview(button)
     }
 
+    private let dPrefix = ""
     // MARK: Defaults
     private func loadDefaults() {
-        path?.stringValue = UserDefaults.standard.object(forKey: "P") as? String ?? ""
-        sFrom?.integerValue = UserDefaults.standard.integer(forKey: "Smin")
-        sTo?.integerValue = UserDefaults.standard.integer(forKey: "Smax")
-        charKFrom?.integerValue = UserDefaults.standard.integer(forKey: "Cmin")
-        charKTo?.integerValue = UserDefaults.standard.integer(forKey: "Cmax")
-        dummy1?.integerValue = UserDefaults.standard.integer(forKey: "Dummy1")
-        currentType?.integerValue = UserDefaults.standard.integer(forKey: "Type")
-        currentStep?.integerValue = UserDefaults.standard.integer(forKey: "Step")
+        path.stringValue = UserDefaults.standard.object(forKey: dPrefix + "P") as? String ?? ""
+        sFrom.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Smin")
+        sTo.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Smax")
+        charKFrom.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Cmin")
+        charKTo.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Cmax")
+        dummy1.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Dummy1")
+        currentType.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Type")
+        currentStep.integerValue = UserDefaults.standard.integer(forKey: dPrefix + "Step")
     }
     private func saveDefaults() {
-        UserDefaults.standard.set(path?.stringValue, forKey: "P")
-        UserDefaults.standard.set(sFrom?.integerValue, forKey: "Smin")
-        UserDefaults.standard.set(sTo?.integerValue, forKey: "Smax")
-        UserDefaults.standard.set(charKFrom?.integerValue, forKey: "Cmin")
-        UserDefaults.standard.set(charKTo?.integerValue, forKey: "Cmax")
-        UserDefaults.standard.set(dummy1?.integerValue, forKey: "Dummy1")
-        UserDefaults.standard.set(currentType?.integerValue, forKey: "Type")
-        UserDefaults.standard.set(currentStep?.integerValue, forKey: "Step")
+        UserDefaults.standard.set(path.stringValue, forKey: dPrefix + "P")
+        UserDefaults.standard.set(sFrom.integerValue, forKey: dPrefix + "Smin")
+        UserDefaults.standard.set(sTo.integerValue, forKey: dPrefix + "Smax")
+        UserDefaults.standard.set(charKFrom.integerValue, forKey: dPrefix + "Cmin")
+        UserDefaults.standard.set(charKTo.integerValue, forKey: dPrefix + "Cmax")
+        UserDefaults.standard.set(dummy1.integerValue, forKey: dPrefix + "Dummy1")
+        UserDefaults.standard.set(currentType.integerValue, forKey: dPrefix + "Type")
+        UserDefaults.standard.set(currentStep.integerValue, forKey: dPrefix + "Step")
     }
 
     // MARK: NSApplicationDelegate
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
+        return terminateByClose
     }
 
-    // MARK: NSWindowDelegate
-    func windowShouldClose(_ sender: NSWindow) -> Bool {
-        saveDefaults()
-        return true
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        showApp()
+        return false
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        showApp()
+    }
+
+    @objc private func showApp() {
+        mainWindow?.window?.makeKeyAndOrderFront(NSApp)
+    }
+}
+
+final class MainWindow: NSWindowController {
+    var statusBarItem: NSStatusItem?
+    init() {
+        let window = NSWindow(contentRect: NSMakeRect(0, 0, 700, 520),
+                          styleMask: [.titled, .closable, .miniaturizable, .resizable],
+                          backing: .buffered,
+                          defer: false)
+        window.minSize = NSMakeSize(700, 450)
+        window.title = "E7"
+        super.init(window: window)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
     }
 }

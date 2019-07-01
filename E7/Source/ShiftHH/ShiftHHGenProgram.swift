@@ -55,12 +55,14 @@ struct ShiftHHGenProgram {
             for blockRow in 0..<h {
                 if let minElem = minColElementInBlock(blockRow, blockCol: blockCol),
                     let maxElem = maxColElementInBlock(blockRow, blockCol: blockCol) {
-                    let program = onePerBlockProgram(minElem.col, row: minElem.row)
-                    if let item = blocks.last, item.minCol == minElem.col, item.maxCol == maxElem.col {
-                        blocks[blocks.count - 1] = item.setPrograms(item.programs + [program])
-                        continue
-                    } else {
-                        blocks += [ BlockItem(minCol: minElem.col, maxCol: maxElem.col, programs: [program]) ]
+                    for minRow in minElem.rows {
+                        let program = onePerBlockProgram(minElem.col, row: minRow)
+                        if let item = blocks.last, item.minCol == minElem.col, item.maxCol == maxElem.col {
+                            blocks[blocks.count - 1] = item.setPrograms(item.programs + [program])
+                            continue
+                        } else {
+                            blocks += [ BlockItem(minCol: minElem.col, maxCol: maxElem.col, programs: [program]) ]
+                        }
                     }
                 }
             }
@@ -99,14 +101,14 @@ struct ShiftHHGenProgram {
         }
     }
 
-    private func minColElementInBlock(_ blockRow: Int, blockCol: Int) -> (row: Int, col: Int)? {
+    private func minColElementInBlock(_ blockRow: Int, blockCol: Int) -> (rows: [Int], col: Int)? {
         let s = PathAlg.s
         for col in blockCol*s..<(blockCol+1)*s {
+            var rows: [Int] = []
             for row in blockRow*s..<(blockRow+1)*s {
-                if !hhElem.rows[row][col].isZero {
-                    return (row, col)
-                }
+                if !hhElem.rows[row][col].isZero { rows += [row] }
             }
+            if !rows.isEmpty { return (rows, col) }
         }
         return nil
     }

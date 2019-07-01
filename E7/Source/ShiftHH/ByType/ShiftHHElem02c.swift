@@ -5,10 +5,6 @@
 import Foundation
 
 final class ShiftHHElem02c : ShiftHHElem {
-    init() {
-        super.init(type:2)
-    }
-
     override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 

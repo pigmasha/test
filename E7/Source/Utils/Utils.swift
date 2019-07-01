@@ -15,6 +15,10 @@ struct Utils {
         }
         return l
     }
+
+    static func pathWithShift(_ shift: Int, type: Int) -> String {
+        return OutputFile.fileName! + ".s\(PathAlg.s).sh\(shift).t\(type).txt"
+    }
 }
 
 func f(_ x: Int, _ y: Int) -> Int {

@@ -9,7 +9,7 @@ struct Step_10_shift_check {
         OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
-        for deg in 0...(PathAlg.s == 1 ? 125 : 10) * PathAlg.s * PathAlg.twistPeriod + 2 {
+        for deg in 0...(PathAlg.s == 1 ? 125 : 3) * PathAlg.s * PathAlg.twistPeriod + 2 {
             if Dim.deg(deg, hasType: type) {
                 if (process(type: type, deg: deg)) { return true }
                 //return false
@@ -42,7 +42,7 @@ struct Step_10_shift_check {
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift, detailLog: true) {
                 //let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 //PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
-                //let _ = allVariants!.writeToFile(pathWithShift(shift))
+                //let _ = allVariants!.writeToFile(Utils.pathWithShift(shift, type: type))
                 return true
             }
         }
@@ -59,7 +59,7 @@ struct Step_10_shift_check {
             if !ShiftCheck.checkHH(hh, hhShift: hh_shift, degree: deg, shift: shift, detailLog: true) {
                 //let allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 //PrintUtils.printMatrix("Right HH", ShiftAllSelect.select(from: allVariants!, type: type, shift: shift))
-                //let _ = allVariants!.writeToFile(pathWithShift(shift))
+                //let _ = allVariants!.writeToFile(Utils.pathWithShift(shift, type: type))
                 return true
             }
             hh = hh_shift
@@ -105,9 +105,5 @@ struct Step_10_shift_check {
             hhCheap = hhCheap_shift
         }
         return false
-    }
-
-    private static func pathWithShift(_ shift: Int) -> String {
-        return OutputFile.fileName! + ".s\(PathAlg.s).sh\(shift).txt"
     }
 }

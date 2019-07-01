@@ -51,7 +51,7 @@ struct Step_8_shift_enum {
 
         var shift = 1 + shiftFrom
         while true {
-            let path = pathWithShift(shift)
+            let path = Utils.pathWithShift(shift, type: type)
             var allVariants: ShiftAllVariants? = nil
             if (FileManager.default.fileExists(atPath: path)) {
                 allVariants = ShiftAllVariants(withContentsOf: path)
@@ -63,7 +63,7 @@ struct Step_8_shift_enum {
                 allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
                 guard allVariants != nil else {
                     OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
-                    shift = stepBack(shift: shift)
+                    shift = stepBack(shift: shift, type: type)
                     guard shift > 0 else { return true }
                     continue
                 }
@@ -74,12 +74,11 @@ struct Step_8_shift_enum {
             if shift % PathAlg.twistPeriod == 0 {
                 let isGood = processLastShift(variants: allVariants!, shift: shift, firstHH: hh0, type: type)
                 if stopAtLast && isGood { break }
-                shift = stepBack(shift: shift)
+                shift = stepBack(shift: shift, type: type)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)
                 continue
             } else {
-                //hh = ShiftAllSelect.select(from: allVariants, type: type, shift: shift)
                 hh = ShiftAllSelect.hhFrom(allVariants!)
             }
             OutputFile.writeLog(.time, "Shift=\(shift)")
@@ -92,7 +91,7 @@ struct Step_8_shift_enum {
     private static func processLastShift(variants: ShiftAllVariants, shift: Int, firstHH: HHElem, type: Int) -> Bool {
         var seqStr = ""
         for sh in shift - PathAlg.twistPeriod + 1 ..< shift {
-            if let allVariants = ShiftAllVariants(withContentsOf: pathWithShift(sh)) {
+            if let allVariants = ShiftAllVariants(withContentsOf: Utils.pathWithShift(sh, type: type)) {
                 seqStr += "Shift \(sh): " + seqStringFrom(allVariants) + "<br>\n"
             }
         }
@@ -102,6 +101,11 @@ struct Step_8_shift_enum {
         var isGood = true
         switch type {
         case 3: isGood = hh.maxNonZeroPos.1 < 2*s && hh.nonZeroCount == 2
+        case 5, 10: isGood = hh.maxNonZeroPos.1 < s && hh.nonZeroCount == 1
+        case 6: isGood = hh.nonZeroCount == 5 * s && !hh.rows[0][0].isZero && !hh.rows[0][s].isZero && !hh.rows[6*s][9*s].isZero
+        case 7: isGood = hh.nonZeroCount == 1
+        case 8: isGood = hh.nonZeroCount == 3*s
+        case 9: isGood = hh.nonZeroCount == 7*s && hh.rows[0][0].isZero && !hh.rows[0][s].isZero
         default: break
         }
         guard isGood else {
@@ -117,14 +121,14 @@ struct Step_8_shift_enum {
         return isGood
     }
 
-    private static func stepBack(shift: Int) -> Int {
+    private static func stepBack(shift: Int, type: Int) -> Int {
         guard shift > 1 else {
             OutputFile.writeLog(.bold, "stepBack failed! can't back to first shift")
             return -1
         }
         var prevShift = shift - 1
         while prevShift > 0 {
-            let path = pathWithShift(prevShift)
+            let path = Utils.pathWithShift(prevShift, type: type)
             guard let allVariants = ShiftAllVariants(withContentsOf: path) else {
                 OutputFile.writeLog(.bold, "stepBack failed! Read from file error")
                 return -1
@@ -161,9 +165,5 @@ struct Step_8_shift_enum {
             return true
         }
         return false
-    }
-
-    private static func pathWithShift(_ shift: Int) -> String {
-        return OutputFile.fileName! + ".s\(PathAlg.s).sh\(shift).txt"
     }
 }

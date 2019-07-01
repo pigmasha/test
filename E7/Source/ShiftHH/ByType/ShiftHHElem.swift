@@ -23,24 +23,18 @@ struct ShiftVars {
 }
 
 class ShiftHHElem {
-    let type: Int
-
-    init(type: Int) {
-        self.type = type
-    }
-
     class func shiftForType(_ type: Int) -> ShiftHHElem {
         switch type {
         case  1: return ShiftHHElem01()
         case  2: return ShiftHHElem02c()
         case  3: return ShiftHHElem03c()
         case  4: return ShiftHHElem04()
-        /*case  5: return ShiftHHElem05c()
+        case  5: return ShiftHHElem05c()
         case  6: return ShiftHHElem06()
-        case  7: return ShiftHHElem07()
-        case  8: return ShiftHHElem08c()
+        case  7: return ShiftHHElem07c()
+        case  8: return ShiftHHElem08()
         case  9: return ShiftHHElem09()
-        case 10: return ShiftHHElem10c()
+        /*case 10: return ShiftHHElem10c()
         case 11: return ShiftHHElem11()
         case 12: return ShiftHHElem12c()
         case 13: return ShiftHHElem13()
@@ -55,7 +49,7 @@ class ShiftHHElem {
         case 22: return ShiftHHElem22()
         case 23: return ShiftHHElem23()
         case 24: return ShiftHHElem24()*/
-        default: return ShiftHHElem(type: 0)
+        default: return ShiftHHElem()
         }
     }
 

@@ -20,19 +20,6 @@ struct Step_7_createhh {
             if PathAlg.alg.currentType > 0 && type != PathAlg.alg.currentType { continue }
             guard Dim.deg(deg, hasType: type) else { continue }
             let ell = deg / PathAlg.twistPeriod
-            /*let D = threeDeg(12)
-            print("D=\(D)")
-            for dd in 1 ..< D {
-                if dd % 100000 == 0 { print("dd=\(dd)") }
-                PathAlg.alg.dummy1 = dd
-                let hh = HHElem(deg: deg, type: type)
-                if hh.nonZeroCount > 3 { continue }
-                if CheckHH.checkHHElem(hh, degree: deg, logError: false) {
-                    OutputFile.writeLog(.normal, "type=\(type): HH (ell=\(ell)): checked :) noZero=\(hh.nonZeroCount)")
-                    PrintUtils.printMatrix("HH", hh)
-                }
-            }
-            return true*/
             let hh = HHElem(deg: deg, type: type)
             if (!CheckHH.checkHHElem(hh, degree: deg, logError: true)) {
                 OutputFile.writeLog(.error, "type=\(type), ell=\(ell)")

@@ -16,6 +16,7 @@ struct RunCase {
         case  8: return Step_8_shift_enum.runCase()
         case  9: return Step_9_select_shift.runCase()
         case 10: return Step_10_shift_check.runCase()
+        case 11: return Step_11_degs_mult.runCase()
         default: return false
         }
     }
@@ -33,6 +34,7 @@ struct RunCase {
         case  8: return "HH Shift"
         case  9: return "Select Shift"
         case 10: return "Check Shift"
+        case 11: return "Mult table"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }
