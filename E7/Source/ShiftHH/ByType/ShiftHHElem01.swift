@@ -5,7 +5,7 @@
 import Foundation
 
 final class ShiftHHElem01 : ShiftHHElem {
-    override func shift0(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift0(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 
         for j in 0 ..< s {
@@ -31,7 +31,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift1(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift1(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(8*s, h:8*s)
 
         for j in 0 ..< s {
@@ -60,7 +60,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift2(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift2(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 
         for j in 0 ..< s {
@@ -86,7 +86,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift3(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift3(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(9*s, h:9*s)
 
         for j in 0 ..< s {
@@ -118,7 +118,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift4(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift4(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(10*s, h:10*s)
 
         for j in 0 ..< s {
@@ -153,7 +153,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift5(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift5(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(10*s, h:10*s)
 
         for j in 0 ..< s {
@@ -188,7 +188,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift6(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift6(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(12*s, h:12*s)
 
         for j in 0 ..< s {
@@ -229,7 +229,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift7(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift7(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(12*s, h:12*s)
 
         for j in 0 ..< s {
@@ -270,7 +270,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift8(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift8(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(13*s, h:13*s)
 
         for j in 0 ..< s {
@@ -314,7 +314,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift9(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift9(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(12*s, h:12*s)
 
         for j in 0 ..< s {
@@ -355,7 +355,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift10(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift10(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(12*s, h:12*s)
 
         for j in 0 ..< s {
@@ -396,7 +396,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift11(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift11(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(10*s, h:10*s)
 
         for j in 0 ..< s {
@@ -431,7 +431,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift12(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift12(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(10*s, h:10*s)
 
         for j in 0 ..< s {
@@ -466,7 +466,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift13(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift13(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(9*s, h:9*s)
 
         for j in 0 ..< s {
@@ -498,7 +498,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift14(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift14(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 
         for j in 0 ..< s {
@@ -524,7 +524,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift15(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift15(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(8*s, h:8*s)
 
         for j in 0 ..< s {
@@ -553,7 +553,7 @@ final class ShiftHHElem01 : ShiftHHElem {
         }
     }
 
-    override func shift16(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {
+    override func shift16(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 
         for j in 0 ..< s {

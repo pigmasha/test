@@ -142,9 +142,10 @@ extension HHElem {
     private func createHH11() {
         let s = PathAlg.s
         makeZeroMatrix(12*s, h: 7*s)
+        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:5, right:0, koef:1)
         HHElem.addElemToHH(self, i:0, j:2*s, leftFrom:0, leftTo:1, right:0, koef:1)
-        HHElem.addElemToHH(self, i:4*s, j:6*s, leftFrom:4, leftTo:6, right:4, koef:-1)
-        HHElem.addElemToHH(self, i:4*s, j:7*s, leftFrom:4, leftTo:7, right:4, koef:1)
+        let j = 10*s + myModS(-1)
+        HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:7*j+6, leftTo:7*(j+1)+5, right:7*j+6, koef:1)
     }
     private func createHH12() {
         let s = PathAlg.s
@@ -171,8 +172,9 @@ extension HHElem {
     private func createHH13() {
         let s = PathAlg.s
         makeZeroMatrix(10*s, h: 7*s)
-        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:4, right:0, koef:1)
-        HHElem.addElemToHH(self, i:s, j:2*s, leftFrom:1, leftTo:7, right:1, koef:-1)
+        HHElem.addElemToHH(self, i:s, j:2*s, leftFrom:1, leftTo:7, right:1, koef:1)
+        let j = 5*s
+        HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:7*j+4, leftTo:7*j+7, right:7*j+4, koef:1)
     }
     private func createHH14() {
         let s = PathAlg.s

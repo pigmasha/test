@@ -6,6 +6,7 @@ import Foundation
 
 struct Dim {
     static let typeMax = 24
+    static let typeMax2 = 18
 
     static func deg(_ deg: Int, hasType type: Int) -> Bool {
         let s = PathAlg.s

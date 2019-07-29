@@ -13,9 +13,9 @@ struct ShiftHHGenProgram {
 
         file.writeln("<pre>")
         if isOdd {
-            file.writeln("override func oddShift\(shift)(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell: Int) {")
+            file.writeln("override func oddShift\(shift)(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {")
         } else {
-            file.writeln("override func shift\(shift)(_ hhElem: HHElem, degree: Int, shift: Int, n: Int, s: Int, m: Int, ell_0: Int, ell: Int) {")
+            file.writeln("override func shift\(shift)(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {")
         }
         file.writeln("    hhElem.makeZeroMatrix(\(width / s)*s, h:\(height / s)*s)")
         file.writeln("")

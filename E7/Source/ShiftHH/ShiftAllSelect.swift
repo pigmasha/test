@@ -47,6 +47,30 @@ struct ShiftAllSelect {
                     hh.addMatrixX(variants.last!.hh, x: col)
                 } else if type == 8 && shift == 16 && (col < 2*s || col >= 11*s) {
                     hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 10 && shift == 16 && col >= 4*s && col < 5*s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 11 && shift == 15 && col < s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 11 && shift == 16 && col >= 2*s && col < 9*s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 11 && shift == 16 && col >= 11*s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 13 && shift == 15 && col >= s && col < 2*s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 13 && shift == 16 && col >= 2*s && col < 3*s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 13 && shift == 16 && col >= 3*s && col < 4*s {
+                    hh.addMatrixX(variants[2].hh, x: col)
+                } else if type == 13 && shift == 16 && col >= 9*s && col < 10*s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 15 && shift == 16 && col >= s && col < 2*s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 15 && shift == 16 && col >= 6*s && col < 7*s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 16 && shift == 15 && col < s {
+                    hh.addMatrixX(variants[1].hh, x: col)
+                } else if type == 16 && shift == 16 {
+                    hh.addMatrixX(variants.last!.hh, x: col)
                 } else {
                     hh.addMatrixX(variants[0].hh, x: col)
                 }
