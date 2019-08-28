@@ -18,6 +18,8 @@ struct RunCase {
         case 10: return Step_10_shift_check.runCase()
         case 11: return Step_11_degs_mult.runCase()
         case 12: return Step_12_degs_mult_check.runCase()
+        case 13: return Step_13_mult_comm.runCase()
+        case 14: return Step_14_mult.runCase()
         default: return false
         }
     }
@@ -37,6 +39,8 @@ struct RunCase {
         case 10: return "Check Shift"
         case 11: return "Mult table"
         case 12: return "Mult degs check"
+        case 13: return "Comm check"
+        case 14: return "Mult"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }

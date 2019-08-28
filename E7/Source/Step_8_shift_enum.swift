@@ -5,7 +5,7 @@
 import Foundation
 
 struct Step_8_shift_enum {
-    static let stopAtLast = false
+    static let stopAtLast = true
 
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
@@ -106,7 +106,7 @@ struct Step_8_shift_enum {
         case 7: isGood = hh.nonZeroCount == 1
         case 8: isGood = hh.nonZeroCount == 3*s
         case 9: isGood = hh.nonZeroCount == 7*s && hh.rows[0][0].isZero && !hh.rows[0][s].isZero
-        case 11: isGood = hh.nonZeroCount == 3
+        case 11: isGood = hh.nonZeroCount <= 3
         case 12: isGood = hh.nonZeroCount == 6*s && hh.rows[0][0].isZero && !hh.rows[0][s].isZero
         case 13: isGood = hh.nonZeroCount == 2
         default: break

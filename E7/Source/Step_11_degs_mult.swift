@@ -92,7 +92,11 @@ struct Step_11_degs_mult {
                     let itemsStr = items.map { itemToStr($0) }
                     s = "[\(itemsStr.joined(separator: ", "))]"
                 }
-                OutputFile.writeLog(.simple, "<td>\(s)</td>")
+                if PathAlg.alg.dummy1 != 0 {
+                    OutputFile.writeLog(.simple, "<td>&nbsp;&nbsp;<br>&nbsp;</td>")
+                } else {
+                    OutputFile.writeLog(.simple, "<td>\(s)</td>")
+                }
             }
         }
         OutputFile.writeLog(.simple, "</tr></table><p>(*) = [1, 2, 19, 20, 21, 22, 23, 24]")

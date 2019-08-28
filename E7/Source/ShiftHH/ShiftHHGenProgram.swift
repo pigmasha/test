@@ -189,10 +189,14 @@ struct ShiftHHGenProgram {
 
                 str += "HHElem.addElemToHH(hhElem, i:\(iS), j:j,"
                 str += " leftFrom:\(vertexString(l.startsWith, j: col, m: m)), leftTo:\(vertexString(l.endsWith, j: col, m: m)),"
-                str += " rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\(kS))\n"
-                //str += "HHElem.addElemToHH(hhElem, i:\(iS), j:j,\n"
-                //str += "                   leftFrom:\(vertexString(l.startsWith, j: col, m: m)), leftTo:\(vertexString(l.endsWith, j: col, m: m)),\n"
-                //str += "                   rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\(kS))\n"
+                str += " rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(vertexString(r.endsWith, j: col, m: -1)), koef:\(kS)"
+                if l.len > 0 && l.endsWith.isEq(Vertex(i: l.startsWith.number + PathAlg.n)) {
+                    str += ", noZeroLenL:true"
+                }
+                if r.len > 0 && r.endsWith.isEq(Vertex(i: r.startsWith.number + PathAlg.n)) {
+                    str += ", noZeroLenR:true"
+                }
+                str += ")\n"
             }
         }
         return Program(format: str, iVariants: items, k: k)
@@ -200,17 +204,20 @@ struct ShiftHHGenProgram {
 
     private func vertexString(_ v: Vertex, j: Int, m: Int) -> String {
         let v0 = Vertex(i: (m < 0) ? v.number : v.number - 7 * m)
-        for b in -6 ... 19 {
-            guard Vertex(i: 7 * j + b).isEq(v0) else { continue }
-            var str = m < 0 ? "" : "+m"
-            if b >= 7 {
-                str += b >= 14 ? "+2" : "+1"
-            } else if b < 0 {
-                str += "-1"
+        let ranges = [(0, 13), (-6, -1), (14, 19)]
+        for range in ranges {
+            for b in range.0 ... range.1 {
+                guard Vertex(i: 7 * j + b).isEq(v0) else { continue }
+                var str = m < 0 ? "" : "+m"
+                if b >= 7 {
+                    str += b >= 14 ? "+2" : "+1"
+                } else if b < 0 {
+                    str += "-1"
+                }
+                let prefix = str.isEmpty ? "7*j" : "7*(j\(str))"
+                let b0 = b < 0 ? (b + 7) % 7 : b % 7
+                return b0 == 0 ? prefix : "\(prefix)+\(b0)"
             }
-            let prefix = str.isEmpty ? "7*j" : "7*(j\(str))"
-            let b0 = b < 0 ? (b + 7) % 7 : b % 7
-            return b0 == 0 ? prefix : "\(prefix)+\(b0)"
         }
         return "???"
     }

@@ -27,6 +27,7 @@ struct Step_7_createhh {
                 return true
             } else {
                 OutputFile.writeLog(.normal, "type=\(type): HH (ell=\(ell)): checked :)")
+                PrintUtils.printMatrix("HH", hh)
             }
             hhElements += [hh]
         }

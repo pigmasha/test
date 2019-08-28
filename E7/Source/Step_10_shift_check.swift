@@ -9,10 +9,12 @@ struct Step_10_shift_check {
         OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
         let type = PathAlg.alg.currentType
-        for deg in 0...(PathAlg.s == 1 ? 125 : 3) * PathAlg.s * PathAlg.twistPeriod + 2 {
-            if Dim.deg(deg, hasType: type) {
-                if (process(type: type, deg: deg)) { return true }
-                //return false
+        for deg in 0...(PathAlg.s == 1 ? 25 : 3) * PathAlg.s * PathAlg.twistPeriod + 2 {
+            for t in (type == 0 ? 1 : type) ... (type == 0 ? 18 : type) {
+                if Dim.deg(deg, hasType: t) {
+                    if (process(type: t, deg: deg)) { return true }
+                    //return false
+                }
             }
         }
         return false

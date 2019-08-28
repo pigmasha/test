@@ -238,8 +238,18 @@ final class ShiftAllVariants {
             koef = -1.0
             trimStr = trimStr.substring(from: trimStr.index(trimStr.startIndex, offsetBy: 1))
         }
+        let trimK: Double?
         if trimStr.hasPrefix("2") {
-            koef *= 2
+            trimK = 2
+        } else if trimStr.hasPrefix("3") {
+            trimK = 3
+        } else if trimStr.hasPrefix("4") {
+            trimK = 4
+        } else {
+            trimK = nil
+        }
+        if let trimK = trimK {
+            koef *= trimK
             trimStr = trimStr.substring(from: trimStr.index(trimStr.startIndex, offsetBy: 1))
         }
         let pair = trimStr.components(separatedBy: "*")

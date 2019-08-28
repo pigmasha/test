@@ -109,6 +109,134 @@ struct Step_12_degs_mult_check {
             default: fatalError("Bad type2=\(type2)")
             }
         }
-        return -1
+        if type1 == 6 {
+            switch type2 {
+            case 6, 7, 8, 10, 11, 15, 16, 18: return 0
+            case 9: return 15
+            case 12: return 16
+            case 13: return 18
+            case 14: return 2
+            case 17: return 5
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 7 {
+            switch type2 {
+            case 7: return s <= 2 ? 14 : 0
+            case 8, 9, 10, 11, 14, 15, 16, 17: return 0
+            case 12: return 18
+            case 13: return s <= 2 ? 1 : 0
+            case 18: return s <= 2 ? 6 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 8 {
+            switch type2 {
+            case 8, 13, 14: return 0
+            case 9: return 16
+            case 10: return s == 1 && charK == 2 ? 16 : 0
+            case 11: return 18
+            case 12: return 2
+            case 15: return s == 1 && charK == 2 ? 3 : 0
+            case 16: return s == 1 && charK == 2 ? 6 : 0
+            case 17: return charK == 3 ? 7 : 0
+            case 18: return s == 1 && charK == 2 ? 7 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 9 {
+            switch type2 {
+            case 9: return 17
+            case 10: return 18
+            case 11: return 2
+            case 12: return 3
+            case 13: return 0
+            case 14: return 4
+            case 15: return 5
+            case 16: return charK == 3 ? 7 : 0
+            case 17: return 8
+            case 18: return s == 1 && charK == 2 ? 8 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 10 {
+            switch type2 {
+            case 10: return s <= 2 ? 17 : 0
+            case 11: return s <= 2 ? 1 : 0
+            case 12, 13, 14, 15, 16, 17: return 0
+            case 18: return s <= 2 ? 8 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 11 {
+            switch type2 {
+            case 11: return s == 1 && charK == 2 ? 3 : 0
+            case 12, 13, 15: return 0
+            case 14: return 5
+            case 16: return s == 1 && charK == 2 ? 8 : 0
+            case 17: return 10
+            case 18: return s <= 2 ? 9 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 12 {
+            switch type2 {
+            case 12: return 4
+            case 13: return 5
+            case 14: return 6
+            case 15: return 7
+            case 16: return 10
+            case 17: return 11
+            case 18: return 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 13 {
+            switch type2 {
+            case 13, 15, 16, 17: return 0
+            case 14: return 7
+            case 18: return s <= 2 ? 12 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 14 {
+            switch type2 {
+            case 14: return 8
+            case 15: return 10
+            case 16, 18: return 0
+            case 17: return charK == 3 ? 13 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 15 {
+            switch type2 {
+            case 15: return s == 1 && charK == 2 ? 11 : 0
+            case 16: return 0
+            case 17: return s == 1 && charK == 2 ? 14 : 0
+            case 18: return s <= 2 ? 14 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 16 {
+            switch type2 {
+            case 16: return s == 1 && charK == 2 ? 15 : 0
+            case 17, 18: return 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 17 {
+            switch type2 {
+            case 17: return 16
+            case 18: return s == 1 && charK == 2 ? 16 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        if type1 == 18 {
+            switch type2 {
+            case 18: return s <= 2 ? 16 : 0
+            default: fatalError("Bad type2=\(type2)")
+            }
+        }
+        fatalError("Bad type1=\(type1)")
     }
 }

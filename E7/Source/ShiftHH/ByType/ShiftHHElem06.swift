@@ -300,7 +300,7 @@ final class ShiftHHElem06 : ShiftHHElem {
         hhElem.makeZeroMatrix(8*s, h:12*s)
 
         for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*(j+1), koef:1)
+            HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*(j+1), koef:1, noZeroLenR:true)
             HHElem.addElemToHH(hhElem, i:j+2*s, j:j, leftFrom:7*(j+m)+2, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j+1, koef:-1)
             HHElem.addElemToHH(hhElem, i:j+3*s, j:j, leftFrom:7*(j+m)+3, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j+2, koef:-1)
         }
@@ -347,7 +347,7 @@ final class ShiftHHElem06 : ShiftHHElem {
         hhElem.makeZeroMatrix(7*s, h:10*s)
 
         for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m+1), leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*(j+1), koef:1)
+            HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m+1), leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*(j+1), koef:1, noZeroLenR:true)
             HHElem.addElemToHH(hhElem, i:j+s, j:j, leftFrom:7*(j+m)+3, leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j+1, koef:1)
             HHElem.addElemToHH(hhElem, i:j+2*s, j:j, leftFrom:7*(j+m)+4, leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j+1, koef:1)
         }
@@ -394,8 +394,8 @@ final class ShiftHHElem06 : ShiftHHElem {
         hhElem.makeZeroMatrix(7*s, h:7*s)
 
         for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:7*(j+m-1)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j, koef:1)
-            HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*(j+1), koef:1)
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:7*(j+m-1)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j, koef:1, noZeroLenL:true)
+            HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*(j+1), koef:1, noZeroLenR:true)
             HHElem.addElemToHH(hhElem, i:j+s, j:j, leftFrom:7*(j+m)+5, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j+1, koef:1)
             HHElem.addElemToHH(hhElem, i:j+3*s, j:j, leftFrom:7*(j+m)+2, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j+3, koef:-1)
             HHElem.addElemToHH(hhElem, i:j+4*s, j:j, leftFrom:7*(j+m)+3, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j+4, koef:1)
@@ -455,7 +455,7 @@ final class ShiftHHElem06 : ShiftHHElem {
             HHElem.addElemToHH(hhElem, i:j+6*s, j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m)+6, rightFrom:7*j, rightTo:7*j+6, koef:-1)
         }
         for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j-s, j:j, leftFrom:7*(j+m), leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j, koef:1)
+            HHElem.addElemToHH(hhElem, i:j-s, j:j, leftFrom:7*(j+m), leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j, koef:1, noZeroLenL:true)
             HHElem.addElemToHH(hhElem, i:j+2*s, j:j, leftFrom:7*(j+m)+3, leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j+3, koef:-1)
             HHElem.addElemToHH(hhElem, i:j+3*s, j:j, leftFrom:7*(j+m)+4, leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j+4, koef:1)
             HHElem.addElemToHH(hhElem, i:j+4*s, j:j, leftFrom:7*(j+m)+5, leftTo:7*(j+m+1), rightFrom:7*j, rightTo:7*j+5, koef:-1)
@@ -463,7 +463,7 @@ final class ShiftHHElem06 : ShiftHHElem {
         }
         for j in 2*s ..< 3*s {
             HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m+1), leftTo:7*(j+m+1)+3, rightFrom:7*j+1, rightTo:7*(j+1), koef:1)
-            HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+1, leftTo:7*(j+m+1)+3, rightFrom:7*j+1, rightTo:7*(j+1)+1, koef:1)
+            HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+1, leftTo:7*(j+m+1)+3, rightFrom:7*j+1, rightTo:7*(j+1)+1, koef:1, noZeroLenR:true)
         }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:7*(j+m+1), leftTo:7*(j+m+1)+4, rightFrom:7*j+2, rightTo:7*(j+1), koef:-1)
@@ -481,8 +481,8 @@ final class ShiftHHElem06 : ShiftHHElem {
             HHElem.addElemToHH(hhElem, i:3*s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+3, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*(j+1)+3, koef:1)
             HHElem.addElemToHH(hhElem, i:4*s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+4, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*(j+1)+4, koef:-1)
             HHElem.addElemToHH(hhElem, i:5*s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+5, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*(j+1)+5, koef:1)
-            HHElem.addElemToHH(hhElem, i:j-3*s, j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*j+6, koef:1)
-            HHElem.addElemToHH(hhElem, i:6*s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+6, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*(j+1)+6, koef:-1)
+            HHElem.addElemToHH(hhElem, i:j-3*s, j:j, leftFrom:7*(j+m)+6, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*j+6, koef:1, noZeroLenL:true)
+            HHElem.addElemToHH(hhElem, i:6*s+myModS(j+1), j:j, leftFrom:7*(j+m+1)+6, leftTo:7*(j+m+1)+6, rightFrom:7*j+6, rightTo:7*(j+1)+6, koef:-1, noZeroLenR:true)
         }
     }
 
