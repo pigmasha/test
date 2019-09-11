@@ -5,7 +5,7 @@
 import Foundation
 
 struct Dim {
-    static let typeMax = 24
+    static let typeMax = 25
     static let typeMax2 = 18
 
     static func deg(_ deg: Int, hasType type: Int) -> Bool {
@@ -15,14 +15,15 @@ struct Dim {
         let m = r / 2
         let charK = PathAlg.charK
 
-        if deg == 0 && s == 1 && type >= 19 { return true }
+        if deg == 0 && s == 1 && charK != 2 && type == 19 { return true }
+        if deg == 0 && s == 1 && type >= 20 { return true }
 
         let eq0 = (m + 9 * ell) % s == 0
         let eq1 = (m + 9 * ell) % s == 1 || s == 1
         switch r {
         case 0:
             if eq0 && (ell % 2 == 0 || charK == 2) && type == 1 { return true }
-            if eq1 && (ell % 2 == 1 || charK == 2 || (s == 1 && deg == 0)) && type == 2 { return true }
+            if eq1 && (ell % 2 == 1 || charK == 2) && type == 2 { return true }
         case 1:
             if eq0 && (ell % 2 == 0 || charK == 2) && type == 3 { return true }
         case 3:

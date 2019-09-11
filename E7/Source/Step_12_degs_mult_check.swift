@@ -8,8 +8,8 @@ struct Step_12_degs_mult_check {
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
 
-        for type in 1 ... Dim.typeMax2 {
-            for t2 in type ... Dim.typeMax2 {
+        for type in 1 ... Dim.typeMax {
+            for t2 in type ... Dim.typeMax {
                 if process(type1: type, type2: t2) { return true }
             }
         }
@@ -47,6 +47,12 @@ struct Step_12_degs_mult_check {
     private static func myMultType(type1: Int, type2: Int) -> Int {
         let s = PathAlg.s
         let charK = PathAlg.charK
+        if type1 > 18 {
+            return type2
+        }
+        if type2 > 18 {
+            return type1
+        }
         if type1 == 1 {
             return type2
         }
@@ -83,8 +89,7 @@ struct Step_12_degs_mult_check {
             case 4: return charK == 3 ? 7 : 0
             case 5: return s == 1 && charK == 2 ? 8 : 0
             case 6: return 10
-            case 7: return s == 1 && charK == 2 ? 11 : 0
-            case 8, 10, 13, 17, 18: return 0
+            case 7, 8, 10, 13, 17, 18: return 0
             case 9: return charK == 3 ? 13 : 0
             case 11: return s == 1 && charK == 2 ? 14 : 0
             case 12: return 15
@@ -132,15 +137,13 @@ struct Step_12_degs_mult_check {
         }
         if type1 == 8 {
             switch type2 {
-            case 8, 13, 14: return 0
+            case 8, 13, 14, 16, 18: return 0
             case 9: return 16
             case 10: return s == 1 && charK == 2 ? 16 : 0
             case 11: return 18
             case 12: return 2
-            case 15: return s == 1 && charK == 2 ? 3 : 0
-            case 16: return s == 1 && charK == 2 ? 6 : 0
+            case 15: return s == 1 && charK == 2 ? 4 : 0
             case 17: return charK == 3 ? 7 : 0
-            case 18: return s == 1 && charK == 2 ? 7 : 0
             default: fatalError("Bad type2=\(type2)")
             }
         }
@@ -163,7 +166,10 @@ struct Step_12_degs_mult_check {
             switch type2 {
             case 10: return s <= 2 ? 17 : 0
             case 11: return s <= 2 ? 1 : 0
-            case 12, 13, 14, 15, 16, 17: return 0
+            case 12, 13, 16: return 0
+            case 14: return s == 1 && charK == 2 ? 4 : 0
+            case 15: return s == 1 && charK == 2 ? 5 : 0
+            case 17: return s == 1 && charK == 2 ? 8 : 0
             case 18: return s <= 2 ? 8 : 0
             default: fatalError("Bad type2=\(type2)")
             }

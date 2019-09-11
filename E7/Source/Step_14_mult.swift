@@ -21,152 +21,164 @@ struct Step_14_mult {
     }
 
     private static func process(type1: Int, type2: Int) -> Bool {
+        if type1 == 11 && PathAlg.s == 1 {
+            return false
+        }
         OutputFile.writeLog(.bold, "Types \(type1) * \(type2)")
         let kk = PathAlg.s == 1 ? 25 : 5
         for deg1 in 0...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
-            if Dim.deg(deg1, hasType: type1) {
-                for deg2 in 0...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
-                    if Dim.deg(deg2, hasType: type2) {
-                        let type = typeMult(type1, type2, deg1, deg2)
-                        if type == 0 && PathAlg.s > 1 {
-                            for t in 1 ... Dim.typeMax {
-                                if Dim.deg(deg1 + deg2, hasType: t) {
-                                    OutputFile.writeLog(.bold, "k=\(type1) * \(type2) has type \(t)")
-                                    return true
-                                }
-                            }
-                        } else {
-                            if !Dim.deg(deg1 + deg2, hasType: type) {
-                                OutputFile.writeLog(.bold, "k=\(type1) * \(type2) has no type \(type)")
-                                return true
-                            }
-                            let k = type == 0 ? 0 : koef(type1, type2, deg1, deg2)
-                            if process(type1: type1, type2: type2, type: type, deg1: deg1, deg2: deg2, koef: k) {
-                                [0, 1, -1, 3, -3].forEach { kk in
-                                    if k != kk && !process(type1: type1, type2: type2, type: type, deg1: deg1, deg2: deg2, koef: kk) {
-                                        OutputFile.writeLog(.bold, "k=\(kk) is ok")
-                                    }
-                                }
-                                return true
-                            }
+            guard Dim.deg(deg1, hasType: type1) else {
+                continue
+            }
+            for deg2 in 0...kk * PathAlg.s * PathAlg.twistPeriod + 2 {
+                guard Dim.deg(deg2, hasType: type2) else {
+                    continue
+                }
+                let mm = multRes(type1, type2, deg1, deg2)
+                if let type = mm?.type, !Dim.deg(deg1 + deg2, hasType: type) {
+                    OutputFile.writeLog(.bold, "k=\(type1) * \(type2) has no type \(type) (degs \(deg1) & \(deg2))")
+                    return true
+                }
+                guard process(type1: type1, type2: type2, type: mm?.type ?? 0, deg1: deg1, deg2: deg2, koef: mm?.koef ?? 0) else {
+                    continue
+                }
+                if let mm = mm {
+                    let koefs = PathAlg.charK == 2 ? [0, 1] : [0, 1, -1, 3, -3]
+                    koefs.forEach { kk in
+                        if mm.koef != kk && !process(type1: type1, type2: type2, type: mm.type, deg1: deg1, deg2: deg2, koef: kk) {
+                            OutputFile.writeLog(.bold, "k=\(kk) is ok")
+                        }
+                    }
+                } else {
+                    for t in 1 ... Dim.typeMax {
+                        if Dim.deg(deg1 + deg2, hasType: t) {
+                            OutputFile.writeLog(.bold, "k=\(type1) * \(type2) has type \(t)")
+                            return true
                         }
                     }
                 }
+                return true
             }
         }
         return false
     }
 
-    private static func typeMult(_ type1: Int, _ type2: Int, _ deg1: Int, _ deg2: Int) -> Int {
+    private static func multRes(_ type1: Int, _ type2: Int, _ deg1: Int, _ deg2: Int) -> (type: Int, koef: Int)? {
         let s = PathAlg.s
         let charK = PathAlg.charK
-        switch (type1, type2) {
-        case (1,_): return type2
-        case (2, 2): return s <= 2 ? 1 : 0
-        case (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8): return s == 1 && charK == 2 ? type2 : 0
-        case (2, 9): return 10
-        case (2, 10): return s <= 2 ? 9 : 0
-        case (2, 11), (2, 12), (2, 13), (2, 14), (2, 15), (2, 16): return s == 1 && charK == 2 ? type2 : 0
-        case (2, 17): return 18
-        case (2, 18): return s <= 2 ? 17 : 0
-        case (3, 4): return 5
-        case (3, 6): return 7
-        case (3, 8): return 10
-        case (3, 9): return 11
-        case (3, 10): return s == 1 && charK == 2 ? 11 : 0
-        case (3, 12): return 13
-        case (3, 14): return 15
-        case (3, 16): return 18
-        case (3, 17): return 2
-        case (3, 18): return s <= 2 ? 1 : 0
-        case (4, 4): return charK == 3 ? 7 : 0
-        case (4, 5): return s == 1 && charK == 2 ? 8 : 0
-        case (4, 6): return 10
-        case (4, 7): return s == 1 && charK == 2 ? 11 : 0
-        case (4, 9): return charK == 3 ? 13 : 0
-        case (4, 11): return s == 1 && charK == 2 ? 14 : 0
-        case (4, 12): return 15
-        case (4, 14): return 16
-        case (4, 15): return 18
-        case (4, 16): return s == 1 && charK == 2 ? 3 : 0
-        case (5, 5): return s <= 2 ? 9 : 0
-        case (5, 7): return s <= 2 ? 12 : 0
-        case (5, 9): return s == 1 && charK == 2 ? 14 : 0
-        case (5, 10): return s <= 2 ? 14 : 0
-        case (5, 11): return s == 1 && charK == 2 ? 15 : 0
-        case (5, 14): return 18
-        case (5, 15): return s <= 2 ? 1 : 0
-        case (5, 17): return s == 1 && charK == 2 ? 4 : 0
-        case (5, 18): return s <= 2 ? 4 : 0
-        case (6, 9): return 15
-        case (6, 12): return 16
-        case (6, 13): return 18
-        case (6, 14): return 2
-        case (6, 17): return 5
-        case (7, 7): return s <= 2 ? 14 : 0
-        case (7, 12): return 18
-        case (7, 13): return s <= 2 ? 1 : 0
-        case (7, 18): return s <= 2 ? 6 : 0
-        case (8, 9): return 16
-        case (8, 10): return s == 1 && charK == 2 ? 16 : 0
-        case (8, 11): return 18
-        case (8, 12): return 2
-        case (8, 15): return s == 1 && charK == 2 ? 3 : 0
-        case (8, 16): return s == 1 && charK == 2 ? 6 : 0
-        case (8, 17): return charK == 3 ? 7 : 0
-        case (8, 18): return s == 1 && charK == 2 ? 7 : 0
-        case (9, 9): return 17
-        case (9, 10): return 18
-        case (9, 11): return 2
-        case (9, 12): return 3
-        case (9, 14): return 4
-        case (9, 15): return 5
-        case (9, 16): return charK == 3 ? 7 : 0
-        case (9, 17): return 8
-        case (9, 18): return s == 1 && charK == 2 ? 8 : 0
-        case (10, 10): return s <= 2 ? 17 : 0
-        case (10, 11): return s <= 2 ? 1 : 0
-        case (10, 18): return s <= 2 ? 8 : 0
-        case (11, 11): return s == 1 && charK == 2 ? 3 : 0
-        case (11, 14): return 5
-        case (11, 16): return s == 1 && charK == 2 ? 8 : 0
-        case (11, 17): return 10
-        case (11, 18): return s <= 2 ? 9 : 0
-        case (12, 12): return 4
-        case (12, 13): return 5
-        case (12, 14): return 6
-        case (12, 15): return 7
-        case (12, 16): return 10
-        case (12, 17): return 11
-        case (13, 14): return 7
-        case (13, 18): return s <= 2 ? 12 : 0
-        case (14, 14): return 8
-        case (14, 15): return 10
-        case (14, 17): return charK == 3 ? 13 : 0
-        case (15, 15): return s == 1 && charK == 2 ? 11 : 0
-        case (15, 17): return s == 1 && charK == 2 ? 14 : 0
-        case (15, 18): return s <= 2 ? 14 : 0
-        case (16, 16): return s == 1 && charK == 2 ? 15 : 0
-        case (17, 17): return 16
-        case (17, 18): return s == 1 && charK == 2 ? 16 : 0
-        case (18, 18): return s <= 2 ? 16 : 0
-        default: return 0
+        if type1 == 1 {
+            if type2 >= 22 && type2 <= 25 {
+                if deg1 == 0 { return (type2, 1) }
+                if deg1 > 0 && charK == 2 { return (2, 1) }
+                return nil
+            }
+            if (type2 == 19 || type2 == 20 || type2 == 21) {
+                return deg1 == 0 ? (type2, 1) : nil
+            }
+            return (type2, 1)
         }
-    }
-
-    private static func koef(_ type1: Int, _ type2: Int, _ deg1: Int, _ deg2: Int) -> Int {
-        switch (type1, type2) {
-        case (2,2), (2,10), (2,18), (3, 6), (3, 12), (3, 18), (5, 5), (5, 7), (5, 10), (5, 15), (5, 18),
-             (6, 12), (7, 7), (7, 13), (7, 18), (10, 10), (10, 11), (10, 18), (11, 18),
-             (12, 12), (12, 15), (13, 18), (15, 18), (18, 18): return 0
-        case (2, 17), (6, 13), (8, 9), (8, 11), (9, 10), (12, 14), (14, 14), (14, 15): return -1
-        case (3, 17), (9, 11), (9, 17), (11, 17): return 3
-        case (17, 17): return -3
-        case (4, 4), (4, 6), (4, 9), (4, 12), (6, 14), (8, 12), (9, 12), (9, 16),
-             (12, 17), (14, 17): return -PathAlg.s
-        case (6, 9), (6, 17), (12, 16), (8, 17): return PathAlg.s
-        default: return 1
+        if type1 == 2 {
+            switch type2 {
+            case 9: return (10, 1)
+            case 17: return (18, -1)
+            default: return nil
+            }
         }
+        if type1 == 3 {
+            switch type2 {
+            case 4: return (5, 1)
+            case 8: return (10, 1)
+            case 9: return (11, 1)
+            case 14: return (15, 1)
+            case 16: return (18, 1)
+            case 17: return (2, 3)
+            default: return nil
+            }
+        }
+        if type1 == 4 {
+            switch type2 {
+            case 4: return charK == 3 ? (7, -s) : nil
+            case 6: return (10, -s)
+            case 9: return charK == 3 ? (13, -s) : nil
+            case 12: return (15, -s)
+            case 14: return (16, 1)
+            case 15: return (18, 1)
+            default: return nil
+            }
+        }
+        if type1 == 5 {
+            return type2 == 14 ? (18, 1) : nil
+        }
+        if type1 == 6 {
+            switch type2 {
+            case 9: return (15, s)
+            case 13: return (18, -1)
+            case 14: return (2, -s)
+            case 17: return (5, s)
+            default: return nil
+            }
+        }
+        if type1 == 7 {
+            return type2 == 12 ? (18, 1) : nil
+        }
+        if type1 == 8 {
+            switch type2 {
+            case 9: return (16, -1)
+            case 11: return (18, -1)
+            case 12: return (2, -s)
+            case 17: return charK == 3 ? (7, s) : nil
+            default: return nil
+            }
+        }
+        if type1 == 9 {
+            switch type2 {
+            case 9: return (17, 1)
+            case 10: return (18, -1)
+            case 11: return (2, 3)
+            case 12: return (3, -s)
+            case 14: return (4, 1)
+            case 15: return (5, 1)
+            case 16: return charK == 3 ? (7, -s) : nil
+            case 17: return (8, 3)
+            case 22, 23, 24, 25: return charK == 2 ? (10, 1) : nil
+            default: return nil
+            }
+        }
+        if type1 == 11 {
+            switch type2 {
+            case 14: return (5, 1)
+            case 17: return (10, 3)
+            default: return nil
+            }
+        }
+        if type1 == 12 {
+            switch type2 {
+            case 13: return (5, 1)
+            case 14: return (6, -1)
+            case 16: return (10, s)
+            case 17: return (11, -s)
+            default: return nil
+            }
+        }
+        if type1 == 13 {
+            return type2 == 14 ? (7, 1) : nil
+        }
+        if type1 == 14 {
+            switch type2 {
+            case 14: return (8, -1)
+            case 15: return (10, -1)
+            case 17: return charK == 3 ? (13, -s) : nil
+            default: return nil
+            }
+        }
+        if type1 == 17 {
+            switch type2 {
+            case 17: return (16, -3)
+            case 22, 23, 24, 25: return charK == 2 ? (18, 1) : nil
+            default: return nil
+            }
+        }
+        return nil
     }
 
     private static func process(type1: Int, type2: Int, type: Int, deg1: Int, deg2: Int, koef: Int) -> Bool {
@@ -191,7 +203,7 @@ struct Step_14_mult {
             //PrintUtils.printMatrix("hh", HHElem(deg: deg2, type: type2))
             //PrintUtils.printMatrix("shift", ShiftHHElem.shiftForType(type1).shift(degree: deg1, shift: deg2))
             //PrintUtils.printMatrix("multRes", multRes)
-            OutputFile.writeLog(.error, "\(deg1) * \(deg2) not in im")
+            OutputFile.writeLog(.error, "\(deg1) * \(deg2) not in im (koef=\(koef))")
         case .failed:
             OutputFile.writeLog(.error, "\(deg1) * \(deg2) failed")
         }
