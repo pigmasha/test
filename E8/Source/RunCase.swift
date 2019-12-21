@@ -7,7 +7,7 @@ struct RunCase {
         switch PathAlg.alg.currentStep {
         case  0: return Step_0_check_alg.runCase()
         case  1: return Step_1_calc_s.runCase()
-        case  2: return Step_2_calc_dn.runCase()
+        /*case  2: return Step_2_calc_dn.runCase()
         case  3: return Step_3_sigma_deg.runCase()
         case  4: return Step_4_dimhom.runCase()
         case  5: return Step_5_im.runCase()
@@ -19,8 +19,7 @@ struct RunCase {
         case 11: return Step_11_degs_mult.runCase()
         case 12: return Step_12_degs_mult_check.runCase()
         case 13: return Step_13_mult_comm.runCase()
-        case 14: return Step_14_mult.runCase()
-        case 15: return Step_15_mult_34.runCase()
+        case 14: return Step_14_mult.runCase()*/
         default: return false
         }
     }
@@ -42,7 +41,6 @@ struct RunCase {
         case 12: return "Mult degs check"
         case 13: return "Comm check"
         case 14: return "Mult"
-        case 15: return "Proof 4*3"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }

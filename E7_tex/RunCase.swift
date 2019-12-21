@@ -5,8 +5,14 @@
 import Foundation
 
 struct RunCase {
+    static let skipTypes = [5, 10, 11, 15, 18]
+
     static func run(pathFrom: String, pathTo: String) -> String? {
-        return runDiff(pathFrom: pathFrom, pathTo: pathTo)
+        if FileManager.default.fileExists(atPath: (pathFrom as NSString).appendingPathComponent("Diff+Create.swift")) {
+            return runDiff(pathFrom: pathFrom, pathTo: pathTo)
+        } else {
+            return runShifts(pathFrom: pathFrom, pathTo: pathTo)
+        }
     }
 
     private static func runDiff(pathFrom: String, pathTo: String) -> String? {
@@ -35,7 +41,9 @@ struct RunCase {
 
     private static func runShifts(pathFrom: String, pathTo: String) -> String? {
         var str = header
-        for type in 1 ... 24 {
+        for type in 1 ... 25 {
+            if skipTypes.contains(type) { continue }
+            
             let typeStr = type < 10 ? "0\(type)" : "\(type)"
             var path = (pathFrom as NSString).appendingPathComponent("ShiftHHElem\(typeStr).swift")
             if !FileManager.default.fileExists(atPath: path) {

@@ -23,6 +23,7 @@
 		0C55FB7E21604A3500902EE5 /* RunCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase.swift; sourceTree = "<group>"; };
 		0C55FB7F21604A3500902EE5 /* TexConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexConverter.swift; sourceTree = "<group>"; };
 		0C55FB8621604E7500902EE5 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		0CA373332328E89700C82756 /* ByType */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ByType; path = ../E7/Source/ShiftHH/ByType; sourceTree = "<group>"; };
 		0CE6FE0F226D1AC5008B5BD9 /* TexDiffConveter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexDiffConveter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -30,6 +31,7 @@
 		0C55FB61216049E300902EE5 = {
 			isa = PBXGroup;
 			children = (
+				0CA373332328E89700C82756 /* ByType */,
 				0C55FB7B21604A3400902EE5 /* AppDelegate.swift */,
 				0C55FB7E21604A3500902EE5 /* RunCase.swift */,
 				0C55FB8621604E7500902EE5 /* String.swift */,

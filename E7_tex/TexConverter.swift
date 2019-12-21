@@ -25,7 +25,7 @@ final class TexConverter {
     private var koefPrefix = ""
     private var matrixWidth = ""
     private var forInterval: (from: String, to: String)?
-
+    
     init(type: Int) {
         self.type = type
     }
@@ -36,7 +36,7 @@ final class TexConverter {
         result += "%                                          \(type)\n"
         result += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
         result += "\\begin{pr}[Translates for the case \(type)]\n"
-        result += "$({\\rm I})$ Let $r_0\\in\\N$, $r_0<11$. $r_0$-translates of the\n"
+        result += "$({\\rm I})$ Let $r_0\\in\\N$, $r_0<17$. $r_0$-translates of the\n"
         result += "elements $Y^{(\(type))}_t$ are described by the following way.\n\n"
 
         let mutableSource = NSMutableString(string: source)
@@ -50,17 +50,17 @@ final class TexConverter {
         if parts.count < 5 {
             parts = mutableSource.components(separatedBy: "override func oddShift")
         }
-        guard parts.count == 12 else { throw TexConverterError.badPartsCount("type=\(type), \(parts.count) parts") }
+        guard parts.count == 18 else { throw TexConverterError.badPartsCount("type=\(type), \(parts.count) parts") }
 
         nPart = 0
         koefPrefix = mutableSource.contains("oddKoef0") ? "\\kappa_0" : ""
-        for i in 1 ... 11 {
+        for i in 1 ... 17 {
             result += try convertShift(source: parts[i], shift: i - 1)
         }
-        let koefSuffix = mutableSource.contains("koef11") ? ",\nand coefficients multiplied by $(-1)^{\\ell_0}$" : ""
+        let koefSuffix = mutableSource.contains("koef17") ? ",\nand coefficients multiplied by $(-1)^{\\ell_0}$" : ""
         result += "\\medskip\n"
         result += "$({\\rm II})$ Represent an arbitrary $t_0\\in\\N$ in the form\n"
-        result += "$t_0=11\\ell_0+r_0$, where $0\\le r_0\\le 10.$ Then\n"
+        result += "$t_0=17\\ell_0+r_0$, where $0\\le r_0\\le 16.$ Then\n"
         result += "$\\Omega^{t_0}(Y_t^{(\(type))})$ is a $\\Omega^{r_0}(Y_t^{(\(type))})$, whose left\n"
         result += "components twisted by $\\sigma^{\\ell_0}$\(koefSuffix).\n"
         result += "\\end{pr}\n\n"
@@ -68,11 +68,11 @@ final class TexConverter {
     }
 
     private func convertShift(source: String, shift: Int) throws -> String {
-        guard let sizes = source.scanFirst(regexp: "makeZeroMatrix\\(([0-9]s), h:.?([0-9]s)\\)") else {
+        guard let sizes = source.scanFirst(regexp: "makeZeroMatrix\\(([0-9]+s), h:([0-9]+s)\\)") else {
             throw TexConverterError.noMatrixSize("type=\(type) shift=\(shift), text=\(source)")
         }
         matrixWidth = sizes[0]
-        let sizeStr = "$(\(sizes[0])\\times \(sizes[1]))$"
+        let sizeStr = "$(\(sizes[1])\\times \(sizes[0]))$"
 
         let mutableSource = NSMutableString(string: source)
         guard startClear(mutableSource) else {
@@ -310,7 +310,15 @@ final class TexConverter {
         source.deleteCharacters(in: NSRange(to: 3))
         var jS = ""
         while true {
-            let r1 = source.range(of: "j=")
+            let r10 = source.range(of: "j=")
+            let r11 = source.range(of: "j+=")
+            let r1Plus: Bool
+            if r10.location == NSNotFound || r11.location == NSNotFound {
+                r1Plus = r10.location == NSNotFound
+            } else {
+                r1Plus = r10.location > r11.location
+            }
+            let r1 = r1Plus ? r11 : r10
             let r3 = source.range(of: ",j}=")
             if r3.location == NSNotFound { break }
             //let r4 = source.range(of: "j", options: .backwards, range: source.rangeTo(r3.lowerBound))
@@ -326,7 +334,45 @@ final class TexConverter {
             if r1.location == NSNotFound { break }
             let r2 = source.range(of: "$$b_", range: source.rangeFrom(r1))
             if r2.location == NSNotFound || r2.location < r1.location || r3.location < r2.location { break }
-            jS = source.substring(with: NSRange(from: r1.upperBound, to: r2.lowerBound))
+            if r1Plus {
+                if jS == "" { return false }
+                let jSPlus = source.substring(with: NSRange(from: r1.upperBound, to: r2.lowerBound))
+                let sVal: Int
+                if jSPlus == "s" {
+                    sVal = 1
+                } else if (jSPlus.lengthOfBytes(using: .utf8) == 2 || jSPlus.lengthOfBytes(using: .utf8) == 3) && jSPlus.suffix(1) == "s" {
+                    sVal = Int(String(jSPlus.prefix(jSPlus.lengthOfBytes(using: .utf8) - 1))) ?? 0
+                    if sVal <= 0 { print("Warning: bad sPlus=\(jSPlus)") }
+                } else {
+                    sVal = -1
+                    print("Warning: unknown sPlus=\(jSPlus)")
+                }
+                if jS == "0" {
+                    jS = sVal == 1 ? "s" : "\(sVal)s"
+                } else {
+                    let jSParts = jS.components(separatedBy: "+")
+                    if jSParts.count != 1 && jSParts.count != 2 { return false }
+                    let jSVal: Int
+                    if jSParts[0] == "s" {
+                        jSVal = 1
+                    } else if (jSParts[0].lengthOfBytes(using: .utf8) == 2 || jSParts[0].lengthOfBytes(using: .utf8) == 3) && jSParts[0].suffix(1) == "s" {
+                        jSVal = Int(String(jSParts[0].prefix(jSParts[0].lengthOfBytes(using: .utf8) - 1))) ?? 0
+                        if jSVal <= 0 { fatalError("Bad part0=\(jSParts[0])") }
+                    } else {
+                        jSVal = 0
+                        if jSParts[0].prefix(1) != "z" { print("Warning: unknown part=\(jSParts[0])") }
+                    }
+                    jS = sVal + jSVal == 1 ? "s" : "\(sVal + jSVal)s"
+                    if jSParts.count == 2 {
+                        jS += "+\(jSParts[1])"
+                    }
+                    if jSParts.count == 1 && jSVal == 0 {
+                        jS += "+\(jSParts[0])"
+                    }
+                }
+            } else {
+                jS = source.substring(with: NSRange(from: r1.upperBound, to: r2.lowerBound))
+            }
             source.replaceCharacters(in: NSRange(from: r3.lowerBound + 1, len: 1), with: jS)
             /*if r4.location != NSNotFound && r4.location > r2.location {
                 source.replaceCharacters(in: r4, with: jS)
@@ -350,10 +396,7 @@ final class TexConverter {
         source.replaceOccurrences(of: "z", with: "(", range: source.wholeRange)
         source.replaceOccurrences(of: "Z", with: ")", range: source.wholeRange)
         source.replaceOccurrences(of: "j%s", with: "(j)_s", range: source.wholeRange)
-        source.replaceOccurrences(of: "f0(", with: "f_0(", range: source.wholeRange)
-        source.replaceOccurrences(of: "f1(", with: "f_1(", range: source.wholeRange)
-        source.replaceOccurrences(of: "f2(", with: "f_2(", range: source.wholeRange)
-        source.replaceOccurrences(of: "}overridefunckoef11", with: "\n%koef11", range: source.wholeRange)
+        source.replaceOccurrences(of: "}overridefunckoef17", with: "\n%koef17", range: source.wholeRange)
         source.replaceOccurrences(of: "}overridefuncoddKoef_0", with: "\n%oddKoef0", range: source.wholeRange)
         return source.range(of: "addElemToHH").location == NSNotFound
     }
