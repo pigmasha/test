@@ -7,8 +7,8 @@ struct RunCase {
         switch PathAlg.alg.currentStep {
         case  0: return Step_0_check_alg.runCase()
         case  1: return Step_1_calc_s.runCase()
-        /*case  2: return Step_2_calc_dn.runCase()
-        case  3: return Step_3_sigma_deg.runCase()
+        case  2: return Step_2_calc_dn.runCase()
+        /*case  3: return Step_3_sigma_deg.runCase()
         case  4: return Step_4_dimhom.runCase()
         case  5: return Step_5_im.runCase()
         case  6: return Step_6_dimhh.runCase()

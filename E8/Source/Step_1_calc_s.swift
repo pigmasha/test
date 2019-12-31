@@ -6,30 +6,46 @@ import Foundation
 
 struct Step_1_calc_s {
     static var Qs: [CalcBimodQ] = []
-    static let printHomos = false
+    static var QHomos: [[PHomo]] = []
+
+    static let printHomos = true
 
     static func runCase() -> Bool {
         Qs = []
+        QHomos = []
         OutputFile.writeLog(.simple, header)
         OutputFile.writeLog(.simple, "N=\(PathAlg.n), S=\(PathAlg.s)\n\n")
         var res = false
         for i in 0 ... PathAlg.n-1 {
-            for j in 0 ..< PathAlg.s {
+            let jMax = printHomos ? 1 : PathAlg.s
+            for j in 0 ..< jMax {
                 if processS(i+PathAlg.n*j) { res = true; break }
             }
             if res { break }
         }
-        for d in 0 ..< Qs.count {
-            let myQ = BimodQ(deg: d)
-            if !checkSameQ(Qs[d].pij, myQ.ppp, myQ.sizes) {
-                OutputFile.writeLog(.simple, "ERROR deg=\(d)!\n")
-                printQ(Qs[d].pij, deg: d)
-                OutputFile.writeLog(.simple, "My\n")
-                printQ(myQ.ppp, deg: d)
-                res = true
-                break
+        if !printHomos {
+            for d in 0 ..< Qs.count {
+                let myQ = BimodQ(deg: d)
+                if !checkSameQ(Qs[d].pij, myQ.ppp, myQ.sizes) {
+                    OutputFile.writeLog(.simple, "ERROR deg=\(d)!\n")
+                    printQ(Qs[d].pij, deg: d)
+                    OutputFile.writeLog(.simple, "My\n")
+                    printQ(myQ.ppp, deg: d)
+                    res = true
+                    break
+                }
             }
         }
+        /*if printHomos {
+            for i in 0 ..< QHomos.count {
+                OutputFile.writeLog(.simple, "    private static var koefs\(i): ([[Int]], [[Int]], [[Int]], [[Int]], [[Int]], [[Int]], [[Int]], [[Int]]) {\n")
+                let matrixStr = QHomos[i].map { homos in
+                    "[" + homos.matrix.map { row in "[" + row.map { "\($0.koef)" }.joined(separator: ",") + "]" }.joined(separator: ",") + "]"
+                }.joined(separator: ", ")
+                OutputFile.writeLog(.simple, "        return (\(matrixStr))\n")
+                OutputFile.writeLog(.simple, "    }\n\n")
+            }
+        }*/
         OutputFile.writeLog(.simple, "\\end{document}\n")
         return res
     }
@@ -40,8 +56,13 @@ struct Step_1_calc_s {
         let w = maxLenWay(end: i)
         var homos: [PHomo] = []
         var lastHomo = PHomo(from: [w.endsWith.number], to: [w.startsWith.number], matrix: [[WayKoef(koef: 1, way: w)]])
+        if QHomos.count < 1 {
+            QHomos += [[lastHomo]]
+        } else {
+            QHomos[0] = QHomos[0] + [lastHomo]
+        }
         homos.append(lastHomo)
-        for d in 0 ... 30 {
+        for d in 0 ... 28 {
             print("\(Date()): d=\(d) - \(i % n)")
             if Qs.count < d + 1 { Qs += [CalcBimodQ()] }
             Qs[d].sizes += [lastHomo.from.count]
@@ -63,10 +84,16 @@ struct Step_1_calc_s {
             if checkExact(lastHomo, homo, ker: myKer) { return true }
             lastHomo = homo
             homos.append(lastHomo)
+            if QHomos.count < d + 2 {
+                QHomos += [[lastHomo]]
+            } else {
+                QHomos[d + 1] = QHomos[d + 1] + [lastHomo]
+            }
         }
         if printHomos {
-            let start = i == 1 || i == 5 ? 1 : 23
-            //for d in 0 ..< homos.count { printHomo(homos[d], deg: d) }
+            for d in 0 ..< homos.count { printHomo(homos[d], deg: d) }
+            let start = i == 0 || i == 1 || i == 5 || i == 7 ? 1 : 23
+            if (start == 1 && i > 0) { OutputFile.writeLog(.simple, "\\newpage\n") }
             for d in start ..< homos.count { if d == 1 || d % 2 == 0 { printHomo(homos[d], deg: d - 1) } }
             OutputFile.writeLog(.simple, "\\begin{center}{\\large $\\mathbf{S_{\(kStr(i, m: nil))}}$}\\end{center}\n\n")
             for d in start ..< homos.count { if d % 2 == 1 { printHomo(homos[d], deg: d - 1) } }
