@@ -990,7 +990,6 @@ extension Diff {
             for j_1 in 0 ... 1 {
                 addTenToPos(j+(5+2*j_1)*s, j, 8*(j+m)+5+2*j_1, 8*(j+m)+7, 8*j+5, 8*j+6+j_1, 1)
             }
-
         }
         for j in 11*s ..< 12*s {
             for j_1 in 1 ... 2 {
