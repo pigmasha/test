@@ -57,37 +57,6 @@ struct CalcDiff {
         return 0
     }
 
-    static func checkDiffLen(_ diff: Diff, deg: Int) -> Int {
-        /*let lens = DiffLen(deg: deg)
-        if lens.items.count == 0 { return 0 }
-
-        let items = lens.items
-        let rows = diff.rows
-        if items.count != rows.count { return 1 }
-        if items[0].count != rows[0].count { return 2 }
-
-        for i in 0 ..< rows.count {
-            for j in 0 ..< rows[0].count {
-                let c = rows[i][j]
-                let n = items[i][j]
-                if c.isZero {
-                    if n.n0 != 0 || n.n1 != 0 { return 3 }
-                } else {
-                    let t = c.content.last!.tenzor
-                    if t.leftComponent.len != n.n0 {
-                        OutputFile.writeLog(.error, "deg=\(deg):(\(i),\(j)): left \(t.leftComponent.len) != \(n.n0) - my")
-                        return 4
-                    }
-                    if t.rightComponent.len != n.n1 {
-                        OutputFile.writeLog(.error, "deg=\(deg):(\(i),\(j)): right \(t.rightComponent.len) != \(n.n1) - my")
-                        return 5
-                    }
-                }
-            }
-        }*/
-        return 0
-    }
-
     static func createZeroDiff(_ diff: Diff, qFrom: BimodQ, qTo: BimodQ) -> Int {
         for i in 0 ..< qTo.pij.count {
             for j in 0 ..< qFrom.pij.count {

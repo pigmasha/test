@@ -24,6 +24,7 @@
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA96FB92223194600D9BDDF /* BimodQ.swift */; };
+		0CAE5FD123F0955000A24E30 /* Step_3_sigma_deg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE5FD023F0955000A24E30 /* Step_3_sigma_deg.swift */; };
 		0CAFC74622205384006DB03B /* PElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAFC74522205384006DB03B /* PElements.swift */; };
 		0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB0E271CC595B9007DC5F5 /* Way.swift */; };
 		0CC4916522BE2FD000AA5AF7 /* Step_0_check_alg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */; };
@@ -33,6 +34,7 @@
 		0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A31C1E9158E700C1C32C /* Utils.swift */; };
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
 		0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF6BDCA2198EA1C0054A309 /* PKer.swift */; };
+		0CFE6D7D23CA417C00931B5E /* DiffKoefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE6D7C23CA417C00931B5E /* DiffKoefs.swift */; };
 		9B184124229D33D700600B7A /* Dim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B184123229D33D700600B7A /* Dim.swift */; };
 		9B2353B223AFE2BC00F25A17 /* Step_2_calc_dn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2353B123AFE2BC00F25A17 /* Step_2_calc_dn.swift */; };
 		9B2353B423AFE41700F25A17 /* BimodKoefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2353B323AFE41700F25A17 /* BimodKoefs.swift */; };
@@ -64,6 +66,7 @@
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CA96FB92223194600D9BDDF /* BimodQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
+		0CAE5FD023F0955000A24E30 /* Step_3_sigma_deg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_3_sigma_deg.swift; sourceTree = "<group>"; };
 		0CAFC74522205384006DB03B /* PElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PElements.swift; sourceTree = "<group>"; };
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
 		0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_0_check_alg.swift; sourceTree = "<group>"; };
@@ -73,6 +76,7 @@
 		0CD8A31C1E9158E700C1C32C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CF6BDCA2198EA1C0054A309 /* PKer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKer.swift; sourceTree = "<group>"; };
+		0CFE6D7C23CA417C00931B5E /* DiffKoefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffKoefs.swift; sourceTree = "<group>"; };
 		9B184123229D33D700600B7A /* Dim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dim.swift; sourceTree = "<group>"; };
 		9B2353B123AFE2BC00F25A17 /* Step_2_calc_dn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_2_calc_dn.swift; sourceTree = "<group>"; };
 		9B2353B323AFE41700F25A17 /* BimodKoefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BimodKoefs.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */,
 				9B78BE55218362F800722B6D /* Step_1_calc_s.swift */,
 				9B2353B123AFE2BC00F25A17 /* Step_2_calc_dn.swift */,
+				0CAE5FD023F0955000A24E30 /* Step_3_sigma_deg.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 				0C07A71B223ED9A800BF8C61 /* CalcDiff.swift */,
 				0C07A71C223ED9A800BF8C61 /* Diff.swift */,
 				0C07A71D223ED9A800BF8C61 /* Diff+Create.swift */,
+				0CFE6D7C23CA417C00931B5E /* DiffKoefs.swift */,
 				9B2353B323AFE41700F25A17 /* BimodKoefs.swift */,
 				0CA96FB92223194600D9BDDF /* BimodQ.swift */,
 				0C04E01C2249A5AD00F1E4E0 /* DiffProgram.swift */,
@@ -288,7 +294,9 @@
 				0C07A720223ED9A800BF8C61 /* Diff.swift in Sources */,
 				9B184124229D33D700600B7A /* Dim.swift in Sources */,
 				0CC4916522BE2FD000AA5AF7 /* Step_0_check_alg.swift in Sources */,
+				0CFE6D7D23CA417C00931B5E /* DiffKoefs.swift in Sources */,
 				0CF6BDCB2198EA1C0054A309 /* PKer.swift in Sources */,
+				0CAE5FD123F0955000A24E30 /* Step_3_sigma_deg.swift in Sources */,
 				0C55D52C1CC39D940051135A /* Num.swift in Sources */,
 				0CAFC74622205384006DB03B /* PElements.swift in Sources */,
 				9B26FD5E22A265210002DA2F /* CheckHH.swift in Sources */,

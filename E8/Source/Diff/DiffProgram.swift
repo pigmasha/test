@@ -1,5 +1,5 @@
 //
-//  E7
+//  E8
 //  Created by M on 26/03/2019.
 //
 
@@ -32,6 +32,27 @@ struct DiffProgram {
         OutputFile.writeLog(.simple, ss)
     }
 
+    static func diffKoefsProgram(_ diff: Diff, deg: Int) {
+        let s = PathAlg.s
+        let m = deg / 2
+        var ss = "<pre>private func createDiffKoefsWithNumber\(deg)() {\n"
+        ss += "    let s = PathAlg.s\n"
+        ss += "    let m = \(m)\n"
+        ss += "    makeZeroMatrix(\(diff.width / s)*s, h: \(diff.height / s)*s)\n\n"
+        for j in 0 ..< diff.width {
+            guard j % s == 0 else { continue }
+            ss += "    for j in \(colForJ(j)) ..< \(colForJ(j+s)) {\n"
+            for i in 0 ..< diff.height {
+                let c = diff.rows[i][j]
+                guard !c.isZero else { continue }
+                ss += "        addTenToPos(\(rowRowJ(j, i)), j, 0, 0, 0, 0, \(Int(c.content[0].koef)))\n"
+            }
+            ss += "    }\n"
+        }
+        ss += "}</pre>\n"
+        OutputFile.writeLog(.simple, ss)
+    }
+
     private static func colForJ(_ j: Int) -> String {
         let s = PathAlg.s
         if j == 0 { return "0" }
@@ -56,10 +77,11 @@ struct DiffProgram {
     }
 
     private static func koefStr(_ v: Vertex, _ j: Int, jStr: String) -> String {
-        let dd = myMod(v.number - 7 * j, mod: 7 * PathAlg.s)
-        let m1 = dd / 7
+        let n = PathAlg.n
+        let dd = myMod(v.number - n * j, mod: n * PathAlg.s)
+        let m1 = dd / n
         let m2 = m1 == PathAlg.s - 1 ? -1 : m1
-        let ss = m1 == 0 ? (jStr == "j" ? "7*\(jStr)" : "7*(\(jStr))") : "7*(" + jStr + (m2 < 0 ? "" : "+") + "\(m2))"
-        return dd == 7 * m1 ? ss : "\(ss)+\(dd - 7 * m1)"
+        let ss = m1 == 0 ? (jStr == "j" ? "\(n)*\(jStr)" : "\(n)*(\(jStr))") : "\(n)*(" + jStr + (m2 < 0 ? "" : "+") + "\(m2))"
+        return dd == n * m1 ? ss : "\(ss)+\(dd - n * m1)"
     }
 }

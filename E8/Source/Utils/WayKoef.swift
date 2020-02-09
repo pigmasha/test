@@ -287,6 +287,7 @@ extension Array where Element == WayKoef {
             if abs(w1.koefs[0]) != 1 || abs(w2.koefs[0]) != 1 { return nil }
             let w = Way(from: w2.ways[0].endsWith.number, to: w1.ways[0].endsWith.number, noZeroLen: true)
             if w.isZero { return nil }
+            if (w.len + w2.ways[0].len > 6) { return nil }
             if let dd = dd {
                 if !dd.way.isEq(w) { return nil }
                 if w1.koefs[0] / w2.koefs[0] != dd.koef { return nil }

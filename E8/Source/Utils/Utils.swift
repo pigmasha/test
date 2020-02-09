@@ -35,7 +35,7 @@ func f0(_ x: Int, _ y: Int) -> Int {
 
 func sigmaDeg() -> Int {
     let s = PathAlg.s
-    let s0 = s / Utils.gcd(s, j: 9)
+    let s0 = s / Utils.gcd(s, j: 15)
 
     if (PathAlg.charK == 2) { return s0 }
     return s0 % 2 == 0 ? s0 : 2*s0

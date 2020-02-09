@@ -101,15 +101,17 @@ final class Comb {
                 let a: WayArr
                 switch arrow.type {
                 case .alpha:
-                    a = WayArr(type: arrow.type, i: arrow.i + 9 * 4 * sk)
-                    item.koef *= -1
+                    a = WayArr(type: arrow.type, i: arrow.i + 15 * 5 * sk)
+                    if arrow.i % 5 != 4 {
+                        item.koef *= -1
+                    }
                 case .beta:
-                    a = WayArr(type: arrow.type, i: arrow.i + 9 * 3 * sk)
+                    a = WayArr(type: arrow.type, i: arrow.i + 15 * 3 * sk)
                     if arrow.i % 3 != 0 {
                         item.koef *= -1
                     }
                 case .gamma:
-                    a = WayArr(type: arrow.type, i: arrow.i + 9 * sk)
+                    a = WayArr(type: arrow.type, i: arrow.i + 15 * sk)
                     item.koef *= -1
                 }
                 arrays += [a]

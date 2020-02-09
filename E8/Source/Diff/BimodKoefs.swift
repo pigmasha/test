@@ -42,6 +42,20 @@ final class BimodKoefs {
         }
     }
 
+    func koefs(at i: Int) -> [[Int]] {
+        switch i {
+        case 0: return koefs.0
+        case 1: return koefs.1
+        case 2: return koefs.2
+        case 3: return koefs.3
+        case 4: return koefs.4
+        case 5: return koefs.5
+        case 6: return koefs.6
+        case 7: return koefs.7
+        default: fatalError("Bad index \(i)")
+        }
+    }
+
     private static var koefs0: ([[Int]], [[Int]], [[Int]], [[Int]], [[Int]], [[Int]], [[Int]], [[Int]]) {
         return ([[1]], [[1]], [[1]], [[1]], [[1]], [[1]], [[1]], [[1]])
     }
@@ -172,3 +186,4 @@ final class BimodKoefs {
         return ([[1]], [[1]], [[1]], [[1]], [[1]], [[1]], [[1]], [[1],[-1]])
     }
 }
+

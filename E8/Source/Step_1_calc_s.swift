@@ -34,6 +34,45 @@ struct Step_1_calc_s {
                     res = true
                     break
                 }
+                if d > 28 { continue }
+                let myK = BimodKoefs(deg: d)
+                let s = PathAlg.s
+                if QHomos[d].count != 8 * s {
+                    OutputFile.writeLog(.simple, "ERROR Bad count=\(QHomos[d].count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][0].matrix.count != myK.koefs.0.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count0=\(QHomos[d][0].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][s].matrix.count != myK.koefs.1.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count1=\(QHomos[d][s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][2*s].matrix.count != myK.koefs.2.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count2=\(QHomos[d][2*s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][3*s].matrix.count != myK.koefs.3.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count3=\(QHomos[d][3*s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][4*s].matrix.count != myK.koefs.4.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count4=\(QHomos[d][4*s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][5*s].matrix.count != myK.koefs.5.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count5=\(QHomos[d][5*s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][6*s].matrix.count != myK.koefs.6.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count6=\(QHomos[d][6*s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
+                if QHomos[d][7*s].matrix.count != myK.koefs.7.count {
+                    OutputFile.writeLog(.simple, "ERROR Bad count7=\(QHomos[d][7*s].matrix.count)! deg=\(d)\n")
+                    return true
+                }
             }
         }
         /*if printHomos {
@@ -62,7 +101,7 @@ struct Step_1_calc_s {
             QHomos[0] = QHomos[0] + [lastHomo]
         }
         homos.append(lastHomo)
-        for d in 0 ... 28 {
+        for d in 0 ... 32 {
             print("\(Date()): d=\(d) - \(i % n)")
             if Qs.count < d + 1 { Qs += [CalcBimodQ()] }
             Qs[d].sizes += [lastHomo.from.count]
@@ -70,7 +109,7 @@ struct Step_1_calc_s {
             let myKer = PKer.ker(lastHomo, onlyGen: true)
             //myKer.printTex()
             if myKer.items.count < 1 || myKer.items.count > 5 {
-                OutputFile.writeLog(.simple, "bad ker count \(myKer.items.count)")
+                OutputFile.writeLog(.simple, "bad ker count \(myKer.items.count); d=\(d)")
                 myKer.printTex()
                 return true
             }
@@ -89,15 +128,16 @@ struct Step_1_calc_s {
             } else {
                 QHomos[d + 1] = QHomos[d + 1] + [lastHomo]
             }
+            if printHomos { printHomo(lastHomo, deg: d) }
         }
-        if printHomos {
+        /*if printHomos {
             for d in 0 ..< homos.count { printHomo(homos[d], deg: d) }
             let start = i == 0 || i == 1 || i == 5 || i == 7 ? 1 : 23
             if (start == 1 && i > 0) { OutputFile.writeLog(.simple, "\\newpage\n") }
             for d in start ..< homos.count { if d == 1 || d % 2 == 0 { printHomo(homos[d], deg: d - 1) } }
             OutputFile.writeLog(.simple, "\\begin{center}{\\large $\\mathbf{S_{\(kStr(i, m: nil))}}$}\\end{center}\n\n")
             for d in start ..< homos.count { if d % 2 == 1 { printHomo(homos[d], deg: d - 1) } }
-        }
+        }*/
         /*for i in 1 ..< homos.count {
             if checkExact(homos[i-1], homos[i]) { return true }
         }*/

@@ -66,6 +66,29 @@ struct CalcDiffAll {
     private static var curDiff = 0
 
     static func calcDiffAllVariants() -> Bool {
+        //return calcDiffKoefsAllVariants()
+        let diff = calcZeroDiff()
+        if diff.1 != 0 {
+            OutputFile.writeLog(.error, "deg=0: Err \(diff.1)")
+            return false
+        }
+        var prevDiff = diff.0!
+        curDiff = 1
+        while true {
+            DiffProgram.diffProgram(prevDiff, deg: curDiff - 1)
+            if curDiff >= PathAlg.twistPeriod { break }
+            let result = calcDiffByKoefsWithNumber(deg: curDiff, prevDiff: prevDiff)
+            if result.1 != 0 {
+                OutputFile.writeLog(.error, "deg=\(curDiff): Err \(result.1)")
+                return false
+            }
+            prevDiff = result.0!
+            curDiff += 1
+        }
+        return true
+    }
+
+    static func calcDiffKoefsAllVariants() -> Bool {
         let diff = calcZeroDiff()
         if diff.1 != 0 {
             OutputFile.writeLog(.error, "deg=0: Err \(diff.1)")
@@ -75,7 +98,8 @@ struct CalcDiffAll {
         //PrintUtils.printMatrix("Diff 0", diffs[0].currentDiff)
         curDiff = 1
         while true {
-            DiffProgram.diffProgram(diffs[curDiff - 1].currentDiff, deg: curDiff - 1)
+            DiffProgram.diffKoefsProgram(diffs[curDiff - 1].currentDiff, deg: curDiff - 1)
+            //DiffProgram.diffProgram(diffs[curDiff - 1].currentDiff, deg: curDiff - 1)
             if curDiff > PathAlg.twistPeriod { break }
             if diffs.count == curDiff {
                 let result = calcDiffWithNumber(deg: curDiff, prevDiff: diffs[curDiff - 1].currentDiff, variants: nil)
@@ -205,7 +229,7 @@ struct CalcDiffAll {
                         if kk % 3 != 0 { weight += 1 }
                         kk /= 3
                     }
-                    if Diff(mult: prevDiff, and: diff, col2: j).isZero { vv += [(k, weight)] }
+                    if Diff(mult: prevDiff, and: diff, col2: j).isZero { vv += [(k, weight)]; break; }
                 }
                 guard vv.count != 0 else {
                     PrintUtils.printMatrix("Prev diff", prevDiff, redColumns: [j])
@@ -225,56 +249,90 @@ struct CalcDiffAll {
         return allVariants
     }
 
+    private static func calcDiffByKoefsWithNumber(deg: Int, prevDiff: Diff) -> (Diff?, Int) {
+        let d = deg % PathAlg.twistPeriod
+
+        let qFrom = BimodQ(deg: d + 1)
+        let qTo = BimodQ(deg: d)
+
+        let checkDiff = Diff()
+        if fillCheckMatrix(deg: deg, checkDiff: checkDiff) != 0 { return (nil, 1) }
+        #if DIFF_KOEFS
+        let koefsDiff = DiffKoefs(deg: deg)
+        if koefsDiff.width != checkDiff.width || koefsDiff.height != checkDiff.height { return (nil, 2) }
+        for i in 0 ..< koefsDiff.height {
+            for j in 0 ..< koefsDiff.width {
+                if checkDiff.rows[i][j].isOnlyZero && !koefsDiff.rows[i][j].isZero { return (nil, 3) }
+                if checkDiff.rows[i][j].isFirstStep && koefsDiff.rows[i][j].isZero { return (nil, 4) }
+                if checkDiff.rows[i][j].isZero && !koefsDiff.rows[i][j].isZero {
+                    var wL = Way(from: qTo.pij[i].0, to: qFrom.pij[j].0, noZeroLen: true)
+                    if wL.isZero { wL = Way(from: qTo.pij[i].0, to: qFrom.pij[j].0) }
+                    let wR = Way(from: qFrom.pij[j].1, to: qTo.pij[i].1)
+                    if wL.isZero {
+                        OutputFile.writeLog(.error, "Code=5: deg=\(deg), row=\(i), col=\(j)")
+                        return (nil, 5)
+                    }
+                    if wR.isZero {
+                        OutputFile.writeLog(.error, "Code=6: deg=\(deg), row=\(i), col=\(j)")
+                        return (nil, 6)
+                    }
+                    let c = Comb(tenzor: Tenzor(left: wL, right: wR), koef: koefsDiff.rows[i][j].terminateKoef(isLast: true))
+                    checkDiff.rows[i][j].addComb(c)
+                }
+            }
+        }
+        #endif
+        let multRes = Diff(mult: prevDiff, and: checkDiff)
+        if !multRes.isZero {
+            PrintUtils.printMatrixDeg("Prev diff", prevDiff, deg, deg - 1)
+            PrintUtils.printMatrixDeg("Diff", checkDiff, deg, deg - 1)
+            PrintUtils.printMatrixDeg("multRes", multRes, deg + 1, deg)
+           return (nil, 9)
+        }
+        checkDiff.twist(deg)
+        return (checkDiff, 0)
+    }
+
     static func fillCheckMatrix(deg: Int, checkDiff: Diff) -> Int {
         let s = PathAlg.s
         let d = deg % PathAlg.twistPeriod
         let qFrom = BimodQ(deg: d + 1)
         let qTo = BimodQ(deg: d)
+        let bimodKoefs = BimodKoefs(deg: d == PathAlg.twistPeriod - 1 ? 0 : d + 1)
         checkDiff.makeZeroMatrix(qFrom.pij.count, h: qTo.pij.count)
 
         var col = 0
         var row = 0
         for nSq in 0 ..< qFrom.sizes.count {
-            for i in 0 ..< qTo.sizes[nSq] {
-                for j in 0 ..< qFrom.sizes[nSq] {
+            let fromSz = qFrom.sizes[nSq]
+            let toSz = qTo.sizes[nSq]
+            let koefs = bimodKoefs.koefs(at: nSq)
+            if koefs.count != toSz { OutputFile.writeLog(.error, "Code=3: koefs=\(koefs), toSz=\(toSz)"); return 3 }
+            if koefs[0].count != fromSz { OutputFile.writeLog(.error, "Code=4: koefs=\(koefs), fromSz=\(fromSz)"); return 4 }
+            for i in 0 ..< toSz {
+                for j in 0 ..< fromSz {
                     for k in 0 ..< s {
                         let ii = row + i * s + k
                         let jj = col + j * s + k
-
-                        let fromSz = qFrom.sizes[nSq]
-                        let toSz   = qTo.sizes[nSq]
-
-                        let wL = Way(from: qTo.pij[ii].0, to: qFrom.pij[jj].0, noZeroLen: true)
-                        let wR = Way(from: qFrom.pij[jj].1, to: qTo.pij[ii].1)
-
-                        let isOnlyZero = (fromSz == 3 && toSz == 2 && i == 1 && j == 1)
-                            || (fromSz == 3 && toSz == 2 && i == 0 && j == 2)
-                            || (fromSz == 2 && toSz == 2 && i == 0 && j == 1)
-                            || (fromSz == 2 && toSz == 3 && i == 0 && j == 1)
-                            || (fromSz == 2 && toSz == 3 && i == 2 && j == 1)
-                        if isOnlyZero {
+                        let koef = koefs[i][j]
+                        if koef == 0 {
                             checkDiff.rows[ii][jj].isOnlyZero = true
                             continue
                         }
+
+                        let wL = Way(from: qTo.pij[ii].0, to: qFrom.pij[jj].0, noZeroLen: true)
+                        let wR = Way(from: qFrom.pij[jj].1, to: qTo.pij[ii].1)
                         if wL.isZero || wR.isZero {
-                            OutputFile.writeLog(.error, "deg=\(deg), row=\(ii), col=\(jj), fromSz=\(fromSz), toSz=\(toSz)")
+                            OutputFile.writeLog(.error, "Code=1: deg=\(deg), row=\(ii), col=\(jj), fromSz=\(fromSz), toSz=\(toSz)")
                             PrintUtils.printMatrixDeg("", checkDiff, deg + 1, deg)
                             return 1
                         }
                         if wR.len != 0 {
+                            OutputFile.writeLog(.error, "Code=2")
                             PrintUtils.printMatrixDeg("", checkDiff, deg + 1, deg)
                             return 2
                         }
-                        let c = Comb(tenzor: Tenzor(left: wL, right: wR), koef: 1)
-
-                        if (toSz == 2 && fromSz == 1 && i == 1)
-                            || (fromSz == 2 && toSz == 3 && i == 1 && j == 0)
-                            || (fromSz == 2 && toSz == 3 && i == 2 && j == 0) { c.compKoef(-1) }
-                        if fromSz == 2 && toSz == 2 && i == 1 && j == 0 {
-                            let w1L = Way(from: qTo.pij[ii].0, to: qFrom.pij[jj + s].0, noZeroLen: true)
-                            if w1L.len == 2 { c.compKoef(-1) }
-                        }
-
+                        let c = Comb(tenzor: Tenzor(left: wL, right: wR), koef: Double(koef))
                         checkDiff.rows[ii][jj].addComb(c)
                         checkDiff.rows[ii][jj].isFirstStep = true
                     }
@@ -286,4 +344,3 @@ struct CalcDiffAll {
         return 0
     }
 }
-
