@@ -61,15 +61,15 @@ struct TexDiffConveter {
                     }
                     if line.hasPrefix("forj_1in") {
                         guard let j1 = line.scanFirst(regexp: "forj_1in([0-9])..<([0-9])") else {
-                            throw TexDiffConverterError.badLine("for \(i), \(j): no j1 range, line=\(line)")
+                            throw TexDiffConverterError.badLine("for \(i), \(j): no j1 range, line=\(line); d=\(d)")
                         }
                         guard lines[j].hasPrefix("addTenToPos") else {
-                            throw TexDiffConverterError.badLine("for \(i), \(j): bad next line, line=\(line), lines=\(lines))")
+                            throw TexDiffConverterError.badLine("for \(i), \(j): bad next line, line=\(line), lines=\(lines)); d=\(d)")
                         }
                         guard lines[j+1] == "}" else {
-                            throw TexDiffConverterError.badLine("for \(i), \(j): bad next next line, line=\(line)")
+                            throw TexDiffConverterError.badLine("for \(i), \(j): bad next next line, line=\(line); d=\(d)")
                         }
-                        str += try parseAddTen(lines[j], ",\\text{ }\(j1[0])\\le j_1\\le \(j1[1])")
+                        str += try parseAddTen(lines[j], ",\\text{ }\(j1[0])\\le j_1< \(j1[1])")
                         j += 2
                         continue
                     }
@@ -82,11 +82,15 @@ struct TexDiffConveter {
     }
 
     private static func parseAddTen(_ line: String, _ suffix: String = "") throws -> String {
-        guard line.hasPrefix("addTenToPos("), line.hasSuffix(")") else {
-            throw TexDiffConverterError.badLine("bad buonds, line=\(line)")
+        guard line.hasSuffix(")") else {
+            throw TexDiffConverterError.badLine("bad bounds: no ) at the end, line=\(line)")
+        }
+        let isNoZero = line.hasPrefix("addTenToPosNoZero(")
+        guard line.hasPrefix("addTenToPos(") || isNoZero else {
+            throw TexDiffConverterError.badLine("bad bounds, line=\(line)")
         }
         var str = line
-        str.removeFirst("addTenToPos(".count)
+        str.removeFirst(isNoZero ? "addTenToPosNoZero(".count : "addTenToPos(".count)
         str.removeLast()
         let parts = str.components(separatedBy: ",")
         var p = ""
@@ -102,19 +106,20 @@ struct TexDiffConveter {
             }
         }
         guard p == "" else { throw TexDiffConverterError.badLine("non empty last, line=\(line)") }
-        guard items.count == 7 else { throw TexDiffConverterError.badLine("wrong parts count, line=\(line)") }
+        guard items.count == (isNoZero ? 9 : 7) else { throw TexDiffConverterError.badLine("wrong parts count, line=\(line)") }
         guard items[1] == "j" else { throw TexDiffConverterError.badLine("wrong items[1]=\(items[1]), line=\(line)") }
-        var part1 = koefStr(from: items[6])
+        var part1 = koefStr(from: items[isNoZero ? 8 : 6])
         if items[2] == items[3] {
             part1 += " e_{\(items[2])}"
         } else {
             part1 += " w_{\(items[2])\\rightarrow \(items[3])}"
         }
         part1 += "\\otimes"
-        if items[4] == items[5] {
-            part1 += " e_{\(items[4])},"
+        let secondShift = isNoZero ? 1 : 0
+        if items[4+secondShift] == items[5+secondShift] {
+            part1 += " e_{\(items[4+secondShift])},"
         } else {
-            part1 += " w_{\(items[4])\\rightarrow \(items[5])},"
+            part1 += " w_{\(items[4+secondShift])\\rightarrow \(items[5+secondShift])},"
         }
         let part2 = "\\quad i=\(items[0])\(suffix);\\\\\n"
         if part1.count + part2.count > 130 {

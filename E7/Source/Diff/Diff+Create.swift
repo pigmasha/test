@@ -91,22 +91,18 @@ extension Diff {
         }
         for j in s ..< 2*s {
             for j_1 in 0 ..< 2 {
-                addTenToPosNoZero((j+1)%s+2*s*f(j_1,1), j, 7*(j+m+1)+1+j_1, 7*(j+m+1)+2, false,
-                                  7*j+1, 7*(j+1)+j_1, true, 1)
+                addTenToPosNoZero((j+1)%s+2*s*f(j_1,1), j, 7*(j+m+1)+1+j_1, 7*(j+m+1)+2, false, 7*j+1, 7*(j+1)+j_1, true, 1)
             }
             for j_1 in 0 ..< 4 {
-                addTenToPosNoZero(j+s*(1+j_1+2*f(j_1,3)), j, 7*(j+m)+2+j_1+2*f(j_1,2,3), 7*(j+m+1)+2, j_1 == 0,
-                                  7*j+1, 7*j+1+j_1+2*f(j_1,3), false, 1)
+                addTenToPosNoZero(j+s*(1+j_1+2*f(j_1,3)), j, 7*(j+m)+2+j_1+2*f(j_1,2,3), 7*(j+m+1)+2, j_1 == 0, 7*j+1, 7*j+1+j_1+2*f(j_1,3), false, 1)
             }
         }
         for j in 2*s ..< 3*s {
             for j_1 in 0 ..< 3 {
-                addTenToPosNoZero((j+1)%s+s*(j_1+1-f(j_1,0)), j, 7*(j+m+1)+1+j_1, 7*(j+m+1)+3, false,
-                                  7*j+2, 7*(j+1)+j_1, true, 1)
+                addTenToPosNoZero((j+1)%s+s*(j_1+1-f(j_1,0)), j, 7*(j+m+1)+1+j_1, 7*(j+m+1)+3, false, 7*j+2, 7*(j+1)+j_1, true, 1)
             }
             for j_1 in 0 ..< 3 {
-                addTenToPosNoZero(j+s*(1+j_1+2*f(j_1,2)), j, 7*(j+m)+3+j_1+2*f(j_1,1,2), 7*(j+m+1)+3, j_1 == 0,
-                                  7*j+2, 7*j+2+j_1+2*f(j_1,2), false, 1)
+                addTenToPosNoZero(j+s*(1+j_1+2*f(j_1,2)), j, 7*(j+m)+3+j_1+2*f(j_1,1,2), 7*(j+m+1)+3, j_1 == 0, 7*j+2, 7*j+2+j_1+2*f(j_1,2), false, 1)
             }
         }
         for j in 3*s ..< 4*s {
@@ -116,12 +112,10 @@ extension Diff {
         }
         for j in 4*s ..< 5*s {
             for j_1 in 0 ..< 2 {
-                addTenToPosNoZero((j+1)%s+s*(1+4*f(j_1,1)), j, 7*(j+m+1)+4+j_1, 7*(j+m+1)+5, false,
-                                  7*j+4, 7*(j+1)+4*f(j_1,1), true, 1)
+                addTenToPosNoZero((j+1)%s+s*(1+4*f(j_1,1)), j, 7*(j+m+1)+4+j_1, 7*(j+m+1)+5, false, 7*j+4, 7*(j+1)+4*f(j_1,1), true, 1)
             }
             for j_1 in 0 ..< 3 {
-                addTenToPosNoZero(j+s*(j_1+1), j, 7*(j+m)+5+j_1, 7*(j+m+1)+5, j_1 == 0,
-                                  7*j+4, 7*j+4+j_1, false, 1)
+                addTenToPosNoZero(j+s*(j_1+1), j, 7*(j+m)+5+j_1, 7*(j+m+1)+5, j_1 == 0, 7*j+4, 7*j+4+j_1, false, 1)
             }
         }
         for j in 5*s ..< 6*s {
@@ -131,8 +125,7 @@ extension Diff {
         }
         for j in 6*s ..< 7*s {
             for j_1 in 0 ..< 5 {
-                addTenToPosNoZero((j+1)%s+s*(j_1+f(j_1,1,4)+2*f(j_1,4)), j, 7*(j+m+1)+1+j_1+2*f(j_1,3,4), 7*(j+m+2), false,
-                                  7*j+6, 7*(j+1)+j_1+2*f(j_1,4), true, 1)
+                addTenToPosNoZero((j+1)%s+s*(j_1+f(j_1,1,4)+2*f(j_1,4)), j, 7*(j+m+1)+1+j_1+2*f(j_1,3,4), 7*(j+m+2), false, 7*j+6, 7*(j+1)+j_1+2*f(j_1,4), true, 1)
             }
             addTenToPosNoZero(j+s, j, 7*(j+m+1), 7*(j+m+2), true, 7*j+6, 7*j+6, false, 1)
         }
