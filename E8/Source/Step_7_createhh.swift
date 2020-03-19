@@ -18,7 +18,7 @@ struct Step_7_createhh {
 
     private static func process(deg: Int) -> Bool {
         var hhElements: [HHElem] = []
-        for type in 1...Dim.typeMax {
+        for type in 1...Dim.typeMax2 {
             if PathAlg.alg.currentType > 0 && type != PathAlg.alg.currentType { continue }
             guard Dim.deg(deg, hasType: type) else { continue }
             let ell = deg / PathAlg.twistPeriod
@@ -72,7 +72,7 @@ struct Step_7_createhh {
         for j in 0..<qFrom.pij.count {
             let v1 = Vertex(i: qFrom.pij[j].0)
             let v2 = Vertex(i: qTo.pij[i].0)
-            let w = Way(from: v2.number, to: v1.number)
+            let w = Way(from: v2.number, to: v1.number, noZeroLen: true)
             if !w.isZero {
                 colsTenzors.append((i, Tenzor(left: w, right: Way(from: v2.number, to: v2.number))))
                 nonZeros += 1
@@ -110,6 +110,7 @@ struct Step_7_createhh {
             }
             if cardLimit > 0 && card(d) > cardLimit { continue }
             if cardLimit < 0 && card(d) < -cardLimit { continue }
+            if !isOk(d) { continue }
             let hh2 = HHElem()
             hh2.makeZeroMatrix(colsTenzors.count, h: 8*PathAlg.s)
             var kk = d
@@ -136,7 +137,15 @@ struct Step_7_createhh {
         var hasResults = false
         let r = PathAlg.charK == 5 ? 5 : 3
         var dd = 1
-        for _ in 0 ..< colsTenzors.count / s { dd *= r }
+        var isZeroBlocks: [Bool] = []
+        for j in 0 ..< colsTenzors.count / s {
+            var isZeroBlock = true
+            for i in 0 ..< s {
+                if colsTenzors[j*s+i].row > -1 { isZeroBlock = false; break }
+            }
+            isZeroBlocks.append(isZeroBlock)
+            if !isZeroBlock { dd *= r }
+        }
         var lastPer = -1
         for d in 1 ... dd {
             let per = d * 100 / dd
@@ -145,10 +154,12 @@ struct Step_7_createhh {
                 print("\(Date()) blocks: (\(per)%)")
             }
             if PathAlg.alg.dummy1 > 0 && card(d) != PathAlg.alg.dummy1 { continue }
+            if !isOk(d) { continue }
             let hh2 = HHElem()
             hh2.makeZeroMatrix(colsTenzors.count, h: 8*PathAlg.s)
             var kk = d
             for j in 0..<colsTenzors.count / s {
+                if isZeroBlocks[j] { continue }
                 let k = r == 5 ? (kk % r) : (kk % 3 == 2 ? -1 : (kk % 3))
                 kk /= r
                 guard k != 0 else { continue }
@@ -178,6 +189,19 @@ struct Step_7_createhh {
             if k != 0 { c += 1 }
         }
         return c
+    }
+
+    private static func isOk(_ d: Int) -> Bool {
+        let r = PathAlg.charK == 5 ? 5 : 3
+        var kk2 = d
+        while kk2 > 0 {
+            let k = r == 5 ? (kk2 % r) : (kk2 % 3 == 2 ? -1 : (kk2 % 3))
+            if k != 0 {
+                return r == 5 ? k != 4 : k != -1
+            }
+            kk2 /= r
+        }
+        return true
     }
 }
 

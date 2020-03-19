@@ -27,6 +27,17 @@ extension HHElem {
         case 23: createHH23()
         case 24: createHH24()
         case 25: createHH25()
+        case 26: createHH26()
+        case 27: createHH27()
+        case 28: createHH28()
+        case 29: createHH29()
+        case 30: createHH30()
+        case 31: createHH31()
+        case 32: createHH32()
+        case 33: createHH33()
+        case 34: createHH34()
+        case 35: createHH35()
+        case 36: createHH36()
         default: fatalError("Bad type=\(type)")
         }
     }
@@ -163,6 +174,46 @@ extension HHElem {
     private func createHH9() {
     }
     private func createHH10() {
+        let s = PathAlg.s
+        makeZeroMatrix(19*s, h: 8*s)
+
+        if s == 1 {
+            return
+        }
+
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
+        }
+        for j in 2*s ..< 3*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:-1)
+        }
+        for j in 4*s ..< 5*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+1, leftTo:8*j+1, right:8*j+1, koef:1)
+        }
+        for j in 5*s ..< 6*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+2, leftTo:8*j+2, right:8*j+2, koef:-1)
+        }
+        for j in 6*s ..< 7*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+3, leftTo:8*j+3, right:8*j+3, koef:-1)
+        }
+        for j in 8*s ..< 9*s {
+            HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:8*j+4, leftTo:8*j+4, right:8*j+4, koef:-1)
+        }
+        for j in 10*s ..< 11*s {
+            HHElem.addElemToHH(self, i:j-5*s, j:j, leftFrom:8*j+5, leftTo:8*j+5, right:8*j+5, koef:1)
+        }
+        for j in 14*s ..< 15*s {
+            HHElem.addElemToHH(self, i:j-8*s, j:j, leftFrom:8*j+6, leftTo:8*j+6, right:8*j+6, koef:1)
+        }
+        for j in 16*s ..< 17*s {
+            HHElem.addElemToHH(self, i:j-9*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:1)
+        }
+        for j in 17*s ..< 18*s {
+            HHElem.addElemToHH(self, i:j-10*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:-1)
+        }
+        for j in 18*s ..< 19*s {
+            HHElem.addElemToHH(self, i:j-11*s, j:j, leftFrom:8*j+7, leftTo:8*(j+1), right:8*j+7, koef:1)
+        }
     }
     private func createHH11() {
     }
@@ -175,52 +226,252 @@ extension HHElem {
         HHElem.addElemToHH(self, i:2*s, j:6*s, leftFrom:2, leftTo:8, right:2, koef:1)
     }
     private func createHH13() {
+        let s = PathAlg.s
+        makeZeroMatrix(19*s, h: 8*s)
+
+        if s == 1 {
+            return
+        }
+
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
+        }
+        for j in 3*s ..< 4*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j+1, leftTo:8*j+2, right:8*j+1, koef:-1)
+        }
+        for j in 4*s ..< 5*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j+2, leftTo:8*j+3, right:8*j+2, koef:-1)
+        }
+        for j in 6*s ..< 7*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+3, leftTo:8*j+4, right:8*j+3, koef:-1)
+        }
+        for j in 11*s ..< 12*s {
+            HHElem.addElemToHH(self, i:j-6*s, j:j, leftFrom:8*j+5, leftTo:8*j+6, right:8*j+5, koef:1)
+        }
+        for j in 12*s ..< 13*s {
+            HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+5, leftTo:8*j+5, right:8*j+5, koef:-1)
+        }
+        for j in 13*s ..< 14*s {
+            HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+6, leftTo:8*j+6, right:8*j+6, koef:1)
+        }
+        for j in 16*s ..< 17*s {
+            HHElem.addElemToHH(self, i:j-9*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:1)
+        }
+        for j in 18*s ..< 19*s {
+            HHElem.addElemToHH(self, i:j-11*s, j:j, leftFrom:8*j+7, leftTo:8*(j+1), right:8*j+7, koef:1)
+        }
     }
     private func createHH14() {
+        let s = PathAlg.s
+        makeZeroMatrix(18*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:3, right:0, koef:1)
+        HHElem.addElemToHH(self, i:s, j:4*s, leftFrom:1, leftTo:8, right:1, koef:-1)
+        HHElem.addElemToHH(self, i:6*s, j:11*s, leftFrom:6, leftTo:7, right:6, koef:1)
     }
     private func createHH15() {
     }
     private func createHH16() {
+        let s = PathAlg.s
+        makeZeroMatrix(19*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:8, right:0, koef:1, noZeroLenL: true)
     }
     private func createHH17() {
     }
     private func createHH18() {
     }
     private func createHH19() {
+        let s = PathAlg.s
+        makeZeroMatrix(19*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:7, right:0, koef:1)
     }
     private func createHH20() {
+        let s = PathAlg.s
+        makeZeroMatrix(16*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:3, right:0, koef:1)
+        HHElem.addElemToHH(self, i:0, j:3*s, leftFrom:0, leftTo:5, right:0, koef:-1)
     }
     private func createHH21() {
-    }
-    private func createHH23() {
-    }
-    private func createHH24() {
+        let s = PathAlg.s
+        makeZeroMatrix(16*s, h: 8*s)
+
+        if s == 1 {
+            return
+        }
+
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
+        }
+        for j in 2*s ..< 3*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j+1, leftTo:8*j+2, right:8*j+1, koef:-1)
+        }
+        for j in 4*s ..< 5*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j+2, leftTo:8*j+3, right:8*j+2, koef:-1)
+        }
+        for j in 5*s ..< 6*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j+3, leftTo:8*j+4, right:8*j+3, koef:-1)
+        }
+        for j in 8*s ..< 9*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+5, leftTo:8*j+6, right:8*j+5, koef:-1)
+        }
+        for j in 13*s ..< 14*s {
+            HHElem.addElemToHH(self, i:j-6*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:1)
+        }
+        for j in 14*s ..< 15*s {
+            HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+7, leftTo:8*(j+1), right:8*j+7, koef:-1)
+        }
     }
     private func createHH22() {
+        let s = PathAlg.s
+        makeZeroMatrix(14*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:2, right:0, koef:1)
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:4, right:0, koef:-1)
+        HHElem.addElemToHH(self, i:5*s, j:7*s, leftFrom:5, leftTo:7, right:5, koef:1)
+    }
+    private func createHH23() {
+        let s = PathAlg.s
+        makeZeroMatrix(13*s, h: 8*s)
+
+        if s == 1 {
+            return
+        }
+
+        for j in 0 ..< s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
+        }
+        for j in 2*s ..< 3*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j+1, leftTo:8*j+3, right:8*j+1, koef:-1)
+        }
+        for j in 3*s ..< 4*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j+2, leftTo:8*j+4, right:8*j+2, koef:-1)
+        }
+        for j in 8*s ..< 9*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+5, leftTo:8*j+5, right:8*j+5, koef:-1)
+        }
+        for j in 10*s ..< 11*s {
+            HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:8*j+6, leftTo:8*j+6, right:8*j+6, koef:1)
+        }
+        for j in 11*s ..< 12*s {
+            HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:1)
+        }
+        for j in 12*s ..< 13*s {
+            HHElem.addElemToHH(self, i:j-5*s, j:j, leftFrom:8*j+7, leftTo:8*(j+1), right:8*j+7, koef:1)
+        }
+    }
+    private func createHH24() {
+        let s = PathAlg.s
+        makeZeroMatrix(11*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:5, right:0, koef:1)
+        HHElem.addElemToHH(self, i:s, j:2*s, leftFrom:1, leftTo:8, right:1, koef:-1)
     }
     private func createHH25() {
+        let s = PathAlg.s
+        makeZeroMatrix(11*s, h: 8*s)
+
+        if s == 1 {
+            return
+        }
+        for j in 0 ..< s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
+        }
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j+1, leftTo:8*j+4, right:8*j+1, koef:1)
+        }
+        for j in 7*s ..< 8*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j+5, leftTo:8*j+6, right:8*j+5, koef:-1)
+        }
+        for j in 10*s ..< 11*s {
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:-1)
+        }
     }
     private func createHH26() {
+        let s = PathAlg.s
+        makeZeroMatrix(10*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:4, right:0, koef:1)
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:6, right:0, koef:1)
     }
     private func createHH27() {
+        let s = PathAlg.s
+        makeZeroMatrix(9*s, h: 8*s)
+
+        for j in 0 ..< s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j, leftTo:8*j+7, right:8*j, koef:1)
+        }
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j+1, leftTo:8*(j+1), right:8*j+1, koef:1)
+        }
+        for j in 2*s ..< 3*s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j+2, leftTo:8*(j+1)+1, right:8*j+2, koef:1)
+        }
+        for j in 3*s ..< 4*s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j+3, leftTo:8*(j+1)+2, right:8*j+3, koef:1)
+        }
+        for j in 4*s ..< 5*s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j+4, leftTo:8*(j+1)+3, right:8*j+4, koef:1)
+        }
+        for j in 7*s ..< 8*s {
+            HHElem.addElemToHH(self, i:j, j:j, leftFrom:8*j+7, leftTo:8*(j+1)+4, right:8*j+7, koef:-1)
+        }
     }
     private func createHH28() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:8, right:0, koef:1, noZeroLenL: true)
     }
     private func createHH29() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:1, j:1, leftFrom:1, leftTo:1, right:9, koef:1, noZeroLenL: true)
     }
     private func createHH30() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:1, j:1, leftFrom:1, leftTo:1, right:9, koef:1, noZeroLenL: true)
     }
     private func createHH31() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:1, j:1, leftFrom:1, leftTo:9, right:1, koef:1, noZeroLenL: true)
     }
     private func createHH32() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:2, j:2, leftFrom:2, leftTo:10, right:2, koef:1, noZeroLenL: true)
     }
     private func createHH33() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:3, j:3, leftFrom:3, leftTo:11, right:3, koef:1, noZeroLenL: true)
     }
     private func createHH34() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:4, j:4, leftFrom:4, leftTo:12, right:4, koef:1, noZeroLenL: true)
     }
     private func createHH35() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:5, j:5, leftFrom:5, leftTo:13, right:5, koef:1, noZeroLenL: true)
     }
     private func createHH36() {
+        let s = PathAlg.s
+        makeZeroMatrix(8*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:6, j:6, leftFrom:6, leftTo:14, right:6, koef:1, noZeroLenL: true)
     }
 
     private func koefs(len: Int) -> [Int] {
