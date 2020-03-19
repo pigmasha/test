@@ -13,10 +13,10 @@ struct RunCase {
         case  5: return Step_5_im.runCase()
         case  6: return Step_6_dimhh.runCase()
         case  7: return Step_7_createhh.runCase()
-        /*case  8: return Step_8_shift_enum.runCase()
+        case  8: return Step_8_shift_enum.runCase()
         case  9: return Step_9_select_shift.runCase()
         case 10: return Step_10_shift_check.runCase()
-        case 11: return Step_11_degs_mult.runCase()
+        /*case 11: return Step_11_degs_mult.runCase()
         case 12: return Step_12_degs_mult_check.runCase()
         case 13: return Step_13_mult_comm.runCase()
         case 14: return Step_14_mult.runCase()*/
