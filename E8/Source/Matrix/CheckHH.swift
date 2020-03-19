@@ -56,6 +56,18 @@ struct CheckHH {
         return true
     }
 
+    static func checkHHElem2(_ hh: HHElem, degree: Int, logError: Bool) -> Bool {
+        guard checkForKer(hh, degree: degree, logError: logError) else {
+            if logError { OutputFile.writeLog(.error, "CheckHHForKer error!") }
+            return false
+        }
+        guard checkForIm(hh, degree: degree, shouldBeInIm: false, logError: logError) == .notInIm else {
+            if logError { OutputFile.writeLog(.error, "CheckHHForIm error!") }
+            return false
+        }
+        return true
+    }
+
     private static func checkForKer(_ hh: HHElem, degree: Int, logError: Bool) -> Bool {
         let diff = Diff(deg: degree)
         let multResult = Matrix(mult: hh, and: diff)
@@ -223,7 +235,7 @@ struct CheckHH {
             guard let w = hhElem[i].way, !w.isZero else { continue }
             for j in 0 ..< im.height {
                 if im.rows[j][i].koef != 0, let ww = im.rows[j][i].way, !ww.isZero {
-                    if s == 1 && ww.len >= 4 && w.len == 0
+                    if s == 1 && ww.len >= 5 && w.len == 0
                         && ww.startsWith.number == w.startsWith.number && ww.endsWith.number == w.endsWith.number {
                         zeroCols.insert(i)
                         continue
