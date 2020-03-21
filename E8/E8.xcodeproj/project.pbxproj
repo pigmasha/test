@@ -32,6 +32,7 @@
 		0C64F1611CB9474D00495383 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64F1601CB9474D00495383 /* Vertex.swift */; };
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
+		0C7EDBB2242646B400511A2C /* ShiftHHElem03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBB1242646B400511A2C /* ShiftHHElem03.swift */; };
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA96FB92223194600D9BDDF /* BimodQ.swift */; };
@@ -91,6 +92,7 @@
 		0C7E5DC71AF3D9F7003A425A /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0C7E5DC81AF3D9F7003A425A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		0C7EDBB1242646B400511A2C /* ShiftHHElem03.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem03.swift; sourceTree = "<group>"; };
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CA96FB92223194600D9BDDF /* BimodQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				0C46F02E2423F08200047AB9 /* ShiftHHElem.swift */,
 				0C46F02F2423F08200047AB9 /* ShiftHHElem01.swift */,
 				0CBA6EF82424CED400686ED1 /* ShiftHHElem02c.swift */,
+				0C7EDBB1242646B400511A2C /* ShiftHHElem03.swift */,
 			);
 			path = ByType;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				0C04E01F2249ACA600F1E4E0 /* CalcDiffAll.swift in Sources */,
 				0C46F0372423F08200047AB9 /* ShiftHHElem01.swift in Sources */,
 				0CEB229F241C254500B52BCA /* Step_5_im.swift in Sources */,
+				0C7EDBB2242646B400511A2C /* ShiftHHElem03.swift in Sources */,
 				0C46F0322423F08200047AB9 /* ShiftAllSelect.swift in Sources */,
 				0CD3438C1CC9834D00FD9D61 /* Comb.swift in Sources */,
 				0C07A726223EDB2700BF8C61 /* PrintUtils.swift in Sources */,

@@ -291,7 +291,7 @@ struct ShiftHHGenProgram {
                             }
                         }
                     }
-                    if count > 2 { return false }
+                    if count > 2 || (s < 3 && count > 1) { return false }
                 }
             }
         }

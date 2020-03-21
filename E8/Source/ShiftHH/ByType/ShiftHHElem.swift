@@ -27,8 +27,8 @@ class ShiftHHElem {
         switch type {
         case  1: return ShiftHHElem01()
         case  2: return ShiftHHElem02c()
-        /*case  3: return ShiftHHElem03c()
-        case  4: return ShiftHHElem04()
+        case  3: return ShiftHHElem03()
+        /*case  4: return ShiftHHElem04()
         case  5: return ShiftHHElem05c()
         case  6: return ShiftHHElem06()
         case  7: return ShiftHHElem07c()

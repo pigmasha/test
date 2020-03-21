@@ -40,7 +40,10 @@ final class HHElem: Matrix {
                             rightFrom: Int, rightTo: Int, koef: Int, noZeroLenL: Bool = false, noZeroLenR: Bool = false) {
         let wL = Way(from: from, to: to, noZeroLen: noZeroLenL)
         let wR = Way(from: rightFrom, to: rightTo, noZeroLen: noZeroLenR)
-        if wL.isZero || wR.isZero { return }
+        if wL.isZero || wR.isZero {
+            fatalError("Zero ways \(wL.str)/\(wR.str) at \(i),\(j)")
+            return
+        }
 
         hh.rows[i][j].addComb(Comb(tenzor: Tenzor(left: wL, right: wR), koef: Double(koef)))
     }
