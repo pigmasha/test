@@ -26,8 +26,8 @@ class ShiftHHElem {
     class func shiftForType(_ type: Int) -> ShiftHHElem {
         switch type {
         case  1: return ShiftHHElem01()
-        /*case  2: return ShiftHHElem02c()
-        case  3: return ShiftHHElem03c()
+        case  2: return ShiftHHElem02c()
+        /*case  3: return ShiftHHElem03c()
         case  4: return ShiftHHElem04()
         case  5: return ShiftHHElem05c()
         case  6: return ShiftHHElem06()
@@ -59,7 +59,7 @@ class ShiftHHElem {
         let V = ShiftVars(shift: shift, degree: degree)
         if shift == PathAlg.twistPeriod {
             hh_shift.twist(shift)
-            hh_shift.compKoef(koef17(ell: 1))
+            hh_shift.compKoef(koef29(ell: 1))
         } else {
             hh_shift.compKoef(oddKoef0(s: V.s, ell: V.ell))
         }
@@ -74,10 +74,10 @@ class ShiftHHElem {
             if V.r_0 == 0 {
                 hh_shift = HHElem()
                 shift0(hh_shift, s:V.s, m: V.m, ell: V.ell)
-                hh_shift.compKoef(koef17(ell: V.ell_0))
+                hh_shift.compKoef(koef29(ell: V.ell_0))
             } else {
                 hh_shift = justOddShift(degree: degree, shift: V.r_0)
-                hh_shift.compKoef(koef17(ell: V.ell_0) * oddKoef0(s: V.s, ell: V.ell))
+                hh_shift.compKoef(koef29(ell: V.ell_0) * oddKoef0(s: V.s, ell: V.ell))
             }
             hh_shift.twist(shift)
             return hh_shift
@@ -117,7 +117,7 @@ class ShiftHHElem {
             default: break
         }
         hh_shift.twist(shift)
-        hh_shift.compKoef(koef17(ell: V.ell_0))
+        hh_shift.compKoef(koef29(ell: V.ell_0))
 
         return hh_shift
     }
@@ -194,7 +194,7 @@ class ShiftHHElem {
     func shift27(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {}
     func shift28(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {}
 
-    func koef17(ell: Int) -> Int {
+    func koef29(ell: Int) -> Int {
         return 1
     }
 

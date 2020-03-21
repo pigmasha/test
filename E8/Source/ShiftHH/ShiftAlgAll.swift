@@ -16,9 +16,9 @@ struct ShiftAlgAll {
     private enum GoodPosMode { case first, last, index1 }
 
     private static var bySVal = true
-    private static let diagMatrix = true
+    private static let diagMatrix = false
 
-    static func allVariants(for hh: HHElem, degree: Int, shift: Int) -> ShiftAllVariants? {
+    static func allVariants(for hh: HHElem, degree: Int, shift: Int, onlyOne: Bool = false) -> ShiftAllVariants? {
         let multRes = Matrix(mult: hh, and: Diff(deg: degree + shift - 1))
         if multRes.isNil {
             OutputFile.writeLog(.error, "Bad multRes size")
@@ -35,7 +35,7 @@ struct ShiftAlgAll {
         var allVariants: [[ShiftVariant]] = []
         for col in stride(from: 0, to: width, by: bySVal ? s : 1) {
             let multRes2 = multRes.submatrixFromCol(col, toCol: col + (bySVal ? s : 1))
-            let variants = shiftForMultRes(multRes2, dDown: d_down, byS: bySVal, startCol: col)
+            let variants = shiftForMultRes(multRes2, dDown: d_down, byS: bySVal, startCol: col, onlyOne: onlyOne)
             guard variants.count > 0 else { return nil }
             allVariants += [ variants ]
         }
@@ -49,7 +49,7 @@ struct ShiftAlgAll {
         return ShiftAllVariants(seqNumber: seqNumber, variants: allVariants)
     }
 
-    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff, byS: Bool, startCol: Int) -> [ShiftVariant] {
+    private static func shiftForMultRes(_ multRes: Matrix!, dDown: Diff, byS: Bool, startCol: Int, onlyOne: Bool) -> [ShiftVariant] {
         let multResW = multRes.width
 
         var hasNonZeroElements = false
@@ -89,6 +89,9 @@ struct ShiftAlgAll {
                     }
                     if !hasHH {
                         result += [ ShiftVariant(HH: hhElem, key: NumInt(intValue: r)) ]
+                        if onlyOne {
+                            return result
+                        }
                     }
                 }
             }

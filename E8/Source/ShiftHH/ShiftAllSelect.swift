@@ -19,8 +19,6 @@ struct ShiftAllSelect {
     }
 
     static func select(from allVariants: ShiftAllVariants, type: Int, shift: Int) -> HHElem {
-        //guard type != 4 else { return hhFrom(allVariants) }
-
         let s = PathAlg.s
         let width = allVariants.variants.count * s
         let height = allVariants.variants.last!.last!.hh.height
@@ -31,7 +29,7 @@ struct ShiftAllSelect {
             if s == 1 {
                 hh.addMatrixX(variants[0].hh, x: col)
             } else {
-                if type == 3 && (shift == 15 || shift == 16 && col < s) {
+                if type == 2 && (shift == 27 || (shift == 28 && col < s)) {
                     hh.addMatrixX(variants.last!.hh, x: col)
                 } else {
                     hh.addMatrixX(variants[0].hh, x: col)

@@ -291,23 +291,23 @@ final class ShiftAllVariants {
                 return nil
             }
         }
-        let from: Int
-        if str.hasPrefix("g") {
-            from = PathAlg.n * koef1 + 7
-        } else if str.hasPrefix("a") {
-            from = PathAlg.n * (koef1 / 5) + (koef1 % 5)
-        } else {
-            from = PathAlg.n * (koef1 / 3) + (koef1 % 3) + ((koef1 % 3) == 0 ? 0 : 3)
-        }
         let to: Int
+        if str.hasPrefix("g") {
+            to = PathAlg.n * (koef1 + 1)
+        } else if str.hasPrefix("a") {
+            to = PathAlg.n * (koef1 / 5) + (koef1 % 5) + ((koef1 % 5) == 4 ? 3 : 1)
+        } else {
+            to = PathAlg.n * (koef1 / 3) + (koef1 % 3) + 5
+        }
+        let from: Int
         switch lastArr {
-        case .alpha: to = PathAlg.n * (koef2 / 5) + (koef2 % 5) + ((koef2 % 5) == 4 ? 3 : 1)
-        case .beta: to = PathAlg.n * (koef2 / 3) + (koef2 % 3) + 5
-        case .gamma: to = PathAlg.n * (koef2 + 1)
+        case .alpha: from = PathAlg.n * (koef2 / 5) + (koef2 % 5)
+        case .beta: from = PathAlg.n * (koef2 / 3) + (koef2 % 3) + ((koef2 % 3) == 0 ? 0 : 4)
+        case .gamma: from = PathAlg.n * koef2 + 7
         }
         let way = Way(from: from, to: to, noZeroLen: true)
         guard way.str == str else {
-            OutputFile.writeLog(.normal, "parseWay failed, source=\(str), result=\(way.str)")
+            OutputFile.writeLog(.normal, "parseWay failed, source=\(str), result=\(way.str) (\(from) -> \(to))")
             return nil
         }
         return way

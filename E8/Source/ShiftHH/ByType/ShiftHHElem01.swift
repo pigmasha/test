@@ -1,5 +1,5 @@
 //
-//  Created by M on 09.04.16.
+//  Created by M on 19/03/2020.
 //
 
 import Foundation
@@ -8,29 +8,9 @@ final class ShiftHHElem01 : ShiftHHElem {
     override func shift0(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(8*s, h:8*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 0 ..< 8*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2, leftTo:8*(j+m)+j_2, rightFrom:8*j+j_2, rightTo:8*j+j_2, koef:1)
         }
     }
 
@@ -43,55 +23,18 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in s ..< 2*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 2*s ..< 9*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2+2*f(j_2,5), leftTo:8*(j+m)+j_2+2*f(j_2,5), rightFrom:8*j+j_2-1, rightTo:8*j+j_2-1, koef:1)
         }
     }
 
     override func shift2(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(8*s, h:8*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 0 ..< 8*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2+1-2*f(j_2,0)-6*f(j_2,6), leftTo:8*(j+m)+j_2+1-2*f(j_2,0)-6*f(j_2,6), rightFrom:8*j+j_2, rightTo:8*j+j_2, koef:1)
         }
     }
 
@@ -104,26 +47,9 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in s ..< 2*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+1, leftTo:8*(j+m+1)+1, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 2*s ..< 9*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2+1+2*f(j_2,4,5), leftTo:8*(j+m)+j_2+1+2*f(j_2,4,5), rightFrom:8*j+j_2-1, rightTo:8*j+j_2-1, koef:1)
         }
         for j in 9*s ..< 10*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m+1)+5, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
@@ -139,26 +65,13 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in s ..< 2*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
+        for j in 2*s ..< 6*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2+1, leftTo:8*(j+m)+j_2+1, rightFrom:8*j+j_2-1, rightTo:8*j+j_2-1, koef:1)
         }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 6*s ..< 9*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1+f(j_2,8), leftTo:8*(j+m)+1+f(j_2,8), rightFrom:8*j+j_2-2, rightTo:8*j+j_2-2, koef:1)
         }
         for j in 9*s ..< 10*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
@@ -171,32 +84,16 @@ final class ShiftHHElem01 : ShiftHHElem {
     override func shift5(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(11*s, h:11*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 3*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5-2*j_2, leftTo:8*(j+m)+5-2*j_2, rightFrom:8*j, rightTo:8*j, koef:1)
         }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
         }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 4*s ..< 9*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,5)+f(j_2,7), leftTo:8*(j+m)+7+f(j_2,5)+f(j_2,7), rightFrom:8*j+j_2-2, rightTo:8*j+j_2-2, koef:1)
         }
         for j in 9*s ..< 10*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+2, leftTo:8*(j+m+1)+2, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
@@ -209,20 +106,13 @@ final class ShiftHHElem01 : ShiftHHElem {
     override func shift6(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(13*s, h:13*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 2*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7+j_2, leftTo:8*(j+m-1)+7+j_2, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
+        for j in 2*s ..< 5*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2+2, leftTo:8*(j+m)+j_2+2, rightFrom:8*j+j_2-1, rightTo:8*j+j_2-1, koef:1)
         }
         for j in 5*s ..< 6*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
@@ -239,14 +129,9 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 9*s ..< 10*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
         }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 10*s ..< 13*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-4, leftTo:8*(j+m)+j_2-4, rightFrom:8*j+7-f(j_2,10), rightTo:8*j+7-f(j_2,10), koef:1)
         }
     }
 
@@ -265,64 +150,33 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 4*s ..< 10*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,5)+f(j_2,7), leftTo:8*(j+m)+7+f(j_2,5)+f(j_2,7), rightFrom:8*j+j_2-3, rightTo:8*j+j_2-3, koef:1)
         }
         for j in 10*s ..< 11*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
         }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m+1)+5, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+3, leftTo:8*(j+m+1)+3, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+1, leftTo:8*(j+m+1)+1, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 11*s ..< 14*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+27-2*j_2, leftTo:8*(j+m+1)+27-2*j_2, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
     }
 
     override func shift8(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(16*s, h:16*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 3*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7+f(j_2,2), leftTo:8*(j+m-1)+7+f(j_2,2), rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 3*s ..< 5*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2+2, leftTo:8*(j+m)+j_2+2, rightFrom:8*j+j_2-2, rightTo:8*j+j_2-2, koef:1)
         }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
+        for j in 5*s ..< 8*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-4, leftTo:8*(j+m)+j_2-4, rightFrom:8*j+j_2-3, rightTo:8*j+j_2-3, koef:1)
         }
         for j in 8*s ..< 9*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
@@ -330,23 +184,16 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 9*s ..< 10*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
         }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 10*s ..< 13*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+16-j_2, leftTo:8*(j+m)+16-j_2, rightFrom:8*j+6-f(j_2,10), rightTo:8*j+6-f(j_2,10), koef:1)
         }
         for j in 13*s ..< 14*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
         }
-        for j in 14*s ..< 15*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 15*s ..< 16*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 14*s ..< 16*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-7, leftTo:8*(j+m)+j_2-7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
     }
 
@@ -365,38 +212,13 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+1, rightTo:8*j+1, koef:1)
+        for j in 4*s ..< 12*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)-f(j_2,5)-f(j_2,7,8)-f(j_2,10), leftTo:8*(j+m+1)-f(j_2,5)-f(j_2,7,8)-f(j_2,10), rightFrom:8*j+j_2-3-f(j_2,9,11)-f(j_2,11), rightTo:8*j+j_2-3-f(j_2,9,11)-f(j_2,11), koef:1)
         }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+2, leftTo:8*(j+m+1)+2, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+4, leftTo:8*(j+m+1)+4, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 14*s ..< 15*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+6, leftTo:8*(j+m+1)+6, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 12*s ..< 15*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+2*(j_2-11), leftTo:8*(j+m+1)+2*(j_2-11), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
         for j in 15*s ..< 16*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m+1)+5, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
@@ -406,26 +228,16 @@ final class ShiftHHElem01 : ShiftHHElem {
     override func shift10(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(19*s, h:19*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 3*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)-f(j_2,0), leftTo:8*(j+m)-f(j_2,0), rightFrom:8*j, rightTo:8*j, koef:1)
         }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
         }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
+        for j in 4*s ..< 7*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-3, leftTo:8*(j+m)+j_2-3, rightFrom:8*j+j_2-3, rightTo:8*j+j_2-3, koef:1)
         }
         for j in 7*s ..< 8*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
@@ -433,20 +245,13 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 8*s ..< 9*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
         }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
+        for j in 9*s ..< 12*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+15-j_2, leftTo:8*(j+m)+15-j_2, rightFrom:8*j+5-f(j_2,9), rightTo:8*j+5-f(j_2,9), koef:1)
         }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 12*s ..< 14*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-11, leftTo:8*(j+m)+j_2-11, rightFrom:8*j+j_2-7, rightTo:8*j+j_2-7, koef:1)
         }
         for j in 14*s ..< 15*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
@@ -454,14 +259,9 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 15*s ..< 16*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
         }
-        for j in 16*s ..< 17*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 17*s ..< 18*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 18*s ..< 19*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 16*s ..< 19*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,18), leftTo:8*(j+m)+7+f(j_2,18), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
     }
 
@@ -483,32 +283,9 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 4*s ..< 5*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
-        }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 5*s ..< 14*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,6)+f(j_2,9)+f(j_2,11)+f(j_2,13), leftTo:8*(j+m)+7+f(j_2,6)+f(j_2,9)+f(j_2,11)+f(j_2,13), rightFrom:8*j+j_2-4-f(j_2,9,13)-f(j_2,11,13)-f(j_2,13), rightTo:8*j+j_2-4-f(j_2,9,13)-f(j_2,11,13)-f(j_2,13), koef:1)
         }
         for j in 14*s ..< 15*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m+1)+5, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
@@ -527,14 +304,9 @@ final class ShiftHHElem01 : ShiftHHElem {
     override func shift12(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(19*s, h:19*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 3*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7+f(j_2,1), leftTo:8*(j+m-1)+7+f(j_2,1), rightFrom:8*j, rightTo:8*j, koef:1)
         }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
@@ -554,11 +326,9 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 8*s ..< 9*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
         }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
+        for j in 9*s ..< 11*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-8, leftTo:8*(j+m)+j_2-8, rightFrom:8*j+j_2-5, rightTo:8*j+j_2-5, koef:1)
         }
         for j in 11*s ..< 12*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
@@ -566,76 +336,33 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 12*s ..< 13*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
         }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
+        for j in 13*s ..< 16*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6-3*f(j_2,14)-5*f(j_2,15), leftTo:8*(j+m)+6-3*f(j_2,14)-5*f(j_2,15), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
         }
-        for j in 14*s ..< 15*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 15*s ..< 16*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 16*s ..< 17*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 17*s ..< 18*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 18*s ..< 19*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 16*s ..< 19*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)-f(j_2,16), leftTo:8*(j+m+1)-f(j_2,16), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
     }
 
     override func shift13(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(18*s, h:18*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 3*s ..< 4*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 4*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2+j_2+2*f(j_2,2), leftTo:8*(j+m)+2+j_2+2*f(j_2,2), rightFrom:8*j, rightTo:8*j, koef:1)
         }
         for j in 4*s ..< 5*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+1, rightTo:8*j+1, koef:1)
         }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
+        for j in 5*s ..< 13*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,7,8)+f(j_2,10)+f(j_2,12), leftTo:8*(j+m)+7+f(j_2,7,8)+f(j_2,10)+f(j_2,12), rightFrom:8*j+j_2-3-f(j_2,7,12)-f(j_2,10,12)-f(j_2,12), rightTo:8*j+j_2-3-f(j_2,7,12)-f(j_2,10,12)-f(j_2,12), koef:1)
         }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+2, leftTo:8*(j+m+1)+2, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 14*s ..< 15*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+6, leftTo:8*(j+m+1)+6, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 15*s ..< 16*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+4, leftTo:8*(j+m+1)+4, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 13*s ..< 16*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+j_2-11+3*f(j_2,14), leftTo:8*(j+m+1)+j_2-11+3*f(j_2,14), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
         for j in 16*s ..< 17*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+1, leftTo:8*(j+m+1)+1, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
@@ -648,14 +375,9 @@ final class ShiftHHElem01 : ShiftHHElem {
     override func shift14(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(20*s, h:20*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m-1)+7, leftTo:8*(j+m-1)+7, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m), leftTo:8*(j+m), rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 3*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)-f(j_2,0), leftTo:8*(j+m)-f(j_2,0), rightFrom:8*j, rightTo:8*j, koef:1)
         }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
@@ -681,46 +403,26 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 10*s ..< 11*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
         }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
+        for j in 11*s ..< 14*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6-3*f(j_2,12)-5*f(j_2,13), leftTo:8*(j+m)+6-3*f(j_2,12)-5*f(j_2,13), rightFrom:8*j+5, rightTo:8*j+5, koef:1)
         }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
+        for j in 14*s ..< 17*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+j_2-11-f(j_2,14), leftTo:8*(j+m)+j_2-11-f(j_2,14), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
         }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 14*s ..< 15*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+2, leftTo:8*(j+m)+2, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 15*s ..< 16*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 16*s ..< 17*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 17*s ..< 18*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 18*s ..< 19*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 19*s ..< 20*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 17*s ..< 20*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,18), leftTo:8*(j+m)+7+f(j_2,18), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
     }
 
     override func shift15(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(18*s, h:18*s)
 
-        for j in 0 ..< s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3, leftTo:8*(j+m)+3, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in s ..< 2*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+6, leftTo:8*(j+m)+6, rightFrom:8*j, rightTo:8*j, koef:1)
-        }
-        for j in 2*s ..< 3*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+4, leftTo:8*(j+m)+4, rightFrom:8*j, rightTo:8*j, koef:1)
+        for j in 0 ..< 3*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+3*(j_2+1)-5*f(j_2,2), leftTo:8*(j+m)+3*(j_2+1)-5*f(j_2,2), rightFrom:8*j, rightTo:8*j, koef:1)
         }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+1, leftTo:8*(j+m)+1, rightFrom:8*j, rightTo:8*j, koef:1)
@@ -728,47 +430,17 @@ final class ShiftHHElem01 : ShiftHHElem {
         for j in 4*s ..< 5*s {
             HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+5, leftTo:8*(j+m)+5, rightFrom:8*j, rightTo:8*j, koef:1)
         }
-        for j in 5*s ..< 6*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+1, rightTo:8*j+1, koef:1)
+        for j in 5*s ..< 14*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7+f(j_2,7,8)+f(j_2,11,12), leftTo:8*(j+m)+7+f(j_2,7,8)+f(j_2,11,12), rightFrom:8*j+j_2-4-f(j_2,7,13)-f(j_2,11,13)-f(j_2,13), rightTo:8*j+j_2-4-f(j_2,7,13)-f(j_2,11,13)-f(j_2,13), koef:1)
         }
-        for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 7*s ..< 8*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+2, rightTo:8*j+2, koef:1)
-        }
-        for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+3, rightTo:8*j+3, koef:1)
-        }
-        for j in 9*s ..< 10*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
-        }
-        for j in 10*s ..< 11*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 11*s ..< 12*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+5, rightTo:8*j+5, koef:1)
-        }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1), rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m)+7, leftTo:8*(j+m)+7, rightFrom:8*j+6, rightTo:8*j+6, koef:1)
-        }
-        for j in 14*s ..< 15*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+2, leftTo:8*(j+m+1)+2, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 15*s ..< 16*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+3, leftTo:8*(j+m+1)+3, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 16*s ..< 17*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+6, leftTo:8*(j+m+1)+6, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
-        }
-        for j in 17*s ..< 18*s {
-            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m+1)+5, rightFrom:8*j+7, rightTo:8*j+7, koef:1)
+        for j in 14*s ..< 18*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(hhElem, i:j, j:j, leftFrom:8*(j+m+1)+j_2-12+2*f(j_2,16), leftTo:8*(j+m+1)+j_2-12+2*f(j_2,16), rightFrom:8*j+7, rightTo:8*j+7, koef:1)
         }
     }
 
+    /////////////////////
     override func shift16(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(19*s, h:19*s)
 

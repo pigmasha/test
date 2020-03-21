@@ -6,7 +6,7 @@
 import Foundation
 
 struct Step_8_shift_enum {
-    static let stopAtLast = true
+    static let stopAtLast = false
 
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "S=\(PathAlg.s), Char=\(PathAlg.charK)")
@@ -28,7 +28,8 @@ struct Step_8_shift_enum {
 
     private static func process(type: Int, deg: Int) -> Bool {
         let ell = deg / PathAlg.twistPeriod
-        let shiftFrom = PathAlg.alg.dummy1
+        let shiftFrom = 0//PathAlg.alg.dummy1
+        let onlyOne = PathAlg.alg.dummy1 > 0
 
         let hh0 = HHElem(deg: deg, type: type)
         var hh = HHElem(deg: deg, type: type)
@@ -61,9 +62,10 @@ struct Step_8_shift_enum {
                     return true
                 }
             } else {
-                allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift)
+                allVariants = ShiftAlgAll.allVariants(for: hh, degree: deg, shift: shift, onlyOne: onlyOne)
                 guard allVariants != nil else {
                     OutputFile.writeLog(.time, "ShiftAll failed! Shift=\(shift)")
+                    if onlyOne { return true }
                     shift = stepBack(shift: shift, type: type)
                     guard shift > 0 else { return true }
                     continue
@@ -75,6 +77,7 @@ struct Step_8_shift_enum {
             if shift % PathAlg.twistPeriod == 0 {
                 let isGood = processLastShift(variants: allVariants!, shift: shift, firstHH: hh0, type: type)
                 if stopAtLast && isGood { break }
+                if onlyOne { return false }
                 shift = stepBack(shift: shift, type: type)
                 guard shift > shiftFrom else { break }
                 try? FileManager.default.removeItem(atPath: path)
