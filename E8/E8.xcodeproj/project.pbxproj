@@ -34,6 +34,7 @@
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
 		0C7EDBB2242646B400511A2C /* ShiftHHElem03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBB1242646B400511A2C /* ShiftHHElem03.swift */; };
 		0C7EDBB42426559600511A2C /* ShiftHHElem04c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBB32426559600511A2C /* ShiftHHElem04c.swift */; };
+		0C7EDBB6242763B900511A2C /* ShiftHHElem06c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBB5242763B900511A2C /* ShiftHHElem06c.swift */; };
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA96FB92223194600D9BDDF /* BimodQ.swift */; };
@@ -95,6 +96,7 @@
 		0C7E5E131AF3DA62003A425A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0C7EDBB1242646B400511A2C /* ShiftHHElem03.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem03.swift; sourceTree = "<group>"; };
 		0C7EDBB32426559600511A2C /* ShiftHHElem04c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem04c.swift; sourceTree = "<group>"; };
+		0C7EDBB5242763B900511A2C /* ShiftHHElem06c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem06c.swift; sourceTree = "<group>"; };
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CA96FB92223194600D9BDDF /* BimodQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				0CBA6EF82424CED400686ED1 /* ShiftHHElem02c.swift */,
 				0C7EDBB1242646B400511A2C /* ShiftHHElem03.swift */,
 				0C7EDBB32426559600511A2C /* ShiftHHElem04c.swift */,
+				0C7EDBB5242763B900511A2C /* ShiftHHElem06c.swift */,
 			);
 			path = ByType;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
 				9B26FD5A22A2633A0002DA2F /* HHElem.swift in Sources */,
 				0CEB229D241C194A00B52BCA /* Step_4_dimhom.swift in Sources */,
+				0C7EDBB6242763B900511A2C /* ShiftHHElem06c.swift in Sources */,
 				0C07A71F223ED9A800BF8C61 /* CalcDiff.swift in Sources */,
 				0CF4A83E24220B840066DE36 /* HHProgram.swift in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,

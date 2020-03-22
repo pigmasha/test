@@ -101,18 +101,10 @@ struct Step_8_shift_enum {
         }
         let hh = ShiftAllSelect.lastHH(from: variants, firstHH: firstHH)
         PrintUtils.printMatrix("RESULT \(seqStr)", hh)
-        let s = PathAlg.s
+        //let s = PathAlg.s
         var isGood = true
         switch type {
-        case 3: isGood = hh.maxNonZeroPos.1 < 2*s && hh.nonZeroCount == 2
-        case 5, 10: isGood = hh.maxNonZeroPos.1 < s && hh.nonZeroCount == 1
-        case 6: isGood = hh.nonZeroCount == 5 * s && !hh.rows[0][0].isZero && !hh.rows[0][s].isZero && !hh.rows[6*s][9*s].isZero
-        case 7: isGood = hh.nonZeroCount == 1
-        case 8: isGood = hh.nonZeroCount == 3*s
-        case 9: isGood = hh.nonZeroCount == 7*s && hh.rows[0][0].isZero && !hh.rows[0][s].isZero
-        case 11: isGood = hh.nonZeroCount <= 3
-        case 12: isGood = hh.nonZeroCount == 6*s && hh.rows[0][0].isZero && !hh.rows[0][s].isZero
-        case 13: isGood = hh.nonZeroCount == 2
+        case 6: isGood = hh.nonZeroCount == 1
         default: break
         }
         guard isGood else {
