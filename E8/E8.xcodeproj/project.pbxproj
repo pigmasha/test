@@ -40,6 +40,7 @@
 		0C7EDBBC2427CA5800511A2C /* ShiftHHElem28c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBBB2427CA5800511A2C /* ShiftHHElem28c.swift */; };
 		0C7EDBBE2427E55D00511A2C /* ShiftHHElem07c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBBD2427E55D00511A2C /* ShiftHHElem07c.swift */; };
 		0C7EDBC02428FDD900511A2C /* ShiftHHElem14c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBBF2428FDD900511A2C /* ShiftHHElem14c.swift */; };
+		0C7EDBC2242A6CF900511A2C /* ShiftHHElem16c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7EDBC1242A6CF900511A2C /* ShiftHHElem16c.swift */; };
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA96FB92223194600D9BDDF /* BimodQ.swift */; };
@@ -107,6 +108,7 @@
 		0C7EDBBB2427CA5800511A2C /* ShiftHHElem28c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem28c.swift; sourceTree = "<group>"; };
 		0C7EDBBD2427E55D00511A2C /* ShiftHHElem07c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem07c.swift; sourceTree = "<group>"; };
 		0C7EDBBF2428FDD900511A2C /* ShiftHHElem14c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem14c.swift; sourceTree = "<group>"; };
+		0C7EDBC1242A6CF900511A2C /* ShiftHHElem16c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem16c.swift; sourceTree = "<group>"; };
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CA96FB92223194600D9BDDF /* BimodQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				0C7EDBBD2427E55D00511A2C /* ShiftHHElem07c.swift */,
 				0C7EDBB724278B3800511A2C /* ShiftHHElem08c.swift */,
 				0C7EDBBF2428FDD900511A2C /* ShiftHHElem14c.swift */,
+				0C7EDBC1242A6CF900511A2C /* ShiftHHElem16c.swift */,
 				0C7EDBB92427AC7900511A2C /* ShiftHHElem26c.swift */,
 				0C7EDBBB2427CA5800511A2C /* ShiftHHElem28c.swift */,
 			);
@@ -427,6 +430,7 @@
 				9B2353B423AFE41700F25A17 /* BimodKoefs.swift in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
 				0C46F0332423F08200047AB9 /* ShiftCheck.swift in Sources */,
+				0C7EDBC2242A6CF900511A2C /* ShiftHHElem16c.swift in Sources */,
 				0C46F0362423F08200047AB9 /* ShiftHHElem.swift in Sources */,
 				9B2353B223AFE2BC00F25A17 /* Step_2_calc_dn.swift in Sources */,
 				0CEB22A1241D8C5000B52BCA /* Step_6_dimhh.swift in Sources */,
