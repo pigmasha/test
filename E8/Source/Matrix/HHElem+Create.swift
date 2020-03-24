@@ -290,7 +290,7 @@ extension HHElem {
         let s = PathAlg.s
         makeZeroMatrix(19*s, h: 8*s)
 
-        HHElem.addElemToHH(self, i:0, j:0, leftFrom:0, leftTo:7, right:0, koef:1)
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:8, right:0, koef:1, noZeroLenL: true)
     }
     private func createHH20() {
         let s = PathAlg.s
