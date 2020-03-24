@@ -265,9 +265,14 @@ extension HHElem {
         let s = PathAlg.s
         makeZeroMatrix(18*s, h: 8*s)
 
-        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:3, right:0, koef:1)
-        HHElem.addElemToHH(self, i:s, j:4*s, leftFrom:1, leftTo:8, right:1, koef:-1)
-        HHElem.addElemToHH(self, i:6*s, j:11*s, leftFrom:6, leftTo:7, right:6, koef:1)
+        var j = s + myModS(-3)
+        HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j+3, right:8*j, koef:1)
+        j = 4*s + myModS(-3)
+        HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+1, leftTo:8*j+8, right:8*j+1, koef:-1)
+        j = 9*s + myModS(-3)
+        HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:8*j+5, leftTo:8*j+7, right:8*j+5, koef:1)
+        j = 14*s + myModS(-4)
+        HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+7, leftTo:8*(j+1)+6, right:8*j+7, koef:1)
     }
     private func createHH15() {
     }
