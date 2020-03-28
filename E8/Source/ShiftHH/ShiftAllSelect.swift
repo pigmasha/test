@@ -27,13 +27,19 @@ struct ShiftAllSelect {
         var col = 0
         for variants in allVariants.variants {
             if s == 1 {
-                hh.addMatrixX(variants[0].hh, x: col)
+                if type == 5 && shift == 28 && col < 2*s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else {
+                    hh.addMatrixX(variants[0].hh, x: col)
+                }
             } else {
                 if type == 2 && (shift == 27 || (shift == 28 && col < s)) {
                     hh.addMatrixX(variants.last!.hh, x: col)
                 } else if type == 3 && shift == 27 && col < s {
                     hh.addMatrixX(variants[1].hh, x: col)
                 } else if type == 4 && shift == 28 && col >= s && col < 2*s {
+                    hh.addMatrixX(variants.last!.hh, x: col)
+                } else if type == 5 && shift == 28 && col < 2*s {
                     hh.addMatrixX(variants.last!.hh, x: col)
                 } else if type == 6 && shift == 27 && col < s {
                     hh.addMatrixX(variants[1].hh, x: col)
