@@ -104,7 +104,7 @@ struct Step_8_shift_enum {
         let s = PathAlg.s
         var isGood = true
         switch type {
-        case 6: isGood = hh.nonZeroCount == 1
+        case 6, 11: isGood = hh.nonZeroCount == 1
         case 7: isGood = hh.nonZeroCount == 4*s
         case 14: isGood = hh.nonZeroCount == 3
         case 24: isGood = hh.nonZeroCount == 2

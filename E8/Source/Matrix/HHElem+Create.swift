@@ -174,6 +174,11 @@ extension HHElem {
         }
     }
     private func createHH11() {
+        let s = PathAlg.s
+        makeZeroMatrix(19*s, h: 8*s)
+
+        HHElem.addElemToHH(self, i:0, j:s, leftFrom:0, leftTo:8, right:0, koef:1, noZeroLenL:true)
+        HHElem.addElemToHH(self, i:0, j:2*s, leftFrom:0, leftTo:8, right:0, koef:1, noZeroLenL:true)
     }
     private func createHH12() {
         let s = PathAlg.s
