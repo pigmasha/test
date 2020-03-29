@@ -235,7 +235,7 @@ struct CheckHH {
             guard let w = hhElem[i].way, !w.isZero else { continue }
             for j in 0 ..< im.height {
                 if im.rows[j][i].koef != 0, let ww = im.rows[j][i].way, !ww.isZero {
-                    if s == 1 && ww.len >= 5 && w.len == 0
+                    if s == 1 && ww.len >= 4 && w.len == 0
                         && ww.startsWith.number == w.startsWith.number && ww.endsWith.number == w.endsWith.number {
                         zeroCols.insert(i)
                         continue

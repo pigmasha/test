@@ -95,10 +95,12 @@ struct Step_7_createhh {
         }
     }
 
+    private static let char5 = 15
+
     private static func calcOnePerBlock(deg: Int, type: Int, colsTenzors: [(row: Int, t: Tenzor)],
                                         nonZeros: Int, cardLimit: Int) -> Bool {
         var hasResults = false
-        let r = PathAlg.charK == 5 ? 5 : 3
+        let r = PathAlg.charK == char5 ? char5 : 3
         var dd = 1
         for _ in 0 ..< nonZeros { dd *= r }
         var lastPer = -1
@@ -106,7 +108,7 @@ struct Step_7_createhh {
             let per = d * 100 / dd
             if lastPer != per {
                 lastPer = per
-                print("\(Date()) one per block: (\(per)%)")
+                OutputFile.writeLog(.normal, "\(Date()) one per block: (\(per)%)")
             }
             if cardLimit > 0 && card(d) > cardLimit { continue }
             if cardLimit < 0 && card(d) < -cardLimit { continue }
@@ -116,7 +118,7 @@ struct Step_7_createhh {
             var kk = d
             for j in 0..<colsTenzors.count {
                 if colsTenzors[j].row < 0 { continue }
-                let k = r == 5 ? (kk % r) : (kk % 3 == 2 ? -1 : (kk % 3))
+                let k = r == char5 ? (kk % r) : (kk % 3 == 2 ? -1 : (kk % 3))
                 kk /= r
                 guard k != 0 else { continue }
                 if colsTenzors[j].row > -1 {
@@ -135,7 +137,7 @@ struct Step_7_createhh {
     private static func calcBlocks(deg: Int, type: Int, colsTenzors: [(row: Int, t: Tenzor)]) -> Bool {
         let s = PathAlg.s
         var hasResults = false
-        let r = PathAlg.charK == 5 ? 5 : 3
+        let r = PathAlg.charK == char5 ? char5 : 3
         var dd = 1
         var isZeroBlocks: [Bool] = []
         for j in 0 ..< colsTenzors.count / s {
@@ -151,7 +153,7 @@ struct Step_7_createhh {
             let per = d * 100 / dd
             if lastPer != per {
                 lastPer = per
-                print("\(Date()) blocks: (\(per)%)")
+                OutputFile.writeLog(.normal, "\(Date()) blocks: (\(per)%)")
             }
             if PathAlg.alg.dummy1 > 0 && card(d) != PathAlg.alg.dummy1 { continue }
             if !isOk(d) { continue }
@@ -160,7 +162,7 @@ struct Step_7_createhh {
             var kk = d
             for j in 0..<colsTenzors.count / s {
                 if isZeroBlocks[j] { continue }
-                let k = r == 5 ? (kk % r) : (kk % 3 == 2 ? -1 : (kk % 3))
+                let k = r == char5 ? (kk % r) : (kk % 3 == 2 ? -1 : (kk % 3))
                 kk /= r
                 guard k != 0 else { continue }
                 for i in 0 ..< s {
@@ -180,7 +182,7 @@ struct Step_7_createhh {
     }
 
     private static func card(_ d: Int) -> Int {
-        let r = PathAlg.charK == 5 ? 5 : 3
+        let r = PathAlg.charK == char5 ? char5 : 3
         var kk = d
         var c = 0
         while kk > 0 {
@@ -192,12 +194,12 @@ struct Step_7_createhh {
     }
 
     private static func isOk(_ d: Int) -> Bool {
-        let r = PathAlg.charK == 5 ? 5 : 3
+        let r = PathAlg.charK == char5 ? char5 : 3
         var kk2 = d
         while kk2 > 0 {
-            let k = r == 5 ? (kk2 % r) : (kk2 % 3 == 2 ? -1 : (kk2 % 3))
+            let k = r == char5 ? (kk2 % r) : (kk2 % 3 == 2 ? -1 : (kk2 % 3))
             if k != 0 {
-                return r == 5 ? k != 4 : k != -1
+                return r == char5 ? k != char5 - 1 : k != -1
             }
             kk2 /= r
         }
