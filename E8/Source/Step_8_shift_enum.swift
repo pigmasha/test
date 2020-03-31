@@ -118,7 +118,7 @@ struct Step_8_shift_enum {
         OutputFile.writeLog(.bold, "RESULT")
         OutputFile.writeLog(.normal, seqStr)
         //PrintUtils.printMatrixKoefs(hh, colsMax: PathAlg.s, rowsMax: PathAlg.s)
-        PrintUtils.printMatrix("HH", hh)
+        PrintUtils.printMatrix("HH (nonZeroCount=\(hh.nonZeroCount))", hh)
         try? OutputFile.setFileName(fileName: path)
         return isGood
     }

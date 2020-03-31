@@ -220,7 +220,7 @@ struct ShiftHHGenProgram {
 
     private func vertexString(_ v: Vertex, j: Int, m: Int) -> String {
         let v0 = Vertex(i: (m < 0) ? v.number : v.number - PathAlg.n * m)
-        let ranges = [(0, 13), (-6, -1), (14, 19)]
+        let ranges = [(0, 13), (-6, -1), (14, 22)]
         for range in ranges {
             for b in range.0 ... range.1 {
                 guard Vertex(i: PathAlg.n * j + b).isEq(v0) else { continue }
