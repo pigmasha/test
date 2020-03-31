@@ -1002,7 +1002,7 @@ final class ShiftHHElem21 : ShiftHHElem {
             HHElem.addElemToHH(hhElem, i:j+4*s, j:j, leftFrom:8*(j+m+1)+4, leftTo:8*(j+m+1)+4, rightFrom:8*j+2, rightTo:8*j+7, koef:-1)
         }
         for j in 6*s ..< 7*s {
-            HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m-1)+6, rightFrom:8*j+2, rightTo:8*(j+1), koef:-1)
+            HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j, leftFrom:8*(j+m+1)+5, leftTo:8*(j+m+1)+6, rightFrom:8*j+2, rightTo:8*(j+1), koef:-1)
         }
         for j in 8*s ..< 9*s {
             HHElem.addElemToHH(hhElem, i:j-4*s, j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+1)+1, rightFrom:8*j+3, rightTo:8*j+3, koef:-1)
@@ -1096,7 +1096,7 @@ final class ShiftHHElem21 : ShiftHHElem {
             HHElem.addElemToHH(hhElem, i:j-3*s, j:j, leftFrom:8*(j+m+1)+1, leftTo:8*(j+m+1)+2, rightFrom:8*j+3, rightTo:8*j+3, koef:1)
         }
         for j in 8*s ..< 9*s {
-            HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j, leftFrom:8*(j+m-1)+6, leftTo:8*(j+m-1)+6, rightFrom:8*j+3, rightTo:8*(j+1), koef:-1)
+            HHElem.addElemToHH(hhElem, i:s+myModS(j+1), j:j, leftFrom:8*(j+m+1)+6, leftTo:8*(j+m+1)+6, rightFrom:8*j+3, rightTo:8*(j+1), koef:-1)
         }
         for j in 9*s ..< 10*s {
             HHElem.addElemToHH(hhElem, i:j-4*s, j:j, leftFrom:8*(j+m+1)+2, leftTo:8*(j+m+1)+3, rightFrom:8*j+4, rightTo:8*j+4, koef:1)
