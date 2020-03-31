@@ -307,10 +307,6 @@ extension HHElem {
         let s = PathAlg.s
         makeZeroMatrix(16*s, h: 8*s)
 
-        if s == 1 {
-            return
-        }
-
         for j in s ..< 2*s {
             HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
         }
