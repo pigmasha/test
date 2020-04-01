@@ -95,7 +95,7 @@ struct Step_7_createhh {
         }
     }
 
-    private static let char5 = 15
+    private static let char5 = 5
 
     private static func calcOnePerBlock(deg: Int, type: Int, colsTenzors: [(row: Int, t: Tenzor)],
                                         nonZeros: Int, cardLimit: Int) -> Bool {
