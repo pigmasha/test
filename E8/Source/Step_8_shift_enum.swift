@@ -107,7 +107,6 @@ struct Step_8_shift_enum {
         case 6, 11: isGood = hh.nonZeroCount == 1
         case 7: isGood = hh.nonZeroCount == 4*s
         case 14: isGood = hh.nonZeroCount == 3
-        case 24: isGood = hh.nonZeroCount == 2
         default: break
         }
         guard isGood else {
