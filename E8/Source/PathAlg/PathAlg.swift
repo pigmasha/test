@@ -67,6 +67,7 @@ final class PathAlg {
         var k2 = k
         while k2 >= charK { k2 -= charK }
         while k2 < 0 { k2 += charK }
+        if charK == 5 && k2 == 4 { return -1 }
         return charK == 3 && k2 == 2 ? -1 : k2
     }
 
@@ -76,6 +77,7 @@ final class PathAlg {
         var k2 = k
         while k2 >= charK { k2 -= charK }
         while k2 < 0 { k2 += charK }
+        if charK == 5 && k2 == 4 { return -1 }
         return charK == 3 && k2 == 2 ? -1 : k2
     }
 }

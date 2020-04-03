@@ -55,36 +55,59 @@ struct Step_7_createhh {
     }
 
     private static func calcHH(deg: Int, type: Int) {
-        let s = PathAlg.s
-        let qFrom = BimodQ(deg: deg)
-        let qTo = BimodQ(deg: 0)
+        PrintUtils.printMatrix("Ker", Diff(deg: deg))
+        PrintUtils.printIm("Im", ImMatrix(diff: Diff(deg: deg - 1)), deg: deg - 1)
+        let path = Utils.pathWithShift(0, type: type)
+        var variants: ShiftAllVariants? = nil
+        if FileManager.default.fileExists(atPath: path) {
+            variants = ShiftAllVariants(withContentsOf: path)
+            guard variants != nil else {
+                OutputFile.writeLog(.error, "ShiftAllVariants from file failed!")
+                return
+            }
+        } else {
+            variants = CreateAlgAll.kerVariants(for: deg, onlyOne: true)
+            guard variants != nil else {
+                OutputFile.writeLog(.time, "kerVariants failed!")
+                return
+            }
+            guard variants!.writeToFile(path) else {
+                OutputFile.writeLog(.bold, "saveVariants write failed! Path=\(path)")
+                return
+            }
+        }
+        let colsTenzors = CreateAlgAll.colsTenzors(deg: deg)
 
-        var shifts: [Int] = []
-        for sz in qFrom.sizes {
-            if sz > 1 {
-                for _ in 0 ..< sz - 1 { shifts.append(1 - s) }
+        for variant in variants!.variants[0] {
+            let hh = variant.hh
+            PrintUtils.printMatrix("hh", hh)
+            let hh2 = HHElem()
+            hh2.makeZeroMatrix(colsTenzors.count, h: 8*PathAlg.s)
+            for j in 0..<colsTenzors.count {
+                guard colsTenzors[j].row > -1 else { continue }
+                guard !hh.rows[0][j].isZero else { continue }
+                hh2.rows[colsTenzors[j].row][j].addComb(Comb(tenzor: colsTenzors[j].t, koef: hh.rows[0][j].terminateKoef(isLast: true)))
             }
-            shifts.append(1)
-        }
-        var colsTenzors: [(row: Int, t: Tenzor)] = []
-        var nonZeros = 0
-        var i = 0
-        for j in 0..<qFrom.pij.count {
-            let v1 = Vertex(i: qFrom.pij[j].0)
-            let v2 = Vertex(i: qTo.pij[i].0)
-            let w = Way(from: v2.number, to: v1.number, noZeroLen: true)
-            if !w.isZero {
-                colsTenzors.append((i, Tenzor(left: w, right: Way(from: v2.number, to: v2.number))))
-                nonZeros += 1
-            } else {
-                colsTenzors.append((-1, Tenzor(left: Way(), right: Way())))
+            if CheckHH.checkHHElem(hh2, degree: deg, logError: true) {
+                PrintUtils.printMatrix("HH2 (d=\(deg))", hh2)
+                HHProgram(hhElem: hh2, deg: deg, type: type).printProgram()
             }
-            i += j % s == s - 1 ? shifts[j / s] : 1
         }
+    }
+
+    private static func calcHH2(deg: Int, type: Int) {
+        let colsTenzors = CreateAlgAll.colsTenzors(deg: deg)
+        let nonZeros = colsTenzors.filter { $0.row > -1 }.count
         print("colsTenzors \(colsTenzors.count)/\(nonZeros): \(colsTenzors.map { $0.t.str })")
         PrintUtils.printMatrix("Ker", Diff(deg: deg))
         PrintUtils.printIm("Im", ImMatrix(diff: Diff(deg: deg - 1)), deg: deg - 1)
-        if PathAlg.alg.dummy1 == 0 &&
+        for lim in 1 ... nonZeros {
+            OutputFile.writeLog(.bold, "Limit \(lim) (nonZeros=\(nonZeros))")
+            if calcOnePerBlock(deg: deg, type: type, colsTenzors: colsTenzors, nonZeros: nonZeros, cardLimit: lim) {
+                break
+            }
+        }
+        /*if PathAlg.alg.dummy1 == 0 &&
             calcOnePerBlock(deg: deg, type: type, colsTenzors: colsTenzors, nonZeros: nonZeros, cardLimit: 3) {
             return
         }
@@ -92,7 +115,7 @@ struct Step_7_createhh {
             _ = calcOnePerBlock(deg: deg, type: type, colsTenzors: colsTenzors, nonZeros: nonZeros, cardLimit: -4)
         } else {
             _ = calcBlocks(deg: deg, type: type, colsTenzors: colsTenzors)
-        }
+        }*/
     }
 
     private static let char5 = 5
@@ -110,7 +133,7 @@ struct Step_7_createhh {
                 lastPer = per
                 OutputFile.writeLog(.normal, "\(Date()) one per block: (\(per)%)")
             }
-            if cardLimit > 0 && card(d) > cardLimit { continue }
+            if cardLimit > 0 && card(d) != cardLimit { continue }
             if cardLimit < 0 && card(d) < -cardLimit { continue }
             if !isOk(d) { continue }
             let hh2 = HHElem()

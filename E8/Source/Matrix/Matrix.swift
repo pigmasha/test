@@ -287,6 +287,21 @@ class Matrix {
         }
     }
 
+    func addMatrix(_ matr: Matrix!, koef: Double) {
+        let combs2 = matr.rows
+        guard combs.count == combs2.count else { return }
+
+        for i in 0..<combs.count {
+            let line1 = combs[i]
+            let line2 = combs2[i]
+            guard line1.count == line2.count else { return }
+
+            for j in 0..<line1.count {
+                line1[j].addComb(line2[j], koef: koef)
+            }
+        }
+    }
+
     func addMatrixX(_ matr: Matrix!, x: Int) {
         let combs2 = matr.rows
 

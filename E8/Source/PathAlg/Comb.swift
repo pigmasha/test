@@ -85,6 +85,13 @@ final class Comb {
         normalForm()
     }
 
+    func addComb(_ comb: Comb, koef: Double) {
+        for item in comb.content {
+            tenzors.append(TenzorPair(tenzor: Tenzor(tenzor: item.tenzor), koef: Double(item.koef * koef)))
+        }
+        normalForm()
+    }
+
     func setComb(_ comb: Comb) {
         tenzors.removeAll()
         addComb(comb)

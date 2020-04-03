@@ -47,6 +47,7 @@
 		0C89D2892433C17000411A98 /* ShiftHHElem21.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C89D2882433C17000411A98 /* ShiftHHElem21.swift */; };
 		0C89D28B2433DD4E00411A98 /* ShiftHHElem22c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C89D28A2433DD4E00411A98 /* ShiftHHElem22c.swift */; };
 		0C89D28D2435295E00411A98 /* ShiftHHElem24c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C89D28C2435295E00411A98 /* ShiftHHElem24c.swift */; };
+		0C89D28F24365FE200411A98 /* CreateAlgAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C89D28E24365FE200411A98 /* CreateAlgAll.swift */; };
 		0CA652661CC843ED00272A59 /* Pairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652651CC843ED00272A59 /* Pairs.swift */; };
 		0CA652681CC8476400272A59 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA652671CC8476400272A59 /* Tenzor.swift */; };
 		0CA96FBA2223194600D9BDDF /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA96FB92223194600D9BDDF /* BimodQ.swift */; };
@@ -64,6 +65,7 @@
 		0CD3438C1CC9834D00FD9D61 /* Comb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3438B1CC9834D00FD9D61 /* Comb.swift */; };
 		0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A31C1E9158E700C1C32C /* Utils.swift */; };
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
+		0CE73F3B2437BAD00024BEAA /* ShiftHHElem25.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE73F3A2437BAD00024BEAA /* ShiftHHElem25.swift */; };
 		0CEB229D241C194A00B52BCA /* Step_4_dimhom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEB229C241C194A00B52BCA /* Step_4_dimhom.swift */; };
 		0CEB229F241C254500B52BCA /* Step_5_im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEB229E241C254500B52BCA /* Step_5_im.swift */; };
 		0CEB22A1241D8C5000B52BCA /* Step_6_dimhh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEB22A0241D8C5000B52BCA /* Step_6_dimhh.swift */; };
@@ -125,6 +127,7 @@
 		0C89D2882433C17000411A98 /* ShiftHHElem21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem21.swift; sourceTree = "<group>"; };
 		0C89D28A2433DD4E00411A98 /* ShiftHHElem22c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem22c.swift; sourceTree = "<group>"; };
 		0C89D28C2435295E00411A98 /* ShiftHHElem24c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem24c.swift; sourceTree = "<group>"; };
+		0C89D28E24365FE200411A98 /* CreateAlgAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAlgAll.swift; sourceTree = "<group>"; };
 		0CA652651CC843ED00272A59 /* Pairs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pairs.swift; sourceTree = "<group>"; };
 		0CA652671CC8476400272A59 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0CA96FB92223194600D9BDDF /* BimodQ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 		0CD3438B1CC9834D00FD9D61 /* Comb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comb.swift; sourceTree = "<group>"; };
 		0CD8A31C1E9158E700C1C32C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0CE73F3A2437BAD00024BEAA /* ShiftHHElem25.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem25.swift; sourceTree = "<group>"; };
 		0CEB229C241C194A00B52BCA /* Step_4_dimhom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_4_dimhom.swift; sourceTree = "<group>"; };
 		0CEB229E241C254500B52BCA /* Step_5_im.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_5_im.swift; sourceTree = "<group>"; };
 		0CEB22A0241D8C5000B52BCA /* Step_6_dimhh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_6_dimhh.swift; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				9B26FD5D22A265210002DA2F /* CheckHH.swift */,
+				0C89D28E24365FE200411A98 /* CreateAlgAll.swift */,
 				9B26FD5822A2633A0002DA2F /* HHElem.swift */,
 				9B26FD5722A2633A0002DA2F /* HHElem+Create.swift */,
 				0CF4A83D24220B840066DE36 /* HHProgram.swift */,
@@ -223,6 +228,7 @@
 				0C89D2882433C17000411A98 /* ShiftHHElem21.swift */,
 				0C89D28A2433DD4E00411A98 /* ShiftHHElem22c.swift */,
 				0C89D28C2435295E00411A98 /* ShiftHHElem24c.swift */,
+				0CE73F3A2437BAD00024BEAA /* ShiftHHElem25.swift */,
 				0C7EDBB92427AC7900511A2C /* ShiftHHElem26c.swift */,
 				0C7EDBBB2427CA5800511A2C /* ShiftHHElem28c.swift */,
 			);
@@ -450,6 +456,7 @@
 				0C46F0312423F08200047AB9 /* ShiftHHGenProgram.swift in Sources */,
 				0C46F0302423F08200047AB9 /* ShiftVariant.swift in Sources */,
 				0C7EDBB824278B3800511A2C /* ShiftHHElem08c.swift in Sources */,
+				0CE73F3B2437BAD00024BEAA /* ShiftHHElem25.swift in Sources */,
 				0CBA6EF92424CED400686ED1 /* ShiftHHElem02c.swift in Sources */,
 				0CD8A31D1E9158E700C1C32C /* Utils.swift in Sources */,
 				0C46F0342423F08200047AB9 /* ShiftAllVariants.swift in Sources */,
@@ -465,6 +472,7 @@
 				0C7EDBB6242763B900511A2C /* ShiftHHElem06c.swift in Sources */,
 				0C07A71F223ED9A800BF8C61 /* CalcDiff.swift in Sources */,
 				0CF4A83E24220B840066DE36 /* HHProgram.swift in Sources */,
+				0C89D28F24365FE200411A98 /* CreateAlgAll.swift in Sources */,
 				0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */,
 				9B2353B423AFE41700F25A17 /* BimodKoefs.swift in Sources */,
 				0C64F1611CB9474D00495383 /* Vertex.swift in Sources */,
