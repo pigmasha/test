@@ -4,6 +4,7 @@
 
 import Foundation
 
+#if SHIFTS
 final class ShiftHHElem14c : ShiftHHElem {
     override func shift0(_ hhElem: HHElem, s: Int, m: Int, ell: Int) {
         hhElem.makeZeroMatrix(18*s, h:8*s)
@@ -946,3 +947,4 @@ final class ShiftHHElem14c : ShiftHHElem {
         return minusDeg(ell)
     }
 }
+#endif /* SHIFTS */

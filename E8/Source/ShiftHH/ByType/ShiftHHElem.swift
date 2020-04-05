@@ -25,6 +25,7 @@ struct ShiftVars {
 class ShiftHHElem {
     class func shiftForType(_ type: Int) -> ShiftHHElem {
         switch type {
+#if SHIFTS
         case  1: return ShiftHHElem01()
         case  2: return ShiftHHElem02c()
         case  3: return ShiftHHElem03()
@@ -56,6 +57,7 @@ class ShiftHHElem {
         case 34: return ShiftHHElem34()
         case 35: return ShiftHHElem35()
         case 36: return ShiftHHElem36()
+#endif /* SHIFTS */
         default: return ShiftHHElem()
         }
     }
