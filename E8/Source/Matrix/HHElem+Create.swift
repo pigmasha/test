@@ -304,11 +304,11 @@ extension HHElem {
         let s = PathAlg.s
         makeZeroMatrix(18*s, h: 8*s)
 
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j+4, right:8*j, koef:-1)
+        }
         for j in 3*s ..< 4*s {
             HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j, leftTo:8*j+5, right:8*j, koef:1)
-        }
-        for j in 4*s ..< 5*s {
-            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+1, leftTo:8*j+7, right:8*j+1, koef:-1)
         }
         for j in 7*s ..< 8*s {
             HHElem.addElemToHH(self, i:j-4*s, j:j, leftFrom:8*j+3, leftTo:8*j+7, right:8*j+3, koef:-1)
