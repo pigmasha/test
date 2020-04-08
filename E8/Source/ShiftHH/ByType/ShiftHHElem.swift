@@ -34,6 +34,7 @@ class ShiftHHElem {
         case  6: return ShiftHHElem06c()
         case  7: return ShiftHHElem07c()
         case  8: return ShiftHHElem08c()
+        case  9: return ShiftHHElem09c()
         case 10: return ShiftHHElem10()
         case 11: return ShiftHHElem11c()
         case 12: return ShiftHHElem12c()
@@ -46,6 +47,7 @@ class ShiftHHElem {
         case 20: return ShiftHHElem20c()
         case 21: return ShiftHHElem21()
         case 22: return ShiftHHElem22c()
+        case 23: return ShiftHHElem23()
         case 24: return ShiftHHElem24c()
         case 25: return ShiftHHElem25()
         case 26: return ShiftHHElem26c()
@@ -60,7 +62,6 @@ class ShiftHHElem {
         case 35: return ShiftHHElem35()
         case 36: return ShiftHHElem36()
 #endif /* SHIFTS */
-        case 23: return ShiftHHElem23()
         default: return ShiftHHElem()
         }
     }
