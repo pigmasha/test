@@ -60,6 +60,7 @@ class ShiftHHElem {
         case 35: return ShiftHHElem35()
         case 36: return ShiftHHElem36()
 #endif /* SHIFTS */
+        case 23: return ShiftHHElem23()
         default: return ShiftHHElem()
         }
     }

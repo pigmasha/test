@@ -27,7 +27,7 @@ struct Step_9_select_shift {
             hh = ShiftHHElem.shiftForType(type).shift(degree: deg, shift: shiftFrom)
             OutputFile.writeLog(.time, "HH Shift \(shiftFrom) (ell=\(ell), type=\(type))")
         } else {
-            OutputFile.writeLog(.time, "HH (ell=\(ell), type=\(type))")
+            OutputFile.writeLog(.time, "HH (ell=\(ell), type=\(type), deg=\(deg))")
         }
         if !checkMyShift(type: type, deg: deg, shift: shiftFrom, hh: hh) {
             PrintUtils.printMatrix("hh", hh)
