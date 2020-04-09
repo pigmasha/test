@@ -236,11 +236,9 @@ extension HHElem {
         for j in 11*s ..< 12*s {
             HHElem.addElemToHH(self, i:j-6*s, j:j, leftFrom:8*j+5, leftTo:8*j+6, right:8*j+5, koef:1)
         }
-        for j in 12*s ..< 13*s {
-            HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+5, leftTo:8*j+5, right:8*j+5, koef:-1)
-        }
-        for j in 13*s ..< 14*s {
-            HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+6, leftTo:8*j+6, right:8*j+6, koef:1)
+        for j in 12*s ..< 14*s {
+            let j_2 = j / s
+            HHElem.addElemToHH(self, i:j-7*s, j:j, leftFrom:8*j+j_2-7, leftTo:8*j+j_2-7, right:8*j+j_2-7, koef:minusDeg(j_2+1))
         }
         for j in 16*s ..< 17*s {
             HHElem.addElemToHH(self, i:j-9*s, j:j, leftFrom:8*j+7, leftTo:8*j+7, right:8*j+7, koef:1)
