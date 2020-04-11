@@ -35,6 +35,7 @@
 		0C6BD861243E3AB4007CF7EC /* ShiftHHElem09c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BD860243E3AB4007CF7EC /* ShiftHHElem09c.swift */; };
 		0C6BD863243E4AF6007CF7EC /* ShiftHHElem18c.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BD862243E4AF6007CF7EC /* ShiftHHElem18c.swift */; };
 		0C6BD86724423274007CF7EC /* Step_11_degs_mult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BD86624423274007CF7EC /* Step_11_degs_mult.swift */; };
+		0C6BD869244238BE007CF7EC /* Step_12_mult_comm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6BD868244238BE007CF7EC /* Step_12_mult_comm.swift */; };
 		0C72BE35243CD96000345FC6 /* ShiftHHElem23.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C72BE34243CD96000345FC6 /* ShiftHHElem23.swift */; };
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
@@ -128,6 +129,7 @@
 		0C6BD860243E3AB4007CF7EC /* ShiftHHElem09c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem09c.swift; sourceTree = "<group>"; };
 		0C6BD862243E4AF6007CF7EC /* ShiftHHElem18c.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem18c.swift; sourceTree = "<group>"; };
 		0C6BD86624423274007CF7EC /* Step_11_degs_mult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_11_degs_mult.swift; sourceTree = "<group>"; };
+		0C6BD868244238BE007CF7EC /* Step_12_mult_comm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step_12_mult_comm.swift; sourceTree = "<group>"; };
 		0C72BE34243CD96000345FC6 /* ShiftHHElem23.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftHHElem23.swift; sourceTree = "<group>"; };
 		0C7E5DA31AF3D9D5003A425A /* E8.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = E8.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C7E5DC71AF3D9F7003A425A /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				0C46F0382423F4C500047AB9 /* Step_9_select_shift.swift */,
 				0C46F03A2423F81E00047AB9 /* Step_10_shift_check.swift */,
 				0C6BD86624423274007CF7EC /* Step_11_degs_mult.swift */,
+				0C6BD868244238BE007CF7EC /* Step_12_mult_comm.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				9B2993E5229E95C50015C10A /* KoefIntMatrix.swift in Sources */,
 				0CA652681CC8476400272A59 /* Tenzor.swift in Sources */,
 				9B26FD5A22A2633A0002DA2F /* HHElem.swift in Sources */,
+				0C6BD869244238BE007CF7EC /* Step_12_mult_comm.swift in Sources */,
 				0CEB229D241C194A00B52BCA /* Step_4_dimhom.swift in Sources */,
 				0CF606432437D1C8001A0FFD /* ShiftHHElem27.swift in Sources */,
 				0C7F1893243916290029D49F /* ShiftHHElem35.swift in Sources */,
