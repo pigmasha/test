@@ -183,12 +183,16 @@ struct ShiftHHGenProgram {
                 } else {
                     iS = iString(row, col: col)[0]
                 }
-                let kS: String
+                var kS: String
                 if k == 0 {
                     k = c.terminateKoef(isLast: false) == 1 || PathAlg.charK == 2 ? 1 : -1
+                    if c.terminateKoef(isLast: false) == 2 { k = 2 }
+                    if c.terminateKoef(isLast: false) == 3 { k = 3 }
                     kS = "!k"
                 } else {
                     kS = c.terminateKoef(isLast: false) == 1 || PathAlg.charK == 2 ? "1" : "-1"
+                    if c.terminateKoef(isLast: false) == 2 { kS = "2" }
+                    if c.terminateKoef(isLast: false) == 3 { kS = "3" }
                 }
 
                 let isNoZeroLenL = l.len > 0 && l.endsWith.isEq(Vertex(i: l.startsWith.number + PathAlg.n))
@@ -197,10 +201,18 @@ struct ShiftHHGenProgram {
                 if PathAlg.s == 1 && (isNoZeroLenR || myMod(r.startsWith.number, mod: 8) > myMod(r.endsWith.number, mod: 8)) {
                     rightTo = rightTo.replacingOccurrences(of: "j", with: "(j+1)")
                 }
+                let leftFrom = vertexString(l.startsWith, j: col, m: m)
                 var leftTo = vertexString(l.endsWith, j: col, m: m)
                 if PathAlg.s == 1 && (isNoZeroLenL || myMod(l.startsWith.number, mod: 8) > myMod(l.endsWith.number, mod: 8)) {
                     leftTo = leftTo.replacingOccurrences(of: "j+m", with: "j+m+1")
                 }
+                if PathAlg.s == 2 && (leftFrom.contains("8*(j+m)") || leftFrom.contains("8*(j+m+1)")) {
+                    leftTo = leftTo.replacingOccurrences(of: "8*(j+m-1)", with: "8*(j+m+1)")
+                }
+                if PathAlg.s == 2 && leftFrom.contains("8*(j+m+1)") {
+                    leftTo = leftTo.replacingOccurrences(of: "8*(j+m)", with: "8*(j+m+2)")
+                }
+                rightTo = rightTo.replacingOccurrences(of: "(j-1)", with: "(j+1)")
                 if PathAlg.s == 1 {
                     str += "if j % s == 0 && s > 1 {\n"
                     str += "    print(\"\\(j/s)*s ..< \\(j/s+1)*s / \(iS): \\(myMod(qFrom.pij[j].0 - (\(leftTo)), mod: 8*s)) - "
@@ -208,7 +220,7 @@ struct ShiftHHGenProgram {
                     str += "}\n"
                 }
                 str += "HHElem.addElemToHH(hhElem, i:\(iS), j:j,"
-                str += " leftFrom:\(vertexString(l.startsWith, j: col, m: m)), leftTo:\(leftTo),"
+                str += " leftFrom:\(leftFrom), leftTo:\(leftTo),"
                 str += " rightFrom:\(vertexString(r.startsWith, j: col, m: -1)), rightTo:\(rightTo), koef:\(kS)"
                 if isNoZeroLenL { str += ", noZeroLenL:true" }
                 if isNoZeroLenR { str += ", noZeroLenR:true" }

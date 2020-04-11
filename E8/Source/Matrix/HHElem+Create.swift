@@ -307,13 +307,15 @@ extension HHElem {
         let s = PathAlg.s
         makeZeroMatrix(19*s, h: 8*s)
 
-        for j in s ..< 3*s {
-            let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-j_2*s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:j_2)
+        for j in s ..< 2*s {
+            HHElem.addElemToHH(self, i:j-s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:1)
+        }
+        for j in 2*s ..< 3*s {
+            HHElem.addElemToHH(self, i:j-2*s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:2)
         }
         for j in 4*s ..< 6*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+j_2-3, leftTo:8*j+j_2-3, right:8*j+j_2-3, koef:7-j_2)
+            HHElem.addElemToHH(self, i:j-3*s, j:j, leftFrom:8*j+j_2-3, leftTo:8*j+j_2-3, right:8*j+j_2-3, koef:2*minusDeg(j_2+1))
         }
         for j in 7*s ..< 9*s {
             let j_2 = j / s

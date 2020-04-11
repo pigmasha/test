@@ -43,6 +43,7 @@ class ShiftHHElem {
         case 15: return ShiftHHElem15c()
         case 16: return ShiftHHElem16c()
         case 17: return ShiftHHElem17c()
+        case 18: return ShiftHHElem18c()
         case 19: return ShiftHHElem19c()
         case 20: return ShiftHHElem20c()
         case 21: return ShiftHHElem21()
