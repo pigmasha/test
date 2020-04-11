@@ -16,8 +16,8 @@ struct RunCase {
         case  8: return Step_8_shift_enum.runCase()
         case  9: return Step_9_select_shift.runCase()
         case 10: return Step_10_shift_check.runCase()
-        /*case 11: return Step_11_degs_mult.runCase()
-        case 12: return Step_12_degs_mult_check.runCase()
+        case 11: return Step_11_degs_mult.runCase()
+        /*case 12: return Step_12_degs_mult_check.runCase()
         case 13: return Step_13_mult_comm.runCase()
         case 14: return Step_14_mult.runCase()*/
         default: return false
