@@ -36,13 +36,18 @@ final class TexConverter {
         result += "%                                          \(type)\n"
         result += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
         result += "\\begin{pr}[Translates for the case \(type)]\n"
-        result += "$({\\rm I})$ Let $r_0\\in\\N$, $r_0<17$. $r_0$-translates of the\n"
+        result += "$({\\rm I})$ Let $r_0\\in\\N$, $r_0<29$. $r_0$-translates of the\n"
         result += "elements $Y^{(\(type))}_t$ are described by the following way.\n\n"
 
         let mutableSource = NSMutableString(string: source)
         mutableSource.replaceOccurrences(of: "*", with: "", range: mutableSource.wholeRange)
-        if mutableSource.hasSuffix("}\n") {
-            mutableSource.deleteCharacters(in: mutableSource.rangeFrom(-2))
+        mutableSource.replaceOccurrences(of: "minusDeg(j_1+1)", with: "(-1)^{j_1+1}", range: mutableSource.wholeRange)
+        mutableSource.replaceOccurrences(of: "minusDeg(j_1)", with: "(-1)^{j_1}", range: mutableSource.wholeRange)
+        mutableSource.replaceOccurrences(of: "minusDeg(j_2+1)", with: "(-1)^{j_2+1}", range: mutableSource.wholeRange)
+        mutableSource.replaceOccurrences(of: "minusDeg(j_2)", with: "(-1)^{j_2}", range: mutableSource.wholeRange)
+        let suffix = "}\n//#endif / SHIFTS /\n"
+        if mutableSource.hasSuffix(suffix) {
+            mutableSource.deleteCharacters(in: mutableSource.rangeFrom(-suffix.lengthOfBytes(using: .utf8)))
         } else {
             throw TexConverterError.badSuffix("type=\(type), text=\(source)")
         }
@@ -50,17 +55,17 @@ final class TexConverter {
         if parts.count < 5 {
             parts = mutableSource.components(separatedBy: "override func oddShift")
         }
-        guard parts.count == 18 else { throw TexConverterError.badPartsCount("type=\(type), \(parts.count) parts") }
+        guard parts.count == 30 else { throw TexConverterError.badPartsCount("type=\(type), \(parts.count) parts") }
 
         nPart = 0
         koefPrefix = mutableSource.contains("oddKoef0") ? "\\kappa_0" : ""
-        for i in 1 ... 17 {
+        for i in 1 ... 29 {
             result += try convertShift(source: parts[i], shift: i - 1)
         }
-        let koefSuffix = mutableSource.contains("koef17") ? ",\nand coefficients multiplied by $(-1)^{\\ell_0}$" : ""
+        let koefSuffix = mutableSource.contains("koef29") ? ",\nand coefficients multiplied by $(-1)^{\\ell_0}$" : ""
         result += "\\medskip\n"
         result += "$({\\rm II})$ Represent an arbitrary $t_0\\in\\N$ in the form\n"
-        result += "$t_0=17\\ell_0+r_0$, where $0\\le r_0\\le 16.$ Then\n"
+        result += "$t_0=29\\ell_0+r_0$, where $0\\le r_0\\le 28.$ Then\n"
         result += "$\\Omega^{t_0}(Y_t^{(\(type))})$ is a $\\Omega^{r_0}(Y_t^{(\(type))})$, whose left\n"
         result += "components twisted by $\\sigma^{\\ell_0}$\(koefSuffix).\n"
         result += "\\end{pr}\n\n"
@@ -121,14 +126,14 @@ final class TexConverter {
         if isOnePerBlock {
             nElems = mutableSource.components(separatedBy: "addElemToHH").count - 1
             if nElems == 1 {
-                result += "\(sizeStr)-matrix with one nonzero element that is of the following form{\\rm:}\n"
+                result += "\(sizeStr) matrix with unique nonzero entry{\\rm:}\n"
             } else if nElems == 2 {
-                result += "\(sizeStr)-matrix with the following two nonzero elements{\\rm:}\n"
+                result += "\(sizeStr) matrix with two nonzero entries{\\rm:}\n"
             } else {
-                result += "\(sizeStr)-matrix with the following nonzero elements{\\rm:}\n"
+                result += "\(sizeStr) matrix with the following nonzero entries{\\rm:}\n"
             }
         } else {
-            result += "\(sizeStr)-matrix with the following elements $b_{ij}${\\rm:}\n\n"
+            result += "\(sizeStr) matrix, whose entries $b_{ij}$ have the following form{\\rm:}\n\n"
         }
 
         guard replaceMyModS(mutableSource) else { // myModS(j+1) → (j+1)_s
@@ -187,8 +192,15 @@ final class TexConverter {
         while true {
             guard let range = forRange(source) else { break }
             body = NSMutableString(string: source.substring(with: range))
-            guard processForBodyInterval(body) else { return false }
-            guard processBodyAddElem(body, inFor: true) else { return false }
+            guard processForBodyInterval(body) else {
+                print("Bad body=\(body)")
+                return false
+            }
+            body.replaceOccurrences(of: "letj_2=j/s", with: "", options: [], range: NSRange(location: 0, length: body.length))
+            guard processBodyAddElem(body, inFor: true) else {
+                print("Bad addElem=\(body)")
+                return false
+            }
             source.replaceCharacters(in: range, with: body as String)
         }
         if let forInterval = forInterval, forInterval.to != matrixWidth {
@@ -203,7 +215,6 @@ final class TexConverter {
     private func processForBodyInterval(_ body: NSMutableString) -> Bool {
         if body.substring(with: NSRange(location: 0, length: 6)) != "forjin" { return false }
         body.deleteCharacters(in: NSRange(location: 0, length: 6))
-        if body.range(of: "for").location != NSNotFound { return false }
         let openBraceRange = body.range(of: "{")
         let intervalRange = body.range(of: "..<")
         if openBraceRange.location == NSNotFound || intervalRange.location == NSNotFound ||
@@ -276,6 +287,7 @@ final class TexConverter {
             let sR = sR1 != sR2 ? "w_{\(sR1)\\ra \(sR2)}" : "e_{\(sR1)}"
             var sJ = contents.substring(with: match.range(at: 1))
             if sJ.hasPrefix("+") { sJ.removeFirst() }
+            if sK.contains("f(") { sK = "(" + sK + ")" }
             if inFor {
                 source.replaceCharacters(in: range, with: "\(sK)\(sL)\\otimes \(sR),\\quad i=\(sJ);\\\\\n")
             } else {
@@ -287,6 +299,22 @@ final class TexConverter {
                 }
                 source.replaceCharacters(in: range, with: "$$b_{\(sJ),j}=\(sK)\(sL)\\otimes \(sR)\(sfx)")
             }
+        }
+        while true {
+            let r10 = source.range(of: "forj_1in")
+            guard r10.location != NSNotFound else { break }
+            let r11 = source.range(of: "{", options: [], range: NSRange(location: r10.location, length: source.length - r10.location))
+            let r12 = source.range(of: inFor ? "\\\\\n}" : "$$\n}", options: [], range: NSRange(location: r10.location, length: source.length - r10.location))
+            guard r11.location != NSNotFound, r12.location != NSNotFound, r11.location < r12.location else { break }
+            let j1 = source.substring(with: NSRange(location: r10.location + r10.length,
+                                                    length: r11.location - r10.location - r10.length))
+            let j1Parts = j1.components(separatedBy: "...")
+            guard j1Parts.count == 2 else { fatalError("Bad j1=\(j1)") }
+            source.deleteCharacters(in: NSRange(location: r12.location + 3, length: 1))
+            let sep = inFor ? "\\text{ }" : "\\quad"
+            source.replaceCharacters(in: NSRange(location: r12.location - 1, length: 0),
+                                     with: ",\(sep) \(j1Parts[0])\\le j_1\\le \(j1Parts[1])")
+            source.deleteCharacters(in: NSRange(location: r10.location, length: r11.location - r10.location+1))
         }
         return source.range(of: "addElemToHH").location == NSNotFound
     }
@@ -396,8 +424,9 @@ final class TexConverter {
         source.replaceOccurrences(of: "z", with: "(", range: source.wholeRange)
         source.replaceOccurrences(of: "Z", with: ")", range: source.wholeRange)
         source.replaceOccurrences(of: "j%s", with: "(j)_s", range: source.wholeRange)
-        source.replaceOccurrences(of: "}overridefunckoef17", with: "\n%koef17", range: source.wholeRange)
+        source.replaceOccurrences(of: "}overridefunckoef29", with: "\n%koef29", range: source.wholeRange)
         source.replaceOccurrences(of: "}overridefuncoddKoef_0", with: "\n%oddKoef0", range: source.wholeRange)
+        source.replaceOccurrences(of: "%koef29(ell:Int)->Int{returnminusDeg(ell)", with: "", range: source.wholeRange)
         return source.range(of: "addElemToHH").location == NSNotFound
     }
 }

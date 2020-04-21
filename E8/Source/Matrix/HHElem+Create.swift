@@ -87,7 +87,7 @@ extension HHElem {
 
         for j in 0 ..< 3*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-j_2*s, j:j, leftFrom:8*j, leftTo:8*j+5-2*j_2, right:8*j, koef:1-2*f(j_2,2))
+            HHElem.addElemToHH(self, i:myModS(j), j:j, leftFrom:8*j, leftTo:8*j+5-2*j_2, right:8*j, koef:1-2*f(j_2,2))
         }
         for j in 5*s ..< 8*s {
             let j_2 = j / s
@@ -129,7 +129,7 @@ extension HHElem {
 
         for j in 0 ..< 3*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-j_2*s, j:j, leftFrom:8*j, leftTo:8*j+3*j_2+5*f(j_2,0), right:8*j, koef:minusDeg(j_2+1))
+            HHElem.addElemToHH(self, i:myModS(j), j:j, leftFrom:8*j, leftTo:8*j+3*j_2+5*f(j_2,0), right:8*j, koef:minusDeg(j_2+1))
         }
         for j in 5*s ..< 8*s {
             let j_2 = j / s
@@ -140,7 +140,7 @@ extension HHElem {
         }
         for j in 12*s ..< 14*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-(j_2-7)*s, j:j, leftFrom:8*j+7, leftTo:8*(j+1)+2*(j_2-11), right:8*j+7, koef:1+2*f(j_2,13))
+            HHElem.addElemToHH(self, i:7*s+myModS(j), j:j, leftFrom:8*j+7, leftTo:8*(j+1)+2*(j_2-11), right:8*j+7, koef:1+2*f(j_2,13))
         }
     }
     private func createHH10() {
@@ -149,7 +149,7 @@ extension HHElem {
 
         for j in s ..< 3*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-j_2*s, j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:minusDeg(j_2+1))
+            HHElem.addElemToHH(self, i:myModS(j), j:j, leftFrom:8*j, leftTo:8*j, right:8*j, koef:minusDeg(j_2+1))
         }
         for j in 4*s ..< 7*s {
             let j_2 = j / s
@@ -166,7 +166,7 @@ extension HHElem {
         }
         for j in 16*s ..< 19*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-(j_2-7)*s, j:j, leftFrom:8*j+7, leftTo:8*j+7+f(j_2,18), right:8*j+7, koef:minusDeg(j_2))
+            HHElem.addElemToHH(self, i:7*s+myModS(j), j:j, leftFrom:8*j+7, leftTo:8*j+7+f(j_2,18), right:8*j+7, koef:minusDeg(j_2))
         }
     }
     private func createHH11() {
@@ -375,7 +375,7 @@ extension HHElem {
         }
         for j in 13*s ..< 15*s {
             let j_2 = j / s
-            HHElem.addElemToHH(self, i:j-(j_2-7)*s, j:j, leftFrom:8*j+7, leftTo:8*j+j_2-6, right:8*j+7, koef:minusDeg(j_2+1))
+            HHElem.addElemToHH(self, i:7*s+myModS(j), j:j, leftFrom:8*j+7, leftTo:8*j+j_2-6, right:8*j+7, koef:minusDeg(j_2+1))
         }
     }
     private func createHH22() {

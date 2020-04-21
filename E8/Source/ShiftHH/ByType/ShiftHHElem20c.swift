@@ -1027,9 +1027,5 @@ final class ShiftHHElem20c : ShiftHHElem {
         j = 17*s + myModS(-4)
         HHElem.addElemToHH(hhElem, i:+myModS(j+1), j:j, leftFrom:8*(j+m+1), leftTo:8*(j+m+2), rightFrom:8*j+7, rightTo:8*(j+1), koef:1, noZeroLenL:true)
     }
-
-    override func oddKoef0(s: Int, ell: Int) -> Int {
-        return 1
-    }
 }
 //#endif /* SHIFTS */

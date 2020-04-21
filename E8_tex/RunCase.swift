@@ -41,7 +41,7 @@ struct RunCase {
 
     private static func runShifts(pathFrom: String, pathTo: String) -> String? {
         var str = header
-        for type in 1 ... 25 {
+        for type in 1 ... 36 {
             if skipTypes.contains(type) { continue }
             
             let typeStr = type < 10 ? "0\(type)" : "\(type)"
