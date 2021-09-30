@@ -157,7 +157,7 @@ struct Dim {
         let charK = PathAlg.charK
         if s == 1 {
             if deg == 0 { return 9 }
-            if [0, 1, 3, 7, 12, 13, 15, 20, 21, 24, 25, 27].contains(d) && ((ell + m) % 2 == 0 || charK == 2) { return 1 }
+            if [0, 1, 3, 7, 12, 13, 15, 20, 21, 24, 25, 27].contains(d) && deg > 0 && ((ell + m) % 2 == 0 || charK == 2) { return 1 }
             if [4, 8, 16, 28].contains(d) && ((ell + m) % 2 == 1 || charK == 2) { return 1 }
             if [5, 10, 11, 17, 22, 23].contains(d) && (ell + m) % 2 == 0 && charK == 3 { return 1 }
             if [6, 18].contains(d) && (ell + m) % 2 == 1 && charK == 3 { return 1 }
