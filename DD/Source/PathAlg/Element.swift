@@ -1,0 +1,132 @@
+//
+//  Element.swift
+//  Created by M on 02.10.2021.
+//
+
+import Foundation
+
+final class Element {
+    private(set) var contents: [(NumInt, Way)]
+
+    init() {
+        contents = []
+    }
+
+    init(way: Way, koef: Int) {
+        contents = []
+        add(way: way, koef: koef)
+    }
+
+    var isZero: Bool {
+        return contents.isEmpty
+    }
+
+    func add(way: Way, koef: Int) {
+        if way.isZero || NumInt.isZero(n: koef) { return }
+        if let i = contents.firstIndex(where: { $0.1.isEq(way) }) {
+            contents[i].0.n += koef
+            if contents[i].0.isZero {
+                contents.remove(at: i)
+            }
+        } else {
+            contents.append((NumInt(n: koef), Way(way: way)))
+        }
+    }
+
+    func add(element: Element) {
+        for (k, w) in element.contents {
+            add(way: w, koef: k.n)
+        }
+    }
+
+    func compKoef(_ koef: Int) {
+        var hasZero = false
+        contents.forEach {
+            $0.0.n *= koef
+            if $0.0.isZero { hasZero = true }
+        }
+        if hasZero {
+            contents = contents.filter { !$0.0.isZero }
+        }
+    }
+
+    func compRight(element: Element) {
+        comp(right: true, element: element)
+    }
+
+    func compLeft(element: Element) {
+        comp(right: false, element: element)
+    }
+
+    var str: String {
+        if isZero { return "0" }
+        var s = ""
+        for i in 0 ..< contents.count {
+            let k = contents[i].0.n
+            if k < 0 {
+                s += k == -1 ? "-" : "\(k)"
+            } else {
+                if i > 0 { s += "+" }
+                if k != 1 { s += "\(k)" }
+            }
+            s += contents[i].1.str
+        }
+        return s
+    }
+
+    private func comp(right isRight: Bool, element: Element) {
+        var result: [(NumInt, Way)] = []
+        for (k, w) in element.contents {
+            result += Element.comp(right: isRight, contents: contents, way: w, koef: k.n)
+        }
+        contents = Element.removeZerosAndDubles(result)
+    }
+
+    private static func comp(right isRight: Bool, contents: [(NumInt, Way)], way: Way, koef: Int) -> [(NumInt, Way)] {
+        if way.isZero || NumInt.isZero(n: koef) { return [] }
+        var result: [(NumInt, Way)] = []
+        if way.len == 0 {
+            for (n, w) in contents {
+                let k = n.n * koef
+                if !NumInt.isZero(n: k) {
+                    result.append((NumInt(n: k), Way(way: w)))
+                }
+            }
+            return result
+        }
+        for (n, w) in contents {
+            let n1 = NumInt(n: n.n * koef)
+            let w1 = Way(way: w)
+            result.append((n1, w1))
+            if n1.isZero { continue }
+            if isRight && w1.canCompRight(way) { w1.compRight(way); continue }
+            if !isRight && w1.canCompLeft(way) { w1.compLeft(way); continue }
+            if way.len > 1 || w1.len > 1 { n1.n = 0; continue }
+            switch way.startArr {
+            case .x:
+                result.append((NumInt(n: n1.n), Way(type: .y, len: 2 * PathAlg.k - 1)))
+                n1.n *= PathAlg.c
+                w1.setWay(Way(type: .x, len: 2 * PathAlg.k))
+            case .y:
+                n1.n *= PathAlg.d
+                w1.setWay(Way(type: .x, len: 2 * PathAlg.k))
+            }
+        }
+        return removeZerosAndDubles(result)
+    }
+
+    private static func removeZerosAndDubles(_ items: [(NumInt, Way)]) -> [(NumInt, Way)] {
+        var result: [(NumInt, Way)] = []
+        let myContents = items.filter { !$0.0.isZero && !$0.1.isZero }
+        var hasZero = false
+        for (n, w) in myContents {
+            if let i = result.firstIndex(where: { $0.1.isEq(w) }) {
+                result[i].0.n += n.n
+                if result[i].0.isZero { hasZero = true }
+            } else {
+                result.append((n, w))
+            }
+        }
+        return hasZero ? result.filter { !$0.0.isZero } : result
+    }
+}

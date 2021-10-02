@@ -24,6 +24,12 @@ final class Way {
         self.init(type: way.startArr, len: way.len)
     }
 
+    func setWay(_ way: Way) {
+        startArr = way.startArr
+        len = way.len
+        updateIsZero()
+    }
+
     var arrays: [ArrType] {
         var arr: [ArrType] = []
         var t = startArr
@@ -48,35 +54,38 @@ final class Way {
         }
     }
 
+    func canCompRight(_ way: Way) -> Bool {
+        guard way.len > 0 && len > 0 else { return true }
+        return way.startArr != endArr
+    }
+
     func compRight(_ way: Way) {
         guard way.len > 0 else { return }
-        if way.len % 2 == 0 {
-            if way.startArr != startArr { fatalError("Way.compRight bad way") }
-        } else {
-            if way.startArr == startArr { fatalError("Way.compRight bad way") }
-        }
-        startArr = way.startArr
+        if !canCompRight(way) { fatalError("Way.compRight bad way") }
+        if len == 0 { startArr = way.startArr }
         len += way.len
         updateIsZero()
     }
 
+    func canCompLeft(_ way: Way) -> Bool {
+        guard way.len > 0 && len > 0 else { return true }
+        return way.endArr != startArr
+    }
+
     func compLeft(_ way: Way) {
         guard way.len > 0 else { return }
-        if len % 2 == 0 {
-            if way.startArr != startArr { fatalError("Way.compLeft bad way") }
-        } else {
-            if way.startArr == startArr { fatalError("Way.compLeft bad way") }
-        }
+        if !canCompLeft(way) { fatalError("Way.canCompLeft bad way") }
+        startArr = way.startArr
         len += way.len
         updateIsZero()
     }
 
     var str: String {
         if isZero { return "0" }
-        if len == 0 { return "1" }
+        if len == 0 { return "e" }
         let str0: String
         let str1: String
-        switch self.endArr {
+        switch startArr {
         case .x: str0 = "x"; str1 = "y"
         case .y: str0 = "y"; str1 = "x"
         }
@@ -85,7 +94,23 @@ final class Way {
         case 2: return str0 + str1
         case 3: return str0 + str1 + str0
         default:
-            return "(" + str0 + str1 + ")<sup>\(len / 2)</sup>" + (len % 2 == 0 ? "" : str0)
+            let deg: String
+            switch len / 2 {
+            case PathAlg.k: deg = "k"
+            case PathAlg.k-1: deg = "k-1"
+            default: deg = "\(len / 2)"
+            }
+            let degStr = "<sup>" + deg + "</sup>"
+            if len % 2 == 0 {
+                return "(" + str0 + str1 + ")" + degStr
+            } else {
+                switch startArr {
+                case .x:
+                    return "(xy)" + degStr + "x"
+                case .y:
+                    return "y(xy)" + degStr
+                }
+            }
         }
     }
 
