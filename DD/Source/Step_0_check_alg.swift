@@ -13,9 +13,9 @@ struct Step_0_check_alg {
             let way2 = Way(type: .y, len: l)
             if !way1.isZero && !ways.contains(where: { way1.isEq($0) }) { ways.append(way1) }
             if !way2.isZero && !ways.contains(where: { way2.isEq($0) }) { ways.append(way2) }
-            OutputFile.writeLog(.normal, "w1=" + way1.str + ", w2=" + way2.str)
         }
         OutputFile.writeLog(.normal, "ways=" + ways.map { $0.str }.joined(separator: ", "))
+        if ways.count != 4 * PathAlg.k { return true }
         return false
     }
 }

@@ -10,22 +10,23 @@ enum ArrType: Int, Equatable {
 }
 
 final class Way {
-    private var arr: [ArrType]
+    private(set) var startArr: ArrType
+    private(set) var len: Int
     private(set) var isZero: Bool
 
-    init() {
-        arr = []
-        isZero = true
+    init(type: ArrType, len: Int) {
+        self.startArr = type
+        self.len = len
+        self.isZero = len > 2 * PathAlg.k
     }
 
-    init(type: ArrType, len: Int) {
-        guard len <= 2 * PathAlg.k else {
-            arr = []
-            isZero = true
-            return
-        }
-        arr = []
-        var t = type
+    convenience init(way: Way) {
+        self.init(type: way.startArr, len: way.len)
+    }
+
+    var arrays: [ArrType] {
+        var arr: [ArrType] = []
+        var t = startArr
         for _ in (0 ..< len) {
             arr.append(t)
             switch t {
@@ -33,86 +34,69 @@ final class Way {
             case .y: t = .x
             }
         }
-        isZero = false
-    }
-
-    convenience init(way: Way) {
-        self.init()
-        self.setWay(way)
-    }
-
-    convenience init(way1: Way, way2: Way) {
-        self.init()
-        self.setWay(way1)
-        self.compLeft(way2)
-    }
-
-    var arrays: [ArrType] {
         return arr
     }
 
-    var len: Int {
-        return arr.count
+    var endArr: ArrType {
+        if len % 2 == 0 {
+            switch startArr {
+            case .x: return .y
+            case .y: return .x
+            }
+        } else {
+            return startArr
+        }
     }
 
     func compRight(_ way: Way) {
-        arr = way.arrays + arr
+        guard way.len > 0 else { return }
+        if way.len % 2 == 0 {
+            if way.startArr != startArr { fatalError("Way.compRight bad way") }
+        } else {
+            if way.startArr == startArr { fatalError("Way.compRight bad way") }
+        }
+        startArr = way.startArr
+        len += way.len
         updateIsZero()
     }
 
     func compLeft(_ way: Way) {
-        arr += way.arrays
+        guard way.len > 0 else { return }
+        if len % 2 == 0 {
+            if way.startArr != startArr { fatalError("Way.compLeft bad way") }
+        } else {
+            if way.startArr == startArr { fatalError("Way.compLeft bad way") }
+        }
+        len += way.len
         updateIsZero()
     }
 
     var str: String {
         if isZero { return "0" }
-        if arr.count == 0 { return "1" }
-
-        var ss = ""
-        var nxy = 0
-        var nyx = 0
-        for w in arr.reversed() {
-            switch w {
-            case .x: ss += "x"
-            case .y: ss += "y"
-            }
-            if ss == "xy" { nxy += 1; ss = "" }
-            if nxy == 0 && ss == "yx" { nyx += 1; ss = "" }
+        if len == 0 { return "1" }
+        let str0: String
+        let str1: String
+        switch self.endArr {
+        case .x: str0 = "x"; str1 = "y"
+        case .y: str0 = "y"; str1 = "x"
         }
-        if nxy == 0 && nyx == 0 { return ss }
-        if nxy == 1 { return "xy" + ss }
-        if nyx == 1 { return "yx" + ss }
-        if nxy != 0 { return "(xy)<sup>\(nxy)</sup>" + ss }
-        return "(yx)<sup>\(nyx)</sup>" + ss
+        switch len {
+        case 1: return str0
+        case 2: return str0 + str1
+        case 3: return str0 + str1 + str0
+        default:
+            return "(" + str0 + str1 + ")<sup>\(len / 2)</sup>" + (len % 2 == 0 ? "" : str0)
+        }
     }
 
     func isEq(_ other: Way) -> Bool {
         if isZero || other.isZero { return false }
         if len != other.len { return false }
-        if len == 0 { return true }
-        if len == 2 * PathAlg.k { // (xy)^k=(yx)^k
-            var xy1 = true
-            var xy2 = true
-            for i in 1 ..< len {
-                if arr[i - 1] == arr[i] { xy1 = false }
-                if other.arr[i - 1] == other.arr[i] { xy2 = false }
-                if !xy1 && !xy2 { break }
-            }
-            if xy1 && xy2 { return true }
-        }
-        for i in 0 ..< len {
-            if arr[i] != other.arr[i] { return false }
-        }
-        return true
-    }
-
-    private func setWay(_ way: Way) {
-        arr = way.arrays
-        updateIsZero()
+        if len == 0 || len == 2 * PathAlg.k { return true }
+        return startArr == other.startArr
     }
 
     private func updateIsZero() {
-        isZero = arr.count > 2 * PathAlg.k
+        isZero = len > 2 * PathAlg.k
     }
 }
