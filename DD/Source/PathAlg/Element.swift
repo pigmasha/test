@@ -17,6 +17,13 @@ final class Element {
         add(way: way, koef: koef)
     }
 
+    init(element: Element) {
+        contents = []
+        for (n, w) in element.contents {
+            add(way: w, koef: n.n)
+        }
+    }
+
     var isZero: Bool {
         return contents.isEmpty
     }
@@ -39,6 +46,10 @@ final class Element {
         }
     }
 
+    func clear() {
+        contents = []
+    }
+
     func compKoef(_ koef: Int) {
         var hasZero = false
         contents.forEach {
@@ -56,6 +67,19 @@ final class Element {
 
     func compLeft(element: Element) {
         comp(right: false, element: element)
+    }
+
+    func eqKoef(_ other: Element) -> Int {
+        guard !contents.isEmpty && contents.count == other.contents.count else { return 0 }
+        var kk = 0
+        for i in 0 ..< contents.count {
+            if !contents[i].1.isEq(other.contents[i].1) { return 0 }
+            let k = contents[i].0.eqKoef(other.contents[i].0)
+            if k == 0 { return 0 }
+            if kk > 0 && k != kk { return 0 }
+            kk = k
+        }
+        return kk
     }
 
     var str: String {

@@ -30,6 +30,13 @@ final class Way {
         updateIsZero()
     }
 
+    func hasPrefix(_ way: Way) -> Bool {
+        if way.isZero { return false }
+        if way.len == 0 { return true }
+        if len == 2 * PathAlg.k { return true }
+        return way.startArr == startArr && way.len < len
+    }
+
     var arrays: [ArrType] {
         var arr: [ArrType] = []
         var t = startArr
@@ -119,6 +126,21 @@ final class Way {
         if len != other.len { return false }
         if len == 0 || len == 2 * PathAlg.k { return true }
         return startArr == other.startArr
+    }
+
+    static var allWays: [Way] {
+        var ways: [Way] = []
+        var len = 0
+        while true {
+            let way1 = Way(type: .x, len: len)
+            let way2 = Way(type: .y, len: len)
+            if way1.isZero != way2.isZero { fatalError() }
+            if way1.isZero { break }
+            if !ways.contains(where: { way1.isEq($0) }) { ways.append(way1) }
+            if !ways.contains(where: { way2.isEq($0) }) { ways.append(way2) }
+            len += 1
+        }
+        return ways
     }
 
     private func updateIsZero() {

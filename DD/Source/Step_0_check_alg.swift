@@ -10,7 +10,7 @@ struct Step_0_check_alg {
         OutputFile.writeLog(.simple, "<font face='courier'>")
         OutputFile.writeLog(.bold, "k=\(PathAlg.k), c=\(PathAlg.c), d=\(PathAlg.d), char=\(PathAlg.charK)")
         var ways: [Way] = []
-        for l in 0 ... 3 * PathAlg.k {
+        for l in 0 ... 2 * PathAlg.k {
             let way1 = Way(type: .x, len: l)
             let way2 = Way(type: .y, len: l)
             if !way1.isZero && !ways.contains(where: { way1.isEq($0) }) { ways.append(way1) }

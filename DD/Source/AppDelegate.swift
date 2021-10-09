@@ -4,6 +4,9 @@
 
 import Cocoa
 
+typealias FieldsTuple = (from: NSTextField, to: NSTextField, label: String)
+typealias IntervalTuple = (from: Int, to: Int)
+
 @objc(DDApplication)
 final class Application: NSApplication {
     let strongDelegate = AppDelegate()
@@ -31,10 +34,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusBarItem: NSStatusItem?
     private let path = NSTextField(frame: .zero)
     private var info: NSTextView? = nil
-    private let kFrom = NSTextField(frame: .zero)
-    private let cFrom = NSTextField(frame: .zero)
-    private let dFrom = NSTextField(frame: .zero)
-    private let charKFrom = NSTextField(frame: .zero)
+    private let kFields: FieldsTuple = (from: NSTextField(frame: .zero), to: NSTextField(frame: .zero), label: "k")
+    private let cFields: FieldsTuple = (from: NSTextField(frame: .zero), to: NSTextField(frame: .zero), label: "c")
+    private let dFields: FieldsTuple = (from: NSTextField(frame: .zero), to: NSTextField(frame: .zero), label: "d")
+    private let charFields: FieldsTuple = (from: NSTextField(frame: .zero), to: NSTextField(frame: .zero), label: "ch")
     private let currentStep = NSTextField(frame: .zero)
 
     private let btRun = NSButton(frame: .zero)
@@ -45,14 +48,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var isRun = false
     private var isErr = false
+    private var kInterval: IntervalTuple = (from: 0, to: 0)
+    private var cInterval: IntervalTuple = (from: 0, to: 0)
+    private var dInterval: IntervalTuple = (from: 0, to: 0)
+    private var charInterval: IntervalTuple = (from: 0, to: 0)
 
     private var intFields: [(NSTextField, String)] = []
+    private var tupleFields: [FieldsTuple] = []
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         self.window?.close()
         self.window = nil
-        intFields = [ (kFrom, "kFrom"), (cFrom, "cFrom"), (dFrom, "dFrom"),
-                      (charKFrom, "charKFrom"), (currentStep, "currentStep")]
+        intFields = [(currentStep, "currentStep")]
+        tupleFields = [kFields, cFields, dFields, charFields]
         self.mainWindow = MainWindow()
 
         let v = mainWindow!.window!.contentView!
@@ -64,25 +72,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         addButton(btFile, to: v, title: "Browse...", action: #selector(onFile),
                   autoSz: [.minXMargin, .minYMargin], x: w - kButtonW - 10, y: y)
 
+        let addTuple: (CGFloat, CGFloat, FieldsTuple) -> Void = { x, y, t in
+            self.addField(t.from, to: v, autoSz: .minYMargin, x: x, y: y, w: 40)
+            self.addLabel(to: v, align: .center, autoSz: .minYMargin, x: x + 35, y: y - 3, w: 60, text: "≤ " + t.label + " ≤")
+            self.addField(t.to, to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
+        }
         // s, n, char
         y -= 44
-        var x: CGFloat = 70
-        addLabel(to: v, align: .right, autoSz: .minYMargin, x: 15, y: y - 3, w: 70, text: "k = ")
-        addField(kFrom, to: v, autoSz: .minYMargin, x: x + 22, y: y, w: 40)
-        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 55, y: y - 3, w: 50, text: "c = ")
-        addField(cFrom, to: v, autoSz: .minYMargin, x: x + 110, y: y, w: 40)
-
-        x += 180
-        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x - 40, y: y - 3, w: 50, text: "d = ")
-        addField(dFrom, to: v, autoSz: .minYMargin, x: x + 16, y: y, w: 40)
-        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 55, y: y - 3, w: 65, text: "char = ")
-        addField(charKFrom, to: v, autoSz: .minYMargin, x: x + 126, y: y, w: 40)
+        var x: CGFloat = 50
+        addTuple(x, y, kFields)
+        addTuple(x + 170, y, cFields)
+        addTuple(x + 2 * 170, y, dFields)
+        addTuple(x + 3 * 170, y, charFields)
 
         // run
         y -= 44
         addButton(btRun, to: v, title: "Run", action: #selector(onRun), autoSz: .minYMargin, x: 90, y: y)
         addButton(btOpen, to: v, title: "Open html", action: #selector(onOpen), autoSz: .minYMargin, x: 90 + kButtonW, y: y)
 
+        x = 250
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Step")
         addField(currentStep, to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
 
@@ -130,18 +138,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         addInfoStr(RunCase.stepTitle)
         addInfoStr("Check params")
 
-        let k = kFrom.integerValue
-        guard k > 1 else {
-            addInfoStr("ERROR! k < 2")
-            return
+        let readInterval: (FieldsTuple) -> IntervalTuple? = { t in
+            let tFrom = t.from.integerValue
+            let tTo = t.to.integerValue
+            if tFrom < 0 { self.addInfoStr("ERROR! " + t.label + ".from < 0"); return nil }
+            if tTo < 0 { self.addInfoStr("ERROR! " + t.label + ".to < 0"); return nil }
+            if tTo < tFrom { self.addInfoStr("ERROR! " + t.label + ".to < " + t.label + ".from"); return nil }
+            return (tFrom, tTo)
         }
-        PathAlg.k = k
+        if let kI = readInterval(kFields), let cI = readInterval(cFields),
+            let dI = readInterval(dFields), let chI = readInterval(charFields) {
+            kInterval = kI
+            cInterval = cI
+            dInterval = dI
+            charInterval = chI
+        } else { return }
 
-        let c = cFrom.integerValue
-        PathAlg.c = c
+        guard kInterval.from > 1 else { addInfoStr("ERROR! k < 2"); return }
 
-        let d = dFrom.integerValue
-        PathAlg.d = d
+        PathAlg.k = kInterval.from
+        PathAlg.c = cInterval.from
+        PathAlg.d = dInterval.from
+        PathAlg.charK = charInterval.from
 
         let path = self.path.stringValue
         guard path != "" else {
@@ -165,20 +183,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         btFile.isEnabled = false
         isErr = false
 
-        PathAlg.k = kFrom.integerValue
-        PathAlg.charK = charKFrom.integerValue
-        addInfoStr("k=\(PathAlg.k), char=\(PathAlg.charK)")
         Application.shared.dockTile.badgeLabel = "•"
+        startCase()
+    }
+
+    private func startCase() {
+        addInfoStr("k=\(PathAlg.k), c=\(PathAlg.c), d=\(PathAlg.d) char=\(PathAlg.charK)")
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
+
     @objc func threadCase() {
         isErr = RunCase.runCase()
-        performSelector(onMainThread: #selector(caseFinished), with: nil, waitUntilDone: false)
+        performSelector(onMainThread: #selector(finishCase), with: nil, waitUntilDone: false)
     }
-    @objc func caseFinished() {
+
+    @objc func finishCase() {
         if isErr {
             addInfoStr("ERROR!")
             onRunFinish()
+            return
+        }
+
+        if PathAlg.k < kInterval.to {
+            PathAlg.k += 1
+            startCase()
+            return
+        }
+
+        if PathAlg.c < cInterval.to {
+            PathAlg.k = kInterval.from
+            PathAlg.c += 1
+            startCase()
+            return
+        }
+
+        if PathAlg.d < dInterval.to {
+            PathAlg.k = kInterval.from
+            PathAlg.c = cInterval.from
+            PathAlg.d += 1
+            startCase()
             return
         }
 
@@ -274,11 +317,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         for (field, name) in intFields {
             field.integerValue = UserDefaults.standard.integer(forKey: dPrefix + name)
         }
+        for t in tupleFields {
+            t.from.integerValue = UserDefaults.standard.integer(forKey: dPrefix + t.label + ".from")
+            t.to.integerValue = UserDefaults.standard.integer(forKey: dPrefix + t.label + ".to")
+        }
     }
     private func saveDefaults() {
         UserDefaults.standard.set(path.stringValue, forKey: dPrefix + "P")
         for (field, name) in intFields {
             UserDefaults.standard.set(field.integerValue, forKey: dPrefix + name)
+        }
+        for t in tupleFields {
+            UserDefaults.standard.set(t.from.integerValue, forKey: dPrefix + t.label + ".from")
+            UserDefaults.standard.set(t.to.integerValue, forKey: dPrefix + t.label + ".to")
         }
     }
 
