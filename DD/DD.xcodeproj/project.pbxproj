@@ -10,6 +10,8 @@
 		0C0430FF2708843E0062DF73 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0430FE2708843E0062DF73 /* Element.swift */; };
 		0C043101270885B40062DF73 /* NumInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C043100270885B40062DF73 /* NumInt.swift */; };
 		0C09653D270F110900CDA62E /* ElementArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C09653C270F110900CDA62E /* ElementArr.swift */; };
+		0C300DFF2711C07E008F3570 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C300DFE2711C07E008F3570 /* Tenzor.swift */; };
+		0C300E012711C1DA008F3570 /* Comb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C300E002711C1DA008F3570 /* Comb.swift */; };
 		0C538FF9270495B000FB8DA8 /* OutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C538FF8270495B000FB8DA8 /* OutputFile.swift */; };
 		0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9291E34F78400F285AC /* RunCase.swift */; };
 		0C64F15F1CB93E3A00495383 /* PathAlg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64F15E1CB93E3A00495383 /* PathAlg.swift */; };
@@ -22,12 +24,15 @@
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
 		0CDE652F2709DC7D00690C25 /* PKer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE652D2709DC7D00690C25 /* PKer.swift */; };
 		0CDE65312709DCC500690C25 /* PElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE65302709DCC500690C25 /* PElements.swift */; };
+		0CF52323271703F20059CC1A /* Step_2_diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF52322271703F20059CC1A /* Step_2_diff.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C0430FE2708843E0062DF73 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		0C043100270885B40062DF73 /* NumInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumInt.swift; sourceTree = "<group>"; };
 		0C09653C270F110900CDA62E /* ElementArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementArr.swift; sourceTree = "<group>"; };
+		0C300DFE2711C07E008F3570 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
+		0C300E002711C1DA008F3570 /* Comb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comb.swift; sourceTree = "<group>"; };
 		0C538FF8270495B000FB8DA8 /* OutputFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFile.swift; sourceTree = "<group>"; };
 		0C60C9291E34F78400F285AC /* RunCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase.swift; sourceTree = "<group>"; };
 		0C64F15E1CB93E3A00495383 /* PathAlg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathAlg.swift; sourceTree = "<group>"; };
@@ -42,6 +47,7 @@
 		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CDE652D2709DC7D00690C25 /* PKer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKer.swift; sourceTree = "<group>"; };
 		0CDE65302709DCC500690C25 /* PElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PElements.swift; sourceTree = "<group>"; };
+		0CF52322271703F20059CC1A /* Step_2_diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_2_diff.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,7 @@
 				0C60C9291E34F78400F285AC /* RunCase.swift */,
 				0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */,
 				0CA5B3372708D508007DF742 /* Step_1_calc_s.swift */,
+				0CF52322271703F20059CC1A /* Step_2_diff.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -112,6 +119,8 @@
 			children = (
 				0C64F15E1CB93E3A00495383 /* PathAlg.swift */,
 				0CBB0E271CC595B9007DC5F5 /* Way.swift */,
+				0C300DFE2711C07E008F3570 /* Tenzor.swift */,
+				0C300E002711C1DA008F3570 /* Comb.swift */,
 				0C0430FE2708843E0062DF73 /* Element.swift */,
 				0C09653C270F110900CDA62E /* ElementArr.swift */,
 				0C043100270885B40062DF73 /* NumInt.swift */,
@@ -197,12 +206,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C09653D270F110900CDA62E /* ElementArr.swift in Sources */,
+				0CF52323271703F20059CC1A /* Step_2_diff.swift in Sources */,
 				0C64F15F1CB93E3A00495383 /* PathAlg.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
+				0C300E012711C1DA008F3570 /* Comb.swift in Sources */,
 				0C043101270885B40062DF73 /* NumInt.swift in Sources */,
 				0C538FF9270495B000FB8DA8 /* OutputFile.swift in Sources */,
 				0CC4916522BE2FD000AA5AF7 /* Step_0_check_alg.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
+				0C300DFF2711C07E008F3570 /* Tenzor.swift in Sources */,
 				0CDE65312709DCC500690C25 /* PElements.swift in Sources */,
 				0CDE652F2709DC7D00690C25 /* PKer.swift in Sources */,
 				0CD425C62710A07A00D85D62 /* PMyKer.swift in Sources */,
