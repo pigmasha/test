@@ -16,6 +16,11 @@ final class Comb {
         add(tenzor: tenzor, koef: koef)
     }
 
+    init(left: Way, right: Way, koef: Int) {
+        contents = []
+        add(tenzor: Tenzor(left: left, right: right), koef: koef)
+    }
+
     init(comb: Comb) {
         contents = []
         for (n, t) in comb.contents {
@@ -37,6 +42,10 @@ final class Comb {
         } else {
             contents.append((NumInt(n: koef), Tenzor(tenzor: tenzor)))
         }
+    }
+
+    func add(left: Way, right: Way, koef: Int) {
+        add(tenzor: Tenzor(left: left, right: right), koef: koef)
     }
 
     func add(comb: Comb) {
@@ -82,6 +91,19 @@ final class Comb {
             result += Comb.compRight(contents: contents, tenzor: t, koef: k.n)
         }
         contents = Comb.removeZerosAndDubles(result)
+    }
+
+    func eqKoef(_ other: Comb) -> Int {
+        guard !contents.isEmpty && contents.count == other.contents.count else { return 0 }
+        var kk = 0
+        for i1 in 0 ..< contents.count {
+            guard let i2 = other.contents.firstIndex(where: { contents[i1].1.isEq($0.1) }) else { return 0 }
+            let k = contents[i1].0.eqKoef(other.contents[i2].0)
+            if k == 0 { return 0 }
+            if kk > 0 && k != kk { return 0 }
+            kk = k
+        }
+        return kk
     }
 
     private static func compRight(contents: [(NumInt, Tenzor)], tenzor: Tenzor, koef: Int) -> [(NumInt, Tenzor)] {

@@ -5,27 +5,26 @@
 import Foundation
 
 struct Step_1_calc_s {
-    static let printHomos = true
+    static let printHomos = false
 
     static func runCase() -> Bool {
         OutputFile.writeLog(.bold, "k=\(PathAlg.k), c=\(PathAlg.c), d=\(PathAlg.d), char=\(PathAlg.charK)")
-        var homos: [PHomo] = []
-        let lastHomo = PHomo(matrix: [[Element(way: Way(type: .x, len: 1), koef: 1),
-                                       Element(way: Way(type: .y, len: 1), koef: 1)]])
-        homos.append(lastHomo)
-        let ker = PKer.ker(lastHomo, onlyGen: true)
-        let myKer = PMyKer.ker(0)
-        if ker.htmlStr != myKer.htmlStr {
-            OutputFile.writeLog(.error, "   Ker: \(ker.htmlStr)")
-            OutputFile.writeLog(.error, "My Ker: \(myKer.htmlStr)")
-        }
-
-        if printHomos {
-            for i in 0 ..< homos.count {
-                OutputFile.writeLog(.normal, "d<sub>\(i)</sub>: Q<sub>\(i+1)</sub> &rarr; Q<sub>\(i)</sub>")
-                homos[i].matrix.forEach {
-                    OutputFile.writeLog(.normal, $0.map { $0.str }.joined(separator: " "))
-                }
+        for d in 0 ..< 30 {
+            let d1 = PDiff(deg: d)
+            let d2 = PDiff(deg: d + 1)
+            let m = PMatrix(mult: d1, and: d2)
+            if !m.isZero { return true }
+            /*let ker = PKer.ker(d1)
+            let im = PKer.im(d2)
+            let myKer = PMyKer.ker(d)
+            OutputFile.writeLog(.normal, "\(d): " + ker.htmlStr + "<br>" + im.htmlStr)
+            if ker.htmlStr != myKer.htmlStr {
+                OutputFile.writeLog(.error, "   Ker: \(ker.htmlStr)")
+                OutputFile.writeLog(.error, "My Ker: \(myKer.htmlStr)")
+            }*/
+            if printHomos {
+                OutputFile.writeLog(.normal, "d<sub>\(d)</sub>: Q<sub>\(d+1)</sub> &rarr; Q<sub>\(d)</sub>")
+                PrintUtils.printPMatrix("", d1)
             }
         }
         return false

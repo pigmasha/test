@@ -24,6 +24,18 @@ final class Way {
         self.init(type: way.startArr, len: way.len)
     }
 
+    static var e: Way {
+        return Way(type: .x, len: 0)
+    }
+
+    static var x: Way {
+        return Way(type: .x, len: 1)
+    }
+
+    static var y: Way {
+        return Way(type: .y, len: 1)
+    }
+
     func setWay(_ way: Way) {
         startArr = way.startArr
         len = way.len
@@ -34,7 +46,14 @@ final class Way {
         if way.isZero { return false }
         if way.len == 0 { return true }
         if len == 2 * PathAlg.k { return true }
-        return way.startArr == startArr && way.len < len
+        return way.startArr == startArr && way.len <= len
+    }
+
+    func hasSuffix(_ way: Way) -> Bool {
+        if way.isZero { return false }
+        if way.len == 0 { return true }
+        if len == 2 * PathAlg.k { return true }
+        return way.endArr == endArr && way.len <= len
     }
 
     var arrays: [ArrType] {
@@ -107,7 +126,7 @@ final class Way {
             case PathAlg.k-1: deg = "k-1"
             default: deg = "\(len / 2)"
             }
-            let degStr = "<sup>" + deg + "</sup>"
+            let degStr = PathAlg.isTex ? "^{\(deg)}" : "<sup>" + deg + "</sup>"
             if len % 2 == 0 {
                 return "(" + str0 + str1 + ")" + degStr
             } else {

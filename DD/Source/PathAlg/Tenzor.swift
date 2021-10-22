@@ -35,6 +35,12 @@ final class Tenzor {
         rightComponent.setWay(tenzor.rightComponent)
     }
 
+    func hasPrefix(_ tenzor: Tenzor) -> Bool {
+        let leftOk = tenzor.leftComponent.isZero && leftComponent.isZero ? true : leftComponent.hasSuffix(tenzor.leftComponent)
+        let rightOk = tenzor.rightComponent.isZero && rightComponent.isZero ? true : rightComponent.hasPrefix(tenzor.rightComponent)
+        return leftOk && rightOk
+    }
+
     var str: String {
         return isZero ? "0" : "\(leftComponent.str)*\(rightComponent.str)"
     }

@@ -24,6 +24,9 @@ final class PathAlg {
         get { return alg.charK }
         set { alg.charK = newValue }
     }
+    static var isTex: Bool {
+        return false
+    }
 
     static let alg = PathAlg()
     var currentType = 0

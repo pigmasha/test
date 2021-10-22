@@ -21,11 +21,7 @@ final class OutputFile {
     static func setFileName(fileName: String) throws {
         self.fileName = fileName
         if !fileNames.contains(fileName) {
-            if PathAlg.alg.currentStep != 1 {
-                try header.write(toFile: fileName, atomically: true, encoding: .utf8)
-            } else {
-                try "".write(toFile: fileName, atomically: true, encoding: .utf8)
-            }
+            try header.write(toFile: fileName, atomically: true, encoding: .utf8)
             fileNames += [ fileName ]
         }
     }
@@ -82,13 +78,7 @@ final class OutputFile {
         "<title>Results</title>\n" +
         "<style>\n" +
         "table { border-spacing:0px; border-collapse:collapse; border:1px solid black; }\n" +
-        "td { border:1px solid black; text-align:center; padding:0px; font-size:12px; }\n" +
-        ".c_t_1 { border-top:3px solid #aaaaaa; }\n" +
-        ".c_t_2 { border-top:3px solid black; }\n" +
-        ".c_l_1 { border-left:3px solid #aaaaaa; }\n" +
-        ".c_l_2 { border-left:3px solid black; }\n" +
-        ".c_r_1 { border-right:3px solid black; }\n" +
-        ".c_b_1 { border-bottom:3px solid black; }\n" +
+        "td { border:1px solid black; text-align:center; padding:2px; font-size:14px; }\n" +
         ".b_w { border:1px solid white; }\n" +
         ".b_l { border-left:3px solid black; }\n" +
         "</style>\n" +

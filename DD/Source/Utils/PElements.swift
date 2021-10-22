@@ -2,10 +2,6 @@
 //  Created by M on 22/02/2019.
 //
 
-struct PHomo {
-    let matrix: [[Element]]
-}
-
 enum PElementsType {
     case ker, im
 }
