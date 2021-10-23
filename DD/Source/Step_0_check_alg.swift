@@ -60,7 +60,6 @@ struct Step_0_check_alg {
             for t2 in tenzors {
                 let c1 = Comb(tenzor: t1, koef: 1)
                 let c2 = Comb(tenzor: t2, koef: -1)
-                let s1 = c1.str + " * " + c2.str + " = "
                 c1.compRight(comb: c2)
                 let e1 = Element(way: t1.leftComponent, koef: -1)
                 e1.compLeft(element: Element(way: t2.leftComponent, koef: 1))

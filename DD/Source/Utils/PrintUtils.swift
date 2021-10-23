@@ -5,6 +5,10 @@
 import Foundation
 
 final class PrintUtils {
+    static func printMatrix(_ prefix: String, _ m: Matrix) {
+        printMatrix(prefix, m, redColumns: nil, redRows: nil)
+    }
+
     static func printMatrix(_ prefix: String, _ m: Matrix, redColumns: [Int]? = nil, redRows: [Int]? = nil) {
         OutputFile.writeLog(.normal, prefix)
 
