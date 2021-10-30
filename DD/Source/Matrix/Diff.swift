@@ -16,10 +16,6 @@ final class Diff: Matrix {
 
     convenience init(deg: Int) {
         self.init(emptyForDeg: deg)
-        fillDiff()
-    }
-
-    func fillDiff() {
         fillDiff(deg: deg, pos: 0)
     }
 
@@ -35,32 +31,29 @@ final class Diff: Matrix {
             let c = PathAlg.c
             let c00 = Comb()
             if d % 2 == 1 {
-                c00.add(left: Way.y, right: Way.e, koef: 1)
+                c00.add(comb: yPlus)
                 c00.add(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: -PathAlg.d)
-                c00.add(left: Way.e, right: Way.y, koef: 1)
             } else {
-                c00.add(left: Way.y, right: Way.e, koef: 1)
-                c00.add(left: Way.e, right: Way.y, koef: -1)
+                c00.add(comb: yMinus)
             }
             rows[p][p].add(comb: c00)
-            let c01 = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
-            c01.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: -1)
+            let c01 = rhoMinus
             c01.add(left: Way(type: .x, len: 2 * k - 1), right: Way(type: .x, len: 2 * k), koef: c * c * c)
             rows[p][p+1].add(comb: c01)
             rows[p+1][p].add(comb: Comb(left: Way.e, right: Way.y, koef: -PathAlg.d))
             let c11 = Comb()
             if d % 2 == 1 {
-                c11.add(left: Way.y, right: Way.e, koef: -1)
-                c11.add(left: Way.e, right: Way.y, koef: 1)
+                let cc = yMinus
+                cc.compKoef(-1)
+                c11.add(comb: cc)
             } else {
-                c11.add(left: Way.y, right: Way.e, koef: -1)
+                let cc = yPlus
+                cc.compKoef(-1)
+                c11.add(comb: cc)
                 c11.add(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: PathAlg.d)
-                c11.add(left: Way.e, right: Way.y, koef: -1)
             }
             rows[p+1][p+1].add(comb: c11)
-            let c12 = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
-            c12.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: 1)
-            rows[p+1][p+2].add(comb: c12)
+            rows[p+1][p+2].add(comb: rhoPlus)
             fillDiff(deg: d - 4, pos: p + 2)
         }
     }
@@ -78,18 +71,13 @@ final class Diff: Matrix {
     }
 
     private func fillDiff0(pos p: Int) {
-        let c00 = Comb(left: Way.y, right: Way.e, koef: 1)
-        c00.add(left: Way.e, right: Way.y, koef: -1)
-        rows[p][p].add(comb: c00)
-        let c01 = Comb(left: Way.x, right: Way.e, koef: 1)
-        c01.add(left: Way.e, right: Way.x, koef: -1)
-        rows[p][p+1].add(comb: c01)
+        rows[p][p].add(comb: yMinus)
+        rows[p][p+1].add(comb: xMinus)
     }
 
     private func fillDiff1(pos p: Int) {
         let k = PathAlg.k
-        let c00 = Comb(left: Way.y, right: Way.e, koef: 1)
-        c00.add(left: Way.e, right: Way.y, koef: 1)
+        let c00 = yPlus
         for i in 0 ... k - 1 {
             c00.add(left: Way(type: .x, len: 2 * i + 1), right: Way(type: .x, len: 2 * (k - 1 - i)), koef: -PathAlg.d)
         }
@@ -107,8 +95,8 @@ final class Diff: Matrix {
             c10.add(left: Way(type: .x, len: 2 * i), right: Way(type: .y, len: 2 * (k - 1 - i) + 1), koef: -PathAlg.d)
         }
         rows[p+1][p].add(comb: c10)
-        let c11 = Comb(left: Way.x, right: Way.e, koef: -1)
-        c11.add(left: Way.e, right: Way.x, koef: -1)
+        let c11 = xPlus
+        c11.compKoef(-1)
         for i in 0 ... k - 2 {
             c11.add(left: Way(type: .y, len: 2 * i + 1), right: Way(type: .y, len: 2 * (k - 2 - i) + 1), koef: 1)
         }
@@ -122,11 +110,8 @@ final class Diff: Matrix {
         let k = PathAlg.k
         let c = PathAlg.c
         let d = PathAlg.d
-        let c00 = Comb(left: Way.y, right: Way.e, koef: 1)
-        c00.add(left: Way.e, right: Way.y, koef: -1)
-        rows[p][p].add(comb: c00)
-        let c01 = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
-        c01.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: -1)
+        rows[p][p].add(comb: yMinus)
+        let c01 = rhoMinus
         c01.add(left: Way(type: .y, len: 2 * k - 2), right: Way(type: .x, len: 2 * k), koef: c * c)
         c01.add(left: Way(type: .x, len: 2 * k - 1), right: Way(type: .x, len: 2 * k), koef: c * c * c)
         rows[p][p+1].add(comb: c01)
@@ -136,11 +121,9 @@ final class Diff: Matrix {
         c10.add(left: Way(type: .y, len: 2 * k - 1), right: Way.y, koef: c * d)
         c10.add(left: Way(type: .y, len: 2 * k - 1), right: Way(type: .x, len: 2), koef: c * c * d)
         rows[p+1][p].add(comb: c10)
-        let c11 = Comb(left: Way.x, right: Way.e, koef: -1)
-        c11.add(left: Way.e, right: Way.x, koef: 1)
-        let yComb = Comb(left: Way.y, right: Way.e, koef: 1)
-        yComb.add(left: Way.e, right: Way.y, koef: 1)
-        c11.compRight(comb: yComb)
+        let c11 = xMinus
+        c11.compKoef(-1)
+        c11.compRight(comb: yPlus)
         c11.add(left: Way(type: .y, len: 2 * k - 1), right: Way.y, koef: c)
         c11.add(left: Way(type: .x, len: 2 * k), right: Way.y, koef: c * c)
         c11.add(left: Way.x, right: Way(type: .x, len: 2), koef: -c)
@@ -156,12 +139,10 @@ final class Diff: Matrix {
         let k = PathAlg.k
         let c = PathAlg.c
         let d = PathAlg.d
-        let c00 = Comb(left: Way.y, right: Way.e, koef: 1)
+        let c00 = yPlus
         c00.add(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: -d)
-        c00.add(left: Way.e, right: Way.y, koef: 1)
         rows[p][p].add(comb: c00)
-        let c01 = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
-        c01.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: -1)
+        let c01 = rhoMinus
         c01.add(left: Way(type: .x, len: 2 * k - 1), right: Way(type: .x, len: 2 * k), koef: c * c * c)
         rows[p][p+1].add(comb: c01)
         let c10 = Comb(left: Way.e, right: Way.y, koef: -d)
@@ -169,8 +150,8 @@ final class Diff: Matrix {
             c10.add(left: Way(type: .x, len: 2 * i + 1), right: Way(type: .x, len: 2 * (k - 1 - i)), koef: -d * d)
         }
         rows[p+1][p].add(comb: c10)
-        let c11 = Comb(left: Way.y, right: Way.e, koef: -1)
-        c11.add(left: Way.e, right: Way.y, koef: 1)
+        let c11 = yMinus
+        c11.compKoef(-1)
         for i in 0 ... k - 2 {
             c11.add(left: Way(type: .x, len: 2 * i + 1), right: Way(type: .x, len: 2 * (k - 1 - i)), koef: d)
         }
@@ -183,9 +164,7 @@ final class Diff: Matrix {
         for i in 0 ... k - 1 {
             c12.add(left: Way(type: .y, len: 2 * i), right: Way(type: .x, len: 2 * (k - 1 - i)), koef: 1)
         }
-        let xComb = Comb(left: Way.x, right: Way.e, koef: 1)
-        xComb.add(left: Way.e, right: Way.x, koef: 1)
-        c12.compRight(comb: xComb)
+        c12.compRight(comb: xPlus)
         c12.add(left: Way(type: .y, len: 2 * k - 2), right: Way(type: .y, len: 2 * k - 1), koef: -c)
         rows[p+1][p+2].add(comb: c12)
     }
@@ -194,29 +173,56 @@ final class Diff: Matrix {
         let k = PathAlg.k
         let c = PathAlg.c
         let d = PathAlg.d
-        let c00 = Comb(left: Way.y, right: Way.e, koef: 1)
-        c00.add(left: Way.e, right: Way.y, koef: -1)
-        rows[p][p].add(comb: c00)
-        let c01 = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
-        c01.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: -1)
+        rows[p][p].add(comb: yMinus)
+        let c01 = rhoMinus
         c01.add(left: Way(type: .x, len: 2 * k - 1), right: Way(type: .x, len: 2 * k), koef: c * c * c)
         rows[p][p+1].add(comb: c01)
         rows[p+1][p].add(left: Way.e, right: Way.y, koef: -d)
-        let c11 = Comb(left: Way.y, right: Way.e, koef: -1)
+        let c11 = yPlus
+        c11.compKoef(-1)
         c11.add(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: d)
-        c11.add(left: Way.e, right: Way.y, koef: -1)
         rows[p+1][p+1].add(comb: c11)
-        let c12 = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
-        c12.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: 1)
-        rows[p+1][p+2].add(comb: c12)
+        rows[p+1][p+2].add(comb: rhoPlus)
         let c13 = Comb(left: Way(type: .y, len: 2 * k - 2), right: Way(type: .x, len: 2 * k - 2), koef: 1)
         c13.add(left: Way(type: .x, len: 2 * k - 1), right: Way(type: .x, len: 2 * k - 2), koef: c)
         rows[p+1][p+3].add(comb: c13)
-        let c22 = Comb(left: Way.y, right: Way.e, koef: 1)
-        c22.add(left: Way.e, right: Way.y, koef: -1)
-        rows[p+2][p+2].add(comb: c22)
-        let c23 = Comb(left: Way.x, right: Way.e, koef: 1)
-        c23.add(left: Way.e, right: Way.x, koef: -1)
-        rows[p+2][p+3].add(comb: c23)
+        rows[p+2][p+2].add(comb: yMinus)
+        rows[p+2][p+3].add(comb: xMinus)
+    }
+
+    private var yPlus: Comb {
+        let c = Comb(left: Way.y, right: Way.e, koef: 1)
+        c.add(left: Way.e, right: Way.y, koef: 1)
+        return c
+    }
+
+    private var yMinus: Comb {
+        let c = Comb(left: Way.y, right: Way.e, koef: 1)
+        c.add(left: Way.e, right: Way.y, koef: -1)
+        return c
+    }
+
+    private var xPlus: Comb {
+        let c = Comb(left: Way.x, right: Way.e, koef: 1)
+        c.add(left: Way.e, right: Way.x, koef: 1)
+        return c
+    }
+
+    private var xMinus: Comb {
+        let c = Comb(left: Way.x, right: Way.e, koef: 1)
+        c.add(left: Way.e, right: Way.x, koef: -1)
+        return c
+    }
+
+    private var rhoMinus: Comb {
+        let c = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
+        c.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: -1)
+        return c
+    }
+
+    private var rhoPlus: Comb {
+        let c = Comb(left: Way(type: .x, len: 2 * PathAlg.k - 1), right: Way.e, koef: 1)
+        c.add(left: Way.e, right: Way(type: .x, len: 2 * PathAlg.k - 1), koef: 1)
+        return c
     }
 }

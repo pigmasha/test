@@ -8,7 +8,6 @@ struct Step_1_calc_s {
     static let printHomos = false
 
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "k=\(PathAlg.k), c=\(PathAlg.c), d=\(PathAlg.d), char=\(PathAlg.charK)")
         for d in 0 ..< 30 {
             let d1 = PDiff(deg: d)
             let d2 = PDiff(deg: d + 1)

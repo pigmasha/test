@@ -49,3 +49,11 @@ final class NumInt {
         return n == 0 || (PathAlg.charK != 0 && n % PathAlg.charK == 0)
     }
 }
+
+final class NumInt2 {
+    var n: Int
+
+    init(n: Int) {
+        self.n = n
+    }
+}

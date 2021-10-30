@@ -7,11 +7,9 @@ import Foundation
 
 struct Step_2_diff {
     static func runCase() -> Bool {
-        OutputFile.writeLog(.bold, "k=\(PathAlg.k), c=\(PathAlg.c), d=\(PathAlg.d), char=\(PathAlg.charK)")
-        var prevDiff = Diff(emptyForDeg: 0)
+        var prevDiff = Diff(deg: 0)
         for d in 0 ..< 50 {
-            let diff = Diff(emptyForDeg: d)
-            diff.fillDiff()
+            let diff = Diff(deg: d)
             if CreateDiff.check(diff: diff, deg: d, prevDiff: prevDiff) == nil {
                 //OutputFile.writeLog(.normal, "\(d): checked :)")
                 prevDiff = diff

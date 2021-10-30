@@ -20,6 +20,29 @@ struct PKer {
         return PElements(type: .im, items: items)
     }
 
+    static func im(_ matrix: Matrix) -> [[Element]] {
+        isIm = true
+        items = []
+        let ways = Way.allWays
+        for i in 0 ..< matrix.height {
+            for w in ways {
+                var ee: [Element] = []
+                for j in 0 ..< matrix.width {
+                    let e = Element()
+                    for (k, t) in matrix.rows[i][j].contents {
+                        let e0 = Element(way: t.leftComponent, koef: k.n)
+                        e0.compRight(element: Element(way: w, koef: 1))
+                        e0.compRight(element: Element(way: t.rightComponent, koef: 1))
+                        if !e0.isZero { e.add(element: e0) }
+                    }
+                    ee.append(e)
+                }
+                addElem(ee)
+            }
+        }
+        return items
+    }
+
     private static func tryAddAll(matrix: PMatrix) {
         items = []
         let allWays = Way.allWays

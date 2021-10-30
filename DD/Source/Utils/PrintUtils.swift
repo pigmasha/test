@@ -54,6 +54,20 @@ final class PrintUtils {
         file.write("</table><p>")
     }
 
+    static func printKoefIntMatrix(_ prefix: String, _ m: KoefIntMatrix) {
+        OutputFile.writeLog(.normal, prefix)
+
+        let file = OutputFile()
+        file.write("<table>")
+        file.write("<tr><td>" + m.ways.map { $0.str }.joined(separator: "</td><td>") + "</td></tr>")
+        for line in m.rows {
+            file.write("<tr>")
+            line.forEach { file.write("<td>" + ($0.n == 0 ? "&nbsp;" : "\($0.n)") + "</td>") }
+            file.writeln("</tr>")
+        }
+        file.write("</table><p>")
+    }
+
     static func printPMatrix(_ prefix: String, _ diff: PMatrix) {
         OutputFile.writeLog(.normal, prefix)
 

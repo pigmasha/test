@@ -8,7 +8,6 @@ struct Step_0_check_alg {
     }
     static func runCase() -> Bool {
         OutputFile.writeLog(.simple, "<font face='courier'>")
-        OutputFile.writeLog(.bold, "k=\(PathAlg.k), c=\(PathAlg.c), d=\(PathAlg.d), char=\(PathAlg.charK)")
         var ways: [Way] = []
         for l in 0 ... 2 * PathAlg.k {
             let way1 = Way(type: .x, len: l)

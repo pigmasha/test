@@ -135,7 +135,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         PathAlg.alg.currentStep = currentStep.integerValue
         info?.string = ""
-        addInfoStr(RunCase.stepTitle)
+        addInfoStr("     -- " + RunCase.stepTitle + " --")
         addInfoStr("Check params")
 
         let readInterval: (FieldsTuple) -> IntervalTuple? = { t in
@@ -221,6 +221,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             PathAlg.k = kInterval.from
             PathAlg.c = cInterval.from
             PathAlg.d += 1
+            startCase()
+            return
+        }
+
+        if PathAlg.charK < charInterval.to {
+            PathAlg.charK += 1
+            while PathAlg.charK == 1 || !Utils.isPrimary(PathAlg.charK) { PathAlg.charK += 1 }
+            PathAlg.k = kInterval.from
+            PathAlg.c = cInterval.from
+            PathAlg.d = dInterval.from
             startCase()
             return
         }
