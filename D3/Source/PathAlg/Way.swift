@@ -9,8 +9,16 @@ enum ArrType: Int, Equatable, CaseIterable {
     case a21, a12, a32, a23, a31, a13
 }
 
-enum VertexType: Int, Equatable {
+enum VertexType: Int, Equatable, CaseIterable {
     case e1, e2, e3
+
+    var str: String {
+        switch self {
+        case .e1: return "1"
+        case .e2: return "2"
+        case .e3: return "3"
+        }
+    }
 }
 
 final class Way {
@@ -19,14 +27,30 @@ final class Way {
     private(set) var isZero: Bool
 
     init(type: ArrType, len: Int) {
+        if len == 0 { fatalError() }
         self.endArr = type
         self.len = len
         self.isZero = false
         updateIsZero()
     }
 
+    init(vertexType: VertexType) {
+        switch vertexType {
+        case .e1: endArr = .a12
+        case .e2: endArr = .a23
+        case .e3: endArr = .a32
+        }
+        self.len = 0
+        self.isZero = false
+        updateIsZero()
+    }
+
     convenience init(way: Way) {
-        self.init(type: way.endArr, len: way.len)
+        if way.len == 0 {
+            self.init(vertexType: way.startVertex)
+        } else {
+            self.init(type: way.endArr, len: way.len)
+        }
     }
 
     func setWay(_ way: Way) {
@@ -52,10 +76,11 @@ final class Way {
     }
 
     var startArr: ArrType {
-        return len % 2 == 0 ? nextArray(after: endArr) : endArr
+        return len % 2 == 0 ? Way.nextArray(after: endArr) : endArr
     }
 
     var startVertex: VertexType {
+        if len == 0 { return endVertex }
         let a = startArr
         switch a {
         case .a12: return .e2
@@ -83,12 +108,12 @@ final class Way {
         var t = endArr
         for _ in (0 ..< len) {
             arr.insert(t, at: 0)
-            t = nextArray(after: t)
+            t = Way.nextArray(after: t)
         }
         return arr
     }
 
-    private func nextArray(after t: ArrType) -> ArrType {
+    private static func nextArray(after t: ArrType) -> ArrType {
         switch t {
         case .a12: return .a21
         case .a21: return .a12
@@ -104,7 +129,7 @@ final class Way {
         if startVertex != way.endVertex { isZero = true; return }
         if way.len == 0 { return }
         if len == 0 { endArr = way.endArr }
-        if endArr != way.endArr && endArr != nextArray(after: way.endArr) { isZero = true; return }
+        if endArr != way.endArr && endArr != Way.nextArray(after: way.endArr) { isZero = true; return }
         len += way.len
         updateIsZero()
     }
@@ -114,7 +139,7 @@ final class Way {
         if endVertex != way.startVertex { isZero = true; return }
         if way.len == 0 { return }
         if len == 0 { endArr = way.endArr }
-        if endArr != way.endArr && endArr != nextArray(after: way.endArr) { isZero = true; return }
+        if endArr != way.endArr && endArr != Way.nextArray(after: way.endArr) { isZero = true; return }
         endArr = way.endArr
         len += way.len
         updateIsZero()
@@ -191,8 +216,8 @@ final class Way {
     }
 
     static var allWays: [Way] {
-        var ways: [Way] = []
-        var len = 0
+        var ways: [Way] = VertexType.allCases.map { Way(vertexType: $0) }
+        var len = 1
         while true {
             let ww = ArrType.allCases.map { Way(type: $0, len: len) }
             var hasW = false

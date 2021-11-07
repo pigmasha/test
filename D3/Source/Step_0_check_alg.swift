@@ -3,9 +3,6 @@
 //
 
 struct Step_0_check_alg {
-    enum StepErr: String {
-        case badZeroLenWay, zeroCheck, longWay, startsWith, endsWith, parseStart, parseEnd
-    }
     static func runCase() -> Bool {
         let ways = Way.allWays
         OutputFile.writeLog(.normal, "ways=" + ways.map { $0.str }.joined(separator: ", "))
@@ -15,6 +12,41 @@ struct Step_0_check_alg {
     }
 
     private static func checkWays(_ ways: [Way]) -> Bool {
+        for w1 in ways {
+            for w2 in ways {
+                if w1.len > 0 && w2.len > 0 { continue }
+                let e = Element(way: w1, koef: 1)
+                e.compLeft(element: Element(way: w2, koef: -1))
+                if w1.len == 0 && w2.len == 0 {
+                    if e.isZero && w1.startVertex == w2.endVertex {
+                        OutputFile.writeLog(.error, "compLeft zero for vertices \(w1.str) & \(w2.str)")
+                        return true
+                    }
+                    if !e.isZero && w1.startVertex != w2.endVertex {
+                        OutputFile.writeLog(.error, "compLeft not zero for vertices \(w1.str) & \(w2.str)")
+                        return true
+                    }
+                } else if w1.len == 0 {
+                    if e.isZero && w2.startVertex == w1.endVertex {
+                        OutputFile.writeLog(.error, "compLeft zero for vertex and way \(w1.str) & \(w2.str)")
+                        return true
+                    }
+                    if !e.isZero && w2.startVertex != w1.endVertex {
+                        OutputFile.writeLog(.error, "compLeft not zero for vertex and way \(w1.str) & \(w2.str)")
+                        return true
+                    }
+                } else {
+                    if e.isZero && w2.endVertex == w1.endVertex {
+                        OutputFile.writeLog(.error, "compLeft zero for way and vertex \(w1.str) & \(w2.str)")
+                        return true
+                    }
+                    if !e.isZero && w2.endVertex != w1.endVertex {
+                        OutputFile.writeLog(.error, "compLeft not zero for way and vertex \(w1.str) & \(w2.str)")
+                        return true
+                    }
+                }
+            }
+        }
         for w1 in ways {
             if w1.len == 0 { continue }
             for w2 in ways {

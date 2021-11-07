@@ -12,9 +12,11 @@
 		0C09653D270F110900CDA62E /* ElementArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C09653C270F110900CDA62E /* ElementArr.swift */; };
 		0C300DFF2711C07E008F3570 /* Tenzor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C300DFE2711C07E008F3570 /* Tenzor.swift */; };
 		0C300E012711C1DA008F3570 /* Comb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C300E002711C1DA008F3570 /* Comb.swift */; };
+		0C473612272F1359005C113E /* Step_1_diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C473611272F1359005C113E /* Step_1_diff.swift */; };
 		0C538FF9270495B000FB8DA8 /* OutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C538FF8270495B000FB8DA8 /* OutputFile.swift */; };
 		0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60C9291E34F78400F285AC /* RunCase.swift */; };
 		0C64F15F1CB93E3A00495383 /* PathAlg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C64F15E1CB93E3A00495383 /* PathAlg.swift */; };
+		0C78644D272EF1210006C212 /* BimodQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C78644C272EF1210006C212 /* BimodQ.swift */; };
 		0C7E5DFB1AF3D9F7003A425A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C7E5DC71AF3D9F7003A425A /* Icon.icns */; };
 		0C7E5E141AF3DA62003A425A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E5E131AF3DA62003A425A /* Cocoa.framework */; };
 		0CBA8B84271C86CC00D3EC32 /* PMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA8B83271C86CC00D3EC32 /* PMatrix.swift */; };
@@ -23,7 +25,7 @@
 		0CD8969B27259AC100354CFE /* KoefIntMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8969A27259AC100354CFE /* KoefIntMatrix.swift */; };
 		0CD8969D27259C6400354CFE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8969C27259C6400354CFE /* Utils.swift */; };
 		0CD8A32E1E91BA6A00C1C32C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */; };
-		0CDC7BB227204380007CDA12 /* CreateDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC7BB127204380007CDA12 /* CreateDiff.swift */; };
+		0CDC7BB227204380007CDA12 /* CheckDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC7BB127204380007CDA12 /* CheckDiff.swift */; };
 		0CDE65312709DCC500690C25 /* PElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE65302709DCC500690C25 /* PElements.swift */; };
 		0CED162F2719A74200DD7385 /* CombArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CED162E2719A74200DD7385 /* CombArr.swift */; };
 		0CF5232A271707540059CC1A /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF52328271707540059CC1A /* Diff.swift */; };
@@ -37,9 +39,11 @@
 		0C09653C270F110900CDA62E /* ElementArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementArr.swift; sourceTree = "<group>"; };
 		0C300DFE2711C07E008F3570 /* Tenzor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tenzor.swift; sourceTree = "<group>"; };
 		0C300E002711C1DA008F3570 /* Comb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comb.swift; sourceTree = "<group>"; };
+		0C473611272F1359005C113E /* Step_1_diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_1_diff.swift; sourceTree = "<group>"; };
 		0C538FF8270495B000FB8DA8 /* OutputFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputFile.swift; sourceTree = "<group>"; };
 		0C60C9291E34F78400F285AC /* RunCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunCase.swift; sourceTree = "<group>"; };
 		0C64F15E1CB93E3A00495383 /* PathAlg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathAlg.swift; sourceTree = "<group>"; };
+		0C78644C272EF1210006C212 /* BimodQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BimodQ.swift; sourceTree = "<group>"; };
 		0C7E5DA31AF3D9D5003A425A /* D3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = D3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C7E5DC71AF3D9F7003A425A /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		0C7E5DC81AF3D9F7003A425A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,7 +54,7 @@
 		0CD8969A27259AC100354CFE /* KoefIntMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KoefIntMatrix.swift; sourceTree = "<group>"; };
 		0CD8969C27259C6400354CFE /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0CDC7BB127204380007CDA12 /* CreateDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiff.swift; sourceTree = "<group>"; };
+		0CDC7BB127204380007CDA12 /* CheckDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDiff.swift; sourceTree = "<group>"; };
 		0CDE65302709DCC500690C25 /* PElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PElements.swift; sourceTree = "<group>"; };
 		0CED162E2719A74200DD7385 /* CombArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombArr.swift; sourceTree = "<group>"; };
 		0CF52328271707540059CC1A /* Diff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				0CD8A32D1E91BA6A00C1C32C /* AppDelegate.swift */,
 				0C60C9291E34F78400F285AC /* RunCase.swift */,
 				0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */,
+				0C473611272F1359005C113E /* Step_1_diff.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -151,7 +156,8 @@
 				0CF52328271707540059CC1A /* Diff.swift */,
 				0CD8969A27259AC100354CFE /* KoefIntMatrix.swift */,
 				0CF52329271707540059CC1A /* Matrix.swift */,
-				0CDC7BB127204380007CDA12 /* CreateDiff.swift */,
+				0CDC7BB127204380007CDA12 /* CheckDiff.swift */,
+				0C78644C272EF1210006C212 /* BimodQ.swift */,
 			);
 			path = Matrix;
 			sourceTree = "<group>";
@@ -232,15 +238,17 @@
 				0CD8969D27259C6400354CFE /* Utils.swift in Sources */,
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0CED162F2719A74200DD7385 /* CombArr.swift in Sources */,
+				0C78644D272EF1210006C212 /* BimodQ.swift in Sources */,
 				0C300E012711C1DA008F3570 /* Comb.swift in Sources */,
 				0C043101270885B40062DF73 /* NumInt.swift in Sources */,
+				0C473612272F1359005C113E /* Step_1_diff.swift in Sources */,
 				0CF5232A271707540059CC1A /* Diff.swift in Sources */,
 				0C538FF9270495B000FB8DA8 /* OutputFile.swift in Sources */,
 				0CC4916522BE2FD000AA5AF7 /* Step_0_check_alg.swift in Sources */,
 				0CF5232D2717084D0059CC1A /* PrintUtils.swift in Sources */,
 				0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */,
 				0C300DFF2711C07E008F3570 /* Tenzor.swift in Sources */,
-				0CDC7BB227204380007CDA12 /* CreateDiff.swift in Sources */,
+				0CDC7BB227204380007CDA12 /* CheckDiff.swift in Sources */,
 				0CDE65312709DCC500690C25 /* PElements.swift in Sources */,
 				0CF5232B271707540059CC1A /* Matrix.swift in Sources */,
 				0C0430FF2708843E0062DF73 /* Element.swift in Sources */,

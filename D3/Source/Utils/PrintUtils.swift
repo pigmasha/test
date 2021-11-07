@@ -13,21 +13,31 @@ final class PrintUtils {
         OutputFile.writeLog(.normal, prefix)
 
         let file = OutputFile()
-        file.write("<table>")
         let rows = m.rows
+        if PathAlg.isTex {
+            file.writeln("\\left(\\begin{array}{" + rows[0].map { _ in "c" }.joined() + "}")
+        } else {
+            file.write("<table>")
+        }
         for i in 0 ..< rows.count {
-            file.write("<tr>")
+            if !PathAlg.isTex { file.write("<tr>") }
             let line = rows[i]
             for j in 0 ..< line.count {
-                if (redColumns?.contains(j) ?? false) || (redRows?.contains(i) ?? false) {
-                    file.write("<td><font color=red>" + line[j].str + "</font></td>")
+                let prefix: String
+                let suffix: String
+                if PathAlg.isTex {
+                    prefix = j == 0 ? "" : "&"
+                    suffix = ""
                 } else {
-                    file.write("<td>" + line[j].str + "</td>")
+                    let isRed = (redColumns?.contains(j) ?? false) || (redRows?.contains(i) ?? false)
+                    prefix = isRed ? "<td><font color=red>" : "<td>"
+                    suffix = isRed ? "</font></td>" : "</td>"
                 }
+                file.write(prefix + line[j].str + suffix)
             }
-            file.writeln("</tr>")
+            file.writeln(PathAlg.isTex ? "\\\\" : "</tr>")
         }
-        file.write("</table><p>")
+        file.write(PathAlg.isTex ? "\\end{array}\\right)" : "</table><p>")
     }
 
     static func printMatrixKoefs(_ m: Matrix, colsMax: Int = 0, rowsMax: Int = 0) {
@@ -72,13 +82,21 @@ final class PrintUtils {
         OutputFile.writeLog(.normal, prefix)
 
         let file = OutputFile()
-        file.write("<table>")
         let rows = diff.rows
-        for line in rows {
-            file.write("<tr>")
-            line.forEach { file.write("<td>" + $0.str + "</td>") }
-            file.writeln("</tr>")
+        if PathAlg.isTex {
+            file.writeln("\\left(\\begin{array}{" + rows[0].map { _ in "c" }.joined() + "}")
+        } else {
+            file.write("<table>")
         }
-        file.write("</table><p>")
+        for line in rows {
+            if PathAlg.isTex {
+                file.write(line.map { $0.str }.joined(separator: "&") + "\\\\")
+            } else {
+                file.write("<tr>")
+                line.forEach { file.write("<td>" + $0.str + "</td>") }
+                file.writeln("</tr>")
+            }
+        }
+        file.write(PathAlg.isTex ? "\\end{array}\\right)" : "</table><p>")
     }
 }

@@ -38,7 +38,7 @@ final class Tenzor {
     }
 
     var str: String {
-        return isZero ? "0" : "\(leftComponent.str)*\(rightComponent.str)"
+        return isZero ? "0" : leftComponent.str + (PathAlg.isTex ? "\\otimes " : "*") + rightComponent.str
     }
 
     func isEq(_ other: Tenzor) -> Bool {
