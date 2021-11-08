@@ -5,40 +5,28 @@
 import Foundation
 
 final class KoefIntMatrix {
-    private var items: [[NumInt]]
+    private(set) var items: [[NumInt]]
     private(set) var ways: [Way]
 
-    init(im: [[Element]]) {
+    init(im: [[(Int, Way)]]) {
         items = []
         ways = []
-        let allWays = Way.allWays
-        for row in im {
-            var item: [NumInt] = []
-            for e in row {
-                if items.isEmpty {
-                    ways += allWays
-                }
-                for w in allWays {
-                    if let i = e.contents.firstIndex(where: { $0.1.isEq(w) }) {
-                        item.append(NumInt(n: e.contents[i].0.n))
-                    } else {
-                        item.append(NumInt(n: 0))
-                    }
-                }
+        var transpItems: [[NumInt]] = []
+        for j in 0 ..< im[0].count {
+            var colWays: [Way] = []
+            for row in im {
+                let w = row[j].1
+                if row[j].0 != 0 && !colWays.contains(where: { $0.isEq(w) }) { colWays.append(w) }
             }
-            items += [item]
+            for w in colWays {
+                transpItems.append(im.map { row in
+                    NumInt(n: row[j].0 != 0 && row[j].1.isEq(w) ? row[j].0 : 0)
+                })
+            }
+            ways += colWays
         }
-        var j = items[0].count - 1
-        while j > -1 {
-            var zeroColumn = true
-            for i in 0 ..< items.count {
-                if !items[i][j].isZero { zeroColumn = false; break }
-            }
-            if zeroColumn {
-                for i in 0 ..< items.count { items[i].remove(at: j) }
-                ways.remove(at: j)
-            }
-            j -= 1
+        for j in 0 ..< transpItems[0].count {
+            items.append(transpItems.map{ $0[j] })
         }
     }
     

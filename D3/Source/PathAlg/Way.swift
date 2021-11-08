@@ -53,6 +53,29 @@ final class Way {
         }
     }
 
+    convenience init(from: VertexType, to: VertexType) {
+        switch from {
+        case .e1:
+            switch to {
+            case .e1: self.init(vertexType: from)
+            case .e2: self.init(type: .a21, len: 1)
+            case .e3: self.init(type: .a31, len: 1)
+            }
+        case .e2:
+            switch to {
+            case .e1: self.init(type: .a12, len: 1)
+            case .e2: self.init(vertexType: from)
+            case .e3: self.init(type: .a32, len: 1)
+            }
+        case .e3:
+            switch to {
+            case .e1: self.init(type: .a13, len: 1)
+            case .e2: self.init(type: .a23, len: 1)
+            case .e3: self.init(vertexType: from)
+            }
+        }
+    }
+
     func setWay(_ way: Way) {
         endArr = way.endArr
         len = way.len

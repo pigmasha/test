@@ -8,6 +8,7 @@ struct RunCase {
         switch PathAlg.alg.currentStep {
         case  0: return Step_0_check_alg.runCase()
         case  1: return Step_1_diff.runCase()
+        case  2: return Step_2_im.runCase()
         default: return false
         }
     }
@@ -16,6 +17,7 @@ struct RunCase {
         switch PathAlg.alg.currentStep {
         case  0: return "Alg ways"
         case  1: return "Diff"
+        case  2: return "Im"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }

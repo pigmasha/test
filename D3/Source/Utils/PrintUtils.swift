@@ -99,4 +99,19 @@ final class PrintUtils {
         }
         file.write(PathAlg.isTex ? "\\end{array}\\right)" : "</table><p>")
     }
+
+    static func printImMatrix(_ prefix: String, _ matrix: ImMatrix) {
+        OutputFile.writeLog(.normal, prefix)
+
+        let file = OutputFile()
+        file.write("<table>")
+        for line in matrix.rows {
+            file.write("<tr>")
+            for (k, w) in line {
+                file.write("<td>" + Element(way: w, koef: k).str + "</td>")
+            }
+            file.writeln("</tr>")
+        }
+        file.write("</table><p>")
+    }
 }
