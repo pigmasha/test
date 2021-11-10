@@ -24,6 +24,27 @@ final class PathAlg {
     static var isTex: Bool {
         return false
     }
+    static var N: Int {
+        return n1 + n2 + n3
+    }
+
+    private static var rkCCache: (String, Int)?
+    static var rkC: Int {
+        let cacheKey = "\(n1).\(n2).\(n3)"
+        if let cache = rkCCache, cache.0 == cacheKey { return cache.1 }
+        let rk = KoefIntMatrix(rows: [[n3, 0, -n2], [-n3, n1, 0], [0, -n1, n2]]).rank
+        rkCCache = (cacheKey, rk)
+        return rk
+    }
+
+    private static var rkC1Cache: (String, Int)?
+    static var rkC1: Int {
+        let cacheKey = "\(n1).\(n2).\(n3)"
+        if let cache = rkC1Cache, cache.0 == cacheKey { return cache.1 }
+        let rk = KoefIntMatrix(rows: [[n3, 0, n2], [n3, n1, 0], [0, n1, n2]]).rank
+        rkC1Cache = (cacheKey, rk)
+        return rk
+    }
 
     static let alg = PathAlg()
     var currentType = 0

@@ -22,6 +22,7 @@
 		0CBA8B84271C86CC00D3EC32 /* PMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA8B83271C86CC00D3EC32 /* PMatrix.swift */; };
 		0CBB0E281CC595B9007DC5F5 /* Way.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB0E271CC595B9007DC5F5 /* Way.swift */; };
 		0CC4916522BE2FD000AA5AF7 /* Step_0_check_alg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */; };
+		0CCC4E2427394FD3004B90D3 /* Dim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCC4E2327394FD3004B90D3 /* Dim.swift */; };
 		0CD46B232737FF0300329D2F /* Step_2_im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD46B222737FF0300329D2F /* Step_2_im.swift */; };
 		0CD46B25273800D600329D2F /* ImMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD46B24273800D600329D2F /* ImMatrix.swift */; };
 		0CD8969B27259AC100354CFE /* KoefIntMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8969A27259AC100354CFE /* KoefIntMatrix.swift */; };
@@ -53,6 +54,7 @@
 		0CBA8B83271C86CC00D3EC32 /* PMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMatrix.swift; sourceTree = "<group>"; };
 		0CBB0E271CC595B9007DC5F5 /* Way.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Way.swift; sourceTree = "<group>"; };
 		0CC4916422BE2FD000AA5AF7 /* Step_0_check_alg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_0_check_alg.swift; sourceTree = "<group>"; };
+		0CCC4E2327394FD3004B90D3 /* Dim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dim.swift; sourceTree = "<group>"; };
 		0CD46B222737FF0300329D2F /* Step_2_im.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step_2_im.swift; sourceTree = "<group>"; };
 		0CD46B24273800D600329D2F /* ImMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImMatrix.swift; sourceTree = "<group>"; };
 		0CD8969A27259AC100354CFE /* KoefIntMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KoefIntMatrix.swift; sourceTree = "<group>"; };
@@ -81,10 +83,11 @@
 		0C538FF7270495B000FB8DA8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0CCC4E2327394FD3004B90D3 /* Dim.swift */,
 				0C538FF8270495B000FB8DA8 /* OutputFile.swift */,
-				0CF5232C2717084D0059CC1A /* PrintUtils.swift */,
 				0CDE65302709DCC500690C25 /* PElements.swift */,
 				0CBA8B83271C86CC00D3EC32 /* PMatrix.swift */,
+				0CF5232C2717084D0059CC1A /* PrintUtils.swift */,
 				0CD8969C27259C6400354CFE /* Utils.swift */,
 			);
 			path = Utils;
@@ -158,12 +161,12 @@
 		0CF52327271707540059CC1A /* Matrix */ = {
 			isa = PBXGroup;
 			children = (
+				0C78644C272EF1210006C212 /* BimodQ.swift */,
+				0CDC7BB127204380007CDA12 /* CheckDiff.swift */,
 				0CF52328271707540059CC1A /* Diff.swift */,
+				0CD46B24273800D600329D2F /* ImMatrix.swift */,
 				0CD8969A27259AC100354CFE /* KoefIntMatrix.swift */,
 				0CF52329271707540059CC1A /* Matrix.swift */,
-				0CDC7BB127204380007CDA12 /* CheckDiff.swift */,
-				0C78644C272EF1210006C212 /* BimodQ.swift */,
-				0CD46B24273800D600329D2F /* ImMatrix.swift */,
 			);
 			path = Matrix;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				0C60C92A1E34F78400F285AC /* RunCase.swift in Sources */,
 				0CD46B232737FF0300329D2F /* Step_2_im.swift in Sources */,
 				0CED162F2719A74200DD7385 /* CombArr.swift in Sources */,
+				0CCC4E2427394FD3004B90D3 /* Dim.swift in Sources */,
 				0C78644D272EF1210006C212 /* BimodQ.swift in Sources */,
 				0C300E012711C1DA008F3570 /* Comb.swift in Sources */,
 				0C043101270885B40062DF73 /* NumInt.swift in Sources */,

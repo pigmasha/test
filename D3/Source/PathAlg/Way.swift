@@ -99,7 +99,7 @@ final class Way {
     }
 
     var startArr: ArrType {
-        return len % 2 == 0 ? Way.nextArray(after: endArr) : endArr
+        return len % 2 == 0 ? nextArray(after: endArr) : endArr
     }
 
     var startVertex: VertexType {
@@ -126,17 +126,7 @@ final class Way {
         }
     }
 
-    private var arrays: [ArrType] {
-        var arr: [ArrType] = []
-        var t = endArr
-        for _ in (0 ..< len) {
-            arr.insert(t, at: 0)
-            t = Way.nextArray(after: t)
-        }
-        return arr
-    }
-
-    private static func nextArray(after t: ArrType) -> ArrType {
+    private func nextArray(after t: ArrType) -> ArrType {
         switch t {
         case .a12: return .a21
         case .a21: return .a12
@@ -152,7 +142,7 @@ final class Way {
         if startVertex != way.endVertex { isZero = true; return }
         if way.len == 0 { return }
         if len == 0 { endArr = way.endArr }
-        if endArr != way.endArr && endArr != Way.nextArray(after: way.endArr) { isZero = true; return }
+        if endArr != way.endArr && endArr != nextArray(after: way.endArr) { isZero = true; return }
         len += way.len
         updateIsZero()
     }
@@ -162,7 +152,7 @@ final class Way {
         if endVertex != way.startVertex { isZero = true; return }
         if way.len == 0 { return }
         if len == 0 { endArr = way.endArr }
-        if endArr != way.endArr && endArr != Way.nextArray(after: way.endArr) { isZero = true; return }
+        if endArr != way.endArr && endArr != nextArray(after: way.endArr) { isZero = true; return }
         endArr = way.endArr
         len += way.len
         updateIsZero()
@@ -238,7 +228,11 @@ final class Way {
         return len == other.len && endArr == other.endArr
     }
 
+    private static var allWaysCache: (String, [Way])?
+
     static var allWays: [Way] {
+        let cacheKey = "\(PathAlg.n1).\(PathAlg.n2).\(PathAlg.n3)"
+        if let cache = allWaysCache, cache.0 == cacheKey { return cache.1 }
         var ways: [Way] = VertexType.allCases.map { Way(vertexType: $0) }
         var len = 1
         while true {
@@ -252,7 +246,27 @@ final class Way {
             if !hasW { break }
             len += 1
         }
+        allWaysCache = (cacheKey, ways)
         return ways
+    }
+
+    private static var waysFromToCache: (String, [String: [Way]])?
+
+    static func allWays(from: VertexType, to: VertexType) -> [Way] {
+        let cacheKey = "\(PathAlg.n1).\(PathAlg.n2).\(PathAlg.n3)"
+        let fromToKey = from.str + "." + to.str
+        if let cache = waysFromToCache, cache.0 == cacheKey { return cache.1[fromToKey]! }
+        let ways = allWays
+        var waysFromTo: [String: [Way]] = [:]
+        for way in ways {
+            let k = way.startVertex.str + "." + way.endVertex.str
+            var ww: [Way] = []
+            if let w1 = waysFromTo[k] { ww += w1 }
+            ww.append(way)
+            waysFromTo[k] = ww
+        }
+        waysFromToCache = (cacheKey, waysFromTo)
+        return waysFromTo[fromToKey]!
     }
 
     private func updateIsZero() {

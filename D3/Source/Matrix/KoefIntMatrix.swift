@@ -8,6 +8,11 @@ final class KoefIntMatrix {
     private(set) var items: [[NumInt]]
     private(set) var ways: [Way]
 
+    init(rows: [[Int]]) {
+        items = rows.map { row in row.map { NumInt(n: $0) } }
+        ways = []
+    }
+
     init(im: [[(Int, Way)]]) {
         items = []
         ways = []

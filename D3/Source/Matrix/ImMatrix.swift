@@ -11,24 +11,35 @@ final class ImMatrix {
     let rows: [[(Int, Way)]]
 
     init(diff: Diff) {
-        rows = diff.rows.map { row in
-            row.map { ImMatrix.pair(from: $0) }
+        var items: [[(Int, Way)]] = []
+        for row in diff.rows {
+            guard let c = row.first(where: { !$0.isZero }) else { fatalError() }
+            let t = c.contents[0].1
+            // t.leftComponent.startVertex = qTo.pij[i].0
+            // t.rightComponent.endVertex = qTo.pij[i].1
+            let ways = Way.allWays(from: t.rightComponent.endVertex, to: t.leftComponent.startVertex)
+            for way in ways {
+                let line = row.map { ImMatrix.pair(from: $0, way: way) }
+                if line.contains(where: { $0.0 != 0 }) { items.append(line) }
+            }
         }
+        rows = items
     }
 
-    private static func pair(from c: Comb) -> (Int, Way) {
+    private static func pair(from c: Comb, way: Way) -> (Int, Way) {
         if c.isZero { return (0, Way(vertexType: .e1)) }
 
-        let wayFromTenzor: (Tenzor) -> Way = { t in
+        let wayFromTenzor: (Tenzor, Way) -> Way = { t, ww in
             let w = Way(way: t.leftComponent)
-            w.compRight(Way(from: t.rightComponent.endVertex, to: t.leftComponent.startVertex))
+            w.compRight(ww)
             w.compRight(t.rightComponent)
             return w
         }
-        let w = wayFromTenzor(c.contents[0].1)
+
+        let w = wayFromTenzor(c.contents[0].1, way)
         var kk = 0
         for (k, t) in c.contents {
-            let w1 = wayFromTenzor(t)
+            let w1 = wayFromTenzor(t, way)
             if w.isZero {
                 if !w1.isZero { fatalError("Not zero for tenzor " + t.str + ", comb " + c.str) }
             } else {
@@ -37,7 +48,6 @@ final class ImMatrix {
                 kk += k.n
             }
         }
-        if w.isZero || kk == 0 { return (0, Way(vertexType: .e1)) }
-        return (kk, w)
+        return w.isZero || kk == 0 ? (0, Way(vertexType: .e1)) : (kk, w)
     }
 }
