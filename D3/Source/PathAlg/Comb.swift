@@ -106,6 +106,10 @@ final class Comb {
         return kk
     }
 
+    func isEq(_ other: Comb) -> Bool {
+        return eqKoef(other) == 1
+    }
+
     private static func compRight(contents: [(NumInt, Tenzor)], tenzor: Tenzor, koef: Int) -> [(NumInt, Tenzor)] {
         if tenzor.isZero || NumInt.isZero(n: koef) { return [] }
         var result: [(NumInt, Tenzor)] = []

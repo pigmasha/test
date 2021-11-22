@@ -76,6 +76,10 @@ final class Way {
         }
     }
 
+    static var zero: Way {
+        return Way(type: .a12, len: 2 * PathAlg.N)
+    }
+
     func setWay(_ way: Way) {
         endArr = way.endArr
         len = way.len
@@ -85,21 +89,21 @@ final class Way {
     func hasPrefix(_ way: Way) -> Bool {
         if way.isZero { return false }
         if way.isEq(self) { return true }
-        if way.startVertex != startVertex { return false }
-        if way.len == 0 { return true }
-        return way.startArr == startArr && way.len < len
-    }
-
-    func hasSuffix(_ way: Way) -> Bool {
-        if way.isZero { return false }
-        if way.isEq(self) { return true }
         if way.endVertex != endVertex { return false }
         if way.len == 0 { return true }
         return way.endArr == endArr && way.len < len
     }
 
+    func hasSuffix(_ way: Way) -> Bool {
+        if way.isZero { return false }
+        if way.isEq(self) { return true }
+        if way.startVertex != startVertex { return false }
+        if way.len == 0 { return true }
+        return way.startArr == startArr && way.len < len
+    }
+
     var startArr: ArrType {
-        return len % 2 == 0 ? nextArray(after: endArr) : endArr
+        return len % 2 == 0 ? Way.nextArray(after: endArr) : endArr
     }
 
     var startVertex: VertexType {
@@ -126,7 +130,7 @@ final class Way {
         }
     }
 
-    private func nextArray(after t: ArrType) -> ArrType {
+    static func nextArray(after t: ArrType) -> ArrType {
         switch t {
         case .a12: return .a21
         case .a21: return .a12
@@ -142,7 +146,7 @@ final class Way {
         if startVertex != way.endVertex { isZero = true; return }
         if way.len == 0 { return }
         if len == 0 { endArr = way.endArr }
-        if endArr != way.endArr && endArr != nextArray(after: way.endArr) { isZero = true; return }
+        if endArr != way.endArr && endArr != Way.nextArray(after: way.endArr) { isZero = true; return }
         len += way.len
         updateIsZero()
     }
@@ -152,7 +156,7 @@ final class Way {
         if endVertex != way.startVertex { isZero = true; return }
         if way.len == 0 { return }
         if len == 0 { endArr = way.endArr }
-        if endArr != way.endArr && endArr != nextArray(after: way.endArr) { isZero = true; return }
+        if endArr != way.endArr && endArr != Way.nextArray(after: way.endArr) { isZero = true; return }
         endArr = way.endArr
         len += way.len
         updateIsZero()

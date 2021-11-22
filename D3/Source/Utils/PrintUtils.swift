@@ -30,7 +30,8 @@ final class PrintUtils {
                     suffix = ""
                 } else {
                     let isRed = (redColumns?.contains(j) ?? false) || (redRows?.contains(i) ?? false)
-                    prefix = isRed ? "<td><font color=red>" : "<td>"
+                    let st = j % 3 == 2 ? " style='border-right:3px solid black;'" : ""
+                    prefix = isRed ? "<td" + st + "><font color=red>" : "<td" + st + ">"
                     suffix = isRed ? "</font></td>" : "</td>"
                 }
                 file.write(prefix + line[j].str + suffix)
@@ -101,11 +102,15 @@ final class PrintUtils {
     }
 
     static func printImMatrix(_ prefix: String, _ matrix: ImMatrix) {
+        printImRows(prefix, matrix.rows)
+    }
+
+    static func printImRows(_ prefix: String, _ rows: [[(Int, Way)]]) {
         OutputFile.writeLog(.normal, prefix)
 
         let file = OutputFile()
         file.write("<table>")
-        for line in matrix.rows {
+        for line in rows {
             file.write("<tr>")
             for (k, w) in line {
                 file.write("<td>" + Element(way: w, koef: k).str + "</td>")

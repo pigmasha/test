@@ -24,9 +24,11 @@ struct Step_2_im {
 
     private static func checkDimIm() -> Bool {
         for d in 0 ... 3 {
+            //PrintUtils.printMatrix("Diff \(d)", Diff(deg: d))
             let im = ImMatrix(diff: Diff(deg: d))
+            PrintUtils.printImMatrix("Im \(d)", im)
             let k = KoefIntMatrix(im: im.rows)
-            //PrintUtils.printKoefIntMatrix("Koefs", k)
+            PrintUtils.printKoefIntMatrix("Koefs", k)
             let rk = k.rank
             if rk != Dim.dimIm(d) {
                 OutputFile.writeLog(.error, "\(d): rank \(rk), should be \(Dim.dimIm(d))")

@@ -32,9 +32,7 @@ final class Tenzor {
     }
 
     func hasPrefix(_ tenzor: Tenzor) -> Bool {
-        let leftOk = tenzor.leftComponent.isZero && leftComponent.isZero ? true : leftComponent.hasSuffix(tenzor.leftComponent)
-        let rightOk = tenzor.rightComponent.isZero && rightComponent.isZero ? true : rightComponent.hasPrefix(tenzor.rightComponent)
-        return leftOk && rightOk
+        return leftComponent.hasSuffix(tenzor.leftComponent) && rightComponent.hasPrefix(tenzor.rightComponent)
     }
 
     var str: String {

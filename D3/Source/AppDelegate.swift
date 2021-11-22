@@ -227,7 +227,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         if PathAlg.charK < charInterval.to {
             PathAlg.charK += 1
-            while PathAlg.charK == 1 || !Utils.isPrimary(PathAlg.charK) { PathAlg.charK += 1 }
+            while PathAlg.charK == 1 || PathAlg.charK == 2 || !Utils.isPrimary(PathAlg.charK) { PathAlg.charK += 1 }
             PathAlg.n1 = n1Interval.from
             PathAlg.n2 = n2Interval.from
             PathAlg.n3 = n3Interval.from

@@ -9,6 +9,9 @@ struct RunCase {
         case  0: return Step_0_check_alg.runCase()
         case  1: return Step_1_diff.runCase()
         case  2: return Step_2_im.runCase()
+        case  3: return Step_3_rk.runCase()
+        case  4: return Step_4_gen.runCase()
+        case  5: return Step_5_shift.runCase()
         default: return false
         }
     }
@@ -18,6 +21,9 @@ struct RunCase {
         case  0: return "Alg ways"
         case  1: return "Diff"
         case  2: return "Im"
+        case  3: return "Rk"
+        case  4: return "Gen"
+        case  5: return "Shift"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }

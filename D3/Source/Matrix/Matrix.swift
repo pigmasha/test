@@ -71,4 +71,16 @@ class Matrix {
         }
         return result
     }
+
+    func numberOfDifferents(with other: Matrix) -> Int {
+        if width != other.width || height != other.height { return -1 }
+        var n = 0
+        for i in 0 ..< height {
+            for j in 0 ..< width {
+                if rows[i][j].isZero && other.rows[i][j].isZero { continue }
+                if !rows[i][j].isEq(other.rows[i][j]) { n += 1 }
+            }
+        }
+        return n
+    }
 }
