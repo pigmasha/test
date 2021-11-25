@@ -31,6 +31,19 @@ class Matrix {
         }
     }
 
+    convenience init(mult m1: Matrix, and m2: Matrix, column: Int) {
+        self.init()
+        if m1.width != m2.height { return }
+        makeZeroMatrix(1, h: m1.height)
+        for i in 0 ..< m1.height {
+            for k in 0 ..< m1.width {
+                let c = Comb(comb: m1.rows[i][k])
+                c.compRight(comb: m2.rows[k][column])
+                combs[i][0].add(comb: c)
+            }
+        }
+    }
+
     var rows: [[Comb]] {
         return combs
     }
@@ -82,5 +95,42 @@ class Matrix {
             }
         }
         return n
+    }
+
+    func add(_ other: Matrix, koef: Int) {
+        if width != other.width || height != other.height { fatalError() }
+        for i in 0 ..< height {
+            for j in 0 ..< width {
+                rows[i][j].add(comb: other.rows[i][j], koef: koef)
+            }
+        }
+    }
+
+    func putFi(from: (x: Int, y: Int), to: (x: Int, y: Int), koef: Int) {
+        for x1 in 0 ... 2 {
+            for y1 in 0 ... 2 {
+                let c = rows[from.y + y1][from.x + x1]
+                if c.isZero { continue }
+                for (k, t) in c.contents {
+                    rows[to.y + y1][to.x + x1].add(left: fi(forWay: t.rightComponent),
+                                                   right: fi(forWay: t.leftComponent),
+                                                   koef: k.n * koef)
+                }
+            }
+        }
+    }
+
+    private func fi(forWay w: Way) -> Way {
+        if w.len % 2 == 0 { return Way(way: w) }
+        let a: ArrType
+        switch w.endArr {
+        case .a12: a = .a21
+        case .a21: a = .a12
+        case .a13: a = .a31
+        case .a31: a = .a13
+        case .a23: a = .a32
+        case .a32: a = .a23
+        }
+        return Way(type: a, len: w.len)
     }
 }

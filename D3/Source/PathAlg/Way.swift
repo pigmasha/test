@@ -80,6 +80,18 @@ final class Way {
         return Way(type: .a12, len: 2 * PathAlg.N)
     }
 
+    static var e1: Way { return Way(vertexType:  .e1) }
+    static var e2: Way { return Way(vertexType:  .e2) }
+    static var e3: Way { return Way(vertexType:  .e3) }
+
+    static var alpha1: Way { return Way(type: .a12, len: 2) }
+    static var alpha2: Way { return Way(type: .a23, len: 2) }
+    static var alpha3: Way { return Way(type: .a31, len: 2) }
+
+    static var beta1: Way { return Way(type: .a13,  len: 2) }
+    static var beta2: Way { return Way(type: .a21,  len: 2) }
+    static var beta3: Way { return Way(type: .a32,  len: 2) }
+
     func setWay(_ way: Way) {
         endArr = way.endArr
         len = way.len

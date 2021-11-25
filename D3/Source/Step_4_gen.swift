@@ -8,7 +8,7 @@ import Foundation
 
 struct Step_4_gen {
     static func runCase() -> Bool {
-        let deg = 1
+        let deg = 2
         /*let elements = GenCreate.allElements
         elements.forEach { OutputFile.writeLog(.normal, $0.str) }
         let checker = GenCreate(deg: deg)
@@ -25,23 +25,43 @@ struct Step_4_gen {
 
     static func searchGen(deg: Int) {
         OutputFile.writeLog(.bold, "Deg \(deg): dimHH=\(Dim.dimHH(deg))")
-        let knownElements = GenCreate.allElements.filter { $0.deg == deg }
+        var gens: [Gen] = []
         let checker = GenCreate(deg: deg)
-        for e in knownElements {
-            if let err = checker.check(e) {
-                OutputFile.writeLog(.normal, "Check \(e.str): " + err)
-                return
+        let inImChecker = GenCreate(deg: deg)
+        let allElements = GenCreate.allElements
+
+        for i in 0 ..< allElements.count {
+            let e1 = allElements[i]
+            if e1.deg == 0 { continue }
+            for j in i ..< allElements.count {
+                let e2 = allElements[j]
+                if e1.deg + e2.deg != deg { continue }
+                if let g = mult(e1, and: e2, inImChecker: inImChecker, checker: checker, gens: gens) {
+                    //OutputFile.writeLog(.normal, "New! " + g.str)
+                    gens.append(g)
+                }
             }
         }
-        var gens: [Gen] = knownElements
-        let inImChecker = GenCreate(deg: deg)
-        let deg0Elements = GenCreate.allElements.filter { $0.deg == 0 }
+
+        for e in allElements {
+            if e.deg != deg { continue }
+            //PrintUtils.printMatrix("Diff", Diff(deg: e.deg - 1))
+            //PrintUtils.printImMatrix("Im", ImMatrix(diff: Diff(deg: e.deg - 1)))
+            //OutputFile.writeLog(.normal, "Check \(e.str)")
+            if let err = checker.check(e) {
+                OutputFile.writeLog(.error, "Check \(e.str): " + err)
+                return
+            }
+            gens.append(e)
+        }
+
+        let deg0Elements = allElements.filter { $0.deg == 0 }
         var i = 0
         while i < gens.count {
             let e = gens[i]
             for e0 in deg0Elements {
                 if e0.label == "1" { continue }
-                if let g = mult(e, and: e0, inImChecker: inImChecker, checker: checker, gens: gens) { gens.append(g) }
+                if let g = mult(e0, and: e, inImChecker: inImChecker, checker: checker, gens: gens) { gens.append(g) }
             }
             i += 1
         }
@@ -52,7 +72,7 @@ struct Step_4_gen {
         } else {
             OutputFile.writeLog(.error, "Dim not ok!")
         }
-        var variants: [[(Int, Way)]] = []
+        /*var variants: [[(Int, Way)]] = []
         let q = BimodQ(deg: deg)
         var elem1: [(Int, Way)] = []
         q.pij.forEach { _ in elem1.append((0, Way.zero)) }
@@ -93,26 +113,21 @@ struct Step_4_gen {
         }
         //knownElements.forEach { OutputFile.writeLog(.normal, $0.str) }
         //gens.append(contentsOf: knownElements)
-        gens.forEach { OutputFile.writeLog(.normal, $0.str) }
+        gens.forEach { OutputFile.writeLog(.normal, $0.str) }*/
     }
 
-    private static func mult(_ e: Gen, and e0: Gen, inImChecker: GenCreate, checker: GenCreate, gens: [Gen]) -> Gen? {
-        let deg = e.deg + e0.deg
-        let s0 = ShiftHH(gen: e0)
-        let s = ShiftHH(gen: e)
-        let mult = Matrix(mult: s0.matrix, and: s.matrix)
-        if mult.numberOfDifferents(with: Matrix(mult: s.matrix, and: ShiftHH(nextAfter: s0).matrix)) != 0 {
-            OutputFile.writeLog(.error, e0.label + " * " + e.label + " not commutative")
-        }
-        let multLabel = e0.label + " * " + e.label
+    private static func mult(_ e1: Gen, and e2: Gen, inImChecker: GenCreate, checker: GenCreate, gens: [Gen]) -> Gen? {
+        let deg = e1.deg + e2.deg
+        let multLabel = e1.label + " * " + e2.label
+        var s2 = ShiftHH(gen: e2, shiftDeg: 0).matrix
+        if s2.isZero { s2 = ShiftHH(gen: e2).matrix }
+        let mult = Matrix(mult: s2, and: ShiftHH(gen: e1, shiftDeg: e2.deg).matrix)
+        if !checkCommutatuive(e1, and: e2, inImChecker: inImChecker, mult: mult) { return nil }
         if mult.isZero { printZeroMult(multLabel); return nil }
-        let im = ImMatrix(diff: mult, hasZeroRows: true)
+        let im = ImMatrix(mult: mult)
+        //PrintUtils.printMatrix(multLabel + "Mult", mult)
+        //PrintUtils.printImMatrix("Im", im)
         if im.rows.isEmpty { printZeroMult(multLabel); return nil }
-        if im.rows.count != 1 {
-            PrintUtils.printImMatrix("Im", im)
-            OutputFile.writeLog(.error, multLabel + " = unknown im")
-            return nil
-        }
         var found = false
         let g0 = Gen(label: multLabel, deg: deg, elem: im.rows[0])
         for g in gens {
@@ -124,10 +139,37 @@ struct Step_4_gen {
             }
         }
         if found { return nil }
-        if inImChecker.checkNotIm(g0, inIm: true) == nil { printZeroMult(multLabel); return nil }
+        if inImChecker.checkNotIm(g0, inIm: true) == nil {
+            //OutputFile.writeLog(.normal, "Zero " + g0.str)
+            printZeroMult(multLabel);
+            return nil
+        }
         if checker.check(g0) == nil { return g0 }
         OutputFile.writeLog(.error, "Unknown element " + g0.str)
         return nil
+    }
+
+    private static func checkCommutatuive(_ e1: Gen, and e2: Gen, inImChecker: GenCreate, mult: Matrix) -> Bool {
+        let deg = e1.deg + e2.deg
+        let s1 = ShiftHH(gen: e1, shiftDeg: 0).matrix
+        let s2 = ShiftHH(gen: e2, shiftDeg: e1.deg).matrix
+        if s1.isZero || s2.isZero { return true }
+        let mult2 = Matrix(mult: s1, and: s2)
+        if mult.numberOfDifferents(with: mult2) == 0 { return true }
+        mult2.add(mult, koef: -1)
+        let im = ImMatrix(mult: mult2)
+        if im.rows.count == 0 { return true }
+        let g0 = Gen(label: "C", deg: deg, elem: im.rows[0])
+        //OutputFile.writeLog(.normal, g0.str)
+        if inImChecker.checkNotIm(g0, inIm: true) == nil { return true }
+        let commLabel = e2.label + " * " + e1.label + " = - " + e1.label + " * " + e2.label
+        mult2.add(mult, koef: 2)
+        let im2 = ImMatrix(mult: mult2)
+        if im2.rows.count == 0 { OutputFile.writeLog(.normal, commLabel); return true }
+        let g1 = Gen(label: "-C", deg: deg, elem: im2.rows[0])
+        if inImChecker.checkNotIm(g1, inIm: true) == nil { OutputFile.writeLog(.normal, commLabel); return true }
+        OutputFile.writeLog(.error, e2.label + " * " + e1.label + " not commutative");
+        return false
     }
 
     private static func printZeroMult(_ multLabel: String) {

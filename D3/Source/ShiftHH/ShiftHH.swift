@@ -40,6 +40,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
+        //shiftW()
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -62,10 +63,12 @@ final class ShiftHH {
         hhDeg = gen.deg
         self.shiftDeg = shiftDeg
         matrix = Matrix(zeroMatrix: 3 * (hhDeg + shiftDeg + 1), h: 3 * (shiftDeg + 1))
+        if shiftC00(gen.label) { return }
+        if shiftX00(gen.label) { return }
         switch gen.label {
-        case "c12": shiftC12()
-        case "c23": shiftC23()
-        case "c31": shiftC31()
+        case "u1": shiftU1()
+        case "w": shiftW()
+        case "z1": shiftZ1()
         default: break
         }
     }
@@ -81,13 +84,76 @@ final class ShiftHH {
         return multErr ? "Mult error" : nil
     }
 
-    private func fill(column: Int, diff: Matrix, mult: Matrix) {
-        guard let i0 = mult.rows.firstIndex(where: { !$0[column].isZero }) else { return }
-        let c = mult.rows[i0][column]
-        guard let j0 = diff.rows[i0].firstIndex(where: { canDivide(comb: c, by: $0) }) else {
-            onError("Can't divide \(column)-th col elem " + c.str + " by diff")
+    private func fillAll(column: Int, diff: Matrix, mult: Matrix) {
+        let qFrom = BimodQ(deg: hhDeg + shiftDeg)
+        let qTo = BimodQ(deg: shiftDeg)
+
+        let multC = Matrix(zeroMatrix: 1, h: mult.height)
+        for i in 0 ..< mult.height {
+            multC.rows[i][0].add(comb: mult.rows[i][column])
         }
-        matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i0][j0]))
+        if multC.isZero { return }
+        var cc = 1
+        for _ in 1 ... matrix.height { cc *= 3 }
+        for c in 1 ..< cc {
+            var kk = c
+            for j in 0 ..< matrix.height {
+                matrix.rows[j][column].clear()
+                let k = kk % 3
+                kk /= 3
+                if k == 0 { continue }
+                matrix.rows[j][column].add(left: Way(from: qTo.pij[j].0, to: qFrom.pij[column].0),
+                                           right: Way(from: qFrom.pij[column].1, to: qTo.pij[j].1), koef: k == 2 ? -1 : k)
+            }
+            if column < 3 && !matrix.rows[column][column].isZero { continue }
+            let m1 = Matrix(mult: diff, and: matrix, column: column)
+            if m1.numberOfDifferents(with: multC) == 0 { break }
+        }
+    }
+
+    private func fill(column: Int, diff: Matrix, mult: Matrix) {
+        //fillAll(column: column, diff: diff, mult: mult)
+        //return
+        let multC = Matrix(zeroMatrix: 1, h: mult.height)
+        for i in 0 ..< mult.height {
+            multC.rows[i][0].add(comb: mult.rows[i][column])
+        }
+        /*let m1 = Matrix(mult: diff, and: matrix, column: column)
+        for i in 0 ..< multC.height {
+            multC.rows[i][0].add(comb: m1.rows[i][0], koef: -1)
+        }*/
+        //PrintUtils.printMatrix("Column \(column)", multC)
+        for i in 0 ..< multC.height {
+            if multC.rows[i][0].isZero { continue }
+            let c = multC.rows[i][0]
+            var j0 = -1
+            for j in 0 ..< diff.rows[i].count {
+                if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) { j0 = j; break }
+            }
+            if j0 == -1 { continue }
+            matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i][j0]))
+            let m1 = Matrix(mult: diff, and: matrix, column: column)
+            if m1.numberOfDifferents(with: multC) == 0 { return }
+            matrix.rows[j0][column].clear()
+        }
+        while true {
+            guard let i0 = multC.rows.lastIndex(where: { !$0[0].isZero }) else { return }
+            let c = multC.rows[i0][0]
+            var j0 = -1
+            for j in 0 ..< diff.rows[i0].count {
+                if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i0][j]) {
+                    j0 = j
+                    break
+                }
+            }
+            if j0 == -1 { break }
+            matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i0][j0]))
+            let m1 = Matrix(mult: diff, and: matrix, column: column)
+            for i in 0 ..< multC.height {
+                multC.rows[i][0].add(comb: m1.rows[i][0], koef: -1)
+            }
+            //PrintUtils.printMatrix("--> Column \(column)", multC)
+        }
     }
 
     private func fillDiag(column: Int, diff: Matrix, mult: Matrix) {
@@ -107,23 +173,27 @@ final class ShiftHH {
             r0.compRight(comb: r)
             return r0.isEq(c) ? nil : "Can't divide " + c.str + " by " + d.str + ": bad result " + r.str
         }
-        let res1 = divide(comb: c, cPos: 0, by: d, dFirst: true)
+        let res1 = divide(comb: c, cPos: 0, by: d, dFirst: true)!
         if checkRes(res1) == nil { return res1 }
-        let res2 = divide(comb: c, cPos: 0, by: d, dFirst: false)
+        let res2 = divide(comb: c, cPos: 0, by: d, dFirst: false)!
         if checkRes(res2) == nil { return res2 }
-        if c.contents.count > 1 {
-            let res3 = divide(comb: c, cPos: 1, by: d, dFirst: true)
-            res3.add(comb: res1)
-            return res3
+        if c.contents.count == 1 { return res1 }
+
+        let rr = Comb(comb: res1)
+        for pos in 1 ..< c.contents.count {
+            guard let res3 = divide(comb: c, cPos: pos, by: d, dFirst: true) else { break }
+            rr.add(comb: res3)
+            if checkRes(rr) == nil { return rr }
         }
+        OutputFile.writeLog(.normal, "Divide err " + c.str + " by " + d.str + " = " + res1.str)
         return res1
     }
 
-    private func divide(comb c: Comb, cPos: Int, by d: Comb, dFirst: Bool) -> Comb {
+    private func divide(comb c: Comb, cPos: Int, by d: Comb, dFirst: Bool) -> Comb? {
         let cT = c.contents[cPos].1
         guard let i0 = dFirst ? d.contents.firstIndex(where: { cT.hasPrefix($0.1) }) :
                 d.contents.lastIndex(where: { cT.hasPrefix($0.1) }) else {
-            onError("Can't divide " + c.str + " by " + d.str + ": not in prefix")
+                    return nil
         }
         return divide(pair: c.contents[cPos], by: d.contents[i0])
     }

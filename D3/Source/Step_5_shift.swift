@@ -8,10 +8,10 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check(deg: 0)
+        //return check(labels: ["x12", "x23", "x31"])
         let ee = GenCreate.allElements
         for e in ee {
-            if e.deg != 0 || e.label == "1" { continue }
+            if e.label != "u1" { continue }
             OutputFile.writeLog(.normal, e.str)
             let s0 = ShiftHH(gen: e)
             if let err = s0.check() {
@@ -28,23 +28,23 @@ struct Step_5_shift {
             }
             var ss = s0
             for d in 1 ... 30 {
-                OutputFile.writeLog(.bold, "Shift \(d)")
+                //OutputFile.writeLog(.bold, "Shift \(d)")
                 let s1 = ShiftHH(nextAfter: ss)
+                let myS1 = ShiftHH(gen: e, shiftDeg: d)
                 if let err = s1.check() {
+                    PrintUtils.printMatrix("My Shift", myS1.matrix)
                     s1.print()
                     OutputFile.writeLog(.error, "Check shift \(d) error: " + err)
                     return true
                 }
-                let myS1 = ShiftHH(gen: e, shiftDeg: d)
                 if s1.matrix.numberOfDifferents(with: myS1.matrix) != 0 {
                     s1.print()
-                    PrintUtils.printMatrix("M", myS1.matrix)
+                    PrintUtils.printMatrix("My Shift", myS1.matrix)
                     OutputFile.writeLog(.error, "numberOfDifferents \(s1.matrix.numberOfDifferents(with: myS1.matrix))")
                     return true
                 }
                 ss = s1
             }
-            break
         }
         return false
     }
@@ -53,6 +53,15 @@ struct Step_5_shift {
         let ee = GenCreate.allElements
         for e in ee {
             if e.label != label { continue }
+            if check(elem: e) { return true }
+        }
+        return false
+    }
+
+    private static func check(labels: [String]) -> Bool {
+        let ee = GenCreate.allElements
+        for e in ee {
+            if !labels.contains(e.label) { continue }
             if check(elem: e) { return true }
         }
         return false
@@ -77,8 +86,8 @@ struct Step_5_shift {
         }
         var ss = s0
         for d in 1 ... 30 {
-            //OutputFile.writeLog(.bold, "Shift \(d)")
             let s1 = ShiftHH(gen: e, shiftDeg: d)
+            if s1.matrix.isZero { break }
             if let err = s1.check() {
                 s1.print()
                 OutputFile.writeLog(.error, "Check shift \(d) error: " + err)
@@ -89,10 +98,12 @@ struct Step_5_shift {
             let n = m2.numberOfDifferents(with: m1)
             if n != 0 {
                 s1.print()
-                PrintUtils.printMatrix("M", s1.matrix)
+                PrintUtils.printMatrix("Mult", m1)
+                PrintUtils.printMatrix("Our Mult", m2)
                 OutputFile.writeLog(.error, "numberOfDifferents \(n)")
                 return true
             }
+            OutputFile.writeLog(.normal, "Shift \(d) checked :)")
             ss = s1
         }
         return false

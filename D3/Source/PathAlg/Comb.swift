@@ -54,6 +54,12 @@ final class Comb {
         }
     }
 
+    func add(comb: Comb, koef: Int) {
+        for (k, t) in comb.contents {
+            add(tenzor: t, koef: k.n * koef)
+        }
+    }
+
     func clear() {
         contents = []
     }

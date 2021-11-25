@@ -9,6 +9,30 @@ import Foundation
 
 final class GenCreate {
     static var allElements: [Gen] {
+        return [
+            Gen(label: "1", deg: 0, elem: [(1, Way.e1), (1, Way.e2), (1, Way.e3)]),
+            Gen(label: "c12", deg: 0, elem: [(1, Way.alpha1), (1, Way.beta2), (0, Way.zero)]),
+            Gen(label: "c23", deg: 0, elem: [(0, Way.zero), (1, Way.alpha2), (1, Way.beta3)]),
+            Gen(label: "c31", deg: 0, elem: [(1, Way.beta1), (0, Way.zero), (1, Way.alpha3)])
+        ] + deg1Gens + deg2Gens + [
+            Gen(label: "e", deg: 4, elem: [(1, Way.e1), (1, Way.e2), (1, Way.e3),
+                                           (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                           (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                           (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
+            Gen(label: "e1", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (1, Way.e1), (1, Way.e2), (1, Way.e3),
+                                           (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
+            Gen(label: "e2", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                            (1, Way.e1), (1, Way.e2), (1, Way.e3)])
+        ]
+    }
+
+    private static var deg1Gens: [Gen] {
         let n1 = PathAlg.n1
         let n2 = PathAlg.n2
         let n3 = PathAlg.n3
@@ -26,33 +50,40 @@ final class GenCreate {
                                                  (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
         let x3 = Gen(label: "x3", deg: 1, elem: [(0, Way.zero), (0, Way.zero), (1, Way(type: .a31, len: 3)),
                                                  (0, Way.zero), (0, Way.zero), (0, Way.zero)])
-        let deg1Gens: [Gen]
+        let gg: [Gen]
         if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) && NumInt.isZero(n: n3) {
-            deg1Gens = [w23, w31, w12]
+            gg = [w23, w31, w12]
         } else if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
-            deg1Gens = [w23, w31, x1]
+            gg = [w23, w31, x1]
         } else if NumInt.isZero(n: n1) {
-            deg1Gens = [w23, x1, x3]
+            gg = [w23, x1, x3]
         } else {
-            deg1Gens = [w]
+            gg = [w]
         }
-        return [
-            Gen(label: "1", deg: 0, elem: [(1, Way(vertexType: .e1)), (1, Way(vertexType: .e2)), (1, Way(vertexType: .e3))]),
-            Gen(label: "c12", deg: 0, elem: [(1, Way(type: .a12, len: 2)), (1, Way(type: .a21, len: 2)), (0, Way.zero)]),
-            Gen(label: "c23", deg: 0, elem: [(0, Way.zero), (1, Way(type: .a23, len: 2)), (1, Way(type: .a32, len: 2))]),
-            Gen(label: "c31", deg: 0, elem: [(1, Way(type: .a13, len: 2)), (0, Way.zero), (1, Way(type: .a31, len: 2))])
-        ] + deg1Gens + [
-            Gen(label: "z1", deg: 1, elem: [(1, Way(type: .a12, len: 1)), (0, Way.zero), (0, Way.zero),
-                                            (-1, Way(type: .a21, len: 1)), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "x12", deg: 2, elem: [(1, Way(type: .a12, len: 2)), (-1, Way(type: .a21, len: 2)),
-                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                             (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "x23", deg: 2, elem: [(0, Way.zero), (1, Way(type: .a23, len: 2)), (-1, Way(type: .a32, len: 2)),
-                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                             (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "x31", deg: 2, elem: [(-1, Way(type: .a13, len: 2)), (0, Way.zero), (1, Way(type: .a31, len: 2)),
-                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                             (0, Way.zero), (0, Way.zero)]),
+        return [Gen(label: "z1", deg: 1, elem: [(1, Way(type: .a12, len: 1)), (0, Way.zero), (0, Way.zero),
+                                                (-1, Way(type: .a21, len: 1)), (0, Way.zero), (0, Way.zero)])] + gg
+    }
+
+    private static var deg2Gens: [Gen] {
+        let n1 = PathAlg.n1
+        let n2 = PathAlg.n2
+        let n3 = PathAlg.n3
+        let x12 = Gen(label: "x12", deg: 2, elem: [(1, Way.alpha1), (-1, Way.beta2),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        let x23 = Gen(label: "x23", deg: 2, elem: [(0, Way.zero), (1, Way.alpha2), (-1, Way.beta3),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                   (0, Way.zero), (0, Way.zero)])
+        let x31 = Gen(label: "x31", deg: 2, elem: [(-1, Way.beta1), (0, Way.zero), (1, Way.alpha3),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                   (0, Way.zero), (0, Way.zero)])
+        return (n3 == 1 ? [] : [x12]) + (n1 == 1 ? [] : [x23]) + (n2 == 1 ? [] : [x31]) + [
+
+
+
+
+
+
             Gen(label: "u1", deg: 2, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (1, Way(type: .a12, len: 2 * n3 - 1)),
                                             (1, Way(type: .a23, len: 2 * n1 - 1)),
@@ -62,21 +93,7 @@ final class GenCreate {
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (1, Way(type: .a21, len: 2 * n3 - 1)),
                                             (1, Way(type: .a32, len: 2 * n1 - 1)),
-                                            (1, Way(type: .a13, len: 2 * n2 - 1))]),
-            Gen(label: "e", deg: 4, elem: [(1, Way(vertexType: .e1)), (1, Way(vertexType: .e2)), (1, Way(vertexType: .e3)),
-                                           (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                           (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                           (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "e1", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (1, Way(vertexType: .e1)), (1, Way(vertexType: .e2)), (1, Way(vertexType: .e3)),
-                                           (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "e2", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (1, Way(vertexType: .e1)), (1, Way(vertexType: .e2)), (1, Way(vertexType: .e3))])
+                                            (1, Way(type: .a13, len: 2 * n2 - 1))])
         ]
     }
 
@@ -156,7 +173,7 @@ final class GenCreate {
             }*/
         }
         imRows.append(elem.elem)
-        //PrintUtils.printImRows("Im", imRows)
+        //if inIm { PrintUtils.printImRows("Im", imRows); PrintUtils.printKoefIntMatrix("KK", KoefIntMatrix(im: imRows)) }
         let addRk = KoefIntMatrix(im: imRows).rank
         if inIm {
             _ = imRows.popLast()

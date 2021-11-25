@@ -15,34 +15,71 @@ enum ImMatrixResult {
 final class ImMatrix {
     let rows: [[(Int, Way)]]
 
-    init(diff: Matrix, hasZeroRows: Bool = false) {
+    init(diff: Diff) {
         var items: [[(Int, Way)]] = []
         for row in diff.rows {
-            guard let c = row.first(where: { !$0.isZero }) else {
-                if hasZeroRows { continue } else { fatalError() }
-            }
+            guard let c = row.first(where: { !$0.isZero }) else { fatalError() }
             let t = c.contents[0].1
             // t.leftComponent.startVertex = qTo.pij[i].0
             // t.rightComponent.endVertex = qTo.pij[i].1
             let ways = Way.allWays(from: t.rightComponent.endVertex, to: t.leftComponent.startVertex)
             for way in ways {
-                var line: [(Int, Way)] = []
-                for c in row {
-                    let res = ImMatrix.pair(from: c, way: way)
-                    switch res {
-                    case .ok(let k, let w):
-                        line.append((k, w))
-                    case .error(let error):
-                        fatalError(error)
-                    }
-                }
-                if line.contains(where: { $0.0 != 0 }) {
-                    items.append(line)
-                    if hasZeroRows { break }
-                }
+                if let line = ImMatrix.line(from: row, way: way) { items.append(line) }
             }
         }
         rows = items
+    }
+
+    init(mult: Matrix) {
+        var items: [[(Int, Way)]] = []
+        for row in mult.rows {
+            guard let c = row.first(where: { !$0.isZero }) else { continue }
+            let t = c.contents[0].1
+            // t.leftComponent.startVertex = qTo.pij[i].0
+            // t.rightComponent.endVertex = qTo.pij[i].1
+            let ways = Way.allWays(from: t.rightComponent.endVertex, to: t.leftComponent.startVertex)
+            for way in ways {
+                if let line = ImMatrix.line(from: row, way: way) {
+                    items.append(line);
+                    break
+                }
+            }
+        }
+        if items.count > 1 {
+            var line: [(Int, Way)] = []
+            for j in 0 ..< items[0].count {
+                var w: Way?
+                var k = 0
+                for item in items {
+                    let pair = item[j]
+                    if pair.0 == 0 { continue }
+                    if let w = w {
+                        if !pair.1.isEq(w) { fatalError("Bad ways in \(j)-th column") }
+                    } else {
+                        w = pair.1
+                    }
+                    k += pair.0
+                }
+                k = NumInt(n: k).n
+                line.append(k == 0 ? (0, Way.zero) : (k, w!))
+            }
+            items = line.contains(where: { $0.0 != 0 }) ? [line] : []
+        }
+        rows = items
+    }
+
+    private static func line(from row: [Comb], way: Way) -> [(Int, Way)]? {
+        var line: [(Int, Way)] = []
+        for c in row {
+            let res = ImMatrix.pair(from: c, way: way)
+            switch res {
+            case .ok(let k, let w):
+                line.append((k, w))
+            case .error(let error):
+                fatalError(error)
+            }
+        }
+        return line.contains(where: { $0.0 != 0 }) ? line : nil
     }
 
     static func pair(from c: Comb, way: Way?) -> ImMatrixResult {

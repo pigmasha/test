@@ -24,4 +24,8 @@ struct Utils {
         }
         return true
     }
+
+    static func minusDeg(_ n: Int) -> Int {
+        return n % 2 == 0 ? 1 : -1
+    }
 }

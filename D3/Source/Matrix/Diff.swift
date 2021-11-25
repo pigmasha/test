@@ -45,9 +45,9 @@ final class Diff: Matrix {
     }
 
     private func putRho1(wave: Bool) {
-        putS(at: (0, 0), value: [Comb(left: Way(vertexType: .e1), right: Way(type: .a12, len: 1), koef: wave ? 1 : -1),
+        putS(at: (0, 0), value: [Comb(left: Way.e1, right: Way(type: .a12, len: 1), koef: wave ? 1 : -1),
                                  Comb(),
-                                 Comb(left: Way(type: .a31, len: 1), right: Way(vertexType: .e1), koef: 1)])
+                                 Comb(left: Way(type: .a31, len: 1), right: Way.e1, koef: 1)])
         putFi(from: (0, 0), to: (3, 0), koef: -1)
     }
 
@@ -56,32 +56,32 @@ final class Diff: Matrix {
         let n2 = PathAlg.n2
         let n3 = PathAlg.n3
         for i in 0 ... n3 - 1 {
-            rows[0][0].add(left: i == 0 ? Way(vertexType: .e1) : Way(type: .a12, len: 2 * i),
+            rows[0][0].add(left: i == 0 ? Way.e1 : Way(type: .a12, len: 2 * i),
                            right: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1),
                            koef: wave ? koef : -koef)
         }
         for i in 0 ... n3 - 1 {
             rows[0][1].add(left: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1),
-                           right: i == 0 ? Way(vertexType: .e2) : Way(type: .a21, len: 2 * i),
+                           right: i == 0 ? Way.e2 : Way(type: .a21, len: 2 * i),
                            koef: koef)
         }
         for i in 0 ... n1 - 1 {
-            rows[1][1].add(left: i == 0 ? Way(vertexType: .e2) : Way(type: .a23, len: 2 * i),
+            rows[1][1].add(left: i == 0 ? Way.e2 : Way(type: .a23, len: 2 * i),
                            right: Way(type: .a32, len: 2 * (n1 - 1 - i) + 1),
                            koef: wave ? koef : -koef)
         }
         for i in 0 ... n1 - 1 {
             rows[1][2].add(left: Way(type: .a32, len: 2 * (n1 - 1 - i) + 1),
-                           right: i == 0 ? Way(vertexType: .e3) : Way(type: .a32, len: 2 * i),
+                           right: i == 0 ? Way.e3 : Way(type: .a32, len: 2 * i),
                            koef: koef)
         }
         for i in 0 ... n2 - 1 {
             rows[2][0].add(left: Way(type: .a13, len: 2 * (n2 - 1 - i) + 1),
-                           right: i == 0 ? Way(vertexType: .e1) : Way(type: .a13, len: 2 * i),
+                           right: i == 0 ? Way.e1 : Way(type: .a13, len: 2 * i),
                            koef: koef)
         }
         for i in 0 ... n2 - 1 {
-            rows[2][2].add(left: i == 0 ? Way(vertexType: .e3) : Way(type: .a31, len: 2 * i),
+            rows[2][2].add(left: i == 0 ? Way.e3 : Way(type: .a31, len: 2 * i),
                            right: Way(type: .a13, len: 2 * (n2 - 1 - i) + 1),
                            koef: wave ? koef : -koef)
         }
@@ -109,22 +109,22 @@ final class Diff: Matrix {
 
     private func putSigma1(at pos: (x: Int, y: Int), wave: Bool) {
         putS(at: (pos.x + 3, pos.y), value: [Comb(),
-                                             Comb(left: Way(type: .a31, len: 1), right: Way(vertexType: .e2), koef: 1),
-                                             Comb(left: Way(vertexType: .e1), right: Way(type: .a23, len: 1), koef: wave ? -1 : 1)])
+                                             Comb(left: Way(type: .a31, len: 1), right: Way.e2, koef: 1),
+                                             Comb(left: Way.e1, right: Way(type: .a23, len: 1), koef: wave ? -1 : 1)])
         putFi(from: (pos.x + 3, pos.y), to: (pos.x, pos.y + 3), koef: 1)
     }
 
     private func putSigma2(at pos: (x: Int, y: Int), wave: Bool) {
-        putS(at: pos, value: [Comb(left: Way(vertexType: .e1), right: Way(type: .a21, len: 1), koef: -1),
-                              Comb(left: Way(type: .a21, len: 1), right: Way(vertexType: .e2), koef: wave ? -1 : 1),
+        putS(at: pos, value: [Comb(left: Way.e1, right: Way(type: .a21, len: 1), koef: -1),
+                              Comb(left: Way(type: .a21, len: 1), right: Way.e2, koef: wave ? -1 : 1),
                               Comb()])
         putFi(from: pos, to: (pos.x + 3, pos.y + 3), koef: -1)
     }
 
     private func putSigma3(at pos: (x: Int, y: Int), wave: Bool) {
-        putS(at: (pos.x + 3, pos.y), value: [Comb(left: Way(type: .a21, len: 1), right: Way(vertexType: .e1), koef: wave ? -1 : 1),
+        putS(at: (pos.x + 3, pos.y), value: [Comb(left: Way(type: .a21, len: 1), right: Way.e1, koef: wave ? -1 : 1),
                                              Comb(),
-                                             Comb(left: Way(vertexType: .e1), right: Way(type: .a13, len: 1), koef: 1)])
+                                             Comb(left: Way.e1, right: Way(type: .a13, len: 1), koef: 1)])
         putFi(from: (pos.x + 3, pos.y), to: (pos.x, pos.y + 3), koef: 1)
     }
 
@@ -143,12 +143,12 @@ final class Diff: Matrix {
         let n2 = PathAlg.n2
         let n3 = PathAlg.n3
         let k = wave ? -koef : koef
-        rows[pos.y][pos.x + 4].add(left: Way(type: .a31, len: 2 * n2 - 1), right: Way(vertexType: .e2), koef: k)
-        rows[pos.y][pos.x + 5].add(left: Way(vertexType: .e1), right: Way(type: .a23, len: 2 * n1 - 1), koef: -koef)
-        rows[pos.y + 1][pos.x + 3].add(left: Way(vertexType: .e2), right: Way(type: .a31, len: 2 * n2 - 1), koef: -koef)
-        rows[pos.y + 1][pos.x + 5].add(left: Way(type: .a12, len: 2 * n3 - 1), right: Way(vertexType: .e3), koef: k)
-        rows[pos.y + 2][pos.x + 3].add(left: Way(type: .a23, len: 2 * n1 - 1), right: Way(vertexType: .e1), koef: k)
-        rows[pos.y + 2][pos.x + 4].add(left: Way(vertexType: .e3), right: Way(type: .a12, len: 2 * n3 - 1), koef: -koef)
+        rows[pos.y][pos.x + 4].add(left: Way(type: .a31, len: 2 * n2 - 1), right: Way.e2, koef: k)
+        rows[pos.y][pos.x + 5].add(left: Way.e1, right: Way(type: .a23, len: 2 * n1 - 1), koef: -koef)
+        rows[pos.y + 1][pos.x + 3].add(left: Way.e2, right: Way(type: .a31, len: 2 * n2 - 1), koef: -koef)
+        rows[pos.y + 1][pos.x + 5].add(left: Way(type: .a12, len: 2 * n3 - 1), right: Way.e3, koef: k)
+        rows[pos.y + 2][pos.x + 3].add(left: Way(type: .a23, len: 2 * n1 - 1), right: Way.e1, koef: k)
+        rows[pos.y + 2][pos.x + 4].add(left: Way.e3, right: Way(type: .a12, len: 2 * n3 - 1), koef: -koef)
         putFi(from: (pos.x + 3, pos.y), to: (pos.x, pos.y + 3), koef: -1)
     }
 
@@ -157,12 +157,12 @@ final class Diff: Matrix {
         let n2 = PathAlg.n2
         let n3 = PathAlg.n3
         let k = wave ? koef : -koef
-        rows[pos.y][pos.x].add(left: Way(vertexType: .e1), right: Way(type: .a12, len: 2 * n3 - 1), koef: koef)
-        rows[pos.y][pos.x + 2].add(left: Way(type: .a31, len: 2 * n2 - 1), right: Way(vertexType: .e1), koef: k)
-        rows[pos.y + 1][pos.x].add(left: Way(type: .a12, len: 2 * n3 - 1), right: Way(vertexType: .e2), koef: k)
-        rows[pos.y + 1][pos.x + 1].add(left: Way(vertexType: .e2), right: Way(type: .a23, len: 2 * n1 - 1), koef: koef)
-        rows[pos.y + 2][pos.x + 1].add(left: Way(type: .a23, len: 2 * n1 - 1), right: Way(vertexType: .e3), koef: k)
-        rows[pos.y + 2][pos.x + 2].add(left: Way(vertexType: .e3), right: Way(type: .a31, len: 2 * n2 - 1), koef: koef)
+        rows[pos.y][pos.x].add(left: Way.e1, right: Way(type: .a12, len: 2 * n3 - 1), koef: koef)
+        rows[pos.y][pos.x + 2].add(left: Way(type: .a31, len: 2 * n2 - 1), right: Way.e1, koef: k)
+        rows[pos.y + 1][pos.x].add(left: Way(type: .a12, len: 2 * n3 - 1), right: Way.e2, koef: k)
+        rows[pos.y + 1][pos.x + 1].add(left: Way.e2, right: Way(type: .a23, len: 2 * n1 - 1), koef: koef)
+        rows[pos.y + 2][pos.x + 1].add(left: Way(type: .a23, len: 2 * n1 - 1), right: Way.e3, koef: k)
+        rows[pos.y + 2][pos.x + 2].add(left: Way.e3, right: Way(type: .a31, len: 2 * n2 - 1), koef: koef)
         putFi(from: pos, to: (pos.x + 3, pos.y + 3), koef: 1)
     }
 
@@ -171,12 +171,12 @@ final class Diff: Matrix {
         let n2 = PathAlg.n2
         let n3 = PathAlg.n3
         let k = wave ? koef : -koef
-        rows[pos.y][pos.x + 3].add(left: Way(vertexType: .e1), right: Way(type: .a21, len: 2 * n3 - 1), koef: k)
-        rows[pos.y][pos.x + 4].add(left: Way(type: .a21, len: 2 * n3 - 1), right: Way(vertexType: .e2), koef: koef)
-        rows[pos.y + 1][pos.x + 4].add(left: Way(vertexType: .e2), right: Way(type: .a32, len: 2 * n1 - 1), koef: k)
-        rows[pos.y + 1][pos.x + 5].add(left: Way(type: .a32, len: 2 * n1 - 1), right: Way(vertexType: .e3), koef: koef)
-        rows[pos.y + 2][pos.x + 3].add(left: Way(type: .a13, len: 2 * n2 - 1), right: Way(vertexType: .e1), koef: koef)
-        rows[pos.y + 2][pos.x + 5].add(left: Way(vertexType: .e3), right: Way(type: .a13, len: 2 * n2 - 1), koef: k)
+        rows[pos.y][pos.x + 3].add(left: Way.e1, right: Way(type: .a21, len: 2 * n3 - 1), koef: k)
+        rows[pos.y][pos.x + 4].add(left: Way(type: .a21, len: 2 * n3 - 1), right: Way.e2, koef: koef)
+        rows[pos.y + 1][pos.x + 4].add(left: Way.e2, right: Way(type: .a32, len: 2 * n1 - 1), koef: k)
+        rows[pos.y + 1][pos.x + 5].add(left: Way(type: .a32, len: 2 * n1 - 1), right: Way.e3, koef: koef)
+        rows[pos.y + 2][pos.x + 3].add(left: Way(type: .a13, len: 2 * n2 - 1), right: Way.e1, koef: koef)
+        rows[pos.y + 2][pos.x + 5].add(left: Way.e3, right: Way(type: .a13, len: 2 * n2 - 1), koef: k)
         putFi(from: (pos.x + 3, pos.y), to: (pos.x, pos.y + 3), koef: -1)
     }
 
@@ -224,33 +224,5 @@ final class Diff: Matrix {
         case .a32: a = deg == 1 ? .a13 : .a21
         }
         return Way(type: a, len: 1)
-    }
-
-    private func putFi(from: (x: Int, y: Int), to: (x: Int, y: Int), koef: Int) {
-        for x1 in 0 ... 2 {
-            for y1 in 0 ... 2 {
-                let c = rows[from.y + y1][from.x + x1]
-                if c.isZero { continue }
-                for (k, t) in c.contents {
-                    rows[to.y + y1][to.x + x1].add(left: fi(forWay: t.rightComponent),
-                                                   right: fi(forWay: t.leftComponent),
-                                                   koef: k.n * koef)
-                }
-            }
-        }
-    }
-
-    private func fi(forWay w: Way) -> Way {
-        if w.len % 2 == 0 { return Way(way: w) }
-        let a: ArrType
-        switch w.endArr {
-        case .a12: a = .a21
-        case .a21: a = .a12
-        case .a13: a = .a31
-        case .a31: a = .a13
-        case .a23: a = .a32
-        case .a32: a = .a23
-        }
-        return Way(type: a, len: w.len)
     }
 }
