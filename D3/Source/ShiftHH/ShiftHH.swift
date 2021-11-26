@@ -65,8 +65,8 @@ final class ShiftHH {
         matrix = Matrix(zeroMatrix: 3 * (hhDeg + shiftDeg + 1), h: 3 * (shiftDeg + 1))
         if shiftC00(gen.label) { return }
         if shiftX00(gen.label) { return }
+        if shiftU0(gen.label) { return }
         switch gen.label {
-        case "u1": shiftU1()
         case "w": shiftW()
         case "z1": shiftZ1()
         default: break
@@ -75,6 +75,22 @@ final class ShiftHH {
 
     func print() {
         PrintUtils.printMatrix("Shift \(shiftDeg)", matrix)
+    }
+
+    func printProgram() {
+        OutputFile.writeLog(.simple, "<pre>    private func shift\(shiftDeg)() {\n")
+        let strForWay: (Way) -> String = { w in
+            return w.len == 0 ? "Way.e" + w.startVertex.str : "Way(type: .a\(w.endArr.str), len: \(w.len))"
+        }
+        for i in 0 ..< matrix.height {
+            for j in 0 ..< matrix.width {
+                let c = matrix.rows[i][j]
+                for (k, t) in c.contents {
+                    OutputFile.writeLog(.simple, "        matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")
+                }
+            }
+        }
+        OutputFile.writeLog(.normal, "    }</pre>")
     }
 
     func check() -> String? {
@@ -118,26 +134,15 @@ final class ShiftHH {
         for i in 0 ..< mult.height {
             multC.rows[i][0].add(comb: mult.rows[i][column])
         }
-        /*let m1 = Matrix(mult: diff, and: matrix, column: column)
+        let m1 = Matrix(mult: diff, and: matrix, column: column)
         for i in 0 ..< multC.height {
             multC.rows[i][0].add(comb: m1.rows[i][0], koef: -1)
-        }*/
-        //PrintUtils.printMatrix("Column \(column)", multC)
-        for i in 0 ..< multC.height {
-            if multC.rows[i][0].isZero { continue }
-            let c = multC.rows[i][0]
-            var j0 = -1
-            for j in 0 ..< diff.rows[i].count {
-                if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) { j0 = j; break }
-            }
-            if j0 == -1 { continue }
-            matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i][j0]))
-            let m1 = Matrix(mult: diff, and: matrix, column: column)
-            if m1.numberOfDifferents(with: multC) == 0 { return }
-            matrix.rows[j0][column].clear()
         }
+        //PrintUtils.printMatrix("Column \(column)", multC)
+
         while true {
-            guard let i0 = multC.rows.lastIndex(where: { !$0[0].isZero }) else { return }
+            guard let i0 = multC.rows.firstIndex(where: { !$0[0].isZero }) else { return }
+            if searchOneStepResult(column: column, diff: diff, mult: multC) { return }
             let c = multC.rows[i0][0]
             var j0 = -1
             for j in 0 ..< diff.rows[i0].count {
@@ -150,10 +155,30 @@ final class ShiftHH {
             matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i0][j0]))
             let m1 = Matrix(mult: diff, and: matrix, column: column)
             for i in 0 ..< multC.height {
+                multC.rows[i][0].clear()
+                multC.rows[i][0].add(comb: mult.rows[i][column])
                 multC.rows[i][0].add(comb: m1.rows[i][0], koef: -1)
             }
-            //PrintUtils.printMatrix("--> Column \(column)", multC)
         }
+    }
+
+    private func searchOneStepResult(column: Int, diff: Matrix, mult: Matrix) -> Bool {
+        for i in 0 ..< mult.height {
+            if mult.rows[i][0].isZero { continue }
+            let c = mult.rows[i][0]
+            var j0 = -1
+            for j in 0 ..< diff.rows[i].count {
+                if column == 2 && j == 0 { continue }
+                if column == 9 && j == 6 { continue }
+                if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) { j0 = j; break }
+            }
+            if j0 == -1 { continue }
+            matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i][j0]))
+            let m1 = Matrix(mult: diff, and: matrix, column: column)
+            if m1.numberOfDifferents(with: mult) == 0 { return true }
+            matrix.rows[j0][column].clear()
+        }
+        return false
     }
 
     private func fillDiag(column: Int, diff: Matrix, mult: Matrix) {
@@ -201,23 +226,28 @@ final class ShiftHH {
     private func divide(pair c: (NumInt, Tenzor), by d: (NumInt, Tenzor)) -> Comb {
         let cT = c.1
         let dT = d.1
-        let wL: Way
-        if cT.leftComponent.isEq(dT.leftComponent) {
-            wL = Way(vertexType: cT.leftComponent.endVertex)
-        } else {
-            wL = Way(type: cT.leftComponent.endArr, len: cT.leftComponent.len - dT.leftComponent.len)
-        }
-        let wR: Way
-        if cT.rightComponent.isEq(dT.rightComponent) {
-            wR = Way(vertexType: cT.rightComponent.startVertex)
-        } else {
-            wR = Way(type: dT.rightComponent.len % 2 == 0 ? cT.rightComponent.endArr : Way.nextArray(after: cT.rightComponent.endArr),
-                     len: cT.rightComponent.len - dT.rightComponent.len)
-        }
+        let wL = divide(way: cT.leftComponent, by: dT.leftComponent, fromLeft: true)
+        let wR = divide(way: cT.rightComponent, by: dT.rightComponent, fromLeft: false)
         if c.0.n % d.0.n != 0 {
             onError("Can't divide " + c.1.str + " by " + d.1.str + ": bad koefs \(c.0.n) and \(d.0.n)")
         }
         return Comb(left: wL, right: wR, koef: c.0.n / d.0.n)
+    }
+
+    private func divide(way: Way, by other: Way, fromLeft: Bool) -> Way {
+        if way.isEq(other) {
+            return Way(vertexType: fromLeft ? way.endVertex : way.startVertex)
+        }
+        if other.len == 0 {
+            return Way(way: way)
+        }
+        let c: Way
+        if let t = way.twin, t.endArr == other.endArr || t.endArr == Way.nextArray(after: other.endArr) {
+            c = t
+        } else {
+            c = way
+        }
+        return Way(type: fromLeft || other.len % 2 == 0 ? c.endArr : Way.nextArray(after: c.endArr), len: c.len - other.len)
     }
 
     private func onError(_ message: String) -> Never {

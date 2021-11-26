@@ -78,12 +78,6 @@ final class GenCreate {
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero)])
         return (n3 == 1 ? [] : [x12]) + (n1 == 1 ? [] : [x23]) + (n2 == 1 ? [] : [x31]) + [
-
-
-
-
-
-
             Gen(label: "u1", deg: 2, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (1, Way(type: .a12, len: 2 * n3 - 1)),
                                             (1, Way(type: .a23, len: 2 * n1 - 1)),

@@ -7,6 +7,17 @@ import AppKit
 
 enum ArrType: Int, Equatable, CaseIterable {
     case a21, a12, a32, a23, a31, a13
+
+    var str: String {
+        switch self {
+        case .a21: return "21"
+        case .a12: return "12"
+        case .a32: return "32"
+        case .a23: return "23"
+        case .a31: return "31"
+        case .a13: return "13"
+        }
+    }
 }
 
 enum VertexType: Int, Equatable, CaseIterable {
@@ -99,6 +110,11 @@ final class Way {
     }
 
     func hasPrefix(_ way: Way) -> Bool {
+        if let twin = twin, twin.hasPrefixNoTwin(way) { return true }
+        return hasPrefixNoTwin(way)
+    }
+
+    func hasPrefixNoTwin(_ way: Way) -> Bool {
         if way.isZero { return false }
         if way.isEq(self) { return true }
         if way.endVertex != endVertex { return false }
@@ -107,6 +123,11 @@ final class Way {
     }
 
     func hasSuffix(_ way: Way) -> Bool {
+        if let twin = twin, twin.hasSuffixNoTwin(way) { return true }
+        return hasSuffixNoTwin(way)
+    }
+
+    func hasSuffixNoTwin(_ way: Way) -> Bool {
         if way.isZero { return false }
         if way.isEq(self) { return true }
         if way.startVertex != startVertex { return false }
@@ -200,27 +221,29 @@ final class Way {
         } else {
             let aPrefix = PathAlg.isTex ? "a_{" : "a<sub>"
             let aSuffix = PathAlg.isTex ? "}" : "</sub>"
-            let typeToStr: (ArrType) -> String = { t in
-                switch t {
-                case .a21: return "21"
-                case .a12: return "12"
-                case .a32: return "32"
-                case .a23: return "23"
-                case .a31: return "31"
-                case .a13: return "13"
-                }
-            }
             if len == 1 {
-                return aPrefix + typeToStr(endArr) + aSuffix
+                return aPrefix + endArr.str + aSuffix
             }
             switch endArr {
-            case .a21: return aPrefix + typeToStr(endArr) + aSuffix + alphaPrefix + "1" + suffix
-            case .a12: return alphaPrefix + "1" + suffix + aPrefix + typeToStr(endArr) + aSuffix
-            case .a32: return aPrefix + typeToStr(endArr) + aSuffix + alphaPrefix + "2" + suffix
-            case .a23: return alphaPrefix + "2" + suffix + aPrefix + typeToStr(endArr) + aSuffix
-            case .a13: return aPrefix + typeToStr(endArr) + aSuffix + alphaPrefix + "3" + suffix
-            case .a31: return alphaPrefix + "3" + suffix + aPrefix + typeToStr(endArr) + aSuffix
+            case .a21: return aPrefix + endArr.str + aSuffix + alphaPrefix + "1" + suffix
+            case .a12: return alphaPrefix + "1" + suffix + aPrefix + endArr.str + aSuffix
+            case .a32: return aPrefix + endArr.str + aSuffix + alphaPrefix + "2" + suffix
+            case .a23: return alphaPrefix + "2" + suffix + aPrefix + endArr.str + aSuffix
+            case .a13: return aPrefix + endArr.str + aSuffix + alphaPrefix + "3" + suffix
+            case .a31: return alphaPrefix + "3" + suffix + aPrefix + endArr.str + aSuffix
             }
+        }
+    }
+
+    var twin: Way? {
+        if len != maxLen { return nil }
+        switch endArr {
+        case .a12: return Way(type: .a13, len: 2 * PathAlg.n2)
+        case .a21: return Way(type: .a23, len: 2 * PathAlg.n1)
+        case .a13: return Way(type: .a12, len: 2 * PathAlg.n3)
+        case .a31: return Way(type: .a32, len: 2 * PathAlg.n1)
+        case .a23: return Way(type: .a21, len: 2 * PathAlg.n3)
+        case .a32: return Way(type: .a31, len: 2 * PathAlg.n2)
         }
     }
 
@@ -286,10 +309,14 @@ final class Way {
     }
 
     private func updateIsZero() {
+        isZero = len > maxLen
+    }
+
+    private var maxLen: Int {
         switch endArr {
-        case .a21, .a12: isZero = len > 2 * PathAlg.n3
-        case .a32, .a23: isZero = len > 2 * PathAlg.n1
-        case .a31, .a13: isZero = len > 2 * PathAlg.n2
+        case .a21, .a12: return 2 * PathAlg.n3
+        case .a32, .a23: return 2 * PathAlg.n1
+        case .a31, .a13: return 2 * PathAlg.n2
         }
     }
 }
