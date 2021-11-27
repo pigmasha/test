@@ -52,9 +52,7 @@ final class Diff: Matrix {
     }
 
     private func putRho2(wave: Bool, koef: Int) {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         for i in 0 ... n3 - 1 {
             rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1), koef: wave ? koef : -koef)
         }
@@ -127,9 +125,7 @@ final class Diff: Matrix {
     }
 
     private func putTau1(at pos: (x: Int, y: Int), wave: Bool, koef: Int) {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let k = wave ? -koef : koef
         rows[pos.y][pos.x + 4].add(left: Way(type: .a31, len: 2 * n2 - 1), right: Way.e2, koef: k)
         rows[pos.y][pos.x + 5].add(left: Way.e1, right: Way(type: .a23, len: 2 * n1 - 1), koef: -koef)
@@ -141,9 +137,7 @@ final class Diff: Matrix {
     }
 
     private func putTau2(at pos: (x: Int, y: Int), wave: Bool, koef: Int) {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let k = wave ? koef : -koef
         rows[pos.y][pos.x].add(left: Way.e1, right: Way(type: .a12, len: 2 * n3 - 1), koef: koef)
         rows[pos.y][pos.x + 2].add(left: Way(type: .a31, len: 2 * n2 - 1), right: Way.e1, koef: k)
@@ -155,9 +149,7 @@ final class Diff: Matrix {
     }
 
     private func putTau3(at pos: (x: Int, y: Int), wave: Bool, koef: Int) {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let k = wave ? koef : -koef
         rows[pos.y][pos.x + 3].add(left: Way.e1, right: Way(type: .a21, len: 2 * n3 - 1), koef: k)
         rows[pos.y][pos.x + 4].add(left: Way(type: .a21, len: 2 * n3 - 1), right: Way.e2, koef: koef)

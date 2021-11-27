@@ -40,7 +40,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        //shiftW()
+        _ = shiftE0("e1")
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -66,6 +66,7 @@ final class ShiftHH {
         if shiftC00(gen.label) { return }
         if shiftX00(gen.label) { return }
         if shiftU0(gen.label) { return }
+        if shiftE0(gen.label) { return }
         switch gen.label {
         case "w": shiftW()
         case "z1": shiftZ1()
@@ -78,7 +79,7 @@ final class ShiftHH {
     }
 
     func printProgram() {
-        OutputFile.writeLog(.simple, "<pre>    private func shift\(shiftDeg)() {\n")
+        OutputFile.writeLog(.simple, "<pre>private func shift\(shiftDeg)() {\n")
         let strForWay: (Way) -> String = { w in
             return w.len == 0 ? "Way.e" + w.startVertex.str : "Way(type: .a\(w.endArr.str), len: \(w.len))"
         }
@@ -86,11 +87,11 @@ final class ShiftHH {
             for j in 0 ..< matrix.width {
                 let c = matrix.rows[i][j]
                 for (k, t) in c.contents {
-                    OutputFile.writeLog(.simple, "        matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")
+                    OutputFile.writeLog(.simple, "matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")
                 }
             }
         }
-        OutputFile.writeLog(.normal, "    }</pre>")
+        OutputFile.writeLog(.normal, "}</pre>")
     }
 
     func check() -> String? {
@@ -168,8 +169,6 @@ final class ShiftHH {
             let c = mult.rows[i][0]
             var j0 = -1
             for j in 0 ..< diff.rows[i].count {
-                if column == 2 && j == 0 { continue }
-                if column == 9 && j == 6 { continue }
                 if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) { j0 = j; break }
             }
             if j0 == -1 { continue }

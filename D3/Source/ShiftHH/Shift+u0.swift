@@ -30,27 +30,21 @@ extension ShiftHH {
     }
 
     private func shiftU10() {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         matrix.rows[0][3].add(left: Way.alpha1(deg: n3 - 1), right: Way(type: .a12, len: 1), koef: 1)
         matrix.rows[1][4].add(left: Way.alpha2(deg: n1 - 1), right: Way(type: .a23, len: 1), koef: 1)
         matrix.rows[2][5].add(left: Way.alpha3(deg: n2 - 1), right: Way(type: .a31, len: 1), koef: 1)
     }
 
     private func shiftU20() {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         matrix.rows[0][6].add(left: Way(type: .a21, len: 2 * n3 - 1), right: Way.e1, koef: 1)
         matrix.rows[1][7].add(left: Way(type: .a32, len: 2 * n1 - 1), right: Way.e2, koef: 1)
         matrix.rows[2][8].add(left: Way(type: .a13, len: 2 * n2 - 1), right: Way.e3, koef: 1)
     }
 
     private func shiftU11() {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         if n1 == 1 {
             matrix.rows[1][5].add(left: Way(type: .a12, len: 2 * n3 - 1), right: Way.e3, koef: -1)
         }
@@ -72,9 +66,7 @@ extension ShiftHH {
     }
 
     private func shiftU21() {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         matrix.rows[0][10].add(left: Way(type: .a21, len: 2 * n3 - 1), right: Way.e2, koef: 1)
         matrix.rows[1][11].add(left: Way(type: .a32, len: 2 * n1 - 1), right: Way.e3, koef: 1)
         matrix.rows[2][9].add(left: Way(type: .a13, len: 2 * n2 - 1), right: Way.e1, koef: 1)
@@ -84,9 +76,7 @@ extension ShiftHH {
     }
 
     private func shiftU12() {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         if n1 == 1 {
             matrix.rows[8][0].add(left: Way.alpha1(deg: n3 - 1), right: Way(type: .a31, len: 2 * n2 - 1), koef: -1)
         }
@@ -111,9 +101,7 @@ extension ShiftHH {
     }
 
     private func shiftU22() {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         if n1 == 1 {
             matrix.rows[5][0].add(left: Way(type: .a13, len: 2 * n2 - 1), right: Way.alpha1(deg: n3 - 1), koef: 1)
         }

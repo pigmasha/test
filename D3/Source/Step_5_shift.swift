@@ -8,10 +8,10 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check(labels: ["w"])
+        return check(labels: ["e1"])
         let ee = GenCreate.allElements
         for e in ee {
-            if e.label != "w" { continue }
+            if e.label != "e1" { continue }
             OutputFile.writeLog(.normal, e.str)
             let s0 = ShiftHH(gen: e)
             if let err = s0.check() {
@@ -23,23 +23,25 @@ struct Step_5_shift {
             let myS0 = ShiftHH(gen: e, shiftDeg: 0)
             if s0.matrix.numberOfDifferents(with: myS0.matrix) != 0 {
                 PrintUtils.printMatrix("M", myS0.matrix)
+                s0.printProgram()
                 OutputFile.writeLog(.error, "numberOfDifferents \(s0.matrix.numberOfDifferents(with: myS0.matrix))")
                 return true
             }
-            var ss = ShiftHH(gen: e, shiftDeg: 1)
-            for d in 2 ... 2 {
+            var ss = s0//ShiftHH(gen: e, shiftDeg: 1)
+            for d in 1 ... 30 {
                 //OutputFile.writeLog(.bold, "Shift \(d)")
                 let s1 = ShiftHH(nextAfter: ss)
                 let myS1 = ShiftHH(gen: e, shiftDeg: d)
                 if let err = s1.check() {
                     PrintUtils.printMatrix("My Shift", myS1.matrix)
                     s1.print()
+                    s1.printProgram()
                     OutputFile.writeLog(.error, "Check shift \(d) error: " + err)
                     return true
                 }
-                s1.print()
+                //s1.print()
                 if s1.matrix.numberOfDifferents(with: myS1.matrix) != 0 {
-                    //s1.print()
+                    s1.print()
                     PrintUtils.printMatrix("My Shift", myS1.matrix)
                     s1.printProgram()
                     OutputFile.writeLog(.error, "numberOfDifferents \(s1.matrix.numberOfDifferents(with: myS1.matrix))")
@@ -77,8 +79,14 @@ struct Step_5_shift {
             OutputFile.writeLog(.error, "Check shift 0 error: " + err)
             return true
         }
+        let s01 = ShiftHH(gen: e)
+        if s01.matrix.numberOfDifferents(with: s0.matrix) != 0 {
+            s0.print()
+            OutputFile.writeLog(.error, "Check shift 0 matrix error")
+            return true
+        }
         var ss = s0
-        for d in 1 ... 30 {
+        for d in 1 ... 20 {
             let s1 = ShiftHH(gen: e, shiftDeg: d)
             if s1.matrix.isZero { break }
             if let err = s1.check() {

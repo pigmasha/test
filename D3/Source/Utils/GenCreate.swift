@@ -33,9 +33,7 @@ final class GenCreate {
     }
 
     private static var deg1Gens: [Gen] {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let w = Gen(label: "w", deg: 1, elem: [(n1 * n2, Way(type: .a12, len: 1)),
                                                (n2 * n3, Way(type: .a23, len: 1)),
                                                (n3 * n1, Way(type: .a31, len: 1)),
@@ -65,9 +63,7 @@ final class GenCreate {
     }
 
     private static var deg2Gens: [Gen] {
-        let n1 = PathAlg.n1
-        let n2 = PathAlg.n2
-        let n3 = PathAlg.n3
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let x12 = Gen(label: "x12", deg: 2, elem: [(1, Way.alpha1), (-1, Way.beta2),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero)])
