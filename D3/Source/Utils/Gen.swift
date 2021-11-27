@@ -19,7 +19,7 @@ final class Gen {
 
     private func label(from s: String) -> String {
         let parts = s.components(separatedBy: " * ")
-        if parts.count < 3 { return s }
+        if parts.count < 3 || parts[0] != parts[1] { return s }
         for i in 2 ..< parts.count {
             if parts[i] != parts[0] {
                 var s1 = parts[0] + "<sup>\(i)</sup>"

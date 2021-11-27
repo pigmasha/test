@@ -8,7 +8,7 @@ import Foundation
 
 struct Step_4_gen {
     static func runCase() -> Bool {
-        let deg = 2
+        let deg = 3
         /*let elements = GenCreate.allElements
         elements.forEach { OutputFile.writeLog(.normal, $0.str) }
         let checker = GenCreate(deg: deg)
@@ -68,6 +68,7 @@ struct Step_4_gen {
         gens.forEach { OutputFile.writeLog(.normal, $0.str) }
         if gens.count == Dim.dimHH(deg) {
             OutputFile.writeLog(.normal, "Dim ok!")
+            //checker.printIm()
             return
         } else {
             OutputFile.writeLog(.error, "Dim not ok!")
@@ -122,7 +123,7 @@ struct Step_4_gen {
         var s2 = ShiftHH(gen: e2, shiftDeg: 0).matrix
         if s2.isZero { s2 = ShiftHH(gen: e2).matrix }
         let mult = Matrix(mult: s2, and: ShiftHH(gen: e1, shiftDeg: e2.deg).matrix)
-        if !checkCommutatuive(e1, and: e2, inImChecker: inImChecker, mult: mult) { return nil }
+        if !checkCommutative(e1, and: e2, inImChecker: inImChecker, mult: mult) { return nil }
         if mult.isZero { printZeroMult(multLabel); return nil }
         let im = ImMatrix(mult: mult)
         //PrintUtils.printMatrix(multLabel + "Mult", mult)
@@ -146,10 +147,34 @@ struct Step_4_gen {
         }
         if checker.check(g0) == nil { return g0 }
         OutputFile.writeLog(.error, "Unknown element " + g0.str)
+        if multLabel == "w * u2" {
+            if let g1 = gens.first(where: { $0.label == "z1 * u2" }) {
+                var e: [(Int, Way)] = []
+                for i in 0 ..< g0.elem.count {
+                    let p0 = g0.elem[i]
+                    let p1 = g1.elem[i]
+                    if p1.0 == 0 {
+                        e.append((p0.0, Way(way: p0.1)));
+                        continue
+                    }
+                    if p0.0 == 0 { fatalError() }
+                    if !p0.1.isEq(p1.1) { fatalError() }
+                    let k = p0.0 - (PathAlg.n1 * PathAlg.n2 + PathAlg.n2 * PathAlg.n3 + PathAlg.n3 * PathAlg.n1) * p1.0
+                    e.append((k, k == 0 ? Way.zero : Way(way: p0.1)))
+                }
+                let g2 = Gen(label: g0.label + " - (n1*n2+n2*n3+n3*n1) * " + g1.label, deg: deg, elem: e)
+                if inImChecker.checkNotIm(g2, inIm: true) == nil {
+                    OutputFile.writeLog(.normal, "Zero " + g2.label)
+                    printZeroMult(g2.label);
+                    return nil
+                }
+                OutputFile.writeLog(.normal, g2.str)
+            }
+        }
         return nil
     }
 
-    private static func checkCommutatuive(_ e1: Gen, and e2: Gen, inImChecker: GenCreate, mult: Matrix) -> Bool {
+    private static func checkCommutative(_ e1: Gen, and e2: Gen, inImChecker: GenCreate, mult: Matrix) -> Bool {
         let deg = e1.deg + e2.deg
         let s1 = ShiftHH(gen: e1, shiftDeg: 0).matrix
         let s2 = ShiftHH(gen: e2, shiftDeg: e1.deg).matrix

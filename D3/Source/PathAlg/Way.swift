@@ -103,6 +103,30 @@ final class Way {
     static var beta2: Way { return Way(type: .a21,  len: 2) }
     static var beta3: Way { return Way(type: .a32,  len: 2) }
 
+    static func alpha1(deg: Int) -> Way {
+        return deg == 0 ? Way.e1 : Way(type: .a12, len: 2 * deg)
+    }
+
+    static func alpha2(deg: Int) -> Way {
+        return deg == 0 ? Way.e2 : Way(type: .a23, len: 2 * deg)
+    }
+
+    static func alpha3(deg: Int) -> Way {
+        return deg == 0 ? Way.e3 : Way(type: .a31, len: 2 * deg)
+    }
+
+    static func beta1(deg: Int) -> Way {
+        return deg == 0 ? Way.e1 : Way(type: .a13, len: 2 * deg)
+    }
+
+    static func beta2(deg: Int) -> Way {
+        return deg == 0 ? Way.e2 : Way(type: .a21, len: 2 * deg)
+    }
+
+    static func beta3(deg: Int) -> Way {
+        return deg == 0 ? Way.e3 : Way(type: .a32, len: 2 * deg)
+    }
+
     func setWay(_ way: Way) {
         endArr = way.endArr
         len = way.len

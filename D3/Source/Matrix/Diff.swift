@@ -56,34 +56,22 @@ final class Diff: Matrix {
         let n2 = PathAlg.n2
         let n3 = PathAlg.n3
         for i in 0 ... n3 - 1 {
-            rows[0][0].add(left: i == 0 ? Way.e1 : Way(type: .a12, len: 2 * i),
-                           right: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1),
-                           koef: wave ? koef : -koef)
+            rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1), koef: wave ? koef : -koef)
         }
         for i in 0 ... n3 - 1 {
-            rows[0][1].add(left: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1),
-                           right: i == 0 ? Way.e2 : Way(type: .a21, len: 2 * i),
-                           koef: koef)
+            rows[0][1].add(left: Way(type: .a21, len: 2 * (n3 - 1 - i) + 1), right: Way.beta2(deg: i), koef: koef)
         }
         for i in 0 ... n1 - 1 {
-            rows[1][1].add(left: i == 0 ? Way.e2 : Way(type: .a23, len: 2 * i),
-                           right: Way(type: .a32, len: 2 * (n1 - 1 - i) + 1),
-                           koef: wave ? koef : -koef)
+            rows[1][1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - 1 - i) + 1), koef: wave ? koef : -koef)
         }
         for i in 0 ... n1 - 1 {
-            rows[1][2].add(left: Way(type: .a32, len: 2 * (n1 - 1 - i) + 1),
-                           right: i == 0 ? Way.e3 : Way(type: .a32, len: 2 * i),
-                           koef: koef)
+            rows[1][2].add(left: Way(type: .a32, len: 2 * (n1 - 1 - i) + 1), right: Way.beta3(deg: i), koef: koef)
         }
         for i in 0 ... n2 - 1 {
-            rows[2][0].add(left: Way(type: .a13, len: 2 * (n2 - 1 - i) + 1),
-                           right: i == 0 ? Way.e1 : Way(type: .a13, len: 2 * i),
-                           koef: koef)
+            rows[2][0].add(left: Way(type: .a13, len: 2 * (n2 - 1 - i) + 1), right: Way.beta1(deg: i), koef: koef)
         }
         for i in 0 ... n2 - 1 {
-            rows[2][2].add(left: i == 0 ? Way.e3 : Way(type: .a31, len: 2 * i),
-                           right: Way(type: .a13, len: 2 * (n2 - 1 - i) + 1),
-                           koef: wave ? koef : -koef)
+            rows[2][2].add(left: Way.alpha3(deg: i), right: Way(type: .a13, len: 2 * (n2 - 1 - i) + 1), koef: wave ? koef : -koef)
         }
         putFi(from: (0, 0), to: (0, 3), koef: 1)
     }

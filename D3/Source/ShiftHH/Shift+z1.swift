@@ -25,8 +25,7 @@ extension ShiftHH {
     private func shiftZ11() {
         let n3 = PathAlg.n3
         for i in 0 ... n3 - 1 {
-            matrix.rows[0][0].add(left: i == 0 ? Way.e1 : Way(type: .a12, len: 2 * i),
-                                  right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: -1)
+            matrix.rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: -1)
         }
         matrix.putFi(from: (0, 0), to: (0, 3), koef: 1)
 

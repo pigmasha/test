@@ -181,4 +181,8 @@ final class GenCreate {
         }
         return nil
     }
+
+    func printIm() {
+        PrintUtils.printImRows("Im rows", imRows);
+    }
 }
