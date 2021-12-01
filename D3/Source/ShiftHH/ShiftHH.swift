@@ -10,11 +10,13 @@ final class ShiftHH {
     let hhDeg: Int
     let shiftDeg: Int
     let matrix: Matrix
+    let hhLabel: String
     private var multErr = false
 
     init(gen: Gen) {
         hhDeg = gen.deg
         shiftDeg = 0
+        hhLabel = gen.label
         let qTo = BimodQ(deg: 0)
         let qFrom = BimodQ(deg: hhDeg)
         matrix = Matrix(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
@@ -33,6 +35,7 @@ final class ShiftHH {
     init(nextAfter shift: ShiftHH) {
         hhDeg = shift.hhDeg
         shiftDeg = shift.shiftDeg + 1
+        hhLabel = shift.hhLabel
         matrix = Matrix(zeroMatrix: BimodQ(deg: hhDeg + shiftDeg).pij.count, h: BimodQ(deg: shiftDeg).pij.count)
 
         let mult = Matrix(mult: shift.matrix, and: Diff(deg: shift.hhDeg + shift.shiftDeg))
@@ -40,7 +43,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        _ = shiftE0("e1")
+        _ = shiftU0(hhLabel)
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -62,6 +65,7 @@ final class ShiftHH {
     init(gen: Gen, shiftDeg: Int) {
         hhDeg = gen.deg
         self.shiftDeg = shiftDeg
+        self.hhLabel = gen.label
         matrix = Matrix(zeroMatrix: 3 * (hhDeg + shiftDeg + 1), h: 3 * (shiftDeg + 1))
         if shiftC00(gen.label) { return }
         if shiftX00(gen.label) { return }
@@ -83,8 +87,8 @@ final class ShiftHH {
         let strForWay: (Way) -> String = { w in
             return w.len == 0 ? "Way.e" + w.startVertex.str : "Way(type: .a\(w.endArr.str), len: \(w.len))"
         }
-        for i in 0 ..< matrix.height {
-            for j in 0 ..< matrix.width {
+        for j in 0 ..< matrix.width {
+            for i in 0 ..< matrix.height {
                 let c = matrix.rows[i][j]
                 for (k, t) in c.contents {
                     OutputFile.writeLog(.simple, "matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")

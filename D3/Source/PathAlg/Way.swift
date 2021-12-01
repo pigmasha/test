@@ -273,7 +273,7 @@ final class Way {
 
     func isEq(_ other: Way) -> Bool {
         if isZero || other.isZero { return false }
-        if len == 0 { return startVertex == other.startVertex }
+        if len == 0 { return other.len == 0 && startVertex == other.startVertex }
         switch endArr {
         case .a21:
             if len == 2 * PathAlg.n3 && other.len == 2 * PathAlg.n1 && other.endArr == .a23 { return true }

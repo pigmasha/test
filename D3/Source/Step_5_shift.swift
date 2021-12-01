@@ -8,10 +8,10 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check(labels: ["e1"])
+        //return check(labels: ["u1"])
         let ee = GenCreate.allElements
         for e in ee {
-            if e.label != "e1" { continue }
+            if e.label != "u1" { continue }
             OutputFile.writeLog(.normal, e.str)
             let s0 = ShiftHH(gen: e)
             if let err = s0.check() {
@@ -62,6 +62,15 @@ struct Step_5_shift {
         return false
     }
 
+    private static func check() -> Bool {
+        let ee = GenCreate.allElements
+        for e in ee {
+            if e.label == "1" { continue }
+            if check(elem: e) { return true }
+        }
+        return false
+    }
+
     private static func check(deg: Int) -> Bool {
         let ee = GenCreate.allElements
         for e in ee {
@@ -86,7 +95,8 @@ struct Step_5_shift {
             return true
         }
         var ss = s0
-        for d in 1 ... 20 {
+        let M = PathAlg.N == 3 ? 30 : 20
+        for d in 1 ... M {
             let s1 = ShiftHH(gen: e, shiftDeg: d)
             if s1.matrix.isZero { break }
             if let err = s1.check() {

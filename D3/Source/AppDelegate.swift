@@ -193,7 +193,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func threadCase() {
-        isErr = RunCase.runCase()
+        if NumInt.isZero(n: PathAlg.n1) || NumInt.isZero(n: PathAlg.n2) || NumInt.isZero(n: PathAlg.n3) {
+            isErr = false
+        } else {
+            isErr = RunCase.runCase()
+        }
         performSelector(onMainThread: #selector(finishCase), with: nil, waitUntilDone: false)
     }
 

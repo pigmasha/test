@@ -14,7 +14,7 @@ final class GenCreate {
             Gen(label: "c12", deg: 0, elem: [(1, Way.alpha1), (1, Way.beta2), (0, Way.zero)]),
             Gen(label: "c23", deg: 0, elem: [(0, Way.zero), (1, Way.alpha2), (1, Way.beta3)]),
             Gen(label: "c31", deg: 0, elem: [(1, Way.beta1), (0, Way.zero), (1, Way.alpha3)])
-        ] + deg1Gens + deg2Gens + [
+        ] + deg1Gens  + [
             Gen(label: "e", deg: 4, elem: [(1, Way.e1), (1, Way.e2), (1, Way.e3),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
@@ -29,7 +29,7 @@ final class GenCreate {
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (1, Way.e1), (1, Way.e2), (1, Way.e3)])
-        ]
+        ] + deg2Gens
     }
 
     private static var deg1Gens: [Gen] {

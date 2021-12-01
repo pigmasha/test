@@ -67,6 +67,10 @@ class Matrix {
         return true
     }
 
+    var isNil: Bool {
+        return combs.isEmpty
+    }
+
     var width: Int {
         return combs.last?.count ?? 0
     }
