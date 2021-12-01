@@ -120,6 +120,7 @@
 				0CCC4E2327394FD3004B90D3 /* Dim.swift */,
 				0C9FD966273D3EF800520F26 /* Gen.swift */,
 				0C9FD968273D408D00520F26 /* GenCreate.swift */,
+				0C68074F2757BD01006B2AD3 /* GenElement.swift */,
 				0C68074B2757A8F0006B2AD3 /* GensByDeg.swift */,
 				0C538FF8270495B000FB8DA8 /* OutputFile.swift */,
 				0CDE65302709DCC500690C25 /* PElements.swift */,
@@ -127,7 +128,6 @@
 				0CF5232C2717084D0059CC1A /* PrintUtils.swift */,
 				0C68074D2757A979006B2AD3 /* Relations.swift */,
 				0CD8969C27259C6400354CFE /* Utils.swift */,
-				0C68074F2757BD01006B2AD3 /* GenElement.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
