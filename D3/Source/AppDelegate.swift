@@ -188,16 +188,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func startCase() {
+        if !NumInt.isZero(n: PathAlg.n1) || NumInt.isZero(n: PathAlg.n2) || NumInt.isZero(n: PathAlg.n3) {
+            performSelector(onMainThread: #selector(finishCase), with: nil, waitUntilDone: false)
+            return
+        }
         addInfoStr("n1=\(PathAlg.n1), n2=\(PathAlg.n2), n3=\(PathAlg.n3) char=\(PathAlg.charK)")
         performSelector(inBackground: #selector(threadCase), with: nil)
     }
 
     @objc func threadCase() {
-        if NumInt.isZero(n: PathAlg.n1) || NumInt.isZero(n: PathAlg.n2) || NumInt.isZero(n: PathAlg.n3) {
-            isErr = false
-        } else {
-            isErr = RunCase.runCase()
-        }
+        isErr = RunCase.runCase()
         performSelector(onMainThread: #selector(finishCase), with: nil, waitUntilDone: false)
     }
 

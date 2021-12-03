@@ -206,7 +206,7 @@ final class MultEnvironment {
     let deg0Elements: [Gen]
 
     init?() {
-        let elementsOrder = ["c12", "c23", "c31", "z1", "w", "e", "e1", "e2", "x12", "x23", "x31", "u1", "u2"]
+        let elementsOrder = ["c12", "c23", "c31", "z1", "w", "e", "h1", "h2", "x12", "x23", "x31", "u1", "u2"]
         var labelToOrderMap: [String: Int] = [:]
         var orderToLabelMap: [Int: String] = [:]
         for i in 0 ..< elementsOrder.count {

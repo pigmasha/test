@@ -14,17 +14,17 @@ final class GenCreate {
             Gen(label: "c12", deg: 0, elem: [(1, Way.alpha1), (1, Way.beta2), (0, Way.zero)]),
             Gen(label: "c23", deg: 0, elem: [(0, Way.zero), (1, Way.alpha2), (1, Way.beta3)]),
             Gen(label: "c31", deg: 0, elem: [(1, Way.beta1), (0, Way.zero), (1, Way.alpha3)])
-        ] + deg1Gens  + [
+        ] + deg1Gens + deg3Gens + [
             Gen(label: "e", deg: 4, elem: [(1, Way.e1), (1, Way.e2), (1, Way.e3),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "e1", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+            Gen(label: "h1", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (1, Way.e1), (1, Way.e2), (1, Way.e3),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "e2", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+            Gen(label: "h2", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (0, Way.zero), (0, Way.zero), (0, Way.zero),
@@ -52,9 +52,9 @@ final class GenCreate {
         if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) && NumInt.isZero(n: n3) {
             gg = [w23, w31, w12]
         } else if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
-            gg = [w23, w31, x1]
+            gg = [w23, w31] + (n3 == 1 ? [] : [x1])
         } else if NumInt.isZero(n: n1) {
-            gg = [w23, x1, x3]
+            gg = [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
         } else {
             gg = [w]
         }
@@ -73,6 +73,9 @@ final class GenCreate {
         let x31 = Gen(label: "x31", deg: 2, elem: [(-1, Way.beta1), (0, Way.zero), (1, Way.alpha3),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero)])
+        let q = Gen(label: "q", deg: 2, elem: [(1, Way.alpha1(deg: n3)), (0, Way.zero), (0, Way.zero),
+                                               (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                               (0, Way.zero), (0, Way.zero)])
         return (n3 == 1 ? [] : [x12]) + (n1 == 1 ? [] : [x23]) + (n2 == 1 ? [] : [x31]) + [
             Gen(label: "u1", deg: 2, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero),
                                             (1, Way(type: .a12, len: 2 * n3 - 1)),
@@ -84,7 +87,23 @@ final class GenCreate {
                                             (1, Way(type: .a21, len: 2 * n3 - 1)),
                                             (1, Way(type: .a32, len: 2 * n1 - 1)),
                                             (1, Way(type: .a13, len: 2 * n2 - 1))])
-        ]
+        ] + (NumInt.isZero(n: n1) ? [q] : [])
+    }
+
+    private static var deg3Gens: [Gen] {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        if !NumInt.isZero(n: n1) { return [] }
+        if NumInt.isZero(n: n2) || NumInt.isZero(n: n3) { return [] }
+        let w23 = Gen(label: "w23_h", deg: 3, elem: [(0, Way.zero), (1, Way(type: .a23, len: 1)),
+                                                     (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                     (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        let x1 = Gen(label: "x1_h", deg: 3, elem: [(1, Way(type: .a12, len: 3)), (0, Way.zero),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        let x3 = Gen(label: "x3_h", deg: 3, elem: [(0, Way.zero), (0, Way.zero), (1, Way(type: .a31, len: 3)),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                   (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        return [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
     }
 
     private var imRows: [[(Int, Way)]] = []
@@ -146,7 +165,7 @@ final class GenCreate {
             imRk = KoefIntMatrix(im: im.rows).rank
             imRows = im.rows
         }
-        if imRows[0].count != elem.elem.count { return "checkNotIm: Bad elem count, im width=\(imRows[0].count)" }
+        if !imRows.isEmpty && imRows[0].count != elem.elem.count { return "checkNotIm: Bad elem count, im width=\(imRows[0].count)" }
         for i in 0 ..< elem.elem.count {
             if elem.elem[i].0 == 0 { continue }
             let w = elem.elem[i].1

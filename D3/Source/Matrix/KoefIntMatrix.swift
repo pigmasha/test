@@ -16,6 +16,7 @@ final class KoefIntMatrix {
     init(im: [[(Int, Way)]]) {
         items = []
         ways = []
+        if im.isEmpty { return }
         var transpItems: [[NumInt]] = []
         for j in 0 ..< im[0].count {
             var colWays: [Way] = []
@@ -57,6 +58,7 @@ final class KoefIntMatrix {
     }
 
     var rank: Int {
+        if items.isEmpty { return 0 }
         var nLineOfColumnPos: [NumInt2] = []
         for _ in 0 ..< items[0].count { nLineOfColumnPos += [ NumInt2(n: -1) ] }
         let nCols = items[0].count

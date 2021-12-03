@@ -43,7 +43,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        _ = shiftU0(hhLabel)
+        _ = shiftX0(hhLabel)
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -71,8 +71,10 @@ final class ShiftHH {
         if shiftX00(gen.label) { return }
         if shiftU0(gen.label) { return }
         if shiftE0(gen.label) { return }
+        if shiftX0(gen.label) { return }
+        if shiftW00(gen.label) { return }
         switch gen.label {
-        case "w": shiftW()
+        case "q": shiftQ()
         case "z1": shiftZ1()
         default: break
         }
@@ -171,15 +173,18 @@ final class ShiftHH {
         for i in 0 ..< mult.height {
             if mult.rows[i][0].isZero { continue }
             let c = mult.rows[i][0]
-            var j0 = -1
-            for j in 0 ..< diff.rows[i].count {
-                if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) { j0 = j; break }
+            for m in 1 ... 3 {
+                for j in 0 ..< diff.rows[i].count {
+                    if m == 1 && j != column { continue }
+                    if m == 2 && (j - column) % 3 != 0 { continue }
+                    if m == 3 && (j - column) % 3 == 0 { continue }
+                    guard matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) else { continue }
+                    matrix.rows[j][column].add(comb: divide(comb: c,  by: diff.rows[i][j]))
+                    let m1 = Matrix(mult: diff, and: matrix, column: column)
+                    if m1.numberOfDifferents(with: mult) == 0 { return true }
+                    matrix.rows[j][column].clear()
+                }
             }
-            if j0 == -1 { continue }
-            matrix.rows[j0][column].add(comb: divide(comb: c,  by: diff.rows[i][j0]))
-            let m1 = Matrix(mult: diff, and: matrix, column: column)
-            if m1.numberOfDifferents(with: mult) == 0 { return true }
-            matrix.rows[j0][column].clear()
         }
         return false
     }

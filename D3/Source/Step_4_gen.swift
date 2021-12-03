@@ -8,7 +8,7 @@ import Foundation
 
 struct Step_4_gen {
     static func runCase() -> Bool {
-        searchGen(deg: 12)
+        searchGen(deg: 3)
         return false
     }
 
@@ -28,16 +28,15 @@ struct Step_4_gen {
             searchInDeg(deg: deg, allElements: allElements, checker: checker, gens: &gens)
         }
         multDeg0(allElements: allElements, inImChecker: inImChecker, checker: checker, gens: &gens)
-
-        gens.forEach { OutputFile.writeLog(.normal, $0.str) }
         if gens.count == Dim.dimHH(deg) {
             OutputFile.writeLog(.normal, "Dim ok!")
             //checker.printIm()
             return
         } else {
-            OutputFile.writeLog(.error, "Dim not ok!")
+            gens.forEach { OutputFile.writeLog(.normal, $0.str) }
+            OutputFile.writeLog(.error, "Dim not ok! Has \(gens.count) elements, need \(Dim.dimHH(deg))")
         }
-        //searchAllVariants(deg: deg, checker: checker, gens: &gens)
+        searchAllVariants(deg: deg, checker: checker, gens: &gens)
     }
 
     private static func searchInLessDeg(deg: Int, allElements: [Gen], inImChecker: GenCreate, checker: GenCreate, gens: inout [Gen]) {
@@ -95,12 +94,11 @@ struct Step_4_gen {
                 elem1[i] = (1, w)
                 let g = Gen(label: "S1/\(gens.count)", deg: deg, elem: elem1)
                 if checker.check(g) == nil {
+                    OutputFile.writeLog(.normal, "Add \(g.str)")
                     gens.append(g)
                 } else if GenCreate(deg: deg).check(g) != nil {
                     line.append((1, w))
                     line.append((-1, w))
-                    //line.append((2, w))
-                    //line.append((-2, w))
                 }
                 elem1[i] = (0, Way.zero)
             }
@@ -118,10 +116,9 @@ struct Step_4_gen {
             let g = Gen(label: "S/\(gens.count)", deg: deg, elem: elem)
             if checker.check(g) == nil {
                 gens.append(g)
+                OutputFile.writeLog(.normal, "Add \(g.str)")
             }
         }
-        //knownElements.forEach { OutputFile.writeLog(.normal, $0.str) }
-        //gens.append(contentsOf: knownElements)
         gens.forEach { OutputFile.writeLog(.normal, $0.str) }
     }
 
@@ -163,12 +160,16 @@ struct Step_4_gen {
         if checker.check(g0) == nil { return g0 }
         if checkUnknownElement(g0: g0, inImChecker: inImChecker, gens: gens) { return nil }
         OutputFile.writeLog(.error, "Unknown element " + g0.str)
+        checker.printIm()
         return nil
     }
 
     private static func checkUnknownElement(g0: Gen, inImChecker: GenCreate, gens: [Gen]) -> Bool {
         let relations: [(String, String, String, Int)] = [
-            ("w * u2", "z1 * u2", "(n1*n2+n2*n3+n3*n1)", PathAlg.n1 * PathAlg.n2 + PathAlg.n2 * PathAlg.n3 + PathAlg.n3 * PathAlg.n1)
+            ("w * u2", "z1 * u2", "(n1*n2+n2*n3+n3*n1)", PathAlg.n1 * PathAlg.n2 + PathAlg.n2 * PathAlg.n3 + PathAlg.n3 * PathAlg.n1),
+            ("w23 * u2", "z1 * u2", "1", 1), // 3, n1 = 0
+            ("c31 * x3_h", "x3 * x31", "-1", -1), // 3, n1 = 0
+            ("c12 * x1_h", "x1 * x12", "-1", -1) // 3, n1 = 0
         ]
         for r in relations {
             if g0.label != r.0 { continue }
@@ -181,9 +182,12 @@ struct Step_4_gen {
                     e.append((p0.0, Way(way: p0.1)));
                     continue
                 }
-                if p0.0 == 0 { fatalError() }
-                if !p0.1.isEq(p1.1) { fatalError() }
                 let k = p0.0 - r.3 * p1.0
+                if p0.0 == 0 {
+                    e.append((k, k == 0 ? Way.zero : Way(way: p1.1)));
+                    continue
+                }
+                if !p0.1.isEq(p1.1) { fatalError() }
                 e.append((k, k == 0 ? Way.zero : Way(way: p0.1)))
             }
             let g2 = Gen(label: g0.label + " = " + r.2 + " * " + g1.label, deg: g0.deg, elem: e)
@@ -220,6 +224,6 @@ struct Step_4_gen {
     }
 
     private static func printZeroMult(_ multLabel: String) {
-        OutputFile.writeLog(.normal, multLabel + " = 0");
+        //OutputFile.writeLog(.normal, multLabel + " = 0");
     }
 }
