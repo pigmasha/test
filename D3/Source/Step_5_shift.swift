@@ -8,10 +8,10 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check(labels: ["u2_h"])
+        return check(labels: ["u1_h"])
         let ee = GenCreate.allElements
         for e in ee {
-            if e.label != "u2_h" { continue }
+            if e.label != "u1_h" { continue }
             OutputFile.writeLog(.normal, e.str)
             let s0 = ShiftHH(gen: e)
             if let err = s0.check() {

@@ -21,7 +21,7 @@ final class ShiftHH {
         let qFrom = BimodQ(deg: hhDeg)
         matrix = Matrix(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
         for j in 0 ..< gen.elem.count {
-            let i = j % qTo.pij.count
+            let i = (hhLabel == "u1_h" ? j + 1 : j) % qTo.pij.count
             if qFrom.pij[j].1 == qTo.pij[i].1 {
                 matrix.rows[i][j].add(left: gen.elem[j].1, right: Way(vertexType: qFrom.pij[j].1), koef: gen.elem[j].0)
             } else {
@@ -201,14 +201,13 @@ final class ShiftHH {
         for i in 0 ..< mult.height {
             if mult.rows[i][0].isZero { continue }
             let c = mult.rows[i][0]
-            for m in 1 ... 3 {
+            for m in 1 ... 4 {
                 for j in 0 ..< diff.rows[i].count {
                     //let j = diff.rows[i].count - 1 - j0
-                    //if shiftDeg % 2 == 1 && column == 14 && j == 0 { continue }
-                    //if shiftDeg % 2 == 1 && column == 12 && j == 1 { continue }
                     if m == 1 && j != column { continue }
-                    if m == 2 && (column - j) % 3 != 2 { continue }
-                    if m == 3 && (column - j) % 3 == 2 { continue }
+                    if m == 2 && (column - j) % 3 != 0 { continue }
+                    if m == 3 && (column - j) % 3 != 1 { continue }
+                    if m == 4 && (column - j) % 3 != 2 { continue }
                     guard matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) else { continue }
                     matrix.rows[j][column].add(comb: divide(comb: c,  by: diff.rows[i][j]))
                     let m1 = Matrix(mult: diff, and: matrix, column: column)
