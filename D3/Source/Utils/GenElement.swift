@@ -12,8 +12,13 @@ struct GenElement {
     let matrix: Matrix
 
     var gen: Gen? {
+        return GenElement.gen(for: matrix, deg: deg, label: "\(items)")
+
+    }
+
+    static func gen(for matrix: Matrix, deg: Int, label: String = "G") -> Gen? {
         let im = ImMatrix(mult: matrix)
-        return im.rows.isEmpty ? nil : Gen(label: "\(items)", deg: deg, elem: im.rows[0])
+        return im.rows.isEmpty ? nil : Gen(label: label, deg: deg, elem: im.rows[0])
     }
 }
 

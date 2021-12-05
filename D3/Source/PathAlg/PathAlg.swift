@@ -49,6 +49,7 @@ final class PathAlg {
     static let alg = PathAlg()
     var currentType = 0
     var currentStep = 0
+    var someNumber = 0
     private var n1 = 0
     private var n2 = 0
     private var n3 = 0

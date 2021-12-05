@@ -10,8 +10,8 @@ struct Step_7_mult {
     static func runCase() -> Bool {
         guard let env = MultEnvironment() else { return true }
         var gensByDeg: [[GenElement]] = []
-        let degMax = PathAlg.N == 3 ? 50 : 30
-        for deg in 0 ..< degMax {
+        let degMax = PathAlg.N == 3 ? 50 : PathAlg.alg.someNumber
+        for deg in 0 ... degMax {
             let items: [GenElement]
             if let gens = GensByDeg.gens(for: deg) {
                 if gens.count != Dim.dimHH(deg) {
@@ -21,9 +21,12 @@ struct Step_7_mult {
                 guard let ii = process(gens: gens, deg: deg, env) else { return true }
                 items = ii
             } else {
-                guard let ii = searchElements(deg: deg, gensByDeg: gensByDeg, env) else { return true }
+                let checker = GenCreate(deg: deg)
+                guard let ii = searchElements(deg: deg, gensByDeg: gensByDeg, checker: checker, env) else { return true }
                 if ii.count != Dim.dimHH(deg) {
-                    OutputFile.writeLog(.error, "Bad search gens count for deg \(deg): \(ii.count)")
+                    OutputFile.writeLog(.error, "Bad search gens count for deg \(deg): \(ii.count), need \(Dim.dimHH(deg))")
+                    let gens = searchAllVariants(deg: deg, checker: checker, count: Dim.dimHH(deg) - ii.count)
+                    gens.forEach { OutputFile.writeLog(.normal, $0.str) }
                     return true
                 }
                 items = ii
@@ -101,10 +104,10 @@ struct Step_7_mult {
         arr.append(n)
     }
 
-    private static func searchElements(deg: Int, gensByDeg: [[GenElement]], _ env: MultEnvironment) -> [GenElement]? {
+    private static func searchElements(deg: Int, gensByDeg: [[GenElement]], checker: GenCreate, _ env: MultEnvironment) -> [GenElement]? {
         var ii: [GenElement] = []
-        let checker = GenCreate(deg: deg)
         let knownElements = env.gens.filter { $0.deg == deg && $0.label != "1" }
+        var hasZeros = false
         for g in knownElements {
             if let err = checker.check(g) { OutputFile.writeLog(.error, g.str + ": " + err); return nil }
             guard let ge = genElement(from: [g.label], deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
@@ -115,14 +118,19 @@ struct Step_7_mult {
                 while true {
                     labels = multLabels(labels, [e0Order], env)
                     if isZero(labels, env.zeroRelations) { break }
-                    guard let ge1 = genElement(from: labels.map { env.orderToLabelMap[$0]! }, deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
-                    guard let e1 = ge1.gen else { return nil }
+                    let label0 = labels.map { env.orderToLabelMap[$0]! }
+                    guard let ge1 = genElement(from: label0, deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
+                    guard let e1 = ge1.gen else { printZeroRelation(label0); hasZeros = true; break }
                     if let err = checker.check(e1) { OutputFile.writeLog(.error, e1.str + ": " + err); return nil }
                     ii.append(ge1)
                 }
             }
         }
-        if gensByDeg.count < 2 { return ii }
+        if gensByDeg.count < 2 {
+            if hasZeros { OutputFile.writeLog(.error, "Zero!"); return nil }
+            return ii
+        }
+        let inImChecker = GenCreate(deg: deg)
         for i in 1 ..< gensByDeg.count {
             for j in i ..< gensByDeg.count {
                 if i + j != deg { continue }
@@ -134,22 +142,68 @@ struct Step_7_mult {
                         if ii.d3Contains(labels) { continue }
                         if isZero(labels, env.zeroRelations) { continue }
                         guard let ge1 = genElement(mult: g1, and: g2, labels: labels, env) else { return nil }
-                        guard let e1 = ge1.gen else { return nil }
+                        let labels0 = labels.map { env.orderToLabelMap[$0]! }
+                        guard let e1 = ge1.gen else { printZeroRelation(labels0); hasZeros = true; continue }
                         if let err = checker.check(e1) {
-                            let lll = "\(labels.map { env.orderToLabelMap[$0]! })"
-                            if GenCreate(deg: deg).checkNotIm(e1, inIm: true) == nil {
-                                OutputFile.writeLog(.normal, "Zero! \(lll)")
+                            if inImChecker.checkNotIm(e1, inIm: true) == nil {
+                                printZeroRelation(labels0)
+                                hasZeros = true
+                                continue
                             }
-                            OutputFile.writeLog(.error, "\(lll):: " + e1.str + ": " + err)
-                            return nil
-
+                            var newRelation = false
+                            for kk in 0 ... 1 {
+                                let koef = kk == 0 ? -1 : 1
+                                for i0 in ii {
+                                    let e2 = i0.gen!
+                                    let k2 = kk == 0 ? e1.eqKoef(e2) : 0
+                                    if k2 != 0 {
+                                        newRelation = true
+                                    } else if let e2 = Gen(sum: e1, and: e2, koef: koef), inImChecker.checkNotIm(e2, inIm: true) == nil {
+                                        newRelation = true
+                                    }
+                                    if newRelation {
+                                        printRelation(labels0, and: i0.items.map { env.orderToLabelMap[$0]! }, koef: k2 != 0 ? k2 : -koef)
+                                        break
+                                    }
+                                }
+                                if newRelation { break }
+                            }
+                            if newRelation {
+                                hasZeros = true
+                            } else {
+                                OutputFile.writeLog(.error, "\(labels0):: " + e1.str + ": " + err)
+                                return nil
+                            }
                         }
                         ii.append(ge1)
                     }
                 }
             }
         }
+        if hasZeros { OutputFile.writeLog(.error, "Zero!"); return nil }
         return ii
+    }
+
+    private static func printZeroRelation(_ labels: [String]) {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        var s = "\(labels),"
+        if n3 > 1 {
+            let c12_n3_1 = "[" + (0 ..< n3 - 1).map { _ in "c12" }.joined(separator: "\", \"")
+            s = s.replacingOccurrences(of: c12_n3_1, with: "c12_n3_1 + [")
+        }
+        if n1 > 1 {
+            let c23_n1_1 = "[" + (0 ..< n1 - 1).map { _ in "c23" }.joined(separator: "\", \"")
+            s = s.replacingOccurrences(of: c23_n1_1, with: "c23_n1_1 + [")
+        }
+        if n2 > 1 {
+            let c31_n2_1 = "[" + (0 ..< n2 - 1).map { _ in "c31" }.joined(separator: "\", \"")
+            s = s.replacingOccurrences(of: c31_n2_1, with: "c31_n2_1 + [")
+        }
+        OutputFile.writeLog(.normal, s)
+    }
+
+    private static func printRelation(_ labels: [String], and labels2: [String], koef: Int) {
+        OutputFile.writeLog(.normal, "(\"\(labels.joined(separator: " * "))\", \"\(labels2.joined(separator: " * "))\", \"\(koef)\", \(koef)), ")
     }
 
     private static func multLabels(_ g1: [Int], _ g2: [Int], _ env: MultEnvironment) -> [Int] {
@@ -194,6 +248,50 @@ struct Step_7_mult {
         }
         return true
     }
+
+    private static func searchAllVariants(deg: Int, checker: GenCreate, count: Int) -> [Gen] {
+        var gens: [Gen] = []
+        var variants: [[(Int, Way)]] = []
+        let q = BimodQ(deg: deg)
+        var elem1: [(Int, Way)] = []
+        q.pij.forEach { _ in elem1.append((0, Way.zero)) }
+        for i in 0 ..< q.pij.count {
+            let p = q.pij[i]
+            let ways = i < 15 ? [] : Way.allWays(from: p.1, to: p.0)
+            var line: [(Int, Way)] = [(0, Way.zero)]
+            for w in ways {
+                elem1[i] = (1, w)
+                let g = Gen(label: "S1/\(gens.count)", deg: deg, elem: elem1)
+                if checker.check(g) == nil {
+                    OutputFile.writeLog(.normal, "Add \(g.str)")
+                    gens.append(g)
+                } else if GenCreate(deg: deg).check(g) != nil {
+                    line.append((1, w))
+                    line.append((-1, w))
+                }
+                elem1[i] = (0, Way.zero)
+            }
+            variants.append(line)
+        }
+        if gens.count == count { return gens }
+        var sz = 1
+        variants.forEach { sz *= $0.count }
+        for s in 1 ..< sz {
+            var elem: [(Int, Way)] = []
+            var pos = s
+            for v in variants {
+                elem.append(v[pos % v.count])
+                pos /= v.count
+            }
+            let g = Gen(label: "S/\(gens.count)", deg: deg, elem: elem)
+            if checker.check(g) == nil {
+                gens.append(g)
+                if gens.count == count { return gens }
+                OutputFile.writeLog(.normal, "Add \(g.str)")
+            }
+        }
+        return gens
+    }
 }
 
 final class MultEnvironment {
@@ -206,7 +304,7 @@ final class MultEnvironment {
     let deg0Elements: [Gen]
 
     init?() {
-        let elementsOrder = ["c12", "c23", "c31", "z1", "w", "e", "h1", "h2", "x12", "x23", "x31", "u1", "u2"]
+        let elementsOrder = MultEnvironment.elementsOrder
         var labelToOrderMap: [String: Int] = [:]
         var orderToLabelMap: [Int: String] = [:]
         for i in 0 ..< elementsOrder.count {
@@ -217,12 +315,40 @@ final class MultEnvironment {
         self.orderToLabelMap = orderToLabelMap
         gens = GenCreate.allElements
         var gensMap: [String: Gen] = [:]
-        for g in gens { gensMap[g.label] = g }
+        for g in gens {
+            gensMap[g.label] = g
+            if g.label != "1" && labelToOrderMap[g.label] == nil {
+                OutputFile.writeLog(.error, "No order for gen " + g.label)
+                return nil
+            }
+        }
         self.gensMap = gensMap
         if !Relations.checkZeroRelations(labelToOrderMap, gensMap) { return nil }
         if !Relations.checkRelations(labelToOrderMap, gensMap) { return nil }
         deg0Elements = gens.filter { $0.deg == 0 && $0.label != "1" }
         zeroRelations = Relations.zeroRelations(labelToOrderMap)
         relations = Relations.relations(labelToOrderMap)
+    }
+
+    private static var elementsOrder: [String] {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        let d1: [String]
+        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) && NumInt.isZero(n: n3) {
+            d1 = ["w23", "w31", "w12"]
+        } else if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+            d1 = ["w23", "w31", "x1"]
+        } else if NumInt.isZero(n: n1) {
+            d1 = ["w23", "x1", "x3"]
+        } else {
+            d1 = ["w"]
+        }
+        let d2: [String]
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+            d2 = ["w23_h", "x1_h", "x3_h"]
+        } else {
+            d2 = []
+        }
+        return ["c12", "c23", "c31", "z1"] + d1 + d2 + ["e", "e1_h", "e2_h", "x12", "x23", "x31", "u1", "u2"]
+        + (NumInt.isZero(n: n1) ? ["u1_h", "u2_h", "q"] : [])
     }
 }

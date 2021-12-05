@@ -76,6 +76,7 @@ final class ImMatrix {
             case .ok(let k, let w):
                 line.append((k, w))
             case .error(let error):
+                OutputFile.writeLog(.error, error)
                 fatalError(error)
             }
         }

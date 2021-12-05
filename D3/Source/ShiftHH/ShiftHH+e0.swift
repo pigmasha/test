@@ -13,10 +13,10 @@ extension ShiftHH {
         case "e":
             shiftDeg % 2 == 0 ? shiftEEven() : shiftEOdd()
             return true
-        case "h1":
+        case "e1_h":
             shiftDeg % 2 == 0 ? shiftE1Even() : shiftE1Odd()
             return true
-        case "h2":
+        case "e2_h":
             shiftDeg % 2 == 0 ? shiftE2Even() : shiftE2Odd()
             return true
         default:

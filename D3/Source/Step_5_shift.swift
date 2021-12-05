@@ -8,10 +8,10 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check(labels: ["x3_h"])
+        return check(labels: ["u2_h"])
         let ee = GenCreate.allElements
         for e in ee {
-            if e.label != "x3_h" { continue }
+            if e.label != "u2_h" { continue }
             OutputFile.writeLog(.normal, e.str)
             let s0 = ShiftHH(gen: e)
             if let err = s0.check() {
@@ -28,7 +28,7 @@ struct Step_5_shift {
                 return true
             }
             var ss = s0
-            for d in 1 ... 30 {
+            for d in 1 ... PathAlg.alg.someNumber {
                 //OutputFile.writeLog(.bold, "Shift \(d)")
                 let s1 = ShiftHH(nextAfter: ss)
                 let myS1 = ShiftHH(gen: e, shiftDeg: d)
@@ -39,13 +39,14 @@ struct Step_5_shift {
                     OutputFile.writeLog(.error, "Check shift \(d) error: " + err)
                     return true
                 }
-                //s1.print()
                 if s1.matrix.numberOfDifferents(with: myS1.matrix) != 0 {
                     s1.print()
-                    PrintUtils.printMatrix("My Shift", myS1.matrix)
+                    if !myS1.matrix.isZero {
+                        PrintUtils.printMatrix("My Shift", myS1.matrix)
+                    }
                     s1.printProgram()
                     OutputFile.writeLog(.error, "numberOfDifferents \(s1.matrix.numberOfDifferents(with: myS1.matrix))")
-                    return true
+                    //return true
                 }
                 ss = s1
             }
@@ -95,7 +96,7 @@ struct Step_5_shift {
             return true
         }
         var ss = s0
-        let M = PathAlg.N == 3 ? 30 : 20
+        let M = PathAlg.n2 + PathAlg.n3 == 2 ? 30 : PathAlg.alg.someNumber
         for d in 1 ... M {
             let s1 = ShiftHH(gen: e, shiftDeg: d)
             if s1.matrix.isZero { break }

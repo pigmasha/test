@@ -19,17 +19,17 @@ final class GenCreate {
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "h1", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (1, Way.e1), (1, Way.e2), (1, Way.e3),
-                                           (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
-            Gen(label: "h2", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (0, Way.zero), (0, Way.zero), (0, Way.zero),
-                                            (1, Way.e1), (1, Way.e2), (1, Way.e3)])
-        ] + deg2Gens
+            Gen(label: "e1_h", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (1, Way.e1), (1, Way.e2), (1, Way.e3),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
+            Gen(label: "e2_h", deg: 6, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (1, Way.e1), (1, Way.e2), (1, Way.e3)])
+        ] + deg2Gens + deg7Gens
     }
 
     private static var deg1Gens: [Gen] {
@@ -106,6 +106,31 @@ final class GenCreate {
         return [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
     }
 
+    private static var deg7Gens: [Gen] {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        if !NumInt.isZero(n: n1) { return [] }
+        if NumInt.isZero(n: n2) || NumInt.isZero(n: n3) { return [] }
+        return [
+            Gen(label: "u1_h", deg: 7, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (1, Way(type: .a12, len: 2 * n3 - 1)),
+                                              (1, Way(type: .a23, len: 2 * n1 - 1)),
+                                              (1, Way(type: .a31, len: 2 * n2 - 1)),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)]),
+            Gen(label: "u2_h", deg: 7, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (1, Way(type: .a21, len: 2 * n3 - 1)),
+                                              (1, Way(type: .a32, len: 2 * n1 - 1)),
+                                              (1, Way(type: .a13, len: 2 * n2 - 1)),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                              (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        ]
+    }
+
     private var imRows: [[(Int, Way)]] = []
     private var imRk = -1
     private let deg: Int
@@ -158,7 +183,7 @@ final class GenCreate {
         return nil
     }
 
-    func checkNotIm(_ elem: Gen, inIm: Bool = false) -> String? {
+    func checkNotIm(_ elem: Gen, inIm: Bool = false, log: Bool = false) -> String? {
         if elem.deg == 0 { return nil }
         if imRk == -1 {
             let im = ImMatrix(diff: Diff(deg: elem.deg - 1))
@@ -182,7 +207,7 @@ final class GenCreate {
             }*/
         }
         imRows.append(elem.elem)
-        //if inIm { PrintUtils.printImRows("Im", imRows); PrintUtils.printKoefIntMatrix("KK", KoefIntMatrix(im: imRows)) }
+        if log { PrintUtils.printImRows("Im", imRows); PrintUtils.printKoefIntMatrix("KK", KoefIntMatrix(im: imRows)) }
         let addRk = KoefIntMatrix(im: imRows).rank
         if inIm {
             _ = imRows.popLast()

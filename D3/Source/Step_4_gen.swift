@@ -8,7 +8,7 @@ import Foundation
 
 struct Step_4_gen {
     static func runCase() -> Bool {
-        searchGen(deg: 3)
+        searchGen(deg: PathAlg.alg.someNumber)
         return false
     }
 
@@ -148,7 +148,7 @@ struct Step_4_gen {
             if k != 0 {
                 if found { OutputFile.writeLog(.error, "Same elements " + g.str) }
                 found = true
-                OutputFile.writeLog(.normal, g0.label + " = \(k) * " + g.label)
+                OutputFile.writeLog(.normal, "Rel: " + g0.label + " = \(k) * " + g.label)
             }
         }
         if found { return nil }

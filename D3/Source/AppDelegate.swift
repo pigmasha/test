@@ -39,6 +39,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let n3Fields: FieldsTuple = (from: NSTextField(frame: .zero), to: NSTextField(frame: .zero), label: "n3")
     private let charFields: FieldsTuple = (from: NSTextField(frame: .zero), to: NSTextField(frame: .zero), label: "ch")
     private let currentStep = NSTextField(frame: .zero)
+    private let someNumber = NSTextField(frame: .zero)
 
     private let btRun = NSButton(frame: .zero)
     private let btFile = NSButton(frame: .zero)
@@ -59,7 +60,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         self.window?.close()
         self.window = nil
-        intFields = [(currentStep, "currentStep")]
+        intFields = [(currentStep, "currentStep"), (someNumber, "someNumber")]
         tupleFields = [n1Fields, n2Fields, n3Fields, charFields]
         self.mainWindow = MainWindow()
 
@@ -93,6 +94,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         x = 250
         addLabel(to: v, align: .right, autoSz: .minYMargin, x: x, y: y - 3, w: 85, text: "Step")
         addField(currentStep, to: v, autoSz: .minYMargin, x: x + 90, y: y, w: 40)
+
+        addLabel(to: v, align: .right, autoSz: .minYMargin, x: x + 120, y: y - 3, w: 85, text: "Num")
+        addField(someNumber, to: v, autoSz: .minYMargin, x: x + 210, y: y, w: 40)
 
         loadDefaults()
         btOpen.title = path.stringValue.hasSuffix(".tex") ? "Open tex" : "Open html"
@@ -134,6 +138,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard isRun == false else { return }
 
         PathAlg.alg.currentStep = currentStep.integerValue
+        PathAlg.alg.someNumber = someNumber.integerValue
         info?.string = ""
         addInfoStr("     -- " + RunCase.stepTitle + " --")
 

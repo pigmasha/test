@@ -43,7 +43,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        _ = shiftX0(hhLabel)
+        _ = shiftU0h(hhLabel)
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -73,6 +73,7 @@ final class ShiftHH {
         if shiftE0(gen.label) { return }
         if shiftX0(gen.label) { return }
         if shiftW00(gen.label) { return }
+        if shiftU0h(gen.label) { return }
         switch gen.label {
         case "q": shiftQ()
         case "z1": shiftZ1()
@@ -85,15 +86,34 @@ final class ShiftHH {
     }
 
     func printProgram() {
-        OutputFile.writeLog(.simple, "<pre>private func shift\(shiftDeg)() {\n")
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        let capLabel = hhLabel.prefix(1).uppercased() + hhLabel.dropFirst()
+        OutputFile.writeLog(.simple, "<pre>private func shift\(capLabel.replacingOccurrences(of: "_", with: ""))\(shiftDeg)() {\n")
+        OutputFile.writeLog(.simple, "    let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)\n")
         let strForWay: (Way) -> String = { w in
-            return w.len == 0 ? "Way.e" + w.startVertex.str : "Way(type: .a\(w.endArr.str), len: \(w.len))"
+            if w.len == 0 { return "Way.e" + w.startVertex.str }
+            if w.len % 2 == 0 {
+                let len = w.len / 2
+                let s: String
+                let lenStr: String
+                switch w.endArr {
+                case .a12: s = "alpha1"; lenStr = n3 > 1 && len == n3 - 1 ? "n3 - 1" : "\(len)"
+                case .a21: s = "beta2"; lenStr = n3 > 1 && len == n3 - 1 ? "n3 - 1" : "\(len)"
+                case .a32: s = "beta3"; lenStr = n1 > 1 && len == n1 - 1 ? "n1 - 1" : "\(len)"
+                case .a23: s = "alpha2"; lenStr = n1 > 1 && len == n1 - 1 ? "n1 - 1" : "\(len)"
+                case .a31: s = "alpha3"; lenStr = n2 > 1 && len == n2 - 1 ? "n2 - 1" : "\(len)"
+                case .a13: s = "beta1"; lenStr = n2 > 1 && len == n2 - 1 ? "n2 - 1" : "\(len)"
+                }
+                return w.len == 2 ? "Way." + s : "Way." + s + "(deg: \(lenStr))"
+            }
+            let lenStr = n1 > 1 && w.len == 2 * n1 - 1 ? "2 * n1 - 1" : (n2 > 1 && w.len == 2 * n2 - 1 ? "2 * n2 - 1" : (n3 > 1 && w.len == 2 * n3 - 1 ? "2 * n3 - 1" : "\(w.len)"))
+            return "Way(type: .a\(w.endArr.str), len: \(lenStr))"
         }
         for j in 0 ..< matrix.width {
             for i in 0 ..< matrix.height {
                 let c = matrix.rows[i][j]
                 for (k, t) in c.contents {
-                    OutputFile.writeLog(.simple, "matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")
+                    OutputFile.writeLog(.simple, "    matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")
                 }
             }
         }
@@ -147,9 +167,17 @@ final class ShiftHH {
         }
         //PrintUtils.printMatrix("Column \(column)", multC)
 
+        let printSearch = PathAlg.n1 == 0
+        if printSearch { OutputFile.writeLog(.simple, "<table><tr>\n") }
         while true {
-            guard let i0 = multC.rows.firstIndex(where: { !$0[0].isZero }) else { return }
-            if searchOneStepResult(column: column, diff: diff, mult: multC) { return }
+            guard let i0 = multC.rows.firstIndex(where: { !$0[0].isZero }) else {
+                if printSearch { OutputFile.writeLog(.simple, "</tr></table>\n") }
+                return
+            }
+            if searchOneStepResult(column: column, diff: diff, mult: multC, print: printSearch) {
+                if printSearch { OutputFile.writeLog(.simple, "</tr></table>\n") }
+                return
+            }
             let c = multC.rows[i0][0]
             var j0 = -1
             for j in 0 ..< diff.rows[i0].count {
@@ -169,24 +197,34 @@ final class ShiftHH {
         }
     }
 
-    private func searchOneStepResult(column: Int, diff: Matrix, mult: Matrix) -> Bool {
+    private func searchOneStepResult(column: Int, diff: Matrix, mult: Matrix, print: Bool) -> Bool {
         for i in 0 ..< mult.height {
             if mult.rows[i][0].isZero { continue }
             let c = mult.rows[i][0]
             for m in 1 ... 3 {
                 for j in 0 ..< diff.rows[i].count {
+                    //let j = diff.rows[i].count - 1 - j0
+                    //if shiftDeg % 2 == 1 && column == 14 && j == 0 { continue }
+                    //if shiftDeg % 2 == 1 && column == 12 && j == 1 { continue }
                     if m == 1 && j != column { continue }
-                    if m == 2 && (j - column) % 3 != 0 { continue }
-                    if m == 3 && (j - column) % 3 == 0 { continue }
+                    if m == 2 && (column - j) % 3 != 2 { continue }
+                    if m == 3 && (column - j) % 3 == 2 { continue }
                     guard matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) else { continue }
                     matrix.rows[j][column].add(comb: divide(comb: c,  by: diff.rows[i][j]))
                     let m1 = Matrix(mult: diff, and: matrix, column: column)
-                    if m1.numberOfDifferents(with: mult) == 0 { return true }
+                    if m1.numberOfDifferents(with: mult) == 0 {
+                        if print {
+                            PrintUtils.printMatrixColumn("<td>Column \(column)", matrix, column)
+                            OutputFile.writeLog(.simple, "</td>\n")
+                        } else {
+                            return true
+                        }
+                    }
                     matrix.rows[j][column].clear()
                 }
             }
         }
-        return false
+        return print ? searchOneStepResult(column: column, diff: diff, mult: mult, print: false) : false
     }
 
     private func fillDiag(column: Int, diff: Matrix, mult: Matrix) {

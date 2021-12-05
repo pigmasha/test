@@ -30,12 +30,33 @@ final class PrintUtils {
                     suffix = ""
                 } else {
                     let isRed = (redColumns?.contains(j) ?? false) || (redRows?.contains(i) ?? false)
-                    let st = j % 3 == 2 ? " style='border-right:3px solid black;'" : ""
+                    let st1 = j > 0 && j % 3 == 0 ? "border-left:3px solid black;" : ""
+                    let st2 = i > 0 && i % 3 == 0 ? "border-top:3px solid black;" : ""
+                    let st = st1 == "" && st2 == "" ? "" : " style='" + st1 + st2 + "'"
                     prefix = isRed ? "<td" + st + "><font color=red>" : "<td" + st + ">"
                     suffix = isRed ? "</font></td>" : "</td>"
                 }
                 file.write(prefix + line[j].str + suffix)
             }
+            file.writeln(PathAlg.isTex ? "\\\\" : "</tr>")
+        }
+        file.write(PathAlg.isTex ? "\\end{array}\\right)" : "</table><p>")
+    }
+
+    static func printMatrixColumn(_ prefix: String, _ m: Matrix, _ column: Int) {
+        OutputFile.writeLog(.normal, prefix)
+
+        let file = OutputFile()
+        let rows = m.rows
+        if PathAlg.isTex {
+            file.writeln("\\left(\\begin{array}{c}")
+        } else {
+            file.write("<table>")
+        }
+        for i in 0 ..< rows.count {
+            if !PathAlg.isTex { file.write("<tr>") }
+            let prefix = PathAlg.isTex ? "" : "<td" + (i > 0 && i % 3 == 0 ? " style='border-top:3px solid black;'" : "") + ">"
+            file.write(prefix + rows[i][column].str + (PathAlg.isTex ? "" : "</td>"))
             file.writeln(PathAlg.isTex ? "\\\\" : "</tr>")
         }
         file.write(PathAlg.isTex ? "\\end{array}\\right)" : "</table><p>")

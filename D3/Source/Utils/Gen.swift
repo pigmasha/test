@@ -17,6 +17,19 @@ final class Gen {
         self.elem = elem
     }
 
+    init?(sum g1: Gen, and g2: Gen, koef: Int) {
+        if g1.deg != g2.deg { return nil }
+        self.label = g1.label + " + " + g2.label
+        self.deg = g1.deg
+        var arr: [(Int, Way)] = []
+        for i in 0 ..< g1.elem.count {
+            let k = g1.elem[i].0 + koef * g2.elem[i].0
+            if g1.elem[i].0 != 0 && g2.elem[i].0 != 0 && !g1.elem[i].1.isEq(g2.elem[i].1) { return nil }
+            arr.append((k, Way(way: g1.elem[i].0 == 0 ? g2.elem[i].1 : g1.elem[i].1)))
+        }
+        self.elem = arr
+    }
+
     private func label(from s: String) -> String {
         let parts = s.components(separatedBy: " * ")
         if parts.count < 3 || parts[0] != parts[1] { return s }

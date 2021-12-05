@@ -8,12 +8,13 @@ import Foundation
 
 struct GensByDeg {
     static func gens(for deg: Int) -> [[String]]? {
+        let n1Zero = NumInt.isZero(n: PathAlg.n1)
         switch deg {
         case 0: return deg0Gens
-        case 1: return deg1Gens
-        case 2: return deg2Gens
-        case 3: return deg3Gens
-        case 4: return deg4Gens
+        case 1: return n1Zero ? nil : deg1Gens
+        case 2: return n1Zero ? nil : deg2Gens
+        case 3: return n1Zero ? nil : deg3Gens
+        case 4: return n1Zero ? nil : deg4Gens
         default: return nil
         }
     }
