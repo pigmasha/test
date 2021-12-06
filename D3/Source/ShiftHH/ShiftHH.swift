@@ -21,7 +21,7 @@ final class ShiftHH {
         let qFrom = BimodQ(deg: hhDeg)
         matrix = Matrix(zeroMatrix: qFrom.pij.count, h: qTo.pij.count)
         for j in 0 ..< gen.elem.count {
-            let i = (hhLabel == "u1_h" ? j + 1 : j) % qTo.pij.count
+            let i = (hhLabel == "u1" || hhLabel == "u1_h" ? j + 1 : j) % qTo.pij.count
             if qFrom.pij[j].1 == qTo.pij[i].1 {
                 matrix.rows[i][j].add(left: gen.elem[j].1, right: Way(vertexType: qFrom.pij[j].1), koef: gen.elem[j].0)
             } else {
@@ -43,7 +43,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        _ = shiftU0h(hhLabel)
+        _ = shiftU0(hhLabel)
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -73,7 +73,6 @@ final class ShiftHH {
         if shiftE0(gen.label) { return }
         if shiftX0(gen.label) { return }
         if shiftW00(gen.label) { return }
-        if shiftU0h(gen.label) { return }
         switch gen.label {
         case "q": shiftQ()
         case "z1": shiftZ1()
@@ -205,9 +204,11 @@ final class ShiftHH {
                 for j in 0 ..< diff.rows[i].count {
                     //let j = diff.rows[i].count - 1 - j0
                     if m == 1 && j != column { continue }
-                    if m == 2 && (column - j) % 3 != 0 { continue }
-                    if m == 3 && (column - j) % 3 != 1 { continue }
-                    if m == 4 && (column - j) % 3 != 2 { continue }
+                    var c0 = (column - j) % 3
+                    if c0 < 0 { c0 += 3 }
+                    if m == 2 && c0 != 0 { continue }
+                    if m == 3 && c0 != 1 { continue }
+                    if m == 4 && c0 != 2 { continue }
                     guard matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i][j]) else { continue }
                     matrix.rows[j][column].add(comb: divide(comb: c,  by: diff.rows[i][j]))
                     let m1 = Matrix(mult: diff, and: matrix, column: column)
