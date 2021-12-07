@@ -93,9 +93,11 @@ final class GenCreate {
     private static var deg3Gens: [Gen] {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         if !NumInt.isZero(n: n1) { return [] }
-        if NumInt.isZero(n: n2) || NumInt.isZero(n: n3) { return [] }
         let w23 = Gen(label: "w23_h", deg: 3, elem: [(0, Way.zero), (1, Way(type: .a23, len: 1)),
                                                      (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                     (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        let w31 = Gen(label: "w31_h", deg: 3, elem: [(0, Way.zero), (0, Way.zero), (1, Way(type: .a31, len: 1)),
+                                                     (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                      (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
         let x1 = Gen(label: "x1_h", deg: 3, elem: [(1, Way(type: .a12, len: 3)), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
@@ -103,13 +105,16 @@ final class GenCreate {
         let x3 = Gen(label: "x3_h", deg: 3, elem: [(0, Way.zero), (0, Way.zero), (1, Way(type: .a31, len: 3)),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
-        return [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
+        if NumInt.isZero(n: n2) {
+            return [w23, w31] + (n3 == 1 ? [] : [x1])
+        } else {
+            return [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
+        }
     }
 
     private static var deg7Gens: [Gen] {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         if !NumInt.isZero(n: n1) { return [] }
-        if NumInt.isZero(n: n2) || NumInt.isZero(n: n3) { return [] }
         return [
             Gen(label: "u1_h", deg: 7, elem: [(0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                               (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),

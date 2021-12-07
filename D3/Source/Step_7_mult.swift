@@ -106,8 +106,10 @@ struct Step_7_mult {
 
     private static func searchElements(deg: Int, gensByDeg: [[GenElement]], checker: GenCreate, _ env: MultEnvironment) -> [GenElement]? {
         var ii: [GenElement] = []
+        var relationElements: [GenElement] = []
         let knownElements = env.gens.filter { $0.deg == deg && $0.label != "1" }
         var hasZeros = false
+        let inImChecker = GenCreate(deg: deg)
         for g in knownElements {
             if let err = checker.check(g) { OutputFile.writeLog(.error, g.str + ": " + err); return nil }
             guard let ge = genElement(from: [g.label], deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
@@ -117,12 +119,24 @@ struct Step_7_mult {
                 var labels = [env.labelToOrderMap[g.label]!]
                 while true {
                     labels = multLabels(labels, [e0Order], env)
+                    if ii.d3Contains(labels) || relationElements.d3Contains(labels) { continue }
                     if isZero(labels, env.zeroRelations) { break }
                     let label0 = labels.map { env.orderToLabelMap[$0]! }
                     guard let ge1 = genElement(from: label0, deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
-                    guard let e1 = ge1.gen else { printZeroRelation(label0); hasZeros = true; break }
-                    if let err = checker.check(e1) { OutputFile.writeLog(.error, e1.str + ": " + err); return nil }
-                    ii.append(ge1)
+                    guard let e1 = ge1.gen, inImChecker.checkNotIm(e1, inIm: true) != nil else {
+                        printZeroRelation(label0); hasZeros = true; break
+                    }
+                    if let err = checker.check(e1) {
+                        if searchNewRelation(e1, labels: label0, ii, inImChecker, env) {
+                            relationElements.append(ge1)
+                            hasZeros = true
+                        } else {
+                            OutputFile.writeLog(.error, e1.str + ": 1 " + err)
+                            return nil
+                        }
+                    } else {
+                        ii.append(ge1)
+                    }
                 }
             }
         }
@@ -130,7 +144,6 @@ struct Step_7_mult {
             if hasZeros { OutputFile.writeLog(.error, "Zero!"); return nil }
             return ii
         }
-        let inImChecker = GenCreate(deg: deg)
         for i in 1 ..< gensByDeg.count {
             for j in i ..< gensByDeg.count {
                 if i + j != deg { continue }
@@ -139,43 +152,24 @@ struct Step_7_mult {
                 for g1 in gens1 {
                     for g2 in gens2 {
                         let labels = multLabels(g1.items, g2.items, env)
-                        if ii.d3Contains(labels) { continue }
+                        if ii.d3Contains(labels) || relationElements.d3Contains(labels) { continue }
                         if isZero(labels, env.zeroRelations) { continue }
                         guard let ge1 = genElement(mult: g1, and: g2, labels: labels, env) else { return nil }
                         let labels0 = labels.map { env.orderToLabelMap[$0]! }
-                        guard let e1 = ge1.gen else { printZeroRelation(labels0); hasZeros = true; continue }
+                        guard let e1 = ge1.gen, inImChecker.checkNotIm(e1, inIm: true) != nil else {
+                            printZeroRelation(labels0); hasZeros = true; continue
+                        }
                         if let err = checker.check(e1) {
-                            if inImChecker.checkNotIm(e1, inIm: true) == nil {
-                                printZeroRelation(labels0)
-                                hasZeros = true
-                                continue
-                            }
-                            var newRelation = false
-                            for kk in 0 ... 1 {
-                                let koef = kk == 0 ? -1 : 1
-                                for i0 in ii {
-                                    let e2 = i0.gen!
-                                    let k2 = kk == 0 ? e1.eqKoef(e2) : 0
-                                    if k2 != 0 {
-                                        newRelation = true
-                                    } else if let e2 = Gen(sum: e1, and: e2, koef: koef), inImChecker.checkNotIm(e2, inIm: true) == nil {
-                                        newRelation = true
-                                    }
-                                    if newRelation {
-                                        printRelation(labels0, and: i0.items.map { env.orderToLabelMap[$0]! }, koef: k2 != 0 ? k2 : -koef)
-                                        break
-                                    }
-                                }
-                                if newRelation { break }
-                            }
-                            if newRelation {
+                            if searchNewRelation(e1, labels: labels0, ii, inImChecker, env) {
+                                relationElements.append(ge1)
                                 hasZeros = true
                             } else {
                                 OutputFile.writeLog(.error, "\(labels0):: " + e1.str + ": " + err)
                                 return nil
                             }
+                        } else {
+                            ii.append(ge1)
                         }
-                        ii.append(ge1)
                     }
                 }
             }
@@ -184,26 +178,54 @@ struct Step_7_mult {
         return ii
     }
 
-    private static func printZeroRelation(_ labels: [String]) {
+    private static func searchNewRelation(_ g: Gen, labels: [String], _ existingElements: [GenElement],
+                                          _ inImChecker: GenCreate, _ env: MultEnvironment) -> Bool {
+        for kk in 0 ... 1 {
+            let koef = kk == 0 ? -1 : 1
+            for i0 in existingElements {
+                let e2 = i0.gen!
+                let k2 = kk == 0 ? g.eqKoef(e2) : 0
+                let newRelation: Bool
+                if k2 != 0 {
+                    newRelation = true
+                } else if let e2 = Gen(sum: g, and: e2, koef: koef), inImChecker.checkNotIm(e2, inIm: true) == nil {
+                    newRelation = true
+                } else {
+                    newRelation = false
+                }
+                if newRelation {
+                    printRelation(labels, and: i0.items.map { env.orderToLabelMap[$0]! }, koef: k2 != 0 ? k2 : -koef)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    private static func relationString(from labels: [String]) -> String {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
-        var s = "\(labels),"
+        var s = "\(labels)"
         if n3 > 1 {
-            let c12_n3_1 = "[" + (0 ..< n3 - 1).map { _ in "c12" }.joined(separator: "\", \"")
+            let c12_n3_1 = "[\"" + (0 ..< n3 - 1).map { _ in "c12" }.joined(separator: "\", \"") + "\", "
             s = s.replacingOccurrences(of: c12_n3_1, with: "c12_n3_1 + [")
         }
         if n1 > 1 {
-            let c23_n1_1 = "[" + (0 ..< n1 - 1).map { _ in "c23" }.joined(separator: "\", \"")
+            let c23_n1_1 = "[\"" + (0 ..< n1 - 1).map { _ in "c23" }.joined(separator: "\", \"") + "\", "
             s = s.replacingOccurrences(of: c23_n1_1, with: "c23_n1_1 + [")
         }
         if n2 > 1 {
-            let c31_n2_1 = "[" + (0 ..< n2 - 1).map { _ in "c31" }.joined(separator: "\", \"")
+            let c31_n2_1 = "[\"" + (0 ..< n2 - 1).map { _ in "c31" }.joined(separator: "\", \"") + "\", "
             s = s.replacingOccurrences(of: c31_n2_1, with: "c31_n2_1 + [")
         }
-        OutputFile.writeLog(.normal, s)
+        return s
+    }
+
+    private static func printZeroRelation(_ labels: [String]) {
+        OutputFile.writeLog(.normal, relationString(from: labels) + ",")
     }
 
     private static func printRelation(_ labels: [String], and labels2: [String], koef: Int) {
-        OutputFile.writeLog(.normal, "(\"\(labels.joined(separator: " * "))\", \"\(labels2.joined(separator: " * "))\", \"\(koef)\", \(koef)), ")
+        OutputFile.writeLog(.normal, "(\(relationString(from: labels)), \(relationString(from: labels2)), \"\(koef)\", \(koef)), ")
     }
 
     private static func multLabels(_ g1: [Int], _ g2: [Int], _ env: MultEnvironment) -> [Int] {
@@ -346,7 +368,7 @@ final class MultEnvironment {
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             d2 = ["w23_h", "x1_h", "x3_h"]
         } else {
-            d2 = []
+            d2 = ["w23_h", "w31_h", "x1_h"]
         }
         return ["c12", "c23", "c31", "z1"] + d1 + d2 + ["e", "e1_h", "e2_h", "x12", "x23", "x31", "u1", "u2"]
         + (NumInt.isZero(n: n1) ? ["u1_h", "u2_h", "q"] : [])
