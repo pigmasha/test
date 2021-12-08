@@ -117,28 +117,30 @@ struct Relations {
         return true
     }
 
+    private static func processMult(_ pp: [String], _ orderMap: [String: Int], _ gensMap: [String: Gen]) -> (Matrix, Int)? {
+        for p in pp { if gensMap[p] == nil { return nil } }
+        if !checkOrder(labels: pp, orderMap) { return nil }
+        let g1 = gensMap[pp[0]]!
+        var matrix = ShiftHH(gen: g1, shiftDeg: 0).matrix
+        var deg = g1.deg
+        for i in 1 ..< pp.count {
+            let g2 = gensMap[pp[i]]!
+            let shift = ShiftHH(gen: g2, shiftDeg: deg).matrix
+            if shift.isZero { return nil }
+            matrix = Matrix(mult: matrix, and: shift)
+            deg += g2.deg
+            if matrix.isNil { OutputFile.writeLog(.error, "Nil matrix \(pp)"); return nil }
+        }
+        return (matrix, deg)
+    }
+
     static func checkRelations(_ orderMap: [String: Int], _ gensMap: [String: Gen]) -> Bool {
         let zeroGens = zeroGens()
         let relations = self.relations
-        let processMult: ([String]) -> (Matrix, Int)? = { pp in
-            for p in pp { if gensMap[p] == nil { return nil } }
-            if !checkOrder(labels: pp, orderMap) { return nil }
-            let g1 = gensMap[pp[0]]!
-            var matrix = ShiftHH(gen: g1, shiftDeg: 0).matrix
-            var deg = g1.deg
-            for i in 1 ..< pp.count {
-                let g2 = gensMap[pp[i]]!
-                let shift = ShiftHH(gen: g2, shiftDeg: deg).matrix
-                if shift.isZero { return nil }
-                matrix = Matrix(mult: matrix, and: shift)
-                deg += g2.deg
-                if matrix.isNil { OutputFile.writeLog(.error, "Nil matrix \(pp)"); return nil }
-            }
-            return (matrix, deg)
-        }
         for (p1, p2, _, k) in relations {
             if p1.contains(where: { zeroGens[$0] != nil }) || p2.contains(where: { zeroGens[$0] != nil }) { continue }
-            guard let (mult1, deg1) = processMult(p1), let (mult2, deg2) = processMult(p2) else { return false }
+            guard let (mult1, deg1) = processMult(p1, orderMap, gensMap),
+                  let (mult2, deg2) = processMult(p2, orderMap, gensMap) else { return false }
             if deg1 != deg2 { return false }
             mult1.add(mult2, koef: -k)
             if mult1.isZero { continue }
@@ -149,6 +151,20 @@ struct Relations {
                 OutputFile.writeLog(.error, "Not in Im \(p1)")
                 return false
             }
+        }
+        return true
+    }
+
+    static func checkSumRelations(_ orderMap: [String: Int], _ gensMap: [String: Gen]) -> Bool {
+        let relations = self.sumRelations
+        for (p, k1, p1, k2, p2) in relations {
+            guard let (mult, deg) = processMult(p, orderMap, gensMap),
+                  let (mult1, deg1) = processMult(p1, orderMap, gensMap),
+                  let (mult2, deg2) = processMult(p2, orderMap, gensMap) else { return false }
+            if deg != deg1 || deg1 != deg2 { return false }
+            mult.add(mult1, koef: -k1)
+            mult.add(mult2, koef: -k2)
+            if !mult.isZero { return false }
         }
         return true
     }
@@ -165,6 +181,12 @@ struct Relations {
         }
     }
 
+    static func sumRelations(_ orderMap: [String: Int]) -> [([Int], [Int], [Int])] {
+        return sumRelations.map { m1, _, m2, _, m3 in
+            return (m1.map { orderMap[$0]! }, m2.map { orderMap[$0]! }, m3.map { orderMap[$0]! })
+        }
+    }
+
     private static var zeroRelations: [[String]] {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let c12_n3_1 = n3 == 1 ? [] : (0 ..< n3 - 1).map { _ in "c12" }
@@ -178,39 +200,46 @@ struct Relations {
         // 1
         relations += [ ["c12", "z1"], ["c23", "z1"], ["c31", "z1"] ]
         if NumInt.isZero(n: n1) {
-            relations += [
-                ["c12", "w23"], c23_n1_1 + ["c23", "w23"], ["c31", "w23"],
-                c12_n3_1 + ["x1"], ["c23", "x1"], ["c31", "x1"]
-            ]
+            relations += [ ["c12", "w23"], c23_n1_1 + ["c23", "w23"], ["c31", "w23"]  ]
+        }
+        if NumInt.isZero(n: n2) {
+            relations += [ ["c12", "w31"], ["c23", "w31"], c31_n2_1 + ["c31", "w31"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ c12_n3_1 + ["c12", "w12"], ["c23", "w12"], ["c31", "w12"] ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ c12_n3_1 + ["x1"], ["c23", "x1"], ["c31", "x1"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["c12", "x3"], ["c23", "x3"], c31_n2_1 + ["x3"] ]
-        }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
-            relations += [ ["c12", "w31"], ["c23", "w31"], c31_n2_1 + ["c31", "w31"] ]
         }
         if !NumInt.isZero(n: n1) {
             relations += [ c12_n3_1 + ["c12", "w"], c23_n1_1 + ["c23", "w"], c31_n2_1 + ["c31", "w"] ]
         }
         // 2
         relations += [
-            c12_n3_1 + ["x12"],
             ["c23", "x12"], ["c31", "x12"], ["c12", "x23"], ["c31", "x23"], ["c12", "x31"], ["c23", "x31"],
             ["z1", "z1"],
             ["c12", "u1"], ["c23", "u1"], ["c31", "u1"], ["c12", "u2"], ["c23", "u2"], ["c31", "u2"],
         ]
         if NumInt.isZero(n: n1) {
-            relations += [
-                ["c12", "q"], ["c23", "q"], ["c31", "q"],
-                ["z1", "w23"], ["z1", "x1"],
-                ["w23", "w23"], ["w23", "x1"], ["x1", "x1"]
-            ]
+            relations += [ ["c12", "q"], ["c23", "q"], ["c31", "q"], ["z1", "w23"], ["w23", "w23"] ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["z1", "x1"],  ["w23", "x1"], ["x1", "x1"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["z1", "x3"], ["w23", "x3"], ["x1", "x3"], ["x3", "x3"] ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
-            relations += [ c23_n1_1 + ["c23", "x23"], ["z1", "w31"], ["w23", "w31"], ["w31", "w31"], ["w31", "x1"] ]
+        if NumInt.isZero(n: n2) {
+            relations += [ c23_n1_1 + ["c23", "x23"], ["z1", "w31"], ["w23", "w31"], ["w31", "w31"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ c12_n3_1 + ["c12", "x12"], ["z1", "w12"], ["w23", "w12"], ["w31", "w12"], ["w12", "w12"] ]
+        }
+        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+            relations += [ ["w31", "x1"] ]
         }
         if !NumInt.isZero(n: n1) {
             relations += [ ["w", "w"] ]
@@ -218,21 +247,33 @@ struct Relations {
         if !NumInt.isZero(n: n2) {
             relations += [ c23_n1_1 + ["x23"], c31_n2_1 + ["x31"] ]
         }
+        if !NumInt.isZero(n: n3) {
+            relations += [ c12_n3_1 + ["x12"] ]
+        }
         // 3
         relations += [ ["z1", "x12"], ["z1", "x23"], ["z1", "x31"] ]
         if NumInt.isZero(n: n1) {
             relations += [
-                ["z1", "q"],
-                ["w23", "x12"], ["w23", "x31"], ["w23", "u1"], ["w23", "q"],
-                ["x1", "x23"], ["x1", "x31"], ["x1", "u1"], ["x1", "u2"], ["x1", "q"],
-                ["c12", "w23_h"], c23_n1_1 + ["c23", "w23_h"], ["c31", "w23_h"],
-                c12_n3_1 + ["x1_h"], ["c23", "x1_h"], ["c31", "x1_h"],
+                ["z1", "q"], ["w23", "x12"], ["w23", "x31"], ["w23", "u1"], ["w23", "q"],
+                ["c12", "w23_h"], c23_n1_1 + ["c23", "w23_h"], ["c31", "w23_h"]
             ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [
+                ["x1", "x23"], ["x1", "x31"], ["x1", "u1"], ["x1", "u2"], ["x1", "q"],
+                c12_n3_1 + ["x1_h"], ["c23", "x1_h"], ["c31", "x1_h"]
+            ]
+        }
+        if NumInt.isZero(n: n2) {
             relations += [
                 ["c12", "w31_h"], ["c23", "w31_h"], c31_n2_1 + ["c31", "w31_h"],
-                ["w31", "x12"], ["w31", "x23"], ["w31", "u1"], ["w31", "q"],
+                ["w31", "x12"], ["w31", "x23"], ["w31", "u1"], ["w31", "q"]
+            ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [
+                c12_n3_1 + ["c12", "w12_h"], ["c23", "w12_h"], ["c31", "w12_h"],
+                ["w12", "x23"], ["w12", "x31"], ["w12", "u1"], ["w12", "q"],
             ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
@@ -247,9 +288,7 @@ struct Relations {
         // 4
         relations += [
             ["x12", "u1"], ["x23", "u1"], ["x31", "u1"], ["x12", "u2"], ["x23", "u2"], ["x31", "u2"],
-            c12_n3_1 + ["c12", "e"],
-            ["x12", "x23"], ["x23", "x31"], ["x12", "x31"],
-            ["u1", "u1"], ["u2", "u2"], ["u1", "u2"]
+            ["x12", "x23"], ["x23", "x31"], ["x12", "x31"], ["u1", "u1"], ["u2", "u2"], ["u1", "u2"]
         ]
         if !NumInt.isZero(n: n1) {
             relations += [c23_n1_1 + ["c23", "e"]]
@@ -257,33 +296,46 @@ struct Relations {
         if !NumInt.isZero(n: n2) {
             relations += [ c31_n2_1 + ["c31", "e"] ]
         }
+        if !NumInt.isZero(n: n3) {
+            relations += [ c12_n3_1 + ["c12", "e"] ]
+        }
         if NumInt.isZero(n: n1) {
             relations += [
-                ["z1", "w23_h"], ["z1", "x1_h"], ["w23", "w23_h"], ["w23", "x1_h"], ["x1", "w23_h"], ["x1", "x1_h"],
+                ["z1", "w23_h"], ["w23", "w23_h"],
                 ["x12", "q"], ["x23", "q"], ["x31", "q"], ["u1", "q"], ["u2", "q"], ["q", "q"]
             ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["z1", "x1_h"], ["w23", "x1_h"], ["x1", "w23_h"], ["x1", "x1_h"] ]
+        }
+        if NumInt.isZero(n: n2) {
+            relations += [ ["z1", "w31_h"], ["w23", "w31_h"], ["w31", "w23_h"], ["w31", "w31_h"] ]
+        }
+        if NumInt.isZero(n: n3) {
             relations += [
-                ["z1", "w31_h"], ["w23", "w31_h"],
-                ["w31", "w23_h"], ["w31", "w31_h"], ["w31", "x1_h"], ["x1", "w31_h"],
+                ["z1", "w12_h"], ["w23", "w12_h"], ["w31", "w12_h"], ["w12", "w23_h"], ["w12", "w31_h"], ["w12", "w12_h"]
             ]
+        }
+        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+            relations += [ ["w31", "x1_h"], ["x1", "w31_h"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [
-                ["z1", "x3_h"], ["w23", "x3_h"], ["x1", "x3_h"],
-                ["x3", "w23_h"], ["x3", "x1_h"], ["x3", "x3_h"],
+                ["z1", "x3_h"], ["w23", "x3_h"], ["x1", "x3_h"], ["x3", "w23_h"], ["x3", "x1_h"], ["x3", "x3_h"]
             ]
         }
         // 5
         if NumInt.isZero(n: n1) {
-            relations += [
-                ["w23_h", "x12"], ["w23_h", "x31"], ["w23_h", "u1"], ["w23_h", "u2"], ["w23_h", "q"],
-                ["x1_h", "x23"], ["x1_h", "x31"], ["x1_h", "u1"], ["x1_h", "u2"], ["x1_h", "q"],
-            ]
+            relations += [ ["w23_h", "x12"], ["w23_h", "x31"], ["w23_h", "u1"], ["w23_h", "u2"], ["w23_h", "q"] ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["x1_h", "x23"], ["x1_h", "x31"], ["x1_h", "u1"], ["x1_h", "u2"], ["x1_h", "q"] ]
+        }
+        if NumInt.isZero(n: n2) {
             relations += [ ["w31_h", "x12"], ["w31_h", "x23"], ["w31_h", "u1"], ["w31_h", "u2"], ["w31_h", "q"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ ["w12_h", "x23"], ["w12_h", "x31"], ["w12_h", "u1"], ["w12_h", "u2"], ["w12_h", "q"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["x3_h", "x12"], ["x3_h", "x23"], ["x3_h", "u1"], ["x3_h", "u2"], ["x3_h", "q"] ]
@@ -294,27 +346,41 @@ struct Relations {
             ["c12", "e1_h"], ["c23", "e1_h"], ["c31", "e1_h"], ["c12", "e2_h"], ["c23", "e2_h"], ["c31", "e2_h"]
         ]
         if NumInt.isZero(n: n1) {
-            relations += [ ["w23_h", "w23_h"], ["w23_h", "x1_h"], ["x1_h", "x1_h"] ]
+            relations += [ ["w23_h", "w23_h"] ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["w23_h", "x1_h"], ["x1_h", "x1_h"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["w23_h", "x3_h"], ["x1_h", "x3_h"], ["x3_h", "x3_h"] ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
-            relations += [ ["w23_h", "w31_h"], ["w31_h", "w31_h"], ["w31_h", "x1_h"] ]
+        if NumInt.isZero(n: n2) {
+            relations += [ ["w23_h", "w31_h"], ["w31_h", "w31_h"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ ["w23_h", "w12_h"], ["w31_h", "w12_h"], ["w12_h", "w12_h"] ]
+        }
+        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+            relations += [ ["w31_h", "x1_h"] ]
         }
         // 7
         if NumInt.isZero(n: n1) {
             relations += [
-                ["w23", "e1_h"], ["x1", "e1_h"], ["x1", "e2_h"],
-                ["c12", "u1_h"], ["c23", "u1_h"], ["c31", "u1_h"],
-                ["c12", "u2_h"], ["c23", "u2_h"], ["c31", "u2_h"]
+                ["w23", "e1_h"],
+                ["c12", "u1_h"], ["c23", "u1_h"], ["c31", "u1_h"], ["c12", "u2_h"], ["c23", "u2_h"], ["c31", "u2_h"]
             ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["x1", "e1_h"], ["x1", "e2_h"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["x3", "e1_h"], ["x3", "e2_h"] ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) {
             relations += [ ["w31", "e1_h"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ ["w12", "e1_h"] ]
         }
         // 8
         relations += [
@@ -322,37 +388,55 @@ struct Relations {
             ["e2_h", "u1"], ["e1_h", "u2"]
         ]
         if NumInt.isZero(n: n1) {
-            relations += [ ["w23", "u1_h"], ["x1", "u1_h"], ["x1", "u2_h"] ]
+            relations += [ ["w23", "u1_h"] ]
+        }
+        if NumInt.isZero(n: n2) {
+            relations += [  ["w31", "u1_h"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [  ["w12", "u1_h"] ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["x1", "u1_h"], ["x1", "u2_h"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["x3", "u1_h"], ["x3", "u2_h"] ]
-        }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
-            relations += [  ["w31", "u1_h"] ]
         }
         // 9
         if NumInt.isZero(n: n1) {
             relations += [
                 ["x12", "u1_h"], ["x12", "u2_h"], ["x23", "u1_h"], ["x23", "u2_h"], ["x31", "u1_h"], ["x31", "u2_h"],
                 ["u1", "u1_h"], ["u1", "u2_h"], ["u2", "u1_h"], ["u2", "u2_h"], ["u1_h", "q"], ["u2_h", "q"],
-                ["w23_h", "e1_h"], ["w23_h", "e2_h"], ["x1_h", "e1_h"], ["x1_h", "e2_h"]
+                ["w23_h", "e1_h"], ["w23_h", "e2_h"]
             ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["x1_h", "e1_h"], ["x1_h", "e2_h"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["x3_h", "e1_h"], ["x3_h", "e2_h"] ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) {
             relations += [ ["w31_h", "e1_h"], ["w31_h", "e2_h"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ ["w12_h", "e1_h"], ["w12_h", "e2_h"] ]
         }
         // 10
         if NumInt.isZero(n: n1) {
-            relations += [ ["w23_h", "u1_h"], ["w23_h", "u2_h"], ["x1_h", "u1_h"], ["x1_h", "u2_h"] ]
+            relations += [ ["w23_h", "u1_h"], ["w23_h", "u2_h"] ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ ["x1_h", "u1_h"], ["x1_h", "u2_h"] ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ ["x3_h", "u1_h"], ["x3_h", "u2_h"] ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) {
             relations += [ ["w31_h", "u1_h"], ["w31_h", "u2_h"] ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ ["w12_h", "u1_h"], ["w12_h", "u2_h"] ]
         }
         // 12
         if PathAlg.N > 3 {
@@ -376,21 +460,29 @@ struct Relations {
         let c31_n2_1 = n2 == 1 ? [] : (0 ..< n2 - 1).map { _ in "c31" }
         var relations: [([String], [String], String, Int)] = []
         // 2
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
             relations += [ (c31_n2_1 + ["x31"], c23_n1_1 + ["x23"], "-1", -1) ]
         }
         // 3
         if NumInt.isZero(n: n1) {
             relations += [
                 (["w23", "x23"], ["c23", "w23_h"], "-1", -1),
-                (["w23", "u2"], ["z1", "u2"], "1", 1),
-                (["x1", "x12"], ["c12", "x1_h"], "-1", -1),
+                (["w23", "u2"], ["z1", "u2"], "1", 1)
             ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ (["x1", "x12"], ["c12", "x1_h"], "-1", -1) ]
+        }
+        if NumInt.isZero(n: n2) {
             relations += [
                 (["w31", "x31"], ["c31", "w31_h"], "-1", -1),
                 (["w31", "u2"], ["z1", "u2"], "1", 1)
+            ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [
+                (["w12", "x12"], ["c12", "w12_h"], "-1", -1),
+                (["w12", "u2"], ["z1", "u2"], "1", 1)
             ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
@@ -407,23 +499,29 @@ struct Relations {
         ]
         // 5
         if NumInt.isZero(n: n1) {
-            relations += [
-                (["w23_h", "x23"], ["c23", "w23", "e"], "1", 1),
-                (["x1_h", "x12"], ["c12", "x1", "e"], "1", 1),
-            ]
+            relations += [ (["w23_h", "x23"], ["c23", "w23", "e"], "1", 1) ]
+        }
+        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+            relations += [ (["x1_h", "x12"], ["c12", "x1", "e"], "1", 1) ]
         }
         if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
             relations += [ (["x3_h", "x31"], ["c31", "x3", "e"], "1", 1) ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) {
             relations += [ (["w31_h", "x31"], ["c31", "w31", "e"], "1", 1) ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ (["w12_h", "x12"], ["c12", "w12", "e"], "1", 1) ]
         }
         // 7
         if NumInt.isZero(n: n1) {
             relations += [ (["w23", "e2_h"], ["z1", "e2_h"], "1", 1) ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) {
             relations += [ (["w31", "e2_h"], ["z1", "e2_h"], "1", 1) ]
+        }
+        if NumInt.isZero(n: n3) {
+            relations += [ (["w12", "e2_h"], ["z1", "e2_h"], "1", 1) ]
         }
         // 8
         if NumInt.isZero(n: n1) {
@@ -433,13 +531,25 @@ struct Relations {
                 (["e2_h", "q"], ["z1", "u2_h"], "1", 1)
             ]
         }
-        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n2) {
             relations += [ (["w31", "u2_h"], ["z1", "u2_h"], "1", 1) ]
+        }
+        if NumInt.isZero(n: n2) {
+            relations += [ (["w12", "u2_h"], ["z1", "u2_h"], "1", 1) ]
         }
         // 12
         if PathAlg.N == 3 {
             relations += [ (["e1_h", "e2_h"], ["e", "e", "e"], "", 1) ]
         }
         return relations
+    }
+
+    private static var sumRelations: [([String], Int, [String], Int, [String])] {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        let c12_n3_1 = n3 == 1 ? [] : (0 ..< n3 - 1).map { _ in "c12" }
+        let c23_n1_1 = n1 == 1 ? [] : (0 ..< n1 - 1).map { _ in "c23" }
+        let c31_n2_1 = n2 == 1 ? [] : (0 ..< n2 - 1).map { _ in "c31" }
+        if !NumInt.isZero(n: n3) { return [] }
+        return [ (c31_n2_1 + ["x31"], -1, c12_n3_1 + ["x12"], -1, c23_n1_1 + ["x23"]) ]
     }
 }

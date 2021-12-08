@@ -44,6 +44,15 @@ struct Step_7_mult {
         return relations.contains { labels.d3HasSubarray($0) }
     }
 
+    private static func sum(for labels: [Int], _ env: MultEnvironment) -> [[Int]]? {
+        guard let relation = env.sumRelations.first(where: { labels.d3HasSubarray($0.0) }) else { return nil }
+        return [relation.1, relation.2].compactMap { r in
+            var item = Array(labels)
+            item.d3Replace(relation.0, to: r)
+            return isZero(item, env.zeroRelations) ? nil : item
+        }
+    }
+
     private static func genElement(from labels: [String], deg: Int, _ orderMap: [String: Int], _ gensMap: [String: Gen]) -> GenElement? {
         guard let (d, m) = Relations.multGens(labels: labels, checkZero: false, orderMap, gensMap) else {
             OutputFile.writeLog(.error, "Mult err \(labels)")
@@ -75,7 +84,7 @@ struct Step_7_mult {
                 return GenElement(deg: g1.deg + g2.deg, items: labels, matrix: matrix)
             }
         }
-        return genElement(from: labels.map { env.orderToLabelMap[$0]! }, deg: g1.deg + g2.deg, env.labelToOrderMap, env.gensMap)
+        return genElement(from: strLabels(for: labels, env), deg: g1.deg + g2.deg, env.labelToOrderMap, env.gensMap)
     }
 
     private static func process(gens: [[String]], deg: Int, _ env: MultEnvironment) -> [GenElement]? {
@@ -86,7 +95,7 @@ struct Step_7_mult {
             guard let e = genElement(from: g, deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
             guard let g0 = e.gen else { OutputFile.writeLog(.error, "No e \(g)"); return nil }
             if let err = checker.check(g0) {
-                OutputFile.writeLog(.error, "\(e.items.map { env.orderToLabelMap[$0]! }): " + g0.str + ": " + err)
+                OutputFile.writeLog(.error, "\(strLabels(for: e, env)): " + g0.str + ": " + err)
                 return nil
             }
             items.append(e)
@@ -94,14 +103,16 @@ struct Step_7_mult {
         return items
     }
 
-    private static func add(_ n: Int, to arr: inout [Int]) {
-        for j in 0 ..< arr.count {
-            if arr[j] > n {
-                arr.insert(n, at: j)
-                return
-            }
-        }
-        arr.append(n)
+    private static func strLabels(for items: [Int], _ env: MultEnvironment) -> [String] {
+        return items.map { env.orderToLabelMap[$0]! }
+    }
+
+    private static func strLabels(for g: GenElement, _ env: MultEnvironment) -> [String] {
+        return strLabels(for: g.items, env)
+    }
+
+    private enum MultSearchResult {
+        case zero, exist
     }
 
     private static func searchElements(deg: Int, gensByDeg: [[GenElement]], checker: GenCreate, _ env: MultEnvironment) -> [GenElement]? {
@@ -110,6 +121,16 @@ struct Step_7_mult {
         let knownElements = env.gens.filter { $0.deg == deg && $0.label != "1" }
         var hasZeros = false
         let inImChecker = GenCreate(deg: deg)
+
+        let searchLabels: ([Int]) -> MultSearchResult? = { labels in
+            if ii.d3Contains(labels) || relationElements.d3Contains(labels) { return .exist }
+            if isZero(labels, env.zeroRelations) { return .zero }
+            if let sum = sum(for: labels, env) {
+                if sum.isEmpty { return .zero }
+                if !sum.contains(where: { !ii.d3Contains($0) }) { return .exist }
+            }
+            return nil
+        }
         for g in knownElements {
             if let err = checker.check(g) { OutputFile.writeLog(.error, g.str + ": " + err); return nil }
             guard let ge = genElement(from: [g.label], deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
@@ -119,9 +140,11 @@ struct Step_7_mult {
                 var labels = [env.labelToOrderMap[g.label]!]
                 while true {
                     labels = multLabels(labels, [e0Order], env)
-                    if ii.d3Contains(labels) || relationElements.d3Contains(labels) { continue }
-                    if isZero(labels, env.zeroRelations) { break }
-                    let label0 = labels.map { env.orderToLabelMap[$0]! }
+                    if let result = searchLabels(labels) {
+                        if result == .exist { continue }
+                        if result == .zero { break }
+                    }
+                    let label0 = strLabels(for: labels, env)
                     guard let ge1 = genElement(from: label0, deg: deg, env.labelToOrderMap, env.gensMap) else { return nil }
                     guard let e1 = ge1.gen, inImChecker.checkNotIm(e1, inIm: true) != nil else {
                         printZeroRelation(label0); hasZeros = true; break
@@ -131,7 +154,7 @@ struct Step_7_mult {
                             relationElements.append(ge1)
                             hasZeros = true
                         } else {
-                            OutputFile.writeLog(.error, e1.str + ": 1 " + err)
+                            OutputFile.writeLog(.error, e1.str + " (\(label0)): " + err)
                             return nil
                         }
                     } else {
@@ -152,10 +175,12 @@ struct Step_7_mult {
                 for g1 in gens1 {
                     for g2 in gens2 {
                         let labels = multLabels(g1.items, g2.items, env)
-                        if ii.d3Contains(labels) || relationElements.d3Contains(labels) { continue }
-                        if isZero(labels, env.zeroRelations) { continue }
-                        guard let ge1 = genElement(mult: g1, and: g2, labels: labels, env) else { return nil }
-                        let labels0 = labels.map { env.orderToLabelMap[$0]! }
+                        if searchLabels(labels) != nil { continue }
+                        guard let ge1 = genElement(mult: g1, and: g2, labels: labels, env) else {
+                            OutputFile.writeLog(.error, "Can't mult \(strLabels(for: g1, env)) and \(strLabels(for: g2, env))")
+                            return nil
+                        }
+                        let labels0 = strLabels(for: labels, env)
                         guard let e1 = ge1.gen, inImChecker.checkNotIm(e1, inIm: true) != nil else {
                             printZeroRelation(labels0); hasZeros = true; continue
                         }
@@ -194,7 +219,29 @@ struct Step_7_mult {
                     newRelation = false
                 }
                 if newRelation {
-                    printRelation(labels, and: i0.items.map { env.orderToLabelMap[$0]! }, koef: k2 != 0 ? k2 : -koef)
+                    printRelation(labels, and: strLabels(for: i0, env), koef: k2 != 0 ? k2 : -koef)
+                    return true
+                }
+            }
+        }
+        for kk in 0 ... 1 {
+            let koef = kk == 0 ? -1 : 1
+            for i in 0 ..< existingElements.count - 1 {
+                let g1 = existingElements[i].gen!
+                for j in i + 1 ..< existingElements.count {
+                    let g2 = existingElements[j].gen!
+                    guard let g3 = Gen(sum: g1, and: g2, koef: koef) else { continue }
+                    let k2 = g.eqKoef(g3)
+                    if k2 == 0 { continue }
+                    let g1Labels = strLabels(for: existingElements[i], env)
+                    let g2Labels = strLabels(for: existingElements[j], env)
+                    if k2 != 1 && k2 != -1 {
+                        OutputFile.writeLog(.error, "Bad sum relation koef \(k2)")
+                        return false
+                    }
+                    OutputFile.writeLog(.normal, "(\(relationString(from: labels)), "
+                                        + "\(k2), \(relationString(from: g1Labels)), "
+                                        + "\(k2 * koef), \(relationString(from: g2Labels))),")
                     return true
                 }
             }
@@ -230,17 +277,28 @@ struct Step_7_mult {
 
     private static func multLabels(_ g1: [Int], _ g2: [Int], _ env: MultEnvironment) -> [Int] {
         var labels = g1
-        g2.forEach { add($0, to: &labels) }
+        g2.forEach { labels.d3Add($0) }
         while true {
             guard let r = env.relations.first(where: { labels.d3HasSubarray($0.0) }) else { return labels }
-            for r0 in r.0 { labels.remove(at: labels.firstIndex(where: { $0 == r0 })!) }
-            for r1 in r.1 { add(r1, to: &labels) }
+            labels.d3Replace(r.0, to: r.1)
         }
         return labels
     }
 
     private static func checkElements(items: [GenElement], deg: Int, gensByDeg: [[GenElement]], _ env: MultEnvironment) -> Bool {
         let knownElements = env.gens.filter { $0.deg == deg && $0.label != "1" }
+
+        let searchLabels: ([Int]) -> MultSearchResult? = { labels in
+            if isZero(labels, env.zeroRelations) { return .zero }
+            if let sum = sum(for: labels, env) {
+                if sum.isEmpty { return .zero }
+                if !sum.contains(where: { !items.d3Contains($0) }) { return .exist }
+            }
+            if items.d3Contains(labels) { return .exist }
+            OutputFile.writeLog(.error, "\(strLabels(for: labels, env)): checkElements not found")
+            return nil
+        }
+
         for g in knownElements {
             if !items.d3Contains([env.labelToOrderMap[g.label]!]) { return false }
             for e0 in env.deg0Elements {
@@ -248,8 +306,8 @@ struct Step_7_mult {
                 var labels = [env.labelToOrderMap[g.label]!]
                 while true {
                     labels = multLabels(labels, [e0Order], env)
-                    if isZero(labels, env.zeroRelations) { break }
-                    if !items.d3Contains(labels) { return false }
+                    guard let result = searchLabels(labels) else { return false }
+                    if result == .zero { break }
                 }
             }
         }
@@ -261,9 +319,7 @@ struct Step_7_mult {
                 let gens2 = gensByDeg[j]
                 for g1 in gens1 {
                     for g2 in gens2 {
-                        let labels = multLabels(g1.items, g2.items, env)
-                        if isZero(labels, env.zeroRelations) { continue }
-                        if !items.d3Contains(labels) { return false }
+                        if searchLabels(multLabels(g1.items, g2.items, env)) == nil { return false }
                     }
                 }
             }
@@ -319,8 +375,9 @@ struct Step_7_mult {
 final class MultEnvironment {
     let labelToOrderMap: [String: Int]
     let orderToLabelMap: [Int: String]
-    let relations: [([Int], [Int])]
     let zeroRelations: [[Int]]
+    let relations: [([Int], [Int])]
+    let sumRelations: [([Int], [Int], [Int])]
     let gens: [Gen]
     let gensMap: [String: Gen]
     let deg0Elements: [Gen]
@@ -347,9 +404,11 @@ final class MultEnvironment {
         self.gensMap = gensMap
         if !Relations.checkZeroRelations(labelToOrderMap, gensMap) { return nil }
         if !Relations.checkRelations(labelToOrderMap, gensMap) { return nil }
+        if !Relations.checkSumRelations(labelToOrderMap, gensMap) { return nil }
         deg0Elements = gens.filter { $0.deg == 0 && $0.label != "1" }
         zeroRelations = Relations.zeroRelations(labelToOrderMap)
         relations = Relations.relations(labelToOrderMap)
+        sumRelations = Relations.sumRelations(labelToOrderMap)
     }
 
     private static var elementsOrder: [String] {
@@ -364,13 +423,17 @@ final class MultEnvironment {
         } else {
             d1 = ["w"]
         }
-        let d2: [String]
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
-            d2 = ["w23_h", "x1_h", "x3_h"]
+        let d3: [String]
+        if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) && NumInt.isZero(n: n3) {
+            d3 = ["w23_h", "w31_h", "w12_h"]
+        } else if NumInt.isZero(n: n1) && NumInt.isZero(n: n2) {
+            d3 = ["w23_h", "w31_h", "x1_h"]
+        } else if NumInt.isZero(n: n1) {
+            d3 = ["w23_h", "x1_h", "x3_h"]
         } else {
-            d2 = ["w23_h", "w31_h", "x1_h"]
+            d3 = []
         }
-        return ["c12", "c23", "c31", "z1"] + d1 + d2 + ["e", "e1_h", "e2_h", "x12", "x23", "x31", "u1", "u2"]
+        return ["c12", "c23", "c31", "z1"] + d1 + d3 + ["e", "e1_h", "e2_h", "x12", "x23", "x31", "u1", "u2"]
         + (NumInt.isZero(n: n1) ? ["u1_h", "u2_h", "q"] : [])
     }
 }

@@ -8,7 +8,7 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check(labels: ["w31_h"])
+        return check()
         let ee = GenCreate.allElements
         for e in ee {
             if e.label != "w31_h" { continue }
@@ -67,7 +67,7 @@ struct Step_5_shift {
         let ee = GenCreate.allElements
         for e in ee {
             if e.label == "1" { continue }
-            if check(elem: e) { return true }
+            if check(elem: e, log: false) { return true }
         }
         return false
     }
@@ -81,7 +81,7 @@ struct Step_5_shift {
         return false
     }
 
-    private static func check(elem e: Gen) -> Bool {
+    private static func check(elem e: Gen, log: Bool = true) -> Bool {
         OutputFile.writeLog(.normal, e.str)
         let s0 = ShiftHH(gen: e, shiftDeg: 0)
         if let err = s0.check() {
@@ -115,7 +115,7 @@ struct Step_5_shift {
                 OutputFile.writeLog(.error, "numberOfDifferents \(n)")
                 return true
             }
-            OutputFile.writeLog(.normal, "Shift \(d) checked :)")
+            if log { OutputFile.writeLog(.normal, "Shift \(d) checked :)") }
             ss = s1
         }
         return false

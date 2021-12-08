@@ -99,17 +99,22 @@ final class GenCreate {
         let w31 = Gen(label: "w31_h", deg: 3, elem: [(0, Way.zero), (0, Way.zero), (1, Way(type: .a31, len: 1)),
                                                      (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                      (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        let w12 = Gen(label: "w12_h", deg: 3, elem: [(1, Way(type: .a12, len: 1)), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                     (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
+                                                     (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
         let x1 = Gen(label: "x1_h", deg: 3, elem: [(1, Way(type: .a12, len: 3)), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
         let x3 = Gen(label: "x3_h", deg: 3, elem: [(0, Way.zero), (0, Way.zero), (1, Way(type: .a31, len: 3)),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero),
                                                    (0, Way.zero), (0, Way.zero), (0, Way.zero), (0, Way.zero)])
+        if NumInt.isZero(n: n3) {
+            return [w23, w31, w12]
+        }
         if NumInt.isZero(n: n2) {
             return [w23, w31] + (n3 == 1 ? [] : [x1])
-        } else {
-            return [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
         }
+        return [w23] + (n3 == 1 ? [] : [x1]) + (n2 == 1 ? [] : [x3])
     }
 
     private static var deg7Gens: [Gen] {

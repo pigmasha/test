@@ -33,19 +33,33 @@ extension Array where Element == Int {
         }
         return false
     }
+
+    func d3Equal(_ arr: [Int]) -> Bool {
+        if count != arr.count { return false }
+        for i in 0 ..< count {
+            if self[i] != arr[i] { return false }
+        }
+        return true
+    }
+
+    mutating func d3Add(_ n: Element) {
+        for j in 0 ..< count {
+            if self[j] > n {
+                insert(n, at: j)
+                return
+            }
+        }
+        append(n)
+    }
+
+    mutating func d3Replace(_ arr1: [Int], to arr2: [Int]) {
+        for a in arr1 { remove(at: firstIndex(where: { $0 == a })!) }
+        arr2.forEach { d3Add($0) }
+    }
 }
 
 extension Array where Element == GenElement {
     func d3Contains(_ arr: [Int]) -> Bool {
-        for g in self {
-            if g.items.count == arr.count {
-                var same = true
-                for i in 0 ..< g.items.count {
-                    if g.items[i] != arr[i] { same = false; break }
-                }
-                if same { return true }
-            }
-        }
-        return false
+        return contains { $0.items.d3Equal(arr) }
     }
 }

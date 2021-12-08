@@ -193,7 +193,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func startCase() {
-        if !NumInt.isZero(n: PathAlg.n1) || NumInt.isZero(n: PathAlg.n2) || NumInt.isZero(n: PathAlg.n3) {
+        let (n1Zero, n2Zero, n3Zero) = (NumInt.isZero(n: PathAlg.n1), NumInt.isZero(n: PathAlg.n2), NumInt.isZero(n: PathAlg.n3))
+        if (n3Zero && !n2Zero) || (n2Zero && !n1Zero) {
             performSelector(onMainThread: #selector(finishCase), with: nil, waitUntilDone: false)
             return
         }
