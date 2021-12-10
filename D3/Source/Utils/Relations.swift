@@ -30,7 +30,7 @@ struct Relations {
         if labels.count < 2 { return true }
         for i in 1 ..< labels.count {
             if orderMap[labels[i - 1]]! > orderMap[labels[i]]! {
-                OutputFile.writeLog(.error, "Bad \(labels)")
+                OutputFile.writeLog(.error, "checkOrder: bad order \(labels)")
                 return false
             }
         }
@@ -38,7 +38,10 @@ struct Relations {
     }
 
     static func multGens(labels: [String], checkZero: Bool, _ orderMap: [String: Int], _ gensMap: [String: Gen]) -> (Int, Matrix)? {
-        for l in labels { if orderMap[l] == nil { return nil } }
+        if labels.contains(where: { orderMap[$0] == nil }) {
+            OutputFile.writeLog(.error, "Unknown gens in \(labels)")
+            return nil
+        }
         if !checkOrder(labels: labels, orderMap) { return nil }
 
         var j = -1
@@ -139,8 +142,14 @@ struct Relations {
         let relations = self.relations
         for (p1, p2, _, k) in relations {
             if p1.contains(where: { zeroGens[$0] != nil }) || p2.contains(where: { zeroGens[$0] != nil }) { continue }
-            guard let (mult1, deg1) = processMult(p1, orderMap, gensMap),
-                  let (mult2, deg2) = processMult(p2, orderMap, gensMap) else { return false }
+            guard let (mult1, deg1) = processMult(p1, orderMap, gensMap) else {
+                OutputFile.writeLog(.error, "checkRelations: can't mult \(p1)")
+                return false
+            }
+            guard let (mult2, deg2) = processMult(p2, orderMap, gensMap) else {
+                OutputFile.writeLog(.error, "checkRelations: can't mult \(p2)")
+                return false
+            }
             if deg1 != deg2 { return false }
             mult1.add(mult2, koef: -k)
             if mult1.isZero { continue }
@@ -192,8 +201,9 @@ struct Relations {
         let c12_n3_1 = n3 == 1 ? [] : (0 ..< n3 - 1).map { _ in "c12" }
         let c23_n1_1 = n1 == 1 ? [] : (0 ..< n1 - 1).map { _ in "c23" }
         let c31_n2_1 = n2 == 1 ? [] : (0 ..< n2 - 1).map { _ in "c31" }
-        var relations = [
-            // 0
+        var relations: [[String]] = []
+        // 0
+        relations += [
             ["c12", "c23"], ["c23", "c31"], ["c12", "c31"],
             c12_n3_1 + ["c12", "c12"], c23_n1_1 + ["c23", "c23"], c31_n2_1 + ["c31", "c31"],
         ]
@@ -448,7 +458,7 @@ struct Relations {
         }
         // 14
         if NumInt.isZero(n: n1) {
-            relations += [ ["u1_h", "u1_h"], ["u1_h", "u2_h"], ["u1_h", "u2_h"], ["u2_h", "u2_h"] ]
+            relations += [ ["u1_h", "u1_h"], ["u1_h", "u2_h"], ["u2_h", "u2_h"] ]
         }
         return relations
     }
@@ -534,7 +544,7 @@ struct Relations {
         if NumInt.isZero(n: n2) {
             relations += [ (["w31", "u2_h"], ["z1", "u2_h"], "1", 1) ]
         }
-        if NumInt.isZero(n: n2) {
+        if NumInt.isZero(n: n3) {
             relations += [ (["w12", "u2_h"], ["z1", "u2_h"], "1", 1) ]
         }
         // 12

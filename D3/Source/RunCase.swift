@@ -14,6 +14,7 @@ struct RunCase {
         case 5: return Step_5_shift.runCase()
         case 6: return Step_6_comm.runCase()
         case 7: return Step_7_mult.runCase()
+        case 8: return Step_8_tex.runCase()
         default: return false
         }
     }
@@ -28,6 +29,7 @@ struct RunCase {
         case 5: return "Shift"
         case 6: return "Commitative"
         case 7: return "Mult"
+        case 8: return "Tex"
         default: fatalError("Unknown step \(PathAlg.alg.currentStep)")
         }
     }
