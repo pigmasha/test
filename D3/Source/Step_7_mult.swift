@@ -335,7 +335,7 @@ struct Step_7_mult {
         q.pij.forEach { _ in elem1.append((0, Way.zero)) }
         for i in 0 ..< q.pij.count {
             let p = q.pij[i]
-            let ways = i < 15 ? [] : Way.allWays(from: p.1, to: p.0)
+            let ways = Way.allWays(from: p.1, to: p.0)
             var line: [(Int, Way)] = [(0, Way.zero)]
             for w in ways {
                 elem1[i] = (1, w)

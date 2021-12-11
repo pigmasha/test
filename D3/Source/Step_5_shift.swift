@@ -8,10 +8,10 @@ import Foundation
 
 struct Step_5_shift {
     static func runCase() -> Bool {
-        return check()
+        return check(labels: ["u2_h"])
         let ee = GenCreate.allElements
         for e in ee {
-            if e.label != "w31_h" { continue }
+            if e.label != "u2" { continue }
             OutputFile.writeLog(.normal, e.str)
             let s0 = ShiftHH(gen: e)
             if let err = s0.check() {
@@ -19,9 +19,9 @@ struct Step_5_shift {
                 OutputFile.writeLog(.error, "Check shift 0 error: " + err)
                 return true
             }
-            s0.print()
             let myS0 = ShiftHH(gen: e, shiftDeg: 0)
             if s0.matrix.numberOfDifferents(with: myS0.matrix) != 0 {
+                s0.print()
                 PrintUtils.printMatrix("M", myS0.matrix)
                 s0.printProgram()
                 OutputFile.writeLog(.error, "numberOfDifferents \(s0.matrix.numberOfDifferents(with: myS0.matrix))")
@@ -41,10 +41,10 @@ struct Step_5_shift {
                 }
                 if s1.matrix.numberOfDifferents(with: myS1.matrix) != 0 {
                     s1.print()
-                    if !myS1.matrix.isZero {
+                    /*if !myS1.matrix.isZero {
                         PrintUtils.printMatrix("My Shift", myS1.matrix)
-                    }
-                    s1.printProgram()
+                    }*/
+                    s1.printProgram(diffWith: myS1.matrix)
                     OutputFile.writeLog(.error, "numberOfDifferents \(s1.matrix.numberOfDifferents(with: myS1.matrix))")
                     //return true
                 }

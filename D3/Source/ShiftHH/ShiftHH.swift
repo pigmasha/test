@@ -84,7 +84,7 @@ final class ShiftHH {
         PrintUtils.printMatrix("Shift \(shiftDeg)", matrix)
     }
 
-    func printProgram() {
+    func printProgram(diffWith m: Matrix? = nil) {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let capLabel = hhLabel.prefix(1).uppercased() + hhLabel.dropFirst()
         OutputFile.writeLog(.simple, "<pre>private func shift\(capLabel.replacingOccurrences(of: "_", with: ""))\(shiftDeg)() {\n")
@@ -111,6 +111,7 @@ final class ShiftHH {
         for j in 0 ..< matrix.width {
             for i in 0 ..< matrix.height {
                 let c = matrix.rows[i][j]
+                if let m = m, m.rows[i][j].isEq(c) { continue }
                 for (k, t) in c.contents {
                     OutputFile.writeLog(.simple, "    matrix.rows[\(i)][\(j)].add(left: \(strForWay(t.leftComponent)), right: \(strForWay(t.rightComponent)), koef: \(k.n))\n")
                 }
@@ -179,7 +180,8 @@ final class ShiftHH {
             }
             let c = multC.rows[i0][0]
             var j0 = -1
-            for j in 0 ..< diff.rows[i0].count {
+            for j1 in 0 ..< diff.width {
+                let j = diff.width - 1 - j1
                 if matrix.rows[j][column].isZero && canDivide(comb: c, by: diff.rows[i0][j]) {
                     j0 = j
                     break
@@ -201,8 +203,8 @@ final class ShiftHH {
             if mult.rows[i][0].isZero { continue }
             let c = mult.rows[i][0]
             for m in 1 ... 4 {
-                for j in 0 ..< diff.rows[i].count {
-                    //let j = diff.rows[i].count - 1 - j0
+                for j0 in 0 ..< diff.rows[i].count {
+                    let j = diff.rows[i].count - 1 - j0
                     if m == 1 && j != column { continue }
                     var c0 = (column - j) % 3
                     if c0 < 0 { c0 += 3 }
