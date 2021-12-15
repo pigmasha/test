@@ -43,7 +43,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        _ = shiftU0(hhLabel)
+        _ = shiftZ1()
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
@@ -203,8 +203,8 @@ final class ShiftHH {
             if mult.rows[i][0].isZero { continue }
             let c = mult.rows[i][0]
             for m in 1 ... 4 {
-                for j0 in 0 ..< diff.rows[i].count {
-                    let j = diff.rows[i].count - 1 - j0
+                for j in 0 ..< diff.rows[i].count {
+                    //let j = diff.rows[i].count - 1 - j0
                     if m == 1 && j != column { continue }
                     var c0 = (column - j) % 3
                     if c0 < 0 { c0 += 3 }

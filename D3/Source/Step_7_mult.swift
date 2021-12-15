@@ -8,7 +8,8 @@ import Foundation
 
 struct Step_7_mult {
     static func runCase() -> Bool {
-        guard let env = MultEnvironment() else { return true }
+        //return MultEnvironment(all: true) == nil
+        guard let env = MultEnvironment(all: false) else { return true }
         var gensByDeg: [[GenElement]] = []
         let degMax = PathAlg.N == 3 ? 50 : PathAlg.alg.someNumber
         for deg in 0 ... degMax {
@@ -382,7 +383,7 @@ final class MultEnvironment {
     let gensMap: [String: Gen]
     let deg0Elements: [Gen]
 
-    init?() {
+    init?(all: Bool) {
         let elementsOrder = MultEnvironment.elementsOrder
         var labelToOrderMap: [String: Int] = [:]
         var orderToLabelMap: [Int: String] = [:]
@@ -402,8 +403,8 @@ final class MultEnvironment {
             }
         }
         self.gensMap = gensMap
-        if !Relations.checkZeroRelations(labelToOrderMap, gensMap) { return nil }
-        if !Relations.checkRelations(labelToOrderMap, gensMap) { return nil }
+        if !Relations.checkZeroRelations(all: all, labelToOrderMap, gensMap) { return nil }
+        if !Relations.checkRelations(all: all, labelToOrderMap, gensMap) { return nil }
         if !Relations.checkSumRelations(labelToOrderMap, gensMap) { return nil }
         deg0Elements = gens.filter { $0.deg == 0 && $0.label != "1" }
         zeroRelations = Relations.zeroRelations(labelToOrderMap)

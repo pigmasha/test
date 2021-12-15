@@ -1,6 +1,5 @@
 //
 //  ShiftHH+e0.swift
-//  D3
 //
 //  Created by M on 27.11.2021.
 //
@@ -24,47 +23,75 @@ extension ShiftHH {
         }
     }
 
+    private func putI1(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1][pos.0].add(left: Way.e1, right: Way.e1, koef: k)
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.e2, right: Way.e2, koef: k)
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.e3, right: Way.e3, koef: k)
+    }
+
+    private func putI2(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1][pos.0].add(left: Way.e2, right: Way.e1, koef: k)
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.e3, right: Way.e2, koef: k)
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.e1, right: Way.e3, koef: k)
+    }
+
+    private func putI3(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1][pos.0].add(left: Way.e1, right: Way.e2, koef: k)
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.e2, right: Way.e3, koef: k)
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.e3, right: Way.e1, koef: k)
+    }
+
+    private func putJ1(at pos: (Int, Int), koef k: Int) {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        matrix.rows[pos.1][pos.0].add(left: Way.alpha2(deg: n1 - 1), right: Way.beta1(deg: n2 - 1), koef: k)
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.alpha3(deg: n2 - 1), right: Way.beta2(deg: n3 - 1), koef: k)
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.alpha1(deg: n3 - 1), right: Way.beta3(deg: n1 - 1), koef: k)
+    }
+
+    private func putJ2(at pos: (Int, Int), koef k: Int) {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        matrix.rows[pos.1][pos.0].add(left: Way.beta1(deg: n2 - 1), right: Way.alpha2(deg: n1 - 1), koef: k)
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.beta2(deg: n3 - 1), right: Way.alpha3(deg: n2 - 1), koef: k)
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.beta3(deg: n1 - 1), right: Way.alpha1(deg: n3 - 1), koef: k)
+    }
+
     // MARK: - e
     private func shiftEEven() {
         for i in 0 ..< shiftDeg + 1 {
             let i0 = i % 6
-            matrix.rows[3 * i][3 * i].add(left: i0 == 2 || i0 == 4 ? Way.e2 : Way.e1,
-                                          right: i0 == 1 || i0 == 3 ? Way.e2 : Way.e1, koef: 1)
-            matrix.rows[3 * i + 1][3 * i + 1].add(left: i0 == 2 || i0 == 4 ? Way.e3 : Way.e2,
-                                                  right: i0 == 1 || i0 == 3 ? Way.e3 : Way.e2, koef: 1)
-            matrix.rows[3 * i + 2][3 * i + 2].add(left: i0 == 2 || i0 == 4 ? Way.e1 : Way.e3,
-                                                  right: i0 == 1 || i0 == 3 ? Way.e1 : Way.e3, koef: 1)
+            switch i0 {
+            case 0, 5: putI1(at: (3 * i, 3 * i), koef: 1)
+            case 1, 3: putI3(at: (3 * i, 3 * i), koef: 1)
+            default: putI2(at: (3 * i, 3 * i), koef: 1)
+            }
         }
     }
 
     private func shiftEOdd() {
         for i in 0 ..< shiftDeg + 1 {
             let i0 = i % 6
-            matrix.rows[3 * i][3 * i].add(left: i0 == 1 || i0 == 5 ? Way.e2 : Way.e1,
-                                          right: i0 == 0 || i0 == 4 ? Way.e2 : Way.e1, koef: 1)
-            matrix.rows[3 * i + 1][3 * i + 1].add(left: i0 == 1 || i0 == 5 ? Way.e3 : Way.e2,
-                                                  right: i0 == 0 || i0 == 4 ? Way.e3 : Way.e2, koef: 1)
-            matrix.rows[3 * i + 2][3 * i + 2].add(left: i0 == 1 || i0 == 5 ? Way.e1 : Way.e3,
-                                                  right: i0 == 0 || i0 == 4 ? Way.e1 : Way.e3, koef: 1)
+            switch i0 {
+            case 0, 4: putI3(at: (3 * i, 3 * i), koef: 1)
+            case 1, 5: putI2(at: (3 * i, 3 * i), koef: 1)
+            default: putI1(at: (3 * i, 3 * i), koef: 1)
+            }
         }
     }
 
-    // MARK: - e1
+    // MARK: - e1_h
     private func shiftE1Even() {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
-        matrix.rows[0][15].add(left: Way.e1, right: Way.e1, koef: 1)
-        matrix.rows[1][16].add(left: Way.e2, right: Way.e2, koef: 1)
-        matrix.rows[2][17].add(left: Way.e3, right: Way.e3, koef: 1)
+        putI1(at: (15, 0), koef: 1)
         if shiftDeg == 0 { return }
-        matrix.rows[6][12].add(left: Way.alpha2(deg: n1 - 1), right: Way.beta1(deg: n2 - 1), koef: 1)
-        matrix.rows[7][13].add(left: Way.alpha3(deg: n2 - 1), right: Way.beta2(deg: n3 - 1), koef: 1)
-        matrix.rows[8][14].add(left: Way.alpha1(deg: n3 - 1), right: Way.beta3(deg: n1 - 1), koef: 1)
+        putJ1(at: (12, 6), koef: 1)
         for i in 0 ..< shiftDeg + 1 {
             let i0 = i % 6
-            if i0 == 0 || i0 == 2 || i0 == 3 { continue }
-            matrix.rows[3 * i][3 * (i + 6)].add(left: i0 == 4 ? Way.e2 : Way.e1, right: i0 == 1 ? Way.e2 : Way.e1, koef: -1)
-            matrix.rows[3 * i + 1][3 * (i + 6) + 1].add(left: i0 == 4 ? Way.e3 : Way.e2, right: i0 == 1 ? Way.e3 : Way.e2, koef: -1)
-            matrix.rows[3 * i + 2][3 * (i + 6) + 2].add(left: i0 == 4 ? Way.e1 : Way.e3, right: i0 == 1 ? Way.e1 : Way.e3, koef: -1)
+            switch i0 {
+            case 1: putI3(at: (3 * (i + 6), 3 * i), koef: -1)
+            case 4: putI2(at: (3 * (i + 6), 3 * i), koef: -1)
+            case 5: putI1(at: (3 * (i + 6), 3 * i), koef: -1)
+            default: break
+            }
         }
         if shiftDeg == 2 { return }
         if n1 == 1 && n2 == 1 {
@@ -79,10 +106,12 @@ extension ShiftHH {
         if n1 != 1 || n2 != 1 || n3 != 1 || shiftDeg < 6 { return }
         for i in 0 ..< shiftDeg - 5 {
             let i0 = i % 6
-            if i0 == 1 || i0 == 4 || i0 == 5 { continue }
-            matrix.rows[3 * (i + 6)][3 * i].add(left: i0 == 2 ? Way.e2 : Way.e1, right: i0 == 3 ? Way.e2 : Way.e1, koef: 1)
-            matrix.rows[3 * (i + 6) + 1][3 * i + 1].add(left: i0 == 2 ? Way.e3 : Way.e2, right: i0 == 3 ? Way.e3 : Way.e2, koef: 1)
-            matrix.rows[3 * (i + 6) + 2][3 * i + 2].add(left: i0 == 2 ? Way.e1 : Way.e3, right: i0 == 3 ? Way.e1 : Way.e3, koef: 1)
+            switch i0 {
+            case 0: putI1(at: (3 * i, 3 * (i + 6)), koef: 1)
+            case 2: putI2(at: (3 * i, 3 * (i + 6)), koef: 1)
+            case 3: putI3(at: (3 * i, 3 * (i + 6)), koef: 1)
+            default: break
+            }
         }
     }
 
@@ -114,10 +143,12 @@ extension ShiftHH {
         }
         for i in 0 ..< shiftDeg + 1 {
             let i0 = i % 6
-            if i0 == 0 || i0 == 3 || i0 == 5 { continue }
-            matrix.rows[3 * i][3 * (i + 6)].add(left: i0 == 1 ? Way.e2 : Way.e1, right: i0 == 4 ? Way.e2 : Way.e1, koef: -1)
-            matrix.rows[3 * i + 1][3 * (i + 6) + 1].add(left: i0 == 1 ? Way.e3 : Way.e2, right: i0 == 4 ? Way.e3 : Way.e2, koef: -1)
-            matrix.rows[3 * i + 2][3 * (i + 6) + 2].add(left: i0 == 1 ? Way.e1 : Way.e3, right: i0 == 4 ? Way.e1 : Way.e3, koef: -1)
+            switch i0 {
+            case 1: putI2(at: (3 * (i + 6), 3 * i), koef: -1)
+            case 2: putI1(at: (3 * (i + 6), 3 * i), koef: -1)
+            case 4: putI3(at: (3 * (i + 6), 3 * i), koef: -1)
+            default: break
+            }
         }
         if shiftDeg == 1 { return }
         if n3 == 1 {
@@ -130,32 +161,32 @@ extension ShiftHH {
             matrix.rows[10][7].add(left: Way.alpha2(deg: n1 - 1), right: Way.beta2(deg: n3 - 1), koef: 1)
         }
         if n1 != 1 || n2 != 1 || n3 != 1 || shiftDeg < 5 { return }
-        matrix.rows[15][3].add(left: Way.e2, right: Way.e1, koef: 1)
-        matrix.rows[16][4].add(left: Way.e3, right: Way.e2, koef: 1)
-        matrix.rows[17][5].add(left: Way.e1, right: Way.e3, koef: 1)
+        putI2(at: (3, 15), koef: 1)
         for i in 0 ..< shiftDeg - 5 {
             let i0 = i % 6
-            if i0 == 1 || i0 == 2 || i0 == 4 { continue }
-            matrix.rows[3 * (i + 6)][3 * i].add(left: i0 == 5 ? Way.e2 : Way.e1, right: i0 == 0 ? Way.e2 : Way.e1, koef: 1)
-            matrix.rows[3 * (i + 6) + 1][3 * i + 1].add(left: i0 == 5 ? Way.e3 : Way.e2, right: i0 == 0 ? Way.e3 : Way.e2, koef: 1)
-            matrix.rows[3 * (i + 6) + 2][3 * i + 2].add(left: i0 == 5 ? Way.e1 : Way.e3, right: i0 == 0 ? Way.e1 : Way.e3, koef: 1)
+            switch i0 {
+            case 0: putI3(at: (3 * i, 3 * (i + 6)), koef: 1)
+            case 3: putI1(at: (3 * i, 3 * (i + 6)), koef: 1)
+            case 5: putI2(at: (3 * i, 3 * (i + 6)), koef: 1)
+            default: break
+            }
         }
     }
 
-    // MARK: - e2
+    // MARK: - e2_h
     private func shiftE2Even() {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         for i in 0 ..< shiftDeg + 1 {
             let i0 = i % 6
-            if i0 == 1 || i0 == 4 || i0 == 5 { continue }
-            matrix.rows[3 * i][3 * (i + 6)].add(left: i0 == 2 ? Way.e2 : Way.e1, right: i0 == 3 ? Way.e2 : Way.e1, koef: 1)
-            matrix.rows[3 * i + 1][3 * (i + 6) + 1].add(left: i0 == 2 ? Way.e3 : Way.e2, right: i0 == 3 ? Way.e3 : Way.e2, koef: 1)
-            matrix.rows[3 * i + 2][3 * (i + 6) + 2].add(left: i0 == 2 ? Way.e1 : Way.e3, right: i0 == 3 ? Way.e1 : Way.e3, koef: 1)
+            switch i0 {
+            case 0: putI1(at: (3 * (i + 6), 3 * i), koef: 1)
+            case 2: putI2(at: (3 * (i + 6), 3 * i), koef: 1)
+            case 3: putI3(at: (3 * (i + 6), 3 * i), koef: 1)
+            default: break
+            }
         }
         if shiftDeg == 0 { return }
-        matrix.rows[3][9].add(left: Way.beta1(deg: n2 - 1), right: Way.alpha2(deg: n1 - 1), koef: 1)
-        matrix.rows[4][10].add(left: Way.beta2(deg: n3 - 1), right: Way.alpha3(deg: n2 - 1), koef: 1)
-        matrix.rows[5][11].add(left: Way.beta3(deg: n1 - 1), right: Way.alpha1(deg: n3 - 1), koef: 1)
+        putJ2(at: (9, 3), koef: 1)
         if shiftDeg == 2 { return }
         if n1 == 1 && n2 == 1 {
             matrix.rows[12][6].add(left: Way.beta2(deg: n3 - 1), right: Way.alpha1(deg: n3 - 1), koef: 1)
@@ -167,15 +198,15 @@ extension ShiftHH {
             matrix.rows[14][8].add(left: Way.beta1(deg: n2 - 1), right: Way.alpha3(deg: n2 - 1), koef: 1)
         }
         if n1 != 1 || n2 != 1 || n3 != 1 || shiftDeg < 6 { return }
-        matrix.rows[15][0].add(left: Way.e1, right: Way.e1, koef: 1)
-        matrix.rows[16][1].add(left: Way.e2, right: Way.e2, koef: 1)
-        matrix.rows[17][2].add(left: Way.e3, right: Way.e3, koef: 1)
+        putI1(at: (0, 15), koef: 1)
         for i in 0 ..< shiftDeg - 5 {
             let i0 = i % 6
-            if i0 == 0 || i0 == 2 || i0 == 3 { continue }
-            matrix.rows[3 * (i + 6)][3 * i].add(left: i0 == 4 ? Way.e2 : Way.e1, right: i0 == 1 ? Way.e2 : Way.e1, koef: -1)
-            matrix.rows[3 * (i + 6) + 1][3 * i + 1].add(left: i0 == 4 ? Way.e3 : Way.e2, right: i0 == 1 ? Way.e3 : Way.e2, koef: -1)
-            matrix.rows[3 * (i + 6) + 2][3 * i + 2].add(left: i0 == 4 ? Way.e1 : Way.e3, right: i0 == 1 ? Way.e1 : Way.e3, koef: -1)
+            switch i0 {
+            case 1: putI3(at: (3 * i, 3 * (i + 6)), koef: -1)
+            case 4: putI2(at: (3 * i, 3 * (i + 6)), koef: -1)
+            case 5: putI1(at: (3 * i, 3 * (i + 6)), koef: -1)
+            default: break
+            }
         }
     }
 
@@ -207,10 +238,12 @@ extension ShiftHH {
         }
         for i in 0 ..< shiftDeg + 1 {
             let i0 = i % 6
-            if i0 == 1 || i0 == 2 || i0 == 4 { continue }
-            matrix.rows[3 * i][3 * (i + 6)].add(left: i0 == 5 ? Way.e2 : Way.e1, right: i0 == 0 ? Way.e2 : Way.e1, koef: 1)
-            matrix.rows[3 * i + 1][3 * (i + 6) + 1].add(left: i0 == 5 ? Way.e3 : Way.e2, right: i0 == 0 ? Way.e3 : Way.e2, koef: 1)
-            matrix.rows[3 * i + 2][3 * (i + 6) + 2].add(left: i0 == 5 ? Way.e1 : Way.e3, right: i0 == 0 ? Way.e1 : Way.e3, koef: 1)
+            switch i0 {
+            case 0: putI3(at: (3 * (i + 6), 3 * i), koef: 1)
+            case 3: putI1(at: (3 * (i + 6), 3 * i), koef: 1)
+            case 5: putI2(at: (3 * (i + 6), 3 * i), koef: 1)
+            default: break
+            }
         }
         if shiftDeg == 1 { return }
         if n3 == 1 {
@@ -223,15 +256,15 @@ extension ShiftHH {
             matrix.rows[7][10].add(left: Way.beta2(deg: n3 - 1), right: Way.alpha2(deg: n1 - 1), koef: 1)
         }
         if n1 != 1 || n2 != 1 || n3 != 1 || shiftDeg < 5 { return }
-        matrix.rows[12][0].add(left: Way.e1, right: Way.e2, koef: -1)
-        matrix.rows[13][1].add(left: Way.e2, right: Way.e3, koef: -1)
-        matrix.rows[14][2].add(left: Way.e3, right: Way.e1, koef: -1)
+        putI3(at: (0, 12), koef: -1)
         for i in 0 ..< shiftDeg - 5 {
             let i0 = i % 6
-            if i0 == 0 || i0 == 3 || i0 == 5 { continue }
-            matrix.rows[3 * (i + 6)][3 * i].add(left: i0 == 1 ? Way.e2 : Way.e1, right: i0 == 4 ? Way.e2 : Way.e1, koef: -1)
-            matrix.rows[3 * (i + 6) + 1][3 * i + 1].add(left: i0 == 1 ? Way.e3 : Way.e2, right: i0 == 4 ? Way.e3 : Way.e2, koef: -1)
-            matrix.rows[3 * (i + 6) + 2][3 * i + 2].add(left: i0 == 1 ? Way.e1 : Way.e3, right: i0 == 4 ? Way.e1 : Way.e3, koef: -1)
+            switch i0 {
+            case 1: putI2(at: (3 * i, 3 * (i + 6)), koef: -1)
+            case 2: putI1(at: (3 * i, 3 * (i + 6)), koef: -1)
+            case 4: putI3(at: (3 * i, 3 * (i + 6)), koef: -1)
+            default: break
+            }
         }
     }
 }

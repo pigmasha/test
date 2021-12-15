@@ -18,7 +18,7 @@ struct Relations {
     }
 
     private static func zeroGens() -> [String: Int] {
-        let relations = self.zeroRelations
+        let relations = self.zeroRelations(false)
         var zeroGens: [String: Int] = [:]
         for r in relations {
             if r.count == 1 { zeroGens[r[0]] = 1 }
@@ -93,10 +93,11 @@ struct Relations {
         return (deg, matrix)
     }
 
-    static func checkZeroRelations(_ orderMap: [String: Int], _ gensMap: [String: Gen]) -> Bool {
-        let relations = self.zeroRelations
+    static func checkZeroRelations(all: Bool, _ orderMap: [String: Int], _ gensMap: [String: Gen]) -> Bool {
+        let relations = self.zeroRelations(all)
         let zeroGens = zeroGens()
         for r in relations {
+            if all && r.contains(where: { gensMap[$0] == nil || $0 == "c12" || $0 == "c23" || $0 == "c31" }) { continue }
             if r.count == 1 {
                 if gensMap[r[0]] != nil { return false }
                 if zeroGens[r[0]] == nil { return false }
@@ -137,10 +138,16 @@ struct Relations {
         return (matrix, deg)
     }
 
-    static func checkRelations(_ orderMap: [String: Int], _ gensMap: [String: Gen]) -> Bool {
+    static func checkRelations(all: Bool, _ orderMap: [String: Int], _ gensMap: [String: Gen]) -> Bool {
         let zeroGens = zeroGens()
-        let relations = self.relations
+        let relations = self.relations(all)
         for (p1, p2, _, k) in relations {
+            if all && p1.contains(where: { gensMap[$0] == nil }) { continue }
+            if all && p2.contains(where: { gensMap[$0] == nil }) { continue }
+            if all && p1.contains(where: { $0 == "c12" || $0 == "c23" || $0 == "c31" })
+                && p2.contains(where: { $0 == "c12" || $0 == "c23" || $0 == "c31" }) {
+                continue
+            }
             if p1.contains(where: { zeroGens[$0] != nil }) || p2.contains(where: { zeroGens[$0] != nil }) { continue }
             guard let (mult1, deg1) = processMult(p1, orderMap, gensMap) else {
                 OutputFile.writeLog(.error, "checkRelations: can't mult \(p1)")
@@ -179,13 +186,13 @@ struct Relations {
     }
 
     static func zeroRelations(_ orderMap: [String: Int]) -> [[Int]] {
-        return zeroRelations.map { r in
+        return zeroRelations(false).map { r in
             r.map { orderMap[$0]! }
         }
     }
 
     static func relations(_ orderMap: [String: Int]) -> [([Int], [Int])] {
-        return relations.map { m1, m2, _, _ in
+        return relations(false).map { m1, m2, _, _ in
             return (m1.map { orderMap[$0]! }, m2.map { orderMap[$0]! })
         }
     }
@@ -196,11 +203,13 @@ struct Relations {
         }
     }
 
-    private static var zeroRelations: [[String]] {
+    private static func zeroRelations(_ all: Bool) -> [[String]] {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         let c12_n3_1 = n3 == 1 ? [] : (0 ..< n3 - 1).map { _ in "c12" }
         let c23_n1_1 = n1 == 1 ? [] : (0 ..< n1 - 1).map { _ in "c23" }
         let c31_n2_1 = n2 == 1 ? [] : (0 ..< n2 - 1).map { _ in "c31" }
+        let (n1Zero, n2Zero, n3Zero) = all ? (true, true, true) : (NumInt.isZero(n: n1), NumInt.isZero(n: n2), NumInt.isZero(n: n3))
+        let (n1NotZero, n2NotZero, n3NotZero) = all ? (true, true, true) : (!n1Zero, !n2Zero, !n3Zero)
         var relations: [[String]] = []
         // 0
         relations += [
@@ -209,22 +218,22 @@ struct Relations {
         ]
         // 1
         relations += [ ["c12", "z1"], ["c23", "z1"], ["c31", "z1"] ]
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["c12", "w23"], c23_n1_1 + ["c23", "w23"], ["c31", "w23"]  ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["c12", "w31"], ["c23", "w31"], c31_n2_1 + ["c31", "w31"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ c12_n3_1 + ["c12", "w12"], ["c23", "w12"], ["c31", "w12"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ c12_n3_1 + ["x1"], ["c23", "x1"], ["c31", "x1"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["c12", "x3"], ["c23", "x3"], c31_n2_1 + ["x3"] ]
         }
-        if !NumInt.isZero(n: n1) {
+        if n1NotZero {
             relations += [ c12_n3_1 + ["c12", "w"], c23_n1_1 + ["c23", "w"], c31_n2_1 + ["c31", "w"] ]
         }
         // 2
@@ -233,66 +242,66 @@ struct Relations {
             ["z1", "z1"],
             ["c12", "u1"], ["c23", "u1"], ["c31", "u1"], ["c12", "u2"], ["c23", "u2"], ["c31", "u2"],
         ]
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["c12", "q"], ["c23", "q"], ["c31", "q"], ["z1", "w23"], ["w23", "w23"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["z1", "x1"],  ["w23", "x1"], ["x1", "x1"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["z1", "x3"], ["w23", "x3"], ["x1", "x3"], ["x3", "x3"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ c23_n1_1 + ["c23", "x23"], ["z1", "w31"], ["w23", "w31"], ["w31", "w31"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ c12_n3_1 + ["c12", "x12"], ["z1", "w12"], ["w23", "w12"], ["w31", "w12"], ["w12", "w12"] ]
         }
-        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+        if n2Zero && n3NotZero {
             relations += [ ["w31", "x1"] ]
         }
-        if !NumInt.isZero(n: n1) {
+        if n1NotZero {
             relations += [ ["w", "w"] ]
         }
-        if !NumInt.isZero(n: n2) {
+        if n2NotZero {
             relations += [ c23_n1_1 + ["x23"], c31_n2_1 + ["x31"] ]
         }
-        if !NumInt.isZero(n: n3) {
+        if n3NotZero {
             relations += [ c12_n3_1 + ["x12"] ]
         }
         // 3
         relations += [ ["z1", "x12"], ["z1", "x23"], ["z1", "x31"] ]
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [
                 ["z1", "q"], ["w23", "x12"], ["w23", "x31"], ["w23", "u1"], ["w23", "q"],
                 ["c12", "w23_h"], c23_n1_1 + ["c23", "w23_h"], ["c31", "w23_h"]
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [
                 ["x1", "x23"], ["x1", "x31"], ["x1", "u1"], ["x1", "u2"], ["x1", "q"],
                 c12_n3_1 + ["x1_h"], ["c23", "x1_h"], ["c31", "x1_h"]
             ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [
                 ["c12", "w31_h"], ["c23", "w31_h"], c31_n2_1 + ["c31", "w31_h"],
                 ["w31", "x12"], ["w31", "x23"], ["w31", "u1"], ["w31", "q"]
             ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [
                 c12_n3_1 + ["c12", "w12_h"], ["c23", "w12_h"], ["c31", "w12_h"],
                 ["w12", "x23"], ["w12", "x31"], ["w12", "u1"], ["w12", "q"],
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [
                 ["c12", "x3_h"], ["c23", "x3_h"], c31_n2_1 + ["x3_h"],
                 ["x3", "x12"], ["x3", "x23"], ["x3", "u1"], ["x3", "u2"], ["x3", "q"],
             ]
         }
-        if !NumInt.isZero(n: n1) {
+        if n1NotZero {
             relations += [ ["w", "u1"] ]
         }
         // 4
@@ -300,54 +309,54 @@ struct Relations {
             ["x12", "u1"], ["x23", "u1"], ["x31", "u1"], ["x12", "u2"], ["x23", "u2"], ["x31", "u2"],
             ["x12", "x23"], ["x23", "x31"], ["x12", "x31"], ["u1", "u1"], ["u2", "u2"], ["u1", "u2"]
         ]
-        if !NumInt.isZero(n: n1) {
+        if n1NotZero {
             relations += [c23_n1_1 + ["c23", "e"]]
         }
-        if !NumInt.isZero(n: n2) {
+        if n2NotZero {
             relations += [ c31_n2_1 + ["c31", "e"] ]
         }
-        if !NumInt.isZero(n: n3) {
+        if n3NotZero {
             relations += [ c12_n3_1 + ["c12", "e"] ]
         }
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [
                 ["z1", "w23_h"], ["w23", "w23_h"],
                 ["x12", "q"], ["x23", "q"], ["x31", "q"], ["u1", "q"], ["u2", "q"], ["q", "q"]
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["z1", "x1_h"], ["w23", "x1_h"], ["x1", "w23_h"], ["x1", "x1_h"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["z1", "w31_h"], ["w23", "w31_h"], ["w31", "w23_h"], ["w31", "w31_h"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [
                 ["z1", "w12_h"], ["w23", "w12_h"], ["w31", "w12_h"], ["w12", "w23_h"], ["w12", "w31_h"], ["w12", "w12_h"]
             ]
         }
-        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+        if n2Zero && n3NotZero {
             relations += [ ["w31", "x1_h"], ["x1", "w31_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [
                 ["z1", "x3_h"], ["w23", "x3_h"], ["x1", "x3_h"], ["x3", "w23_h"], ["x3", "x1_h"], ["x3", "x3_h"]
             ]
         }
         // 5
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["w23_h", "x12"], ["w23_h", "x31"], ["w23_h", "u1"], ["w23_h", "u2"], ["w23_h", "q"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["x1_h", "x23"], ["x1_h", "x31"], ["x1_h", "u1"], ["x1_h", "u2"], ["x1_h", "q"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["w31_h", "x12"], ["w31_h", "x23"], ["w31_h", "u1"], ["w31_h", "u2"], ["w31_h", "q"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ ["w12_h", "x23"], ["w12_h", "x31"], ["w12_h", "u1"], ["w12_h", "u2"], ["w12_h", "q"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["x3_h", "x12"], ["x3_h", "x23"], ["x3_h", "u1"], ["x3_h", "u2"], ["x3_h", "q"] ]
         }
         // 6
@@ -355,41 +364,41 @@ struct Relations {
             ["e", "u1"], ["e", "u2"],
             ["c12", "e1_h"], ["c23", "e1_h"], ["c31", "e1_h"], ["c12", "e2_h"], ["c23", "e2_h"], ["c31", "e2_h"]
         ]
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["w23_h", "w23_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["w23_h", "x1_h"], ["x1_h", "x1_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["w23_h", "x3_h"], ["x1_h", "x3_h"], ["x3_h", "x3_h"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["w23_h", "w31_h"], ["w31_h", "w31_h"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ ["w23_h", "w12_h"], ["w31_h", "w12_h"], ["w12_h", "w12_h"] ]
         }
-        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+        if n2Zero && n3NotZero {
             relations += [ ["w31_h", "x1_h"] ]
         }
         // 7
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [
                 ["w23", "e1_h"],
                 ["c12", "u1_h"], ["c23", "u1_h"], ["c31", "u1_h"], ["c12", "u2_h"], ["c23", "u2_h"], ["c31", "u2_h"]
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["x1", "e1_h"], ["x1", "e2_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["x3", "e1_h"], ["x3", "e2_h"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["w31", "e1_h"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ ["w12", "e1_h"] ]
         }
         // 8
@@ -397,55 +406,55 @@ struct Relations {
             ["e1_h", "x12"], ["e1_h", "x23"], ["e1_h", "x31"], ["e2_h", "x12"], ["e2_h", "x23"], ["e2_h", "x31"],
             ["e2_h", "u1"], ["e1_h", "u2"]
         ]
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["w23", "u1_h"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [  ["w31", "u1_h"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [  ["w12", "u1_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["x1", "u1_h"], ["x1", "u2_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["x3", "u1_h"], ["x3", "u2_h"] ]
         }
         // 9
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [
                 ["x12", "u1_h"], ["x12", "u2_h"], ["x23", "u1_h"], ["x23", "u2_h"], ["x31", "u1_h"], ["x31", "u2_h"],
                 ["u1", "u1_h"], ["u1", "u2_h"], ["u2", "u1_h"], ["u2", "u2_h"], ["u1_h", "q"], ["u2_h", "q"],
                 ["w23_h", "e1_h"], ["w23_h", "e2_h"]
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["x1_h", "e1_h"], ["x1_h", "e2_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["x3_h", "e1_h"], ["x3_h", "e2_h"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["w31_h", "e1_h"], ["w31_h", "e2_h"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ ["w12_h", "e1_h"], ["w12_h", "e2_h"] ]
         }
         // 10
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["w23_h", "u1_h"], ["w23_h", "u2_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ ["x1_h", "u1_h"], ["x1_h", "u2_h"] ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ ["x3_h", "u1_h"], ["x3_h", "u2_h"] ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ ["w31_h", "u1_h"], ["w31_h", "u2_h"] ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ ["w12_h", "u1_h"], ["w12_h", "u2_h"] ]
         }
         // 12
@@ -453,52 +462,54 @@ struct Relations {
             relations += [ ["e1_h", "e2_h"] ]
         }
         // 13
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["e1_h", "u2_h"], ["e2_h", "u1_h"] ]
         }
         // 14
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ ["u1_h", "u1_h"], ["u1_h", "u2_h"], ["u2_h", "u2_h"] ]
         }
         return relations
     }
 
-    private static var relations: [([String], [String], String, Int)] {
+    private static func relations(_ all: Bool) -> [([String], [String], String, Int)] {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
         //let c12_n3_1 = n3 == 1 ? [] : (0 ..< n3 - 1).map { _ in "c12" }
         let c23_n1_1 = n1 == 1 ? [] : (0 ..< n1 - 1).map { _ in "c23" }
         let c31_n2_1 = n2 == 1 ? [] : (0 ..< n2 - 1).map { _ in "c31" }
+        let (n1Zero, n2Zero, n3Zero) = all ? (true, true, true) : (NumInt.isZero(n: n1), NumInt.isZero(n: n2), NumInt.isZero(n: n3))
+        let (n1NotZero, n2NotZero, n3NotZero) = all ? (true, true, true) : (!n1Zero, !n2Zero, !n3Zero)
         var relations: [([String], [String], String, Int)] = []
         // 2
-        if NumInt.isZero(n: n2) && !NumInt.isZero(n: n3) {
+        if n2Zero && n3NotZero {
             relations += [ (c31_n2_1 + ["x31"], c23_n1_1 + ["x23"], "-1", -1) ]
         }
         // 3
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [
                 (["w23", "x23"], ["c23", "w23_h"], "-1", -1),
                 (["w23", "u2"], ["z1", "u2"], "1", 1)
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ (["x1", "x12"], ["c12", "x1_h"], "-1", -1) ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [
                 (["w31", "x31"], ["c31", "w31_h"], "-1", -1),
                 (["w31", "u2"], ["z1", "u2"], "1", 1)
             ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [
                 (["w12", "x12"], ["c12", "w12_h"], "-1", -1),
                 (["w12", "u2"], ["z1", "u2"], "1", 1)
             ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ (["x3", "x31"], ["c31", "x3_h"], "-1", -1) ]
         }
-        if !NumInt.isZero(n: n1) {
+        if n1NotZero {
             relations += [ (["w", "u2"], ["z1", "u2"], "(n1*n2+n2*n3+n3*n1)", n1 * n2 + n2 * n3 + n3 * n1) ]
         }
         // 4
@@ -508,43 +519,43 @@ struct Relations {
             (["x31", "x31"], ["c31", "c31", "e"], "-1", -1)
         ]
         // 5
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ (["w23_h", "x23"], ["c23", "w23", "e"], "1", 1) ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n3) {
+        if n1Zero && n3NotZero {
             relations += [ (["x1_h", "x12"], ["c12", "x1", "e"], "1", 1) ]
         }
-        if NumInt.isZero(n: n1) && !NumInt.isZero(n: n2) {
+        if n1Zero && n2NotZero {
             relations += [ (["x3_h", "x31"], ["c31", "x3", "e"], "1", 1) ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ (["w31_h", "x31"], ["c31", "w31", "e"], "1", 1) ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ (["w12_h", "x12"], ["c12", "w12", "e"], "1", 1) ]
         }
         // 7
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [ (["w23", "e2_h"], ["z1", "e2_h"], "1", 1) ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ (["w31", "e2_h"], ["z1", "e2_h"], "1", 1) ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ (["w12", "e2_h"], ["z1", "e2_h"], "1", 1) ]
         }
         // 8
-        if NumInt.isZero(n: n1) {
+        if n1Zero {
             relations += [
                 (["w23", "u2_h"], ["z1", "u2_h"], "1", 1),
                 (["e1_h", "q"], ["z1", "u1_h"], "-1", -1),
                 (["e2_h", "q"], ["z1", "u2_h"], "1", 1)
             ]
         }
-        if NumInt.isZero(n: n2) {
+        if n2Zero {
             relations += [ (["w31", "u2_h"], ["z1", "u2_h"], "1", 1) ]
         }
-        if NumInt.isZero(n: n3) {
+        if n3Zero {
             relations += [ (["w12", "u2_h"], ["z1", "u2_h"], "1", 1) ]
         }
         // 12
