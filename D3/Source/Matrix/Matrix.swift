@@ -110,12 +110,19 @@ class Matrix {
         }
     }
 
+    func putFi(at pos: (x: Int, y: Int)) {
+        putFi(from: pos, to: pos, koef: 1)
+    }
+
     func putFi(from: (x: Int, y: Int), to: (x: Int, y: Int), koef: Int) {
+        let samePlace = from.x == to.x && from.y == to.y
         for x1 in 0 ... 2 {
             for y1 in 0 ... 2 {
                 let c = rows[from.y + y1][from.x + x1]
                 if c.isZero { continue }
-                for (k, t) in c.contents {
+                let c0 = samePlace ? Comb(comb: c) : c
+                if samePlace { rows[to.y + y1][to.x + x1].clear() }
+                for (k, t) in c0.contents {
                     rows[to.y + y1][to.x + x1].add(left: fi(forWay: t.rightComponent),
                                                    right: fi(forWay: t.leftComponent),
                                                    koef: k.n * koef)

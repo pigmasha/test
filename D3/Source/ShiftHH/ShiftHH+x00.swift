@@ -23,17 +23,17 @@ extension ShiftHH {
         }
     }
 
-    private func putD1(at pos: (Int, Int), koef k: Int) {
-        matrix.rows[pos.1][pos.0].add(left: Way.beta2, right: Way.e1, koef: k)
-        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.alpha1, right: Way.e3, koef: -k)
+    private func putD3(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1][pos.0].add(left: Way.beta2, right: Way.e1, koef: -k)
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.alpha1, right: Way.e3, koef: k)
     }
 
-    private func putD2(at pos: (Int, Int), koef k: Int) {
+    private func putD1(at pos: (Int, Int), koef k: Int) {
         matrix.rows[pos.1][pos.0].add(left: Way.alpha1, right: Way.e1, koef: k)
         matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.beta2, right: Way.e2, koef: -k)
     }
 
-    private func putD3(at pos: (Int, Int), koef k: Int) {
+    private func putD2(at pos: (Int, Int), koef k: Int) {
         matrix.rows[pos.1][pos.0].add(left: Way.alpha1, right: Way.e2, koef: k)
         matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.beta2, right: Way.e3, koef: -k)
     }
@@ -44,12 +44,12 @@ extension ShiftHH {
             let i0 = i % 6
             let k = Utils.minusDeg(shiftDeg / 2) * Utils.minusDeg(i / 6)
             switch i0 {
-            case 0: putD2(at: (3 * i, 3 * i), koef: k)
-            case 1: putD3(at: (3 * i, 3 * i), koef: -k)
-            case 2: putD1(at: (3 * i, 3 * i), koef: k)
-            case 3: putD3(at: (3 * i, 3 * i), koef: k)
-            case 4: putD1(at: (3 * i, 3 * i), koef: -k)
-            default: putD2(at: (3 * i, 3 * i), koef: -k)
+            case 0: putD1(at: (3 * i, 3 * i), koef: k)
+            case 1: putD2(at: (3 * i, 3 * i), koef: -k)
+            case 2: putD3(at: (3 * i, 3 * i), koef: -k)
+            case 3: putD2(at: (3 * i, 3 * i), koef: k)
+            case 4: putD3(at: (3 * i, 3 * i), koef: k)
+            default: putD1(at: (3 * i, 3 * i), koef: -k)
             }
         }
     }
@@ -59,12 +59,12 @@ extension ShiftHH {
             let i0 = i % 6
             let k = Utils.minusDeg((shiftDeg - 1) / 2) * Utils.minusDeg(i / 6)
             switch i0 {
-            case 0: putD3(at: (3 * i, 3 * i), koef: -k)
-            case 1: putD1(at: (3 * i, 3 * i), koef: -k)
-            case 2: putD2(at: (3 * i, 3 * i), koef: -k)
-            case 3: putD2(at: (3 * i, 3 * i), koef: k)
-            case 5: putD1(at: (3 * i, 3 * i), koef: k)
-            default: putD3(at: (3 * i, 3 * i), koef: k)
+            case 0: putD2(at: (3 * i, 3 * i), koef: -k)
+            case 1: putD3(at: (3 * i, 3 * i), koef: k)
+            case 2: putD1(at: (3 * i, 3 * i), koef: -k)
+            case 3: putD1(at: (3 * i, 3 * i), koef: k)
+            case 5: putD3(at: (3 * i, 3 * i), koef: -k)
+            default: putD2(at: (3 * i, 3 * i), koef: k)
             }
         }
     }

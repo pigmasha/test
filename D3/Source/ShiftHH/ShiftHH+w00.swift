@@ -59,9 +59,8 @@ extension ShiftHH {
             return true
         case "w12_h":
             switch shiftDeg {
-            case 0: shiftW12h0()
             case 1, 3, 5: shiftW12hOdd()
-            case 2, 4, 6: shiftW12hEven()
+            case 0, 2, 4, 6: shiftW12hEven()
             default: break
             }
             return true
@@ -78,74 +77,162 @@ extension ShiftHH {
         matrix.rows[2][2].add(left: Way.e3, right: Way(type: .a31, len: 1), koef: n3 * n1)
     }
 
-    private func shiftW1() {
+    private func putW123_1(at pos: (Int, Int), koef k: Int) {
         let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        for i in 0 ... n3 - 1 {
+            matrix.rows[pos.1][pos.0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: k)
+        }
+        for i in 0 ... n1 - 1 {
+            matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - i) - 1), koef: k)
+        }
+        for i in 0 ... n2 - 1 {
+            matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.alpha3(deg: i), right: Way(type: .a13, len: 2 * (n2 - i) - 1), koef: k)
+        }
+    }
 
+    private func putW12_1(at pos: (Int, Int), koef k: Int) {
+        let n3 = PathAlg.n3
         for i in 0 ... n3 - 1 {
-            matrix.rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: n1 * n2 * n3)
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[1][1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - i) - 1), koef: n1 * n2 * n3)
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[2][2].add(left: Way.alpha3(deg: i), right: Way(type: .a13, len: 2 * (n2 - i) - 1), koef: n1 * n2 * n3)
-        }
-        ///
-        for i in 0 ...  n3 - 1 {
-            matrix.rows[3][0].add(left: Way(type: .a12, len: 2 * i + 1), right: Way.alpha1(deg: n3 - i - 1), koef: n1 * n2 * n3)
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][1].add(left: Way(type: .a23, len: 2 * i + 1), right: Way.alpha2(deg: n1 - i - 1), koef: n1 * n2 * n3)
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[5][2].add(left: Way(type: .a31, len: 2 * i + 1), right: Way.alpha3(deg: n2 - i - 1), koef: n1 * n2 * n3)
-        }
-        ///
-        for i in 0 ... n3 - 1 {
-            matrix.rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: -n1 * n2 * (i + 1))
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[1][1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - i) - 1), koef: -n2 * n3 * (i + 1))
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[2][2].add(left: Way.alpha3(deg: i), right: Way(type: .a13, len: 2 * (n2 - i) - 1), koef: -n1 * n3 * (i + 1))
-        }
-        for i in 0 ... n3 - 1 {
-            matrix.rows[3][0].add(left: Way(type: .a12, len: 2 * i + 1), right: Way.alpha1(deg: n3 - i - 1), koef: -n1 * n2 * (i + 1))
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][1].add(left: Way(type: .a23, len: 2 * i + 1), right: Way.alpha2(deg: n1 - i - 1), koef: -n2 * n3 * (i + 1))
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[5][2].add(left: Way(type: .a31, len: 2 * i + 1), right: Way.alpha3(deg: n2 - i - 1), koef: -n1 * n3 * (i + 1))
-        }
-        for i in 0 ... n3 - 1 {
-            matrix.rows[3][1].add(left: Way.beta2(deg: n3 - i - 1), right: Way(type: .a12, len: 2 * i + 1), koef: -n1 * n2 * (i + 1))
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][2].add(left: Way.beta3(deg: n1 - i - 1), right: Way(type: .a23, len: 2 * i + 1), koef: -n2 * n3 * (i + 1))
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[5][0].add(left: Way.beta1(deg: n2 - i - 1), right: Way(type: .a31, len: 2 * i + 1), koef: -n3 * n1 * (i + 1))
+            matrix.rows[pos.1][pos.0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: -k * (i + 1))
         }
         if n3 > 1 {
             for i in 1 ... n3 - 1 {
-                matrix.rows[0][1].add(left: Way(type: .a21, len: 2 * (n3 - i) - 1), right: Way.beta2(deg: i), koef: -n1 * n2 * i)
+                matrix.rows[pos.1][pos.0 + 1].add(left: Way(type: .a21, len: 2 * (n3 - i) - 1), right: Way.beta2(deg: i), koef: -k * i)
             }
+        }
+    }
+
+    private func putW12_1_1(at pos: (Int, Int), koef k: Int) {
+        let n3 = PathAlg.n3
+        for i in 0 ... n3 - 1 {
+            matrix.rows[pos.1][pos.0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: -k * (i + 1))
+        }
+        if n3 > 1 {
+            for i in 1 ... n3 - 1 {
+                matrix.rows[pos.1][pos.0 + 1].add(left: Way(type: .a21, len: 2 * (n3 - i) - 1), right: Way.beta2(deg: i), koef: k * i)
+            }
+        }
+    }
+
+    private func putW12_2(at pos: (Int, Int), koef k: Int) {
+        let n3 = PathAlg.n3
+        for i in 0 ... n3 - 1 {
+            matrix.rows[pos.1][pos.0].add(left: Way(type: .a12, len: 2 * i + 1), right: Way.alpha1(deg: n3 - i - 1), koef: -k * (i + 1))
+        }
+        for i in 0 ... n3 - 1 {
+            matrix.rows[pos.1][pos.0 + 1].add(left: Way.beta2(deg: n3 - i - 1), right: Way(type: .a12, len: 2 * i + 1), koef: -k * (i + 1))
+        }
+    }
+
+    private func putW12_2_1(at pos: (Int, Int), koef k: Int) {
+        let n3 = PathAlg.n3
+        for i in 0 ... n3 - 1 {
+            matrix.rows[pos.1][pos.0].add(left: Way(type: .a12, len: 2 * i + 1), right: Way.alpha1(deg: n3 - i - 1), koef: -k * (i + 1))
+        }
+        for i in 0 ... n3 - 1 {
+            matrix.rows[pos.1][pos.0 + 1].add(left: Way.beta2(deg: n3 - i - 1), right: Way(type: .a12, len: 2 * i + 1), koef: k * (i + 1))
+        }
+    }
+
+    private func putW23_1(at pos: (Int, Int), koef k: Int, overline: Bool) {
+        let n1 = PathAlg.n1
+        for i in 0 ... n1 - 1 {
+            matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - i) - 1), koef: -k * (i + 1))
         }
         if n1 > 1 {
             for i in 1 ... n1 - 1 {
-                matrix.rows[1][2].add(left: Way(type: .a32, len: 2 * (n1 - i) - 1), right: Way.beta3(deg: i), koef: -n2 * n3 * i)
+                matrix.rows[pos.1 + 1][pos.0 + 2].add(left: Way(type: .a32, len: 2 * (n1 - i) - 1), right: Way.beta3(deg: i),
+                                                      koef: overline ? k * i : -k * i)
             }
+        }
+    }
+
+    private func putW23_2(at pos: (Int, Int), koef k: Int, overline: Bool) {
+        let n1 = PathAlg.n1
+        for i in 0 ... n1 - 1 {
+            matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way(type: .a23, len: 2 * i + 1), right: Way.alpha2(deg: n1 - i - 1), koef: -k * (i + 1))
+        }
+        for i in 0 ... n1 - 1 {
+            matrix.rows[pos.1 + 1][pos.0 + 2].add(left: Way.beta3(deg: n1 - i - 1), right: Way(type: .a23, len: 2 * i + 1),
+                                                  koef: overline ? k * (i + 1) : -k * (i + 1))
+        }
+    }
+
+    private func putW31_1(at pos: (Int, Int), koef k: Int) {
+        let n2 = PathAlg.n2
+        for i in 0 ... n2 - 1 {
+            matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.alpha3(deg: i), right: Way(type: .a13, len: 2 * (n2 - i) - 1), koef: -k * (i + 1))
         }
         if n2 > 1 {
             for i in 1 ... n2 - 1 {
-                matrix.rows[2][0].add(left: Way(type: .a13, len: 2 * (n2 - i) - 1), right: Way.beta1(deg: i), koef: -n3 * n1 * i)
+                matrix.rows[pos.1 + 2][pos.0].add(left: Way(type: .a13, len: 2 * (n2 - i) - 1), right: Way.beta1(deg: i), koef: -k * i)
             }
         }
-        matrix.rows[1][6].add(left: Way.e2, right: Way(type: .a31, len: 1), koef: n1 * n3)
-        matrix.rows[2][7].add(left: Way.e3, right: Way(type: .a12, len: 1), koef: n1 * n2)
-        matrix.rows[0][8].add(left: Way.e1, right: Way(type: .a23, len: 1), koef: n2 * n3)
+    }
+
+    private func putW31_2(at pos: (Int, Int), koef k: Int) {
+        let n2 = PathAlg.n2
+        for i in 0 ... n2 - 1 {
+            matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way(type: .a31, len: 2 * i + 1), right: Way.alpha3(deg: n2 - i - 1), koef: -k * (i + 1))
+        }
+        for i in 0 ... n2 - 1 {
+            matrix.rows[pos.1 + 2][pos.0].add(left: Way.beta1(deg: n2 - i - 1), right: Way(type: .a31, len: 2 * i + 1), koef: -k * (i + 1))
+        }
+    }
+
+    private func putW1(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 2][pos.0 + 1].add(left: Way.e3, right: Way(type: .a12, len: 1), koef: k)
+    }
+
+    private func putW2(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1][pos.0 + 2].add(left: Way.e1, right: Way(type: .a23, len: 1), koef: k)
+    }
+
+    private func putW3(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 1][pos.0].add(left: Way.e2, right: Way(type: .a31, len: 1), koef: k)
+    }
+
+    private func putW4(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1][pos.0].add(left: Way.e1, right: Way(type: .a12, len: 1), koef: k)
+    }
+
+    private func putW5(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 1][pos.0 + 2].add(left: Way.e3, right: Way(type: .a21, len: 2 * PathAlg.n3 - 1), koef: k)
+    }
+
+    private func putW6(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way(type: .a23, len: 1), right: Way.e2, koef: k)
+    }
+
+    private func putW7(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way(type: .a32, len: 2 * PathAlg.n1 - 1), right: Way.e2, koef: k)
+    }
+
+    private func putW8(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 1][pos.0 + 1].add(left: Way.e2, right: Way(type: .a23, len: 1), koef: k)
+    }
+
+    private func putW14(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way(type: .a13, len: 2 * PathAlg.n2 - 1), right: Way.e3, koef: k)
+    }
+
+    private func putW15(at pos: (Int, Int), koef k: Int) {
+        matrix.rows[pos.1 + 2][pos.0 + 2].add(left: Way.e3, right: Way(type: .a31, len: 1), koef: k)
+    }
+
+    private func shiftW1() {
+        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
+        putW123_1(at: (0, 0), koef: n1 * n2 * n3)
+        matrix.putFi(from: (0, 0), to: (0, 3), koef: 1)
+        putW12_1(at: (0, 0), koef: n1 * n2)
+        putW12_2(at: (0, 3), koef: n1 * n2)
+        putW23_1(at: (0, 0), koef: n2 * n3, overline: false)
+        putW23_2(at: (0, 3), koef: n2 * n3, overline: false)
+        putW31_1(at: (0, 0), koef: n3 * n1)
+        putW31_2(at: (0, 3), koef: n3 * n1)
+        putW1(at: (6, 0), koef: n1 * n2)
+        putW2(at: (6, 0), koef: n2 * n3)
+        putW3(at: (6, 0), koef: n3 * n1)
     }
 
     private func shiftW2() {
@@ -176,20 +263,9 @@ extension ShiftHH {
     }
 
     private func shiftW231() {
-        let n1 = PathAlg.n1
-        for i in 0 ... n1 - 1 {
-            matrix.rows[1][1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - i) - 1), koef: -i - 1)
-        }
-        for i in 1 ... n1 - 1 {
-            matrix.rows[1][2].add(left: Way(type: .a32, len: 2 * (n1 - i) - 1), right: Way.beta3(deg: i), koef: -i)
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][1].add(left: Way(type: .a23, len: 2 * i + 1), right: Way.alpha2(deg: n1 - i - 1), koef: -i - 1)
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][2].add(left: Way.beta3(deg: n1 - i - 1), right: Way(type: .a23, len: 2 * i + 1), koef: -i - 1)
-        }
-        matrix.rows[0][8].add(left: Way.e1, right: Way(type: .a23, len: 1), koef: 1)
+        putW23_1(at: (0, 0), koef: 1, overline: false)
+        putW23_2(at: (0, 3), koef: 1, overline: false)
+        putW2(at: (6, 0), koef: 1)
     }
 
     private func shiftW232() {
@@ -207,20 +283,9 @@ extension ShiftHH {
     }
 
     private func shiftW311() {
-        let n2 = PathAlg.n2
-        for i in 0 ... n2 - 1 {
-            matrix.rows[2][2].add(left: Way.alpha3(deg: i), right: Way(type: .a13, len: 2 * (n2 - i) - 1), koef: -i - 1)
-        }
-        for i in 1 ... n2 - 1 {
-            matrix.rows[2][0].add(left: Way(type: .a13, len: 2 * (n2 - i) - 1), right: Way.beta1(deg: i), koef: -i)
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[5][2].add(left: Way(type: .a31, len: 2 * i + 1), right: Way.alpha3(deg: n2 - i - 1), koef: -i - 1)
-        }
-        for i in 0 ... n2 - 1 {
-            matrix.rows[5][0].add(left: Way.beta1(deg: n2 - i - 1), right: Way(type: .a31, len: 2 * i + 1), koef: -i - 1)
-        }
-        matrix.rows[1][6].add(left: Way.e2, right: Way(type: .a31, len: 1), koef: 1)
+        putW31_1(at: (0, 0), koef: 1)
+        putW31_2(at: (0, 3), koef: 1)
+        putW3(at: (6, 0), koef: 1)
     }
 
     private func shiftW312() {
@@ -238,20 +303,9 @@ extension ShiftHH {
     }
 
     private func shiftW121() {
-        let n3 = PathAlg.n3
-        for i in 0 ... n3 - 1 {
-            matrix.rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: -i - 1)
-        }
-        for i in 1 ... n3 - 1 {
-            matrix.rows[0][1].add(left: Way(type: .a21, len: 2 * (n3 - i) - 1), right: Way.beta2(deg: i), koef: -i)
-        }
-        for i in 0 ... n3 - 1 {
-            matrix.rows[3][0].add(left: Way(type: .a12, len: 2 * i + 1), right: Way.alpha1(deg: n3 - i - 1), koef: -i - 1)
-        }
-        for i in 0 ... n3 - 1 {
-            matrix.rows[3][1].add(left: Way.beta2(deg: n3 - i - 1), right: Way(type: .a12, len: 2 * i + 1), koef: -i - 1)
-        }
-        matrix.rows[2][7].add(left: Way.e3, right: Way(type: .a12, len: 1), koef: 1)
+        putW12_1(at: (0, 0), koef: 1)
+        putW12_2(at: (0, 3), koef: 1)
+        putW1(at: (6, 0), koef: 1)
     }
 
     private func shiftW122() {
@@ -269,25 +323,14 @@ extension ShiftHH {
     }
 
     private func shiftW23hOdd() {
-        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
-        let k = Utils.minusDeg(shiftDeg / 2)
-        for i in 0 ... n1 - 1 {
-            matrix.rows[1][1].add(left: Way.alpha2(deg: i), right: Way(type: .a32, len: 2 * (n1 - i) - 1), koef: k * (-i - 1))
-        }
-        for i in 1 ... n1 - 1 {
-            matrix.rows[1][2].add(left: Way(type: .a32, len: 2 * (n1 - i) - 1), right: Way.beta3(deg: i), koef: i)
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][1].add(left: Way(type: .a23, len: 2 * i + 1), right: Way.alpha2(deg: n1 - i - 1), koef: k * (-i - 1))
-        }
-        for i in 0 ... n1 - 1 {
-            matrix.rows[4][2].add(left: Way.beta3(deg: n1 - i - 1), right: Way(type: .a23, len: 2 * i + 1), koef: i + 1)
-        }
-        matrix.rows[0][8].add(left: Way.e1, right: Way(type: .a23, len: 1), koef: 1)
+        let (n1, n3) = (PathAlg.n1, PathAlg.n3)
+        putW23_1(at: (0, 0), koef: shiftDeg == 3 ? -1 : 1, overline: shiftDeg != 3)
+        putW23_2(at: (0, 3), koef: shiftDeg == 3 ? -1 : 1, overline: shiftDeg != 3)
+        putW2(at: (6, 0), koef: 1)
         if shiftDeg == 1 { return }
         if shiftDeg == 3 {
-            matrix.rows[11][8].add(left: Way(type: .a13, len: 2 * n2 - 1), right: Way.e3, koef: 1)
-            matrix.rows[11][11].add(left: Way.e3, right: Way(type: .a31, len: 1), koef: -1)
+            putW14(at: (6, 9), koef: 1)
+            putW15(at: (9, 9), koef: -1)
             return
         }
         matrix.rows[11][7].add(left: Way.e3, right: Way(type: .a32, len: 2 * n1 - 1), koef: 1)
@@ -372,30 +415,20 @@ extension ShiftHH {
     }
 
     // MARK: - w12_h
-    private func shiftW12h0() {
-        matrix.rows[0][0].add(left: Way.e1, right: Way(type: .a12, len: 1), koef: 1)
-    }
-
     private func shiftW12hOdd() {
-        let (n1, n2, n3) = (PathAlg.n1, PathAlg.n2, PathAlg.n3)
-        let k = Utils.minusDeg(shiftDeg / 2)
-        for i in 0 ... n3 - 1 {
-            matrix.rows[0][0].add(left: Way.alpha1(deg: i), right: Way(type: .a21, len: 2 * (n3 - i) - 1), koef: k * (-i - 1))
+        let (n2, n3) = (PathAlg.n2, PathAlg.n3)
+        if shiftDeg == 3 {
+            putW12_1(at: (0, 0), koef: -1)
+            putW12_2(at: (0, 3), koef: -1)
+        } else {
+            putW12_1_1(at: (0, 0), koef: 1)
+            putW12_2_1(at: (0, 3), koef: 1)
         }
-        for i in 1 ... n3 - 1 {
-            matrix.rows[0][1].add(left: Way(type: .a21, len: 2 * (n3 - i) - 1), right: Way.beta2(deg: i), koef: i)
-        }
-        for i in 0 ... n3 - 1 {
-            matrix.rows[3][0].add(left: Way(type: .a12, len: 2 * i + 1), right: Way.alpha1(deg: n3 - i - 1), koef: k * (-i - 1))
-        }
-        for i in 0 ... n3 - 1 {
-            matrix.rows[3][1].add(left: Way.beta2(deg: n3 - i - 1), right: Way(type: .a12, len: 2 * i + 1), koef: i + 1)
-        }
-        matrix.rows[2][7].add(left: Way.e3, right: Way(type: .a12, len: 1), koef: 1)
+        putW1(at: (6, 0), koef: 1)
         if shiftDeg == 1 { return }
         if shiftDeg == 3 {
-            matrix.rows[10][7].add(left: Way(type: .a32, len: 2 * n1 - 1), right: Way.e2, koef: 1)
-            matrix.rows[10][10].add(left: Way.e2, right: Way(type: .a23, len: 1), koef: -1)
+            putW7(at: (6, 9), koef: 1)
+            putW8(at: (9, 9), koef: -1)
             return
         }
         matrix.rows[10][6].add(left: Way.e2, right: Way(type: .a21, len: 2 * n3 - 1), koef: 1)
@@ -406,13 +439,14 @@ extension ShiftHH {
 
     private func shiftW12hEven() {
         let (n2, n3) = (PathAlg.n2, PathAlg.n3)
-        let k = Utils.minusDeg(shiftDeg / 2)
-        matrix.rows[7][2].add(left: Way.e3, right: Way(type: .a21, len: 2 * n3 - 1), koef: k)
-        matrix.rows[0][0].add(left: Way.e1, right: Way(type: .a12, len: 1), koef: 1)
+        putW4(at: (0, 0), koef: 1)
+        if shiftDeg == 0 { return }
         if shiftDeg == 2 {
-            matrix.rows[7][10].add(left: Way(type: .a23, len: 1), right: Way.e2, koef: 1)
+            putW5(at: (0, 6), koef: -1)
+            putW6(at: (9, 6), koef: 1)
             return
         }
+        putW5(at: (0, 6), koef: Utils.minusDeg(shiftDeg / 2))
         matrix.rows[6][10].add(left: Way.e2, right: Way(type: .a12, len: 1), koef: 1)
         if shiftDeg == 4 {
             matrix.rows[9][10].add(left: Way(type: .a21, len: 2 * n3 - 1), right: Way.e2, koef: 1)

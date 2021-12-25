@@ -127,6 +127,18 @@ final class ShiftHH {
         return multErr ? "Mult error" : nil
     }
 
+    func put(items: [(sh: Int, x: Int, y: Int, k: Int, f: ((Int, Int), Int) -> Void, fi: Bool)], kFlag: Bool = false) {
+        for item in items {
+            guard shiftDeg >= item.sh else { continue }
+            let j1 = (shiftDeg - item.sh) / 6
+            for j in 0 ... j1 {
+                let pos = (3 * (6 * j + item.x), 3 * (6 * j + item.y))
+                item.f(pos, kFlag ? Utils.minusDeg(j) * item.k : item.k)
+                if item.fi { matrix.putFi(at: pos) }
+            }
+        }
+    }
+
     private func fillAll(column: Int, diff: Matrix, mult: Matrix) {
         let qFrom = BimodQ(deg: hhDeg + shiftDeg)
         let qTo = BimodQ(deg: shiftDeg)

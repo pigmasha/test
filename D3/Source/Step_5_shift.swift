@@ -7,8 +7,10 @@
 import Foundation
 
 struct Step_5_shift {
+    private static var printSh = true
+
     static func runCase() -> Bool {
-        return check(labels: ["u2_h"])
+        return check(labels: ["e1_h", "e2_h"])
         let ee = GenCreate.allElements
         for e in ee {
             if e.label != "u2" { continue }
@@ -84,6 +86,7 @@ struct Step_5_shift {
     private static func check(elem e: Gen, log: Bool = true) -> Bool {
         OutputFile.writeLog(.normal, e.str)
         let s0 = ShiftHH(gen: e, shiftDeg: 0)
+        if printSh { s0.print() }
         if let err = s0.check() {
             s0.print()
             OutputFile.writeLog(.error, "Check shift 0 error: " + err)
@@ -105,6 +108,7 @@ struct Step_5_shift {
                 OutputFile.writeLog(.error, "Check shift \(d) error: " + err)
                 return true
             }
+            if printSh { s1.print() }
             let m1 = Matrix(mult: ss.matrix, and: Diff(deg: ss.hhDeg + ss.shiftDeg))
             let m2 = Matrix(mult: Diff(deg: ss.shiftDeg), and: s1.matrix)
             let n = m2.numberOfDifferents(with: m1)
