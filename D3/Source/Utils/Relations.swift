@@ -345,23 +345,23 @@ struct Relations {
         }
         // 5
         if n1Zero {
-            relations += [ ["w23_h", "x12"], ["w23_h", "x31"], ["w23_h", "u1"], ["w23_h", "u2"], ["w23_h", "q"] ]
+            relations += [ ["x12", "w23_h"], ["x31", "w23_h"], ["u1", "w23_h"], ["u2", "w23_h"], ["q", "w23_h"] ]
         }
         if n1Zero && n3NotZero {
-            relations += [ ["x1_h", "x23"], ["x1_h", "x31"], ["x1_h", "u1"], ["x1_h", "u2"], ["x1_h", "q"] ]
+            relations += [ ["x23", "x1_h"], ["x31", "x1_h"], ["u1", "x1_h"], ["u2", "x1_h"], ["q", "x1_h"] ]
         }
         if n2Zero {
-            relations += [ ["w31_h", "x12"], ["w31_h", "x23"], ["w31_h", "u1"], ["w31_h", "u2"], ["w31_h", "q"] ]
+            relations += [ ["x12", "w31_h"], ["x23", "w31_h"], ["u1", "w31_h"], ["u2", "w31_h"], ["q", "w31_h"] ]
         }
         if n3Zero {
-            relations += [ ["w12_h", "x23"], ["w12_h", "x31"], ["w12_h", "u1"], ["w12_h", "u2"], ["w12_h", "q"] ]
+            relations += [ ["x23", "w12_h"], ["x31", "w12_h"], ["u1", "w12_h"], ["u2", "w12_h"], ["q", "w12_h"] ]
         }
         if n1Zero && n2NotZero {
-            relations += [ ["x3_h", "x12"], ["x3_h", "x23"], ["x3_h", "u1"], ["x3_h", "u2"], ["x3_h", "q"] ]
+            relations += [ ["x12", "x3_h"], ["x23", "x3_h"], ["u1", "x3_h"], ["u2", "x3_h"], ["q", "x3_h"] ]
         }
         // 6
         relations += [
-            ["e", "u1"], ["e", "u2"],
+            ["u1", "e"], ["u2", "e"],
             ["c12", "e1_h"], ["c23", "e1_h"], ["c31", "e1_h"], ["c12", "e2_h"], ["c23", "e2_h"], ["c31", "e2_h"]
         ]
         if n1Zero {
@@ -403,8 +403,8 @@ struct Relations {
         }
         // 8
         relations += [
-            ["e1_h", "x12"], ["e1_h", "x23"], ["e1_h", "x31"], ["e2_h", "x12"], ["e2_h", "x23"], ["e2_h", "x31"],
-            ["e2_h", "u1"], ["e1_h", "u2"]
+            ["x12", "e1_h"], ["x23" ,"e1_h"], ["x31", "e1_h"], ["x12", "e2_h"], ["x23", "e2_h"], ["x31", "e2_h"],
+            ["u1", "e2_h"], ["u2", "e1_h"]
         ]
         if n1Zero {
             relations += [ ["w23", "u1_h"] ]
@@ -425,7 +425,7 @@ struct Relations {
         if n1Zero {
             relations += [
                 ["x12", "u1_h"], ["x12", "u2_h"], ["x23", "u1_h"], ["x23", "u2_h"], ["x31", "u1_h"], ["x31", "u2_h"],
-                ["u1", "u1_h"], ["u1", "u2_h"], ["u2", "u1_h"], ["u2", "u2_h"], ["u1_h", "q"], ["u2_h", "q"],
+                ["u1", "u1_h"], ["u1", "u2_h"], ["u2", "u1_h"], ["u2", "u2_h"], ["q", "u1_h"], ["q", "u2_h"],
                 ["w23_h", "e1_h"], ["w23_h", "e2_h"]
             ]
         }
@@ -520,19 +520,19 @@ struct Relations {
         ]
         // 5
         if n1Zero {
-            relations += [ (["w23_h", "x23"], ["c23", "w23", "e"], "1", 1) ]
+            relations += [ (["x23", "w23_h"], ["c23", "w23", "e"], "1", 1) ]
         }
         if n1Zero && n3NotZero {
-            relations += [ (["x1_h", "x12"], ["c12", "x1", "e"], "1", 1) ]
+            relations += [ (["x12", "x1_h"], ["c12", "x1", "e"], "1", 1) ]
         }
         if n1Zero && n2NotZero {
-            relations += [ (["x3_h", "x31"], ["c31", "x3", "e"], "1", 1) ]
+            relations += [ (["x31", "x3_h"], ["c31", "x3", "e"], "1", 1) ]
         }
         if n2Zero {
-            relations += [ (["w31_h", "x31"], ["c31", "w31", "e"], "1", 1) ]
+            relations += [ (["x31", "w31_h"], ["c31", "w31", "e"], "1", 1) ]
         }
         if n3Zero {
-            relations += [ (["w12_h", "x12"], ["c12", "w12", "e"], "1", 1) ]
+            relations += [ (["x12", "w12_h"], ["c12", "w12", "e"], "1", 1) ]
         }
         // 7
         if n1Zero {
@@ -548,8 +548,8 @@ struct Relations {
         if n1Zero {
             relations += [
                 (["w23", "u2_h"], ["z1", "u2_h"], "1", 1),
-                (["e1_h", "q"], ["z1", "u1_h"], "-1", -1),
-                (["e2_h", "q"], ["z1", "u2_h"], "1", 1)
+                (["q", "e1_h"], ["z1", "u1_h"], "-1", -1),
+                (["q", "e2_h"], ["z1", "u2_h"], "1", 1)
             ]
         }
         if n2Zero {

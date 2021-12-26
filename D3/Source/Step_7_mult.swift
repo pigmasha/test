@@ -13,8 +13,9 @@ struct Step_7_mult {
         var gensByDeg: [[GenElement]] = []
         let degMax = PathAlg.N == 3 ? 50 : PathAlg.alg.someNumber
         for deg in 0 ... degMax {
+            if GensByDeg.gens(for: deg, env.labelToOrderMap) == nil { return true }
             let items: [GenElement]
-            if let gens = GensByDeg.gens(for: deg) {
+            if let gens = GensByDeg.gens(for: deg, env.labelToOrderMap) {
                 if gens.count != Dim.dimHH(deg) {
                     OutputFile.writeLog(.error, "Bad gens count for deg \(deg): \(gens.count)")
                     return true
@@ -434,7 +435,9 @@ final class MultEnvironment {
         } else {
             d3 = []
         }
-        return ["c12", "c23", "c31", "z1"] + d1 + d3 + ["e", "e1_h", "e2_h", "x12", "x23", "x31", "u1", "u2"]
-        + (NumInt.isZero(n: n1) ? ["u1_h", "u2_h", "q"] : [])
+        return ["c12", "c23", "c31", "z1"] + d1
+        + ["x12", "x23", "x31", "u1", "u2"] + (NumInt.isZero(n: n1) ? ["q"] : []) // deg=2
+        + d3 + ["e", "e1_h", "e2_h"]
+        + (NumInt.isZero(n: n1) ? ["u1_h", "u2_h"] : [])
     }
 }

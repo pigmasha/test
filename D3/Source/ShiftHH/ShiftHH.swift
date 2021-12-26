@@ -43,7 +43,7 @@ final class ShiftHH {
         if mult.width != matrix.width { fatalError() }
         //PrintUtils.printMatrix("Diff", diff)
         //PrintUtils.printMatrix("Mult", mult)
-        _ = shiftZ1()
+        shiftZ1()
         for j in 0 ..< mult.width {
             if hhDeg == 0 {
                 fillDiag(column: j, diff: diff, mult: mult)
