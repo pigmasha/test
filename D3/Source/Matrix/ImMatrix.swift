@@ -37,13 +37,8 @@ final class ImMatrix {
             let t = c.contents[0].1
             // t.leftComponent.startVertex = qTo.pij[i].0
             // t.rightComponent.endVertex = qTo.pij[i].1
-            let ways = Way.allWays(from: t.rightComponent.endVertex, to: t.leftComponent.startVertex)
-            for way in ways {
-                if let line = ImMatrix.line(from: row, way: way) {
-                    items.append(line);
-                    break
-                }
-            }
+            let way = Way(from: t.rightComponent.endVertex, to: t.leftComponent.startVertex)
+            ImMatrix.line(from: row, way: way).flatMap { items.append($0) }
         }
         if items.count > 1 {
             var line: [(Int, Way)] = []

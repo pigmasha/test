@@ -10,7 +10,7 @@ struct Step_5_shift {
     private static var printSh = true
 
     static func runCase() -> Bool {
-        return check(labels: ["e1_h", "e2_h"])
+        return check(labels: ["e2_h"])
         let ee = GenCreate.allElements
         for e in ee {
             if e.label != "u2" { continue }
