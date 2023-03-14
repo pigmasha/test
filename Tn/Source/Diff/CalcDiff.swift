@@ -45,14 +45,8 @@ struct CalcDiff {
                 diff.rows[v.0][j].add(tenzor: v.1, koef: -1)
                 continue
             }
-            let v1 = tryOneFromVariants(j, diff, prevDiff, allVariants)
-            if diff.deg <= diffOk && v1 == 1 { continue }
-            let v2 = tryTwoFromVariants(j, diff, prevDiff, allVariants)
-            if diff.deg <= diffOk && v2 == 1 { continue }
-            if v1 + v2 > 1 {
-                OutputFile.writeLog(.error, "Colunt \(j): has many one or two varians \(v1), \(v2)")
-                return 5
-            }
+            if tryOneFromVariants(j, diff, prevDiff, allVariants) { continue }
+            if tryTwoFromVariants(j, diff, prevDiff, allVariants) { continue }
             var nGoodVariants = 0
             var isOk = false
             var t = 1
@@ -79,6 +73,7 @@ struct CalcDiff {
                     }
                     if diff.deg > diffOk {
                         nGoodVariants += 1
+                        OutputFile.writeLog(.normal, "Col \(j): cnt=\(nonZeroCnt)")
                         //PrintUtils.printMatrixColumn("Col \(j): cnt=\(nonZeroCnt)", diff, j)
                     } else {
                         isOk = true
@@ -109,7 +104,7 @@ struct CalcDiff {
     }
 
     private static func tryOneFromVariants(_ j: Int, _ diff: Diff, _ prevDiff: Diff,
-                                           _ allVariants: [(Int, Tenzor)]) -> Int {
+                                           _ allVariants: [(Int, Tenzor)]) -> Bool {
         var nGoodVariants = 0
         for v in allVariants {
             for mode in 0 ... 1 {
@@ -118,17 +113,25 @@ struct CalcDiff {
                     if diff.deg > diffOk {
                         nGoodVariants += 1
                     } else {
-                        return 1
+                        return true
                     }
                 }
                 diff.rows[v.0][j].clear()
             }
         }
-        return nGoodVariants
+        if diff.deg > diffOk {
+            if nGoodVariants == 1 {
+                OutputFile.writeLog(.normal, "Col \(j): one!")
+            }
+            if nGoodVariants > 1 {
+                OutputFile.writeLog(.error, "Col \(j): many one \(nGoodVariants)!")
+            }
+        }
+        return nGoodVariants == 1
     }
 
     private static func tryTwoFromVariants(_ j: Int, _ diff: Diff, _ prevDiff: Diff,
-                                           _ allVariants: [(Int, Tenzor)]) -> Int {
+                                           _ allVariants: [(Int, Tenzor)]) -> Bool {
         var nGoodVariants = 0
         for (i, v1) in allVariants.enumerated() {
             if i == allVariants.count - 1 { continue }
@@ -141,7 +144,7 @@ struct CalcDiff {
                         if diff.deg > diffOk {
                             nGoodVariants += 1
                         } else {
-                            return 1
+                            return true
                         }
                     }
                     diff.rows[v1.0][j].clear()
@@ -149,6 +152,14 @@ struct CalcDiff {
                 }
             }
         }
-        return nGoodVariants
+        if diff.deg > diffOk {
+            if nGoodVariants == 1 {
+                OutputFile.writeLog(.normal, "Col \(j): one!")
+            }
+            if nGoodVariants > 1 {
+                OutputFile.writeLog(.error, "Col \(j): many one \(nGoodVariants)!")
+            }
+        }
+        return nGoodVariants == 1
     }
 }
