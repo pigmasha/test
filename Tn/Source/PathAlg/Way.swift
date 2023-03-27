@@ -74,6 +74,12 @@ final class Way {
         setWay(way)
     }
 
+    static var e1: Way { return Way(e: 1) }
+    static var e2: Way { return Way(e: 2) }
+    static var e3: Way { return Way(e: 3) }
+    static var e4: Way { return Way(e: 4) }
+    static var e5: Way { return Way(e: 5) }
+
     static var a1: Way { return Way(type: .alpha, num: 1) }
     static var a2: Way { return Way(type: .alpha, num: 2) }
     static var a3: Way { return Way(type: .alpha, num: 3) }
@@ -219,9 +225,9 @@ final class Way {
     var strProg: String {
         switch type {
         case .e(let i):
-            return "Way(e: \(i))"
+            return "Way.e\(i)"//"Way(e: \(i))"
         case .array(let arrType, let i):
-            return "Way(type: .\(arrType == .alpha ? "alpha" : "beta"), num: \(i))"
+            return "Way.\(arrType.str)\(i)"//(type: .\(arrType == .alpha ? "alpha" : "beta"), num: \(i))"
         case .two(let i):
             return "Way(two: \(i))"
         case .zero:

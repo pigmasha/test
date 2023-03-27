@@ -5,10 +5,17 @@
 import Foundation
 
 struct CalcDiff {
-    private static var diffOk = 4
-
     static func calcDiffWithNumber(_ diff: Diff, prevDiff: Diff?) -> Int {
-        OutputFile.writeLog(.simple, "deg=\(diff.deg) ")
+        OutputFile.writeLog(.normal, "deg=\(diff.deg)")
+        /*let e = calcDiffWithNumber(diff, prevDiff: prevDiff, all: true)
+        if e != 0 { return e }
+        for row in diff.rows {
+            row.forEach { $0.clear() }
+        }*/
+        return calcDiffWithNumber(diff, prevDiff: prevDiff, all: false)
+    }
+
+    private static func calcDiffWithNumber(_ diff: Diff, prevDiff: Diff?, all: Bool) -> Int {
         let qFrom = BimodQ(deg: diff.deg + 1)
         let qTo = BimodQ(deg: diff.deg)
         if diff.width != qFrom.pij.count || diff.height != qTo.pij.count { return 1 }
@@ -28,6 +35,7 @@ struct CalcDiff {
             pos.1 += d.width
         }
         for j in 0 ..< diff.width {
+            if !all { OutputFile.writeLog(.time, "Col \(j) of \(diff.width)") }
             if let prevDiff = prevDiff, Matrix(mult: prevDiff, and: diff, column: j).isZero { continue }
             var allVariants: [(Int, Tenzor)] = []
             for i in 0 ..< diff.height {
@@ -45,8 +53,8 @@ struct CalcDiff {
                 diff.rows[v.0][j].add(tenzor: v.1, koef: -1)
                 continue
             }
-            if tryOneFromVariants(j, diff, prevDiff, allVariants) { continue }
-            if tryTwoFromVariants(j, diff, prevDiff, allVariants) { continue }
+            if tryOneFromVariants(j, diff, prevDiff, allVariants, all) { continue }
+            if tryTwoFromVariants(j, diff, prevDiff, allVariants, all) { continue }
             var nGoodVariants = 0
             var isOk = false
             var t = 1
@@ -67,13 +75,13 @@ struct CalcDiff {
                     k2 /= t1
                 }
                 if Matrix(mult: prevDiff, and: diff, column: j).isZero {
-                    if nonZeroCnt < 3 && diff.deg <= diffOk {
+                    if nonZeroCnt < 3 && !all {
                         OutputFile.writeLog(.error, "nonZeroCnt=\(nonZeroCnt)")
                         return 5
                     }
-                    if diff.deg > diffOk {
+                    if all {
                         nGoodVariants += 1
-                        OutputFile.writeLog(.normal, "Col \(j): cnt=\(nonZeroCnt)")
+                        //OutputFile.writeLog(.normal, "Col \(j): cnt=\(nonZeroCnt)")
                         //PrintUtils.printMatrixColumn("Col \(j): cnt=\(nonZeroCnt)", diff, j)
                     } else {
                         isOk = true
@@ -85,32 +93,32 @@ struct CalcDiff {
                 }
             }
             if !isOk {
-                if diff.deg <= diffOk {
+                if !all {
                     OutputFile.writeLog(.error, "Can't find \(j)-th column, variants="
                                         + allVariants.map { "\($0.0): \($0.1.str)" }.joined(separator: ", "))
+                    hasBadColumns = true
                 } else {
-                    OutputFile.writeLog(.normal, "Col \(j): \(nGoodVariants) variants")
+                    //OutputFile.writeLog(.normal, "Col \(j): \(nGoodVariants) variants")
                 }
-                hasBadColumns = true
             }
-            if diff.deg > diffOk && nGoodVariants != 1 {
+            if all && nGoodVariants != 1 {
                 OutputFile.writeLog(.error, "Col \(j): has many variants")
                 return 6
             }
-            //OutputFile.writeLog(.normal, "Col \(j). " + allVariants.map { "\($0.0): \($0.1.str)" }.joined(separator: ", "))
         }
         if hasBadColumns { return 3 }
         return 0
     }
 
     private static func tryOneFromVariants(_ j: Int, _ diff: Diff, _ prevDiff: Diff,
-                                           _ allVariants: [(Int, Tenzor)]) -> Bool {
+                                           _ allVariants: [(Int, Tenzor)],
+                                           _ all: Bool) -> Bool {
         var nGoodVariants = 0
         for v in allVariants {
             for mode in 0 ... 1 {
                 diff.rows[v.0][j].add(tenzor: v.1, koef: mode == 0 ? 1 : -1)
                 if Matrix(mult: prevDiff, and: diff, column: j).isZero {
-                    if diff.deg > diffOk {
+                    if all {
                         nGoodVariants += 1
                     } else {
                         return true
@@ -119,10 +127,7 @@ struct CalcDiff {
                 diff.rows[v.0][j].clear()
             }
         }
-        if diff.deg > diffOk {
-            if nGoodVariants == 1 {
-                OutputFile.writeLog(.normal, "Col \(j): one!")
-            }
+        if all {
             if nGoodVariants > 1 {
                 OutputFile.writeLog(.error, "Col \(j): many one \(nGoodVariants)!")
             }
@@ -131,7 +136,7 @@ struct CalcDiff {
     }
 
     private static func tryTwoFromVariants(_ j: Int, _ diff: Diff, _ prevDiff: Diff,
-                                           _ allVariants: [(Int, Tenzor)]) -> Bool {
+                                           _ allVariants: [(Int, Tenzor)], _ all: Bool) -> Bool {
         var nGoodVariants = 0
         for (i, v1) in allVariants.enumerated() {
             if i == allVariants.count - 1 { continue }
@@ -141,7 +146,7 @@ struct CalcDiff {
                     diff.rows[v1.0][j].add(tenzor: v1.1, koef: mode < 2 ? 1 : -1)
                     diff.rows[v2.0][j].add(tenzor: v2.1, koef: mode == 0 || mode == 2 ? 1 : -1)
                     if Matrix(mult: prevDiff, and: diff, column: j).isZero {
-                        if diff.deg > diffOk {
+                        if all {
                             nGoodVariants += 1
                         } else {
                             return true
@@ -152,10 +157,7 @@ struct CalcDiff {
                 }
             }
         }
-        if diff.deg > diffOk {
-            if nGoodVariants == 1 {
-                OutputFile.writeLog(.normal, "Col \(j): one!")
-            }
+        if all {
             if nGoodVariants > 1 {
                 OutputFile.writeLog(.error, "Col \(j): many one \(nGoodVariants)!")
             }

@@ -17,6 +17,13 @@ final class Diff: Matrix {
         self.deg = deg
         super.init()
         makeZeroMatrix(BimodQ.size(deg: deg + 1), h: BimodQ.size(deg: deg))
-        //createDiff()
+        createDiff()
+    }
+
+    private func createDiff() {
+        switch PathAlg.n {
+        case 4: createDiff4()
+        default: break
+        }
     }
 }
